@@ -1,0 +1,60 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="com.devoteam.tracker.model.SNRScheduleSpreadsheet"%>
+<%@ page import="com.devoteam.tracker.model.FieldEngineer"%>
+<%@ page import="com.devoteam.tracker.util.ServletConstants"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+ArrayList<SNRScheduleSpreadsheet> scheduledSNRs = (ArrayList<SNRScheduleSpreadsheet>)session.getAttribute("scheduledSNRs"); 
+String msg = (String)session.getAttribute(ServletConstants.USER_MESSAGE_NAME_IN_SESSION);
+
+%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<%if (scheduledSNRs == null) {%>
+message : <%=msg%>
+<%} else {%>
+<table border=1>
+	<tr>
+		<td>Workflow Name</td>
+		<td>Scheduled Date</td>
+		<td>Site</td>
+		<td>NRId</td>
+		<td>Upgrade Type</td>
+		<td>Commentary</td>
+		<td>Field Engineers</td> 
+		<td>BO Engineers</td> 
+	</tr>
+<%for (Iterator<SNRScheduleSpreadsheet> it = scheduledSNRs.iterator(); it.hasNext(); ) {
+	SNRScheduleSpreadsheet sss = it.next();%>
+	<tr>
+		<td><%=sss.getWorkflowName()%></td>
+		<td><%=sss.getScheduledDateString()%></td>
+		<td><%=sss.getSite()%></td>
+		<td><%=sss.getNRId()%></td>
+		<td><%=sss.getUpgradeType()%></td>
+		<td><%=sss.getCommentary()%></td>
+		<td><% 
+		ArrayList<FieldEngineer> fes = sss.getFieldEngineers();	
+		for (Iterator<FieldEngineer> it2 = fes.iterator(); it2.hasNext(); ) {
+			FieldEngineer fe = it2.next();%>
+			<%=fe.getName()%>,<%=fe.getRank()%>,<%=fe.getVendor()%><br>
+		<%}%></td>
+		<td><% 
+		ArrayList<String> bes = sss.getBOEngineers();	
+		for (Iterator<String> it3 = bes.iterator(); it3.hasNext(); ) {
+			String be = it3.next();%>
+			<%=be%><br>
+		<%}%></td>
+	</tr>
+<%}%>
+<%}%>
+</table>
+</body>
+</html>

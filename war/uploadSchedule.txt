@@ -1,0 +1,108 @@
+<%
+String b1STitle = "Upload this schedule";
+String b1SValue = "Submit";
+String b1SOnClick = "uploadScheduleClick('uploadScheduleSubmit')";
+if (validRows) {
+	b1STitle = "Confirm upload to database";
+	b1SValue = "Confirm";
+	b1SOnClick = "uploadScheduleClick('uploadScheduleConfirm')";
+	
+}
+StringBuilder instructions = new StringBuilder();
+/*if (selectFile) {
+	instructions.append("Click 'Submit' to validate and upload this schedule or 'Cancel' to exit without uploading");
+} else */if (validRows) {
+	instructions.append("Click 'Confirm' to schedule " + scheduledSNRs.size() + " SNR" + 
+		(scheduledSNRs.size()!=1?"s":"") + " or 'Cancel' to exit without scheduling. ");
+	if (invalidRows) {
+		instructions.append(invalidSNRs.size() + " SNR" + (invalidSNRs.size()!=1?"s":"") + 
+				" cannot be scheduled until the errors shown have been corrected.");
+	}
+} else if (invalidRows) {
+	instructions.append("The SNRs in this spreadsheet cannot be scheduled until the errors shown have been corrected.");
+}
+%>
+<div id="uploadSchedule" class="filter" style="width:<%=expand?"540":"270"%>">
+	<div class="closeX" title="close" onClick="uploadScheduleClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Load Schedule Spreadsheet</h2></div>
+<%if (selectFile) {%>	
+	<div><input type="file" style="visibility:hidden" name="scheduleXLS" id="scheduleXLS" onChange="showFileNameS(this.value)"></div>
+	<div style="width:240px;margin:0 auto;">
+		<input style="width:240px" type="button" class="button" onClick="selectFileS()" value="Select Spreadsheet" />
+	</div>	
+	<div style="padding-bottom:10px" id="fileNameDisplayS">&nbsp;</div>
+<%} else {%>	
+	<div style="padding-bottom:10px">File Name: <%=snrFileName%></div>
+<%}
+  if (expand) {
+  		if (invalidRows) {%>
+	<div>Errors:</div>  	
+<%  		for (Iterator<SNRScheduleSpreadsheet> it = invalidSNRs.iterator(); it.hasNext(); ) {
+				SNRScheduleSpreadsheet sss = it.next();
+  				for (Iterator<String> it2 = sss.getProblems().iterator(); it2.hasNext(); ) {%>
+	<div><%=it2.next()%></div>  	
+ <%				}
+			}	
+  		}
+  		if (warnings) {%>
+	<div>Warnings:</div>  	
+<%  		for (Iterator<SNRScheduleSpreadsheet> it = scheduledSNRs.iterator(); it.hasNext(); ) {
+				SNRScheduleSpreadsheet sss = it.next();
+  				for (Iterator<String> it2 = sss.getProblems().iterator(); it2.hasNext(); ) {%>
+	<div><%=it2.next()%></div>  	
+ <%				}
+			}
+  		}
+  }%>	
+ 	<div style="padding-bottom:10px"><%=instructions.toString()%></div>
+ 	<div style="width:240px;margin:0 auto;">
+<%if ((validRows) || (selectFile)) {%>	
+		<div style="float:left" title="<%=b1STitle%>"><input style="width:120px" type="button" class="button" onClick="<%=b1SOnClick%>" value="<%=b1SValue%>" /></div>
+<%}%>	
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="uploadScheduleClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<input type="hidden" name="scheduleFileName" id="scheduleFileName" value=""/>
+<script language="javascript">
+<!--
+function showFileNameS(thisValue) {
+	var fNDS = document.getElementById("fileNameDisplayS");
+	fNDS.innerHTML = thisValue;	
+	var sFN = document.getElementById("scheduleFileName");
+	sFN.value = thisValue;	
+}
+
+function selectFileS() {
+	var pX = document.getElementById("scheduleXLS");
+	pX.click();	
+}
+
+function uploadScheduleClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		/*var uS = document.getElementById("uploadSchedule");
+		uS.style.display = "none";
+		uS.style.left = "0px";
+		uS.style.top = "0px";*/
+		document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULING%>";
+		f1.action = "/navigation";
+		f1.submit();
+	} else if (operation == "uploadScheduleConfirm") {
+		f1.action = "/uploadSchedule";
+		f1.submit();
+	} else {
+		/*if (document.getElementById("selectCustomerId").selectedIndex < 1) {
+			alert("Please select a customer");
+		} else*/ if (document.getElementById("fileNameDisplayS").innerHTML == "&nbsp;") {
+			alert("Please select a file to upload");
+		} else {
+			//alert(document.getElementById("fileNameDisplay").innerHTML);
+			f1.action = "<%=blobstoreService.createUploadUrl("/validateSchedule")%>";
+			f1.enctype="multipart/form-data";
+			f1.submit();
+		}
+	}
+}
+-->
+</script>
+

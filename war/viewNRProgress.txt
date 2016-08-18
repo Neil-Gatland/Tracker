@@ -1,0 +1,166 @@
+<%
+String filterCustomer;
+String hCustomerClass;
+String hCustomerClick;
+String hCustomerTitle;
+if (thisU.getUserType().equalsIgnoreCase(User.USER_TYPE_CUSTOMER)) {
+	filterCustomer = thisU.getCustomerNames()[0];
+	hCustomerClass = "";
+	hCustomerClick = "";
+	hCustomerTitle = "Current filter value: " + filterCustomer;
+} else {
+	String fC = (String)request.getAttribute("filterCustomer");
+	filterCustomer = fC==null?"All":fC;
+	hCustomerClass = filterCustomer.equals("All")?"thClick":"thClickS";
+	hCustomerClick = "headerClick('hCustomer', false)";
+	hCustomerTitle = filterCustomer.equals("All")?"Filter not set":("Current filter value: " + filterCustomer);
+}
+String filterPotName = request.getAttribute("filterPotName")==null?"All":(String)request.getAttribute("filterPotName");
+String hPotNameTitle = filterPotName.equals("All")?"Filter not set":("Current filter value: " + filterPotName);	
+String hPotNameClass = filterPotName.equals("All")?"thClick":"thClickS";	
+String filterSite = request.getAttribute("filterSite")==null?"All":(String)request.getAttribute("filterSite");
+String hSiteTitle = filterSite.equals("All")?"Filter not set":("Current filter value: " + filterSite);	
+String hSiteClass = filterSite.equals("All")?"thClick":"thClickS";	
+String filterStatus = request.getAttribute("filterStatus")==null?"All":(String)request.getAttribute("filterStatus");
+String hStatusTitle = filterStatus.equals("All")?"Filter not set":("Current filter value: " + filterStatus);	
+String hStatusClass = filterStatus.equals("All")?"thClick":"thClickS";	
+String[] statusParameters = {"All"};
+String[] siteParameters = {"N"};
+%>
+<input type="hidden" name="buttonPressed" id="buttonPressed" value=""/>
+<input type="hidden" name="whichFilter" id="whichFilter" value=""/>
+<script language="javascript">
+<!--
+function filterClick(filterId, operation) {
+	var filter = document.getElementById(filterId);
+	filter.style.display = "none";
+	filter.style.left = "0px";
+	filter.style.top = "0px";
+	if (operation != "cancel") {
+		document.getElementById("whichFilter").value = "filter"+filterId.substring(2);
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "reporting";
+		document.getElementById("f1").submit();
+	}
+}
+
+function headerClick(headerId, showLeft) {
+	var header = document.getElementById(headerId);
+	var position = getPosition(header);
+	var filter = document.getElementById("df"+headerId.substring(1));
+	var posL;
+	if (showLeft == true) {
+		posL = (position.x + header.offsetWidth) - 270;
+	} else {
+		posL = position.x;
+	}
+	filter.style.display = "inline";
+	filter.style.left = posL + "px";
+	filter.style.top = position.y + "px";
+	filter.style.zIndex = "20";
+}
+
+-->
+</script>
+<div id="snrP" style="position:absolute;top:0px;left:0px;display:none">
+<div style="
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden; border: 1px solid black;">
+<table style="width: 1250px; height: 20px;"
+>
+<colgroup>
+<col width="300px"/>
+<col width="150px"/>
+<col width="200px"/>
+<col width="130px"/>
+<col width="110px"/>
+<col width="100px"/>
+<col width="100px"/>
+<col width="70px"/>
+<col width="80px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th class="<%=hCustomerClass%>" id="hCustomer" onClick="<%=hCustomerClick%>" title="<%=hCustomerTitle%>">Customer Name</th>
+		<th class="<%=hSiteClass%>" id="hSite" onClick="headerClick('hSite', false)" title="<%=hSiteTitle%>">Site</th>
+		<th>NR Id</th>
+		<th class="<%=hStatusClass%>" id="hStatus" onClick="headerClick('hStatus', false)" title="<%=hStatusTitle%>">Status</th>
+		<th>Scheduled Date</th>
+		<th title="Implementation Status">Impl. Status</th>
+		<th title="Implementation End Date">Impl. End Date</th>
+		<th>Overdue</th>
+		<th>Days Late</th>
+</tr>
+</tbody>
+</table>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto"
+>
+<table style="width: 1250px;"
+>
+<colgroup>
+<col width="300px"/>
+<col width="150px"/>
+<col width="200px"/>
+<col width="130px"/>
+<col width="110px"/>
+<col width="100px"/>
+<col width="100px"/>
+<col width="70px"/>
+<col width="80px"/>
+</colgroup>
+<tbody>
+<%=reportScreen.equals(ServletConstants.NR_PROGRESS_REPORT_SCREEN)?
+		uB.getSNRProgressReportHTML(session, filterCustomer, filterPotName, filterSite, filterStatus):""%>
+</tbody>
+</table>
+</div>
+<div class="menu2" style="height:2px"></div>
+<div id="tm">
+<div style="float:left;width:2px" class="menu2">&nbsp;</div>
+<div id="action" style="float:left;" class="menu2">Action:</div>
+<div style="float:right;width:2px" class="menu2">&nbsp;</div>
+<div id="downloadProgress" onClick="tbClick('downloadProgress')" onMouseOut="invertClass('downloadProgress')" onMouseOver="invertClass('downloadProgress')" style="float:right;" class="menu2Item">Download NR Progress Report</div>
+<div id="tmAnchor" class="menu2">&nbsp;</div>
+</div>
+<div class="menu2" style="height:2px"></div>
+</div>
+</div>
+<div id="dfCustomer" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="filterClick('dfCustomer', 'cancel')">x</div>
+	<div style="clear:both">Customer Name Filter</div>
+	<div style="padding-bottom:10px"><%=uB.getCustomerFilterHTML("filter", filterCustomer) %></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfCustomer', 'ok')" value="OK" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfCustomer', 'clear')" value="Clear" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfCustomer', 'clearAll')" value="Clear All" /></div>
+	</div>
+</div>
+<div id="dfPotName" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="filterClick('dfPotName', 'cancel')">x</div>
+	<div style="clear:both">Pot Name Filter</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("PotName", "filter", "filter", filterPotName) %></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfPotName', 'ok')" value="OK" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfPotName', 'clear')" value="Clear" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfPotName', 'clearAll')" value="Clear All" /></div>
+	</div>
+</div>
+<div id="dfSite" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="filterClick('dfSite', 'cancel')">x</div>
+	<div style="clear:both">Site Filter</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("Site", "filter", "filter", filterSite, siteParameters) %></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfSite', 'ok')" value="OK" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfSite', 'clear')" value="Clear" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfSite', 'clearAll')" value="Clear All" /></div>
+	</div>
+</div>
+<div id ="dfStatus" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="filterClick('dfStatus', 'cancel')">x</div>
+	<div style="clear:both">Status Filter</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("Status", "filter", "filter", filterStatus, statusParameters) %></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfStatus', 'ok')" value="OK" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfStatus', 'clear')" value="Clear" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfStatus', 'clearAll')" value="Clear All" /></div>
+	</div>
+</div>

@@ -1,0 +1,55 @@
+<div id="emailCopy" class="filterAlt" style="width:1250px;">
+<div class="closeX" title="close" onClick="emailCopyClick('cancel')">X</div>
+<div style="clear:both;text-align:center;overflow:hidden; text-weight: bold;">View Email Copy (latest first order)</div>
+<div style="margin: 0; padding: 0; border-collapse: collapse; width: 1250px; 
+ border: 1px solid black;">
+<table style="width: 1250px;height: 20px;  table-layout: fixed;">
+<colgroup>
+<col width="305px"/>
+<col width="305px"/>
+<col width="305px"/>
+<col width="305px"/>
+</colgroup>
+<tbody>
+<tr>		
+	<th class="altBar">Produced On</th>
+	<th class="altBar">Produced By</th>
+	<th class="altBar">Sender</th>
+	<th class="altBar">Subject</th>	
+</tr>
+<tr>		
+	<th class="altBar" colspan="2">To List</th>
+	<th class="altBar">CC List</th>
+	<th class="altBar">BCC List</th>	
+</tr>
+</tbody>
+</table>
+</div>
+<div style="margin: 0; padding: 0; border-collapse: collapse; width: 1250px; max-height: 390px; 
+overflow-y: scroll; overflow-x; hidden; border: 1px solid black;">
+<table style="width: 1233px;height: 20px;  table-layout: fixed;">
+<colgroup>
+<col width="305px"/>
+<col width="305px"/>
+<col width="305px"/>
+<col width="305px"/>
+</colgroup>
+<tbody>
+<%=uB.getEmailCopyHTML()%>
+</tbody>
+</table>
+</div>
+</div>
+<script language="javascript">
+<!--
+function emailCopyClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var aR = document.getElementById("emailCopy");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	}
+}	
+-->
+</script>

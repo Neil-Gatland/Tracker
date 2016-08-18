@@ -1,0 +1,6 @@
+<%@ include file="header.jsp" %>
+<input type="hidden" name="fromScreen" id="fromScreen" value="updateCRM.jsp"/>
+<input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.UPDATE_CRM%>"/>
+</form>
+</body>
+</html>

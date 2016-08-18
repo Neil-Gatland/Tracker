@@ -1,0 +1,29 @@
+<%
+String reportName = request.getAttribute("reportName")==null?"":(String)request.getAttribute("reportName");
+%>
+<input type="hidden" name="reportName" id="reportName" value="<%=reportName%>">
+<div id="downloadReport" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="downloadReportClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Download <%=reportName%> Report</h2></div>
+<%=uB.getReportParametersHTML(session, reportName) %>	
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="downloadReportClick('submitDownloadReport')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="downloadReportClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function downloadReportClick(operation) {
+	if (operation == "cancel") {
+		var dR = document.getElementById("downloadReport");
+		dR.style.display = "none";
+		dR.style.left = "0px";
+		dR.style.top = "0px";
+	} else {
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "reporting";
+		document.getElementById("f1").submit();
+	}
+}
+-->
+</script>

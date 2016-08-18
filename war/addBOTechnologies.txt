@@ -1,0 +1,43 @@
+<%
+String botH = snrId==-1?"":uB.getSNRBOTechnologiesToAddHTML(session, snrId);	
+%>
+<div id="addBOTechnologies" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="addBOTechnologiesClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Add Technologies</h2></div>
+<%=botH%>	
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addBOTechnologiesClick('addBOTechnologiesSubmit')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addBOTechnologiesClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function showAddBOTechnologies() {
+<%if (botH.equals("")) {%>
+	alert("No more technologies to add");
+<%} else {%>	
+	var header = document.getElementById("hSD");
+	var position = getPosition(header);
+	var aT = document.getElementById("addBOTechnologies");
+	aT.style.display = "inline";
+	aT.style.left = (position.x-92) + "px";
+	aT.style.top = position.y + "px";
+	aT.style.zIndex = "90";
+<%}%>	
+}
+
+function addBOTechnologiesClick(operation) {
+	if (operation == "cancel") {
+		var aT = document.getElementById("addBOTechnologies");
+		aT.style.display = "none";
+		aT.style.left = "0px";
+		aT.style.top = "0px";
+	} else {
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "multiSNRList";
+		document.getElementById("f1").submit();
+	}
+}
+-->
+</script>
+

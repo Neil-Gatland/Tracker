@@ -1,0 +1,59 @@
+<%
+String b1Title = "Update this NR Id";
+String b1Value = "Update";
+String b1Operation = "updateNRIdSubmit";
+String nrIdU = request.getAttribute("nrIdU")==null?"none":(String)request.getAttribute("nrIdU");
+String readOnly = "";
+
+if (nrIdValid) {
+	b1Title = "Confirm update";
+	b1Value = "Confirm";	
+	b1Operation = "confirmNRIdSubmit";
+	readOnly = "readonly";
+}
+
+%>
+<div id="updateNRId" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="updateNRIdClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Update NR Id (SNR <%=snrId%>)</h2></div>
+	<div>NR Id</div>
+	<div style="padding-bottom:10px"><input style="width:96%" type="text" id="nrIdU" name="nrIdU" value="<%=nrIdU%>" <%=readOnly%>></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left" title="<%=b1Title%>"><input style="width:120px" type="button" class="button" onClick="updateNRIdClick('<%=b1Operation%>')" value="<%=b1Value%>" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="updateNRIdClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function updateNRIdClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var uN = document.getElementById("updateNRId");
+		uN.style.display = "none";
+		uN.style.left = "0px";
+		uN.style.top = "0px";
+	} else { 
+		if (operation == "updateNRIdSubmit") {
+			var newNRId = document.getElementById("nrIdU").value;
+			if (newNRId == "<%=nrIdU%>") {
+				alert("NR Id has not changed");
+				return;
+			} else if (newNRId.indexOf("<%=site%>-") != 0) {
+				alert("NR Id must start with the Site (<%=site%>), followed by a dash and a sequence number");
+				return;
+			} else {
+				var newSeq = newNRId.substring(newNRId.indexOf("-")+1);
+				if (isNaN(newSeq)) {
+					alert("Sequence must be numeric");
+					return;
+				}
+			}	
+		}
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "workQueues";
+		f1.submit();
+	}
+}
+	
+-->
+</script>

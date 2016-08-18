@@ -1,0 +1,83 @@
+<%
+boolean updateSite = action.equals("updateSNRList");
+String tbClick = buttonPressed.equals("viewSiteConfA")?"updateSiteConfA":"updateSiteConf";
+%> 
+<div id="snrS" style="position:absolute;top:0px;left:0px;display:none">
+<div style="
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden;">
+<table style="width: 1250px; height: 20px;"
+>
+<colgroup>
+<col width="20px"/>
+<col width="1210px"/>
+<col width="20px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th>&nbsp;</th>
+		<th style="text-align:center">Configuration for site <%=site%></th>
+		<th>&nbsp;</th>
+		<!--th style="margin-top:-10px;">x</th-->
+</tr>
+</tbody>
+</table>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px;"
+>
+<colgroup>
+<col width="310px"/>
+<col width="310px"/>
+<col width="310px"/>
+<col width="320px"/>
+</colgroup>
+<tbody>
+<%=snrId==-1?"":uB.getSiteConfigurationHTML(customerId, site, updateSite) %>
+</tbody>
+</table>
+</div>
+<div class="menu2" style="height:2px"></div>
+<div id="tS">
+<div style="float:left;width:2px" class="menu2">&nbsp;</div>
+<div id="action" style="float:left" class="menu2">Action:</div>
+<div style="float:right;width:2px" class="menu2">&nbsp;</div>
+<div id="closeS" onClick="hideViewSiteConfig()" onMouseOut="invertClass('closeS')" onMouseOver="invertClass('closeS')" style="float:right" class="menu2Item">Return</div>
+<div id="updateSiteConf" onClick="tbClick('<%=tbClick%>')" onMouseOut="invertClass('updateSiteConf')" onMouseOver="invertClass('updateSiteConf')" style="float:right;display:<%=updateSite?"inline":"none"%>" class="menu2Item">Update</div>
+<div id="viewSiteCom" onClick="tbClick('viewSiteCom')" onMouseOut="invertClass('viewSiteCom')" onMouseOver="invertClass('viewSiteCom')" style="float:right" class="menu2Item">View Site Commentary</div>
+<div id="tSAnchor" class="menu2">&nbsp;</div>
+</div>
+<div class="menu2" style="height:2px"></div>
+</div>
+</div>
+<script language="javascript">
+<!--
+
+function showSiteConfiguation() {
+	var header = document.getElementById("hAnchor");
+	var position = getPosition(header);
+	var snrBC = document.getElementById("snrB");
+	snrBC.style.display = "inline";
+	snrBC.style.left = position.x + "px";
+	snrBC.style.top = position.y + "px";
+	snrBC.style.zIndex = "70";
+	var snrS = document.getElementById("snrS");
+	snrS.style.display = "inline";
+	snrS.style.left = position.x + "px";
+	snrS.style.top = position.y + "px";
+	snrS.style.zIndex = "80";
+}
+
+function hideViewSiteConfig() {
+	var snrBC = document.getElementById("snrB");
+	snrBC.style.display = "none";
+	snrBC.style.left = "0px";
+	snrBC.style.top = "0px";
+	snrBC.style.zIndex = "-1";
+	var snrS = document.getElementById("snrS");
+	snrS.style.display = "none";
+	snrS.style.left = "0px";
+	snrS.style.top = "0px";
+	snrS.style.zIndex = "-1";
+}
+-->
+</script>

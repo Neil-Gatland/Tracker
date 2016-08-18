@@ -1,0 +1,149 @@
+<%
+%>
+<div id="pCI" style="position:absolute;top:0px;left:0px;display:none">
+<div style="
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden;">
+<table style="width: 1250px; height: 20px;"
+>
+<colgroup>
+<col width="200px"/>
+<col width="110px"/>
+<col width="40px"/>
+<col width="80px"/>
+<col width="120px"/>
+<col width="370px"/>
+<col width="200px"/>
+<col width="80px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th id="hAnchor">NR Id</th>
+		<th>Pre-Check Type</th>
+		<th title="Pre-Check Days">PCD</th>
+		<th title="Pre-Check Scheduled Date">PCSD</th>
+		<th>Pre-Check Status</th>
+		<th>Job Type</th>
+		<th>Last Updated By</th>
+		<th title="Last Updated Date">LU Date</th>
+		<th></th>
+</tr>
+</tbody>
+</table>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:20px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px;">
+<colgroup>
+<col width="200px"/>
+<col width="110px"/>
+<col width="40px"/>
+<col width="80px"/>
+<col width="120px"/>
+<col width="370px"/>
+<col width="200px"/>
+<col width="80px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<%=preCheckId<1?"":uB.getPreCheckOutstandingHTML(preCheckId)%>
+</tbody>
+</table>
+</div>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:20px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px; height: 20px;">
+<colgroup>
+<col width="300px"/>
+<col width="300px"/>
+<col width="300px"/>
+<col width="300px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th>Item Name</th>
+		<th>Item Value</th>
+		<th>Item Name</th>
+		<th>Item Value</th>
+		<th></th>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="background-color:#ffffff;margin:0;padding:0;border-collapse:collapse;width:1250px;height:380px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px;"
+>
+<colgroup>
+<col width="300px"/>
+<col width="300px"/>
+<col width="300px"/>
+<col width="300px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<%=preCheckId<1?"":uB.getPreCheckItemListHTML(session, preCheckId)%>
+</tbody>
+</table>
+</div>
+<div class="menu2" style="height:2px"></div>
+<div id="tD">
+<div style="float:left;width:2px" class="menu2">&nbsp;</div>
+<div id="action" style="float:left" class="menu2">Action:</div>
+<div style="float:right;width:2px" class="menu2">&nbsp;</div>
+<div id="<%=rName%>" onClick="tbClick('<%=rName%>')" onMouseOut="invertClass('<%=rName%>')" onMouseOver="invertClass('<%=rName%>')" style="float:right" class="menu2Item">Return</div>
+<div id="updateI" onClick="tbClick('updateI')" onMouseOut="invertClass('updateI')" onMouseOver="invertClass('updateI')" style="float:right" class="menu2Item">Update</div>
+<div id="completeI" onClick="tbClick('completeI')" onMouseOut="invertClass('completeI')" onMouseOver="invertClass('completeI')" style="float:right<%=extraVis%>" class="menu2Item">Complete</div>
+<div id="viewComI" onClick="showViewCommentary()" onMouseOut="invertClass('viewComI')" onMouseOver="invertClass('viewComI')" style="float:right<%=extraVis%>" class="menu2Item">View Commentary</div>
+<div id="addComI" onClick="tbClick('addComI')" onMouseOut="invertClass('addComI')" onMouseOver="invertClass('addComI')" style="float:right<%=extraVis%>" class="menu2Item">Add Commentary</div>
+<div id="tDAnchor" class="menu2">&nbsp;</div>
+</div>
+<div class="menu2" style="height:2px"></div>
+</div>
+</div>
+<div id="completePC" class="filter" style="width:400px">
+	<div class="closeX" title="close" onClick="completePCClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Complete Pre-Check</h2></div>
+	<div>Commentary (optional)</div>
+	<div style="padding-bottom:10px"><textarea id="pcCommentaryText" name="pcCommentaryText" style="width:390px;height:60px"></textarea></div>
+	<div style="width:360px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="completePCClick('Passed')" value="Passed" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="completePCClick('Failed')" value="Failed" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="completePCClick('Not Done')" value="Not Done" /></div>
+	</div>
+</div>
+
+<script language="javascript">
+<!--
+function showPreCheckItems() {
+	var header = document.getElementById("hAnchor");
+	var position = getPosition(header);
+	var snrB = document.getElementById("snrB");
+	snrB.style.display = "inline";
+	snrB.style.left = position.x + "px";
+	snrB.style.top = position.y + "px";
+	snrB.style.zIndex = "10";
+	var pCI = document.getElementById("pCI");
+	pCI.style.display = "inline";
+	pCI.style.left = position.x + "px";
+	pCI.style.top = position.y + "px";
+	pCI.style.zIndex = "20";
+}
+
+function completePCClick(btn) {
+	if (btn == "cancel") {
+		var completePC = document.getElementById("completePC");
+		completePC.style.display = "none";
+		completePC.style.left = "0px";
+		completePC.style.top = "0px";
+		completePC.style.zIndex = "-1";
+	} else {
+		document.getElementById("buttonPressed").value = btn;
+		document.getElementById("preCheckId").value = selectedPreCheckId;
+		document.getElementById("snrId").value = selectedSNRId;
+		document.getElementById("f1").action = "preCheckMaintenance";
+		document.getElementById("f1").submit();
+	}
+}
+-->
+</script>

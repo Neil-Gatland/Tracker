@@ -1,0 +1,203 @@
+<%
+%>
+<input type="hidden" name="userId" id="userId" value="<%=userId%>"/>
+<input type="hidden" name="snrUserRole" id="snrUserRole" value="<%=snrUserRole%>"/>
+<input type="hidden" name="feLevel" id="feLevel" value="<%=feLevel%>"/>
+<input type="hidden" name="snrUserRoleCount" id="snrUserRoleCount" value="<%=snrUserRoleCount%>"/>
+<input type="hidden" name="reallocType" id="reallocType" value="<%=reallocType%>"/>
+<input type="hidden" name="workflowName" id="workflowName" value="<%=workflowName%>"/>
+<input type="hidden" name="scheduleCommentary" id = "scheduleCommentary" value="<%=scheduleCommentary%>"/>
+<div id="reallocateSNR" style="position:absolute;top:0px;left:0px;display:none">
+<div style="
+margin: 0; padding:0;border-collapse:collapse;width:1250px;height:<%=reallocType.equals("schedM")?"372":"420"%>px;overflow:hidden;">
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:20px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px; height: 20px;">
+<colgroup>
+<col width="500px"/>
+<col width="200px"/>
+<col width="100px"/>
+<col width="400px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th>Name</th>
+		<th>Role</th>
+		<th>FE Order</th>
+		<th>FE Third Party</th>
+		<th>Select</th>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:<%=reallocType.equals("schedM")?"332":"380"%>px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px;"
+>
+<colgroup>
+<col width="500px"/>
+<col width="200px"/>
+<col width="100px"/>
+<col width="400px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<%=snrUserRoleListHTML%>
+</tbody>
+</table>
+</div>
+<div class="menu2" style="height:2px"></div>
+<div id="tRASNR">
+<div style="float:left;width:2px" class="menu2">&nbsp;</div>
+<div id="action" style="float:left" class="menu2">Action:</div>
+<div style="float:right;width:2px" class="menu2">&nbsp;</div>
+<div id="closeRASNR" onClick="reallocateSNRClick('cancel')" onMouseOut="invertClass('closeRASNR')" onMouseOver="invertClass('closeRASNR')" style="float:right" class="menu2Item">Return</div>
+<div id="rescheduleRSNR" onClick="rescheduleSNRClick('rescheduleSNRSubmit')" onMouseOut="invertClass('rescheduleRSNR')" onMouseOver="invertClass('rescheduleRSNR')" style="float:right;display:none" class="menu2Item">Reschedule</div>
+<div id="addBOE" onClick="reallocateSNRClick('addBOE')" onMouseOut="invertClass('addBOE')" onMouseOver="invertClass('addBOE')" style="float:right<%=extraVis%>" class="menu2Item">Add BO Engineer</div>
+<div id="addFE" onClick="reallocateSNRClick('addFE')" onMouseOut="invertClass('addFE')" onMouseOver="invertClass('addFE')" style="float:right" class="menu2Item">Add Field Engineer</div>
+<div id="deleteEngineer" onClick="reallocateSNRClick('deleteEngineer')" onMouseOut="invertClass('deleteEngineer')" onMouseOver="invertClass('deleteEngineer')" style="float:right;display:none" class="menu2Item">Delete Engineer</div>
+<div id="changeEngineer" onClick="reallocateSNRClick('changeEngineer')" onMouseOut="invertClass('changeEngineer')" onMouseOver="invertClass('changeEngineer')" style="float:right;display:none" class="menu2Item">Change Engineer</div>
+<div id="cancelSM" onClick="reallocateSNRClick('cancelSM')" onMouseOut="invertClass('cancelSM')" onMouseOver="invertClass('cancelSM')" style="float:right;display:none" class="menu2Item">Cancel Scheduling</div>
+<div id="confirmSM" onClick="reallocateSNRClick('confirmSM')" onMouseOut="invertClass('confirmSM')" onMouseOver="invertClass('confirmSM')" style="float:right;display:none" class="menu2Item">Confirm Scheduling</div>
+<div id="tRASNRAnchor" class="menu2">&nbsp;</div>
+</div>
+<div class="menu2" style="height:2px"></div>
+</div>
+</div>
+<script src="js/datepickr.js"></script>
+<script>
+    // Custom date format
+    datepickr('.datepickr', { dateFormat: 'd/m/Y'});
+</script>
+<script language="javascript">
+<!--
+
+var selectedUserId = <%=userId%>;
+var selectedRole = "<%=snrUserRole%>";
+var selectedLevel = "<%=feLevel%>";
+var selectedCount = <%=snrUserRoleCount%>;
+var workFlowname = "<%=workflowName%>";
+var scheduleCommentary = "<%=scheduleCommentary%>";
+
+function snrUserRoleSelect(userId, role, level, count) {
+	selectedUserId = userId;
+	selectedRole = role;
+	selectedLevel = level;
+	selectedCount = count;
+	document.getElementById("userId").value = selectedUserId;
+	document.getElementById("snrUserRole").value = selectedRole;
+	document.getElementById("feLevel").value = selectedLevel;
+	document.getElementById("snrUserRoleCount").value = selectedCount;
+	document.getElementById("deleteEngineer").style.display = "inline";
+	document.getElementById("changeEngineer").style.display = "inline";
+}
+
+function rescheduleSNRClick(operation) {
+	if (operation == "cancel") {
+		var rSNR = document.getElementById("reallocateSNR");
+		rSNR.style.display = "none";
+		rSNR.style.left = "0px";
+		rSNR.style.top = "0px";
+		var snrB2 = document.getElementById("snrB2");
+		snrB2.style.display = "none";
+		snrB2.style.left = "0px";
+		snrB2.style.top = "0px";
+	} else {
+		var schDT = document.getElementById("scheduledDT").value
+		var isoDT = schDT.substring(6, 10) + "-" + schDT.substring(3, 5) + 
+			"-" + schDT.substring(0, 2); 
+		var scheduledDate = new Date(isoDT);
+		var now = new Date();
+		now.setHours(0,0,0,0);
+		if (scheduledDate < now) {
+			if (!confirm("Warning: scheduled date is in the past. Please confirm this is correct.")) {
+				return;
+			}
+		}
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "multiSNRList";
+		document.getElementById("f1").submit();
+	}
+}
+
+function reallocateSNRClick(operation) {
+	if (operation == "cancel") {
+		var rSNR = document.getElementById("reallocateSNR");
+		rSNR.style.display = "none";
+		rSNR.style.left = "0px";
+		rSNR.style.top = "0px";
+		var snrB2 = document.getElementById("snrB2");
+		snrB2.style.display = "none";
+		snrB2.style.left = "0px";
+		snrB2.style.top = "0px";
+	} else if (operation == "deleteEngineer") {
+		var confirmText = "";
+		if (selectedRole == "<%=UserRole.ROLE_B_O_ENGINEER%>") {
+			confirmText = (selectedCount == 1?"This is the only allocated BO Engineer.":"") +
+				"Please confirm the removal of this engineer from the SNR";
+		} else {
+			if ((document.getElementById("reallocType").value == "realloc") &&
+				(selectedCount == 1) && (selectedLevel == 1)) {
+				alert("This is the only allocated level 1 Field Engineer. Another level 1 Field Engineer must be added before this one can be removed");
+				return;
+			} else {
+				confirmText = "Please confirm the removal of this engineer from the SNR";
+			}
+		}
+		if (confirm(confirmText)) {
+			document.getElementById("buttonPressed").value = operation;
+			document.getElementById("f1").action = "multiSNRList";
+			document.getElementById("f1").submit();
+		}
+	} else if (operation == "cancelSM") {
+		if (confirm("Please confirm the cancellation of the scheduling of this SNR. " +
+			"This will result in the removal of any engineers allocated to the SNR.")) {
+			document.getElementById("buttonPressed").value = operation;
+			document.getElementById("f1").action = "multiSNRList";
+			document.getElementById("f1").submit();
+		}
+	} else if ((operation == "addBOE") || (operation == "addFE")) {
+		document.getElementById("snrUserRole").value = (operation=="addBOE"?"BO":"Field")+" Engineer";
+		document.getElementById("buttonPressed").value = "addRole";
+		document.getElementById("f1").action = "multiSNRList";
+		document.getElementById("f1").submit();
+	} else if ((operation == "changeEngineer")) {
+		document.getElementById("snrUserRole").value = selectedRole;
+		document.getElementById("buttonPressed").value = "chgRole";
+		document.getElementById("f1").action = "multiSNRList";
+		document.getElementById("f1").submit();
+	} else {
+		if (operation == "confirmSM") {
+			var schDT = document.getElementById("scheduledDT").value
+			var isoDT = schDT.substring(6, 10) + "-" + schDT.substring(3, 5) + 
+				"-" + schDT.substring(0, 2); 
+			var scheduledDate = new Date(isoDT);
+			var now = new Date();
+			now.setHours(0,0,0,0);
+			if (scheduledDate < now) {
+				if (!confirm("Warning: scheduled date is in the past. Please confirm this is correct.")) {
+					return;
+				}
+			}
+		}
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "multiSNRList";
+		document.getElementById("f1").submit();
+	}
+}
+
+function scheduledDTChange() {
+	var sDT = document.getElementById("scheduledDT").value;
+	var reallocType = "<%=reallocType%>";
+	if ((sDT.length == 0) || (<%=feCount%> == 0)) {
+		document.getElementById("confirmSM").style.display = "none";
+	} else if (reallocType == "schedM") {
+		document.getElementById("confirmSM").style.display = "inline";
+	} else {
+		document.getElementById("confirmSM").style.display = "none";
+		document.getElementById("rescheduleRSNR").style.display = "inline";
+	}
+}
+-->
+</script>

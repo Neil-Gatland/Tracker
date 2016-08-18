@@ -1,0 +1,50 @@
+<div id="amendJobType" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="amendJobTypeClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Amend Job Type</h2></div>
+	<div>Job Type</div>
+	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="currentJobType" id="currentJobType" readonly maxlength="100"></div>
+	<div>Project Requestor</div>
+	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendProjectRequestor" id="amendProjectRequestor"  maxlength="100"></div>
+	<div>Project Requestor Email</div>
+	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendProjectRequestorEmail" id="amendProjectRequestorEmail" maxlength="100"></div>
+	<div>Project Manager</div>
+	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendProjectManager" id="amendProjectManager" maxlength="100"></div>
+	<div>Project Manager Email</div>
+	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendProjectManagerEmail" id="amendProjectManagerEmail" maxlength="100"></div>
+	<div>Acting Customer</div>
+	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendActingCustomer" id="amendActingCustomer" maxlength="100"></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="amendJobTypeClick('jobTypeAmend')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="amendJobTypeClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function amendJobTypeClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var aJT = document.getElementById("amendJobType");
+		aJT.style.display = "none";
+		aJT.style.left = "0px";
+		aJT.style.top = "0px";
+	} else { //if (operation == "amendJobType") {
+		if (isWhitespaceOrEmpty(document.getElementById("amendProjectRequestor").value)) {
+			alert("Project Requestor cannot be blank")
+		} else if (isWhitespaceOrEmpty(document.getElementById("amendProjectRequestorEmail").value)) {
+			alert("Project Requestor Email cannot be blank")
+		} else if (isWhitespaceOrEmpty(document.getElementById("amendProjectManager").value)) {
+			alert("Project Manager cannot be blank")
+		} else if (isWhitespaceOrEmpty(document.getElementById("amendProjectManagerEmail").value)) {
+			alert("Project Manager Email cannot be blank")
+		} else if (isWhitespaceOrEmpty(document.getElementById("amendActingCustomer").value)) {
+			alert("Acting Customer cannot be blank")
+		} else {
+			document.getElementById("buttonPressed").value = operation;
+			f1.action = "/jobTypeMaintenance";
+			f1.submit();
+		}
+	}
+}
+	
+-->
+</script>

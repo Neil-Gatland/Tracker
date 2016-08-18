@@ -1,0 +1,76 @@
+<div id="siteProgressItemsKey" class="filterAlt" style="width:460px;">
+<div style="clear:both;text-align:center;overflow:hidden; text-weight: bold;">Key</div>
+<div style="margin: 0; padding: 0; border-collapse: collapse; width: 450px; 
+ border: 1px solid black;">
+<table style="width: 450px;height: 20px;  table-layout: fixed;">
+<colgroup>
+<col width="50px"/>
+<col width="175px"/>
+<col width="50px"/>
+<col width="175px"/>
+</colgroup>
+<tbody>
+<tr>		
+	<td class="grid1">CI</th>
+	<td class="grid1">Checked In</th>		
+	<td class="grid1">FW</th>
+	<td class="grid1">Field Work</th>
+</tr>
+<tr>		
+	<td class="grid2">BO</th>
+	<td class="grid2">Booked On</th>	
+	<td class="grid2">SU</th>
+	<td class="grid2">Site Unlocked</th>
+</tr>
+<tr>		
+	<td class="grid1">SA</th>
+	<td class="grid1">Site Accessed</th>	
+	<td class="grid1">PCT</th>
+	<td class="grid1">Post Call Test</th>
+</tr>
+<tr>		
+	<td class="grid2">PC</th>
+	<td class="grid2">Physical Checks</th>		
+	<td class="grid2">CC</th>
+	<td class="grid2">Closure Code</th>
+</tr>
+<tr>		
+	<td class="grid1">PCT</th>
+	<td class="grid1">Pre Call Test</th>	
+	<td class="grid1">LS</th>
+	<td class="grid1">Leave Site</th>
+</tr>
+<tr>		
+	<td class="grid2">SL</th>
+	<td class="grid2">Site Locked</th>		
+	<td class="grid2">BOS</th>
+	<td class="grid2">Book Off Site</th>
+</tr>
+<tr>		
+	<td class="grid1">HWI</th>
+	<td class="grid1">HW Installs</th>		
+	<td class="grid1">PM</th>
+	<td class="grid1">Performance Monitoring</th>
+</tr>
+<tr>		
+	<td class="grid2">CFE</th>
+	<td class="grid2">Commissioning (FE)</th>		
+	<td class="grid2">IH</th>
+	<td class="grid2">Initial HOP</th>
+</tr>
+<tr>		
+	<td class="grid1">CBO</th>
+	<td class="grid1">Commissioning (BO)</th>	
+	<td class="grid1">DVT</th>
+	<td class="grid1">Devoteam</th>
+</tr>
+<tr>		
+	<td class="grid2">TXP</th>
+	<td class="grid2">TX Provisioning</th>	
+	<td class="grid2">CST</th>
+	<td class="grid2">Customer</th>
+</tr>
+</tbody>
+</table>
+</div>
+</div>

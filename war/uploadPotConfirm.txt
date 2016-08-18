@@ -1,0 +1,55 @@
+<%@ page import="com.devoteam.tracker.model.PotSpreadsheet"%>
+<%
+String customerName = "";
+String potFileName = "";
+if (session.getAttribute(ServletConstants.POT_SPREADSHEET_NAME_IN_SESSION) != null) {
+	PotSpreadsheet sheetPot = (PotSpreadsheet)session.getAttribute(ServletConstants.POT_SPREADSHEET_NAME_IN_SESSION);
+	customerName = sheetPot.getCustomerName();
+	potFileName = sheetPot.getPotFileName();
+}
+
+String problems = session.getAttribute(ServletConstants.PROBLEM_ARRAY_NAME_IN_SESSION)==null
+	?null:(String)session.getAttribute(ServletConstants.PROBLEM_ARRAY_NAME_IN_SESSION);
+
+%>
+<div id="uploadPotConfirm" class="filter" style="width:540px">
+	<div class="closeX" title="close" onClick="uploadPotConfirmClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Load Pot Spreadsheet</h2></div>
+	<div>Customer: <%=customerName%></div>
+	<div>File Name: <%=potFileName%></div>
+<%
+	if (problems != null) {
+%>
+	<div>Warnings:</div>
+<% 		
+		String[] messages = problems.split("|");
+		for (int i = 0; i < messages.length; i++) {
+%>
+	<div><%=messages[i]%></div>
+<%			
+		}
+	}
+%>	
+	<div style="width:520px;margin:0 auto;">
+		<div style="float:left" title="Confirm upload"><input style="width:120px" type="button" class="button" onClick="uploadPotConfirmClick('uploadPotSubmit')" value="Confirm" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="uploadPotConfirmClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function uploadPotConfirmClick(operation) {
+	if (operation == "cancel") {
+		var uP = document.getElementById("uploadPotConfirm");
+		uP.style.display = "none";
+		uP.style.left = "0px";
+		uP.style.top = "0px";
+	} else {
+		//alert(document.getElementById("fileNameDisplay").innerHTML);
+		var f1 = document.getElementById("f1");
+		f1.action = "/uploadPot")%;
+		f1.submit();
+	}
+}
+-->
+</script>
+

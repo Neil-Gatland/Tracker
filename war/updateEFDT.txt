@@ -1,0 +1,68 @@
+<%
+String ef345ClaimDT = request.getAttribute("ef345ClaimDT")==null?"":(String)request.getAttribute("ef345ClaimDT");
+String ef360ClaimDT = request.getAttribute("ef360ClaimDT")==null?"":(String)request.getAttribute("ef360ClaimDT");
+String ef390ClaimDT = request.getAttribute("ef390ClaimDT")==null?"":(String)request.getAttribute("ef390ClaimDT");
+String ef400ClaimDT = request.getAttribute("ef400ClaimDT")==null?"":(String)request.getAttribute("ef400ClaimDT");
+String ef410ClaimDT = request.getAttribute("ef410ClaimDT")==null?"":(String)request.getAttribute("ef410ClaimDT");
+%>
+<div id="updateEFDT" class="filter" style="width:300px">
+	<div class="closeX" title="close" onClick="updateEFDTClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Update Evenflow (SNR <%=snrId%>)</h2></div>
+	<div style="height:30px;width:240px;margin:0 auto;">
+		<div style="float:left">EF345 Claim DT</div>
+		<div style="float:left">
+			<input type="text" style="width:100px" id="ef345ClaimDT" name="ef345ClaimDT" value="<%=ef345ClaimDT%>" readonly>
+			<img src="images/cal.gif" onclick="javascript:NewCssCal ('ef345ClaimDT','ddMMyyyy','arrow')" style="cursor:pointer"/>
+		</div>
+	</div>
+	<div style="height:30px;width:240px;margin:0 auto;">
+		<div style="float:left">EF360 Claim DT</div>
+		<div style="float:left">
+			<input type="text" style="width:100px" id="ef360ClaimDT" name="ef360ClaimDT" value="<%=ef360ClaimDT%>" readonly>
+			<img src="images/cal.gif" onclick="javascript:NewCssCal ('ef360ClaimDT','ddMMyyyy','arrow')" style="cursor:pointer"/>
+		</div>
+	</div>
+	<div style="height:30px;width:240px;margin:0 auto;">
+		<div style="float:left">EF390 Claim DT</div>
+		<div style="float:left">
+			<input type="text" style="width:100px" id="ef390ClaimDT" name="ef390ClaimDT" value="<%=ef390ClaimDT%>" readonly>
+			<img src="images/cal.gif" onclick="javascript:NewCssCal ('ef390ClaimDT','ddMMyyyy','arrow')" style="cursor:pointer"/>
+		</div>
+	</div>
+	<div style="height:30px;width:240px;margin:0 auto;">
+		<div style="float:left">EF400 Claim DT</div>
+		<div style="float:left">
+			<input type="text" style="width:100px" id="ef400ClaimDT" name="ef400ClaimDT" value="<%=ef400ClaimDT%>" readonly>
+			<img src="images/cal.gif" onclick="javascript:NewCssCal ('ef400ClaimDT','ddMMyyyy','arrow')" style="cursor:pointer"/>
+		</div>
+	</div>
+	<div style="height:30px;width:240px;margin:0 auto;">
+		<div style="float:left">EF410 Claim DT</div>
+		<div style="float:left">
+			<input type="text" style="width:100px" id="ef410ClaimDT" name="ef410ClaimDT" value="<%=ef410ClaimDT%>" readonly>
+			<img src="images/cal.gif" onclick="javascript:NewCssCal ('ef410ClaimDT','ddMMyyyy','arrow')" style="cursor:pointer"/>
+		</div>
+	</div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left" title="Update Evenflow Dates"><input style="width:120px" type="button" class="button" onClick="updateEFDTClick('updateEFDTSubmit')" value="Update" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="updateEFDTClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function updateEFDTClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var uE = document.getElementById("updateEFDT");
+		uE.style.display = "none";
+		uE.style.left = "0px";
+		uE.style.top = "0px";
+	} else { 
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "workQueues";
+		f1.submit();
+	}
+}
+	
+-->
+</script>

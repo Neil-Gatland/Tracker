@@ -1,0 +1,66 @@
+<div id="emailTest" class="filter" style="width:540px;">
+	<div class="closeX" title="close" onClick="emailTestClick('cancel')">X</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Email Test</h2></div>
+	<div style="width:520px;margin:0 auto;">
+		<div>Sender</div>
+		<div style="float:left"><input id="sender" name="sender" style="width:520px" type="text" class="text"/></div>
+	</div> 
+	<div style="width:520px;margin:0 auto;">
+		<div>Recipient(s)</div>
+		<div style="float:left"><input id="recipient" name="recipient" style="width:520px" type="text" class="text"/></div>
+	</div> 
+	<div style="width:520px;margin:0 auto;">
+		<div>Subject</div>
+		<div style="float:left"><input id="subject" name="subject" style="width:520px" type="text" class="text"/></div>
+	</div>
+	<div style="width:520px;margin:0 auto;">
+		<div>Message Body</div>
+		<div style="padding-bottom:10px"><textarea id="messageBody" name="messageBody" style="width:520px;height:100px"></textarea></div>
+	</div>
+	<div style="width:520px;margin:0 auto;">
+		<div>Include word attachment?</div>
+		<div style="float:left"><input id="includeWordDoc" name="includeWordDoc" style="width:520px" type="text" value="No" class="text" readonly></div>
+		<div>&nbsp;</div>
+	</div>
+	<div style="width:520px;margin:0 auto;">
+		<div style="float:left"><input style="width:250px" type="button" class="button" onClick="emailTestClick('emailTestSubmit')" value="Submit" /></div>
+		<div style="float:left"><input style="width:250px" type="button" class="button" onClick="emailTestClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function emailTestClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var aR = document.getElementById("emailTest");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else {
+		var sender = document.getElementById("sender").value;
+		//alert(sender);
+		var recipient = document.getElementById("recipient").value;
+		//alert(recipient);
+		var subject = document.getElementById("subject").value;
+		//alert(subject);
+		var messageBody = document.getElementById("messageBody").value;
+		//alert(messageBody);
+		if (sender=="") {
+			alert("No sender supplied");
+		} else if (recipient=="") {
+			alert("No recipient supplied");
+		} else if (subject=="") {
+			alert("No subject supplied");
+		} else if (messageBody=="") {
+			alert("No message body supplied");
+		} else {
+			var aR = document.getElementById("emailTest");
+			aR.style.display = "none";
+			document.getElementById("buttonPressed").value = operation;
+			document.getElementById("f1").action = "homeBO";
+			f1.submit();
+		}		
+	}
+}	
+-->
+</script>

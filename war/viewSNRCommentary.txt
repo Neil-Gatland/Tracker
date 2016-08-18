@@ -1,0 +1,89 @@
+<%
+String commentarySite = (String)request.getAttribute("commentarySite");
+String addComDisplay = commentarySite!=null||thisU.hasOnlyReadUserRoles()?";display:none":"";
+%>
+<div id="snrC" style="position:absolute;top:0px;left:0px;display:none">
+<div style="
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden;">
+<table style="width: 1250px; height: 20px;"
+>
+<colgroup>
+<col width="100px"/>
+<col width="100px"/>
+<col width="175px"/>
+<col width="500px"/>
+<col width="125px"/>
+<col width="250px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th>Date</th>
+		<th>Type</th>
+		<th>Commentary Text</th>
+		<th class="thT"><%=vcTitle%></th>
+		<th>&nbsp;</th>
+		<th id="hComLUB">Last Updated By</th>
+</tr>
+</tbody>
+</table>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto"
+>
+<table style="width: 1250px;"
+>
+<colgroup>
+<col width="100px"/>
+<col width="100px"/>
+<col width="800px"/>
+<col width="250px"/>
+</colgroup>
+<tbody>
+<!--tr><td colspan="5" style="height:417px" class="grid2">&nbsp;</td></tr-->
+<%=commentarySite==null?(snrId==-1?"":uB.getSNRCommentaryListHTML(snrId)):uB.getSiteCommentaryListHTML(commentarySite) %>
+</tbody>
+</table>
+</div>
+<div class="menu2" style="height:2px"></div>
+<div id="tC">
+<div style="float:left;width:2px" class="menu2">&nbsp;</div>
+<div id="action" style="float:left" class="menu2">Action:</div>
+<div style="float:right;width:2px" class="menu2">&nbsp;</div>
+<div id="closeC" onClick="hideViewCommentary()" onMouseOut="invertClass('closeC')" onMouseOver="invertClass('closeC')" style="float:right" class="menu2Item">Return</div>
+<div id="addComV" onClick="tbClick('addComV')" onMouseOut="invertClass('addComV')" onMouseOver="invertClass('addComV')" style="float:right<%=addComDisplay%>" class="menu2Item">Add Commentary</div>
+<div id="tCAnchor" class="menu2">&nbsp;</div>
+</div>
+<div class="menu2" style="height:2px"></div>
+</div>
+</div>
+<script language="javascript">
+<!--
+function showViewCommentary() {
+	var header = document.getElementById("hAnchor");
+	var position = getPosition(header);
+	var snrBC = document.getElementById("snrBC");
+	snrBC.style.display = "inline";
+	snrBC.style.left = position.x + "px";
+	snrBC.style.top = position.y + "px";
+	snrBC.style.zIndex = "70";
+	var snrC = document.getElementById("snrC");
+	snrC.style.display = "inline";
+	snrC.style.left = position.x + "px";
+	snrC.style.top = position.y + "px";
+	snrC.style.zIndex = "80";
+}
+
+function hideViewCommentary() {
+	var snrBC = document.getElementById("snrBC");
+	snrBC.style.display = "none";
+	snrBC.style.left = "0px";
+	snrBC.style.top = "0px";
+	snrBC.style.zIndex = "-1";
+	var snrC = document.getElementById("snrC");
+	snrC.style.display = "none";
+	snrC.style.left = "0px";
+	snrC.style.top = "0px";
+	snrC.style.zIndex = "-1";
+}
+-->
+</script>
+<!-- commentary mask -->
+<%@ include file="viewSNRCommentaryBlank.jsp" %>

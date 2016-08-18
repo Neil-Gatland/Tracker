@@ -1,0 +1,118 @@
+<div id="snrB2" style="position:absolute;top:0px;left:0px;display:none">
+<div style="
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden;">
+<table style="width: 1250px; height: 20px;">
+<colgroup>
+<col width="200px"/>
+<col width="260px"/>
+<col width="200px"/>
+<col width="200px"/>
+<col width="50px"/>
+<col width="50px"/>
+<col width="50px"/>
+<col width="50px"/>
+<col width="150px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th id="hAnchor">Site</th>
+		<th>NR Id</th>
+		<th>NR Status</th>
+		<th>Implementation Status</th>
+		<th title="Previous partial or aborted implementation">P</th>
+		<th title="Commentary Count">CC</th>
+		<th title="Next PreCheck">NPC</th>
+		<th title="HOP Created">H</th>
+		<th>Scheduled Date</th>
+		<th>&nbsp;</th>
+</tr>
+</tbody>
+</table>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:<%=reallocType.equals("schedM")||buttonPressed.equals("resched")?"24":"20"%>px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px;">
+<colgroup>
+<col width="200px"/>
+<col width="260px"/>
+<col width="200px"/>
+<col width="200px"/>
+<col width="50px"/>
+<col width="50px"/>
+<col width="50px"/>
+<col width="50px"/>
+<col width="150px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<%=snrId==-1?"":uB.getSelectedSNRSummaryHTML(snrId, reallocType.equals("schedM")||buttonPressed.equals("realloc"), false, scheduledDT)%>
+</tbody>
+</table>
+</div>
+<%if (reallocType.equals("schedM")) {%>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:20px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px; height: 20px;">
+<colgroup>
+<col width="600px"/>
+<col width="600px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th>Workflow Name</th>
+		<th>Schedule Commentary</th>
+		<th>&nbsp;</th>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:24px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px; height: 24px;">
+<colgroup>
+<col width="600px"/>
+<col width="600px"/>
+<col width="50px"/>
+</colgroup>
+<tbody>
+<tr>
+		<td class="grid2"><%=uB.getSelectHTML("WorkflowName", "select", "filter", workflowName) %></td>
+		<td class="grid2"><input style="width:98%" type="text" id="scheduleCommentary" name="scheduleCommentary" value="<%=scheduleCommentary%>"></td>
+		<td class="grid2">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<%}%>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:20px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px; height: 20px;">
+<colgroup>
+<col width="1250px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th id="hAnchorB2">&nbsp;</th>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:<%=reallocType.equals("schedM")?"332":"380"%>px;overflow-x:hidden;overflow-y:auto"
+>
+<table style="width: 1250px;"
+>
+<colgroup>
+<col width="1250px"/>
+</colgroup>
+<tbody>
+<tr><td style="height:<%=reallocType.equals("schedM")?"329":"377"%>px" class="grid2">&nbsp;</td></tr>
+</tbody>
+</table>
+</div>
+<div class="menu2" style="height:2px"></div>
+<div id="tB" class="menu2">&nbsp;</div>
+<div class="menu2" style="height:2px"></div>
+</div>
+</div>
+

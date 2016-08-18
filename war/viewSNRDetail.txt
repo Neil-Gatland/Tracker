@@ -1,0 +1,47 @@
+<div id="snrD" style="position:absolute;top:0px;left:0px;display:none">
+<div style="
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden;">
+<table style="width: 1250px; height: 20px;"
+>
+<colgroup>
+<col width="20px"/>
+<col width="1210px"/>
+<col width="20px"/>
+</colgroup>
+<tbody>
+<tr>
+		<th>&nbsp;</th>
+		<th style="text-align:center">NR Detail</th>
+		<th>&nbsp;</th>
+		<!--th style="margin-top:-10px;">x</th-->
+</tr>
+</tbody>
+</table>
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto;"
+>
+<table style="width: 1250px;"
+>
+<colgroup>
+<col width="200px"/>
+<col width="420px"/>
+<col width="200px"/>
+<col width="130px"/>
+<col width="170px"/>
+<col width="130px"/>
+</colgroup>
+<tbody>
+<%=snrId==-1?"":uB.getSNRDetailHTML(snrId, historyInd, historyDT) %>
+</tbody>
+</table>
+</div>
+<div class="menu2" style="height:2px"></div>
+<div id="tD">
+<div style="float:left;width:2px" class="menu2">&nbsp;</div>
+<div id="action" style="float:left" class="menu2">Action:</div>
+<div style="float:right;width:2px" class="menu2">&nbsp;</div>
+<div id="closeD" onClick="tbClick('closeD')" onMouseOut="invertClass('closeD')" onMouseOver="invertClass('closeD')" style="float:right" class="menu2Item">Return</div>
+<div id="tDAnchor" class="menu2">&nbsp;</div>
+</div>
+<div class="menu2" style="height:2px"></div>
+</div>
+</div>

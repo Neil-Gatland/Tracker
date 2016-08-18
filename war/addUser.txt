@@ -1,0 +1,66 @@
+<div id="addUser" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="addUserClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Add User</h2></div>
+	<div>Type</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("UserType", "select", "filter", selectUserType) %></div>
+	<div>First Name</div>
+	<div style="padding-bottom:10px"><input style="width:96%" type="text" id="userFirstName" name="userFirstName" value="<%=userFirstName%>"></div>
+	<div>Surname</div>
+	<div style="padding-bottom:10px"><input style="width:98%" type="text" id="userSurname" name="userSurname" value="<%=userSurname%>"></div>
+	<%String[] tpParameters = {"Y"};%>	
+	<div>Third Party</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("ThirdParty", "select", "filter", selectThirdParty, tpParameters) %></div>
+	<div>Customer(s)</div>
+	<div style="padding-bottom:10px"><%=uB.getMultiSelectHTML("CustomerId", "select", "filter", selectCustomerId) %></div>
+	<div>Email</div>
+	<div style="padding-bottom:10px"><input style="width:98%" type="text" id="newEmail" name="newEmail" "></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left" title="Add new user"><input style="width:120px" type="button" class="button" onClick="addUserClick('addUserSubmit')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addUserClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function addUserClick(operation) {
+	if (operation == "cancel") {
+		var aUS = document.getElementById("addUser");
+		aUS.style.display = "none";
+		aUS.style.left = "0px";
+		aUS.style.top = "0px";
+	} else {
+		var selectUT = document.getElementById("selectUserType");
+		var firstName = document.getElementById("userFirstName").value;
+		var surname = document.getElementById("userSurname").value;
+		var selectTP = document.getElementById("selectThirdParty");
+		var selectCust = document.getElementById("selectCustomerId");
+		var options = selectCust.options;
+		var selectCount = 0;
+		for (var i=1; i < options.length; i++) {
+		  if (options[i].selected) selectCount++;
+		}
+		if (isWhitespaceOrEmpty(firstName)) {
+			alert("User first name cannot be blank");
+		} else if (isWhitespaceOrEmpty(surname)) {
+			alert("User surname cannot be blank");
+		} else if (isWhitespaceOrEmpty(surname)) {
+			alert("User surname cannot be blank");
+		} else if ((selectUT.options[selectUT.selectedIndex].value == "Devoteam") && (selectCount > 0))  {
+			alert("Do not select customers if user type is 'Devoteam'");
+		} else if ((selectUT.options[selectUT.selectedIndex].value != "Devoteam") && (selectCount == 0))  {
+			alert("Please select one customer if user type is 'Customer' and at least one if user type is 'Third Party'");
+		} else if ((selectUT.options[selectUT.selectedIndex].value == "Customer") && (selectCount > 1))  {
+			alert("Please select one customer only if user type is 'Customer'");
+		} else if ((selectUT.options[selectUT.selectedIndex].value == "Third Party") && (selectTP.selectedIndex < 1))  {
+			alert("Please select a third party if user type is 'Third Party'");
+		} else if ((selectUT.options[selectUT.selectedIndex].value != "Third Party") && (selectTP.selectedIndex > 0))  {
+			alert("Please do not select a third party if user type is not 'Third Party'");
+		} else {
+			document.getElementById("buttonPressed").value = operation;
+			document.getElementById("f1").action = "userAdministration";
+			document.getElementById("f1").submit();
+		}
+	}
+}
+-->
+</script>
+

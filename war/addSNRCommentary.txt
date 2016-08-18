@@ -1,0 +1,103 @@
+<%String[] preCheckParameters = {Long.toString(snrId)}; %>
+<div id="addCommentary" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="addCommentaryClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Add Commentary</h2></div>
+	<div>Type</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("SNRCommentaryType", "select", "filter", snrCommentaryType, disableSNRCommentaryType) %></div>
+	<!--div>Pre-Check Id</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("PreCheckId", "select", "filter", String.valueOf(preCheckId), preCheckParameters) %></div-->
+	<div>Text</div>
+	<div style="padding-bottom:10px"><textarea id="snrCommentaryText" name="snrCommentaryText" style="width:264px;height:100px"></textarea></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addCommentaryClick('addCommentarySubmit')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addCommentaryClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<input type="hidden" name="extraScreen" id="extraScreen" value=""/>
+<script language="javascript">
+<!--
+function strStartsWith(str, prefix) {
+    return str.indexOf(prefix) === 0;
+}
+
+function addCommentaryClick(operation) {
+	if (operation.substring(0, 6) == "cancel") {
+		var buttonPressed = document.getElementById("buttonPressed").value;
+		//alert("buttonPressed:"+buttonPressed);	
+		//if (buttonPressed == "addCom") {
+		if ((buttonPressed != "addComP") && (strStartsWith(buttonPressed, "addCom"))) {
+			//alert("buttonPressed:"+buttonPressed);	
+			var snrB = document.getElementById("snrBC");
+			snrB.style.display = "none";
+			snrB.style.left = "0px";
+			snrB.style.top = "0px";
+			var snrC = document.getElementById("snrC");
+			snrC.style.display = "none";
+			snrC.style.left = "0px";
+			snrC.style.top = "0px";
+		}
+		var aC = document.getElementById("addCommentary");
+		aC.style.display = "none";
+		aC.style.left = "0px";
+		aC.style.top = "0px";
+	} else {
+		var snrCT = document.getElementById("selectSNRCommentaryType");
+		//var preCheck = document.getElementById("selectPreCheckId");
+		var commentaryText = document.getElementById("snrCommentaryText");
+		if (snrCT.selectedIndex < 1) {
+			alert("Please select a commentary type");
+			showAddCommentary();
+			return;
+		}
+		/*if (snrCT[snrCT.selectedIndex].value == "PreCheck") {
+			if (preCheck[preCheck.selectedIndex].value == "-1") {
+				alert("Pre-Check Id must be specified if Commentary Type is 'PreCheck'");
+				showAddCommentary();
+				return;
+			}
+		} else {
+			if (preCheck[preCheck.selectedIndex].value != "-1") {
+				alert("Pre-Check Id should not be specified if Commentary Type is not 'PreCheck'");
+				showAddCommentary();
+				return;
+			}
+		}*/
+		if (isWhitespaceOrEmpty(commentaryText.value)) {
+			alert("Commentary Text cannot be blank");
+			showAddCommentary();
+			return;
+		}
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "<%=action%>";
+		document.getElementById("f1").submit();
+	}
+}
+
+function showAddCommentary(extraScreen) {
+	if (extraScreen != null) {
+		document.getElementById("extraScreen").value = extraScreen;
+	}
+	var header = document.getElementById("hAnchor");
+	var position = getPosition(header);
+	var snrB = document.getElementById("snrBC");
+	snrBC.style.display = "inline";
+	snrBC.style.left = position.x + "px";
+	snrBC.style.top = position.y + "px";
+	snrBC.style.zIndex = "70";
+	var snrC = document.getElementById("snrC");
+	snrC.style.display = "inline";
+	snrC.style.left = position.x + "px";
+	snrC.style.top = position.y + "px";
+	snrC.style.zIndex = "80";
+	header = document.getElementById("hComLUB");
+	position = getPosition(header);
+	var aC = document.getElementById("addCommentary");
+	aC.style.display = "inline";
+	aC.style.left = (position.x-41) + "px";
+	aC.style.top = position.y + "px";
+	aC.style.zIndex = "90";
+}
+
+
+-->
+</script>

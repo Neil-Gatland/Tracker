@@ -1,0 +1,28 @@
+<div id="chgBOEngineer" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="chgBOEngineerClick('cancel')"></div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Change BO Engineer</h2></div>
+	<div style="padding-bottom:10px"><%=uB.getChangeBOListHTML(filterBOEngineer)%></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="chgBOEngineerClick('chgBOEngineerSubmit')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="chgBOEngineerClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function chgBOEngineerClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var aR = document.getElementById("chgBOEngineer");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else {
+		var aR = document.getElementById("chgBOEngineer");
+		aR.style.display = "none";
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "homeBO";
+		f1.submit();
+	}
+}	
+-->
+</script>
