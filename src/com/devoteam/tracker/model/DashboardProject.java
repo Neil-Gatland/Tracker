@@ -62,6 +62,8 @@ public class DashboardProject {
 	private int week2Scheduled;		//58
 	private int week3Scheduled;		//59
 	private int week4Scheduled;		//60
+	private int week5Scheduled;		//61
+	private int week6Scheduled;		//62
 	
 	public DashboardProject(
 			String project,
@@ -123,7 +125,9 @@ public class DashboardProject {
 			int week1Scheduled,
 			int week2Scheduled,
 			int week3Scheduled,
-			int week4Scheduled ) {
+			int week4Scheduled,
+			int week5Scheduled,
+			int week6Scheduled) {
 		this.project = project;
 		this.currentDay = currentDay;
 		this.scheduledWeek2 = scheduledWeek2;
@@ -184,6 +188,8 @@ public class DashboardProject {
 		this.week2Scheduled = week2Scheduled;
 		this.week3Scheduled = week3Scheduled;
 		this.week4Scheduled = week4Scheduled;
+		this.week5Scheduled = week5Scheduled;
+		this.week6Scheduled = week6Scheduled;
 	}
 	
 	public String getProject() {
@@ -524,6 +530,14 @@ public class DashboardProject {
 
 	public String getWeek4Scheduled() {
 		return String.valueOf(week4Scheduled);
+	}
+
+	public String getWeek5Scheduled() {
+		return String.valueOf(week5Scheduled);
+	}
+
+	public String getWeek6Scheduled() {
+		return String.valueOf(week6Scheduled);
 	}
 	
 }
