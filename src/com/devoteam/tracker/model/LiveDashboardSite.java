@@ -30,6 +30,7 @@ public class LiveDashboardSite {
 	private String devoteamIssue;			//26
 	private String customerIssue;			//27
 	private String percentage;				//28
+	private String scheduledDDMM;			//29
 	
 	public LiveDashboardSite(
 			String customer,
@@ -59,7 +60,8 @@ public class LiveDashboardSite {
 			String initialHOP,
 			String devoteamIssue,
 			String customerIssue,
-			String percentage) {
+			String percentage,
+			String scheduledDDMM ) {
 		this.customer = customer;
 		this.partner = partner;
 		this.project = project;
@@ -88,6 +90,7 @@ public class LiveDashboardSite {
 		this.devoteamIssue = devoteamIssue;
 		this.customerIssue = customerIssue;
 		this.percentage = percentage;
+		this.scheduledDDMM = scheduledDDMM;
 	}
 	
 	public String getCustomer() {
@@ -209,6 +212,10 @@ public class LiveDashboardSite {
 	
 	public String getPercentage() {
 		return percentage;
+	}
+	
+	public String getScheduledDDMM() {
+		return scheduledDDMM;
 	}
 
 }

@@ -1,0 +1,6 @@
+<div id="siteProgressStatusKey" class="displayPic" style="width:100px;">
+<div class="displayPicX" title="close" onClick="siteProgressStatusKeyClick('close')">X</div>
+<div style="margin: 0; padding: 0; border-collapse: collapse; width: 100px; border: none;">
+<img src="images/progress_legend.png" height="100%" width="100%"> 
+</div>
+</div>

@@ -72,6 +72,7 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.LIVE_DASHBOARD)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.LIVE_DASHBOARD);
 				destination = "/liveDashboard.jsp";
+				req.setAttribute("hideProject", req.getParameter("hideProject"));
 			} else if (toScreen.equals(ServletConstants.EXPANDED)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
 				destination = "/workQueues.jsp";

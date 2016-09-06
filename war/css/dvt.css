@@ -62,8 +62,7 @@ td.dashHeadTitle {
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:left;
-	border: 2px solid;
-	border-color: #F8485E;
+	border: none;
 	font-size:medium;
 	font-weight:bold;
 }
@@ -222,7 +221,7 @@ td.dashColHeadCenterDBot {
 	border-left: black 0.5px solid;
 	border-right: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-bottom: black 2.0px dashed;
+	border-bottom: black 0.5px dashed;
 	background-color:#F8485E;
 	color:#FFFFFF;
 	text-align:center;
@@ -234,7 +233,7 @@ td.dashColHeadCenterDTop {
 	padding:0;
 	border-left: black 0.5px solid;
 	border-right: white 0.5px solid;
-	border-top: black 2.0px dashed;
+	border-top: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	background-color:#F8485E;
 	color:#FFFFFF;
@@ -293,7 +292,7 @@ td.dashCellDBot {
 	padding:0;	
 	border-left: none;
 	border-right: none;
-	border-bottom: black 2.0px dashed;
+	border-bottom: black 0.5px dashed;
 	border-top: none;
 	background-color:#FFFFFF;
 	color:#000000;
@@ -306,7 +305,7 @@ td.dashCellDBotRight {
 	padding:0;	
 	border-left: none;
 	border-right: black 0.5px solid;
-	border-bottom: black 2.0px dashed;
+	border-bottom: black 0.5px dashed;
 	border-top: none;
 	background-color:#FFFFFF;
 	color:#000000;
@@ -320,7 +319,7 @@ td.dashCellDTop {
 	border-left: none;
 	border-right: none;
 	border-bottom: none;
-	border-top: black 2.0px dashed;
+	border-top: black 0.5px dashed;
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
@@ -333,7 +332,7 @@ td.dashCellDTopFill {
 	border-left: none;
 	border-right: none;
 	border-bottom: none;
-	border-top: black 2.0px dashed;
+	border-top: black 0.5px dashed;
 	background-color:#E3C500;
 	color:#000000;
 	text-align:center;
@@ -346,7 +345,7 @@ td.dashCellDTopRight {
 	border-left: none;
 	border-right: black 0.5px solid;
 	border-bottom: none;
-	border-top: black 2.0px dashed;
+	border-top: black 0.5px dashed;
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
@@ -359,7 +358,7 @@ td.dashCellDTopRightFill {
 	border-left: none;
 	border-right: black 0.5px solid;
 	border-bottom: none;
-	border-top: black 2.0px dashed;
+	border-top: black 0.5px dashed;
 	background-color:#E3C500;
 	color:#000000;
 	text-align:center;
@@ -451,8 +450,7 @@ td.ldTitle {
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:left;
-	border: 2px solid;
-	border-color: #F8485E;
+	border: none;
 	font-size:medium;
 	font-weight:bold;
 }
@@ -497,17 +495,43 @@ td.ldHeadLeftDash {
 	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:#F8485E;
 	color:#FFFFFF;
 	text-align:center;
 	font-size:x-small;
 	font-weight: bold;
 }
+td.ldHeadLeftDash {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: black 0.5px dashed;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:x-small;
+	font-weight: bold;
+}
+td.ldHeadLeftDashStress {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: black 0.5px dashed;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:small;
+	font-weight: bold;
+}
 td.ldHeadRightDash {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -517,13 +541,52 @@ td.ldHeadRightDash {
 	font-size:x-small;
 	font-weight: bold;
 }
+td.ldHeadRightDashStress {
+	margin:0; 
+	padding:0;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:small;
+	font-weight: bold;
+}
+td.ldHeadBothDash {
+	margin:0; 
+	padding:0;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: black 0.5px dashed;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:x-small;
+	font-weight: bold;
+}
+td.ldHeadBothDashStress {
+	margin:0; 
+	padding:0;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: black 0.5px dashed;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:small;
+	font-weight: bold;
+}
 td.ldHeadBlue {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:#0090FF;
 	color:#FFFFFF;
 	text-align:center;
@@ -533,10 +596,10 @@ td.ldHeadBlue {
 td.ldHeadOrange {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:orange;
 	color:#FFFFFF;
 	text-align:center;
@@ -546,10 +609,10 @@ td.ldHeadOrange {
 td.ldHeadGreen {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:green;
 	color:#FFFFFF;
 	text-align:center;
@@ -559,10 +622,10 @@ td.ldHeadGreen {
 td.ldHeadRed {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:red;
 	color:#FFFFFF;
 	text-align:center;
@@ -581,10 +644,22 @@ td.ldGrid1 {
 	text-align:center;
 	font-size:x-small;	
 }
+td.ldGrid1Black {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#F3F5D7;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;	
+}
 td.ldGrid1RDashBlack {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -596,7 +671,7 @@ td.ldGrid1RDashBlack {
 td.ldGrid1RDashBlackBold {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -606,10 +681,23 @@ td.ldGrid1RDashBlackBold {
 	font-size:x-small;
 	font-weight:bold;	
 }
-td.ldGrid1RDashRed {
+td.ldGrid1BlackBold {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#F3F5D7;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;
+	font-weight:bold;	
+}
+td.ldGrid1Red {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -618,10 +706,22 @@ td.ldGrid1RDashRed {
 	text-align:center;
 	font-size:x-small;	
 }
-td.ldGrid1RDashOrange {
+td.ldGrid1RDashRed {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#F3F5D7;
+	color:red;
+	text-align:center;
+	font-size:x-small;	
+}
+td.ldGrid1Orange {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -630,10 +730,34 @@ td.ldGrid1RDashOrange {
 	text-align:center;
 	font-size:x-small;	
 }
+td.ldGrid1RDashOrange {
+	margin:0; 
+	padding:0;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#F3F5D7;
+	color:orange;
+	text-align:center;
+	font-size:x-small;	
+}
+td.ldGrid1Green {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#F3F5D7;
+	color:green;
+	text-align:center;
+	font-size:x-small;
+}
 td.ldGrid1RDashGreen {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -654,10 +778,22 @@ td.ldGrid2 {
 	text-align:center;
 	font-size:x-small;	
 }
+td.ldGrid2Black {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#FFFFFF;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;	
+}
 td.ldGrid2RDashBlack {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -669,7 +805,20 @@ td.ldGrid2RDashBlack {
 td.ldGrid2RDashBlackBold {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#FFFFFF;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;
+	font-weight:bold;	
+}
+td.ldGrid2BlackBold {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -682,7 +831,7 @@ td.ldGrid2RDashBlackBold {
 td.ldGrid2RDashRed {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -691,10 +840,22 @@ td.ldGrid2RDashRed {
 	text-align:center;
 	font-size:x-small;	
 }
-td.ldGrid2RDashOrange {
+td.ldGrid2Red {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#FFFFFF;
+	color:red;
+	text-align:center;
+	font-size:x-small;	
+}
+td.ldGrid2Orange {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -703,10 +864,34 @@ td.ldGrid2RDashOrange {
 	text-align:center;
 	font-size:x-small;	
 }
+td.ldGrid2RDashOrange {
+	margin:0; 
+	padding:0;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#FFFFFF;
+	color:orange;
+	text-align:center;
+	font-size:x-small;	
+}
+td.ldGrid2Green {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:#FFFFFF;
+	color:green;
+	text-align:center;
+	font-size:x-small;
+}
 td.ldGrid2RDashGreen {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -733,7 +918,7 @@ td.ldWhiteLDash {
 	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
@@ -742,7 +927,7 @@ td.ldWhiteLDash {
 td.ldWhiteRDash {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -769,7 +954,7 @@ td.ldGreenLDash {
 	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color: #B8E08C;
 	color:#000000;
 	text-align:center;
@@ -778,7 +963,7 @@ td.ldGreenLDash {
 td.ldGreenRDash {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -805,7 +990,7 @@ td.ldAmberLDash {
 	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color: #FFDE75;
 	color:#000000;
 	text-align:center;
@@ -814,7 +999,7 @@ td.ldAmberLDash {
 td.ldAmberRDash {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -841,7 +1026,7 @@ td.ldRedLDash {
 	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:red;
 	color:#000000;
 	text-align:center;
@@ -850,7 +1035,7 @@ td.ldRedLDash {
 td.ldRedRDash {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -877,7 +1062,7 @@ td.ldGrayLDash {
 	border-right: white 0.5px solid;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
-	border-left: black 2.0px dashed;
+	border-left: black 0.5px dashed;
 	background-color:gray;
 	color:#000000;
 	text-align:center;
@@ -886,7 +1071,7 @@ td.ldGrayLDash {
 td.ldGrayRDash {
 	margin:0; 
 	padding:0;
-	border-right: black 2.0px dashed;
+	border-right: black 0.5px dashed;
 	border-bottom: white 0.5px solid;
 	border-top: white 0.5px solid;
 	border-left: white 0.5px solid;
@@ -1226,6 +1411,26 @@ div.filterAlt {
 	top:0px;
 	left:0px;
 	display:none
+}
+div.displayPic {
+	background-color:#FFFFF;
+	color:#000000;
+	border:none;
+	padding:10px;
+	position:absolute;
+	top:0px;
+	left:0px;
+	display:none
+}
+div.displayPicX {
+	cursor:pointer;
+	height:12px;
+	border:black 1px solid;
+	margin-top:-10px;
+	margin-right:-5px;
+	float:right;
+	font-size:x-small;
+	font-weight:bold;
 }
 div.closeX {
 	cursor:pointer;
