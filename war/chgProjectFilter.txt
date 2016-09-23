@@ -1,0 +1,28 @@
+<div id="chgProjectFilter" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="chgProjectFilterClick('cancel')"></div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Change Project Filter</h2></div>
+	<div style="padding-bottom:10px"><%=uB.getProjectFilterHTML()%></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="chgProjectFilterClick('submit')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="chgProjectFilterClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function chgProjectFilterClick(operation) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("chgProjectFilter");
+		aR.style.display = "none";
+	if (operation == "cancel") {
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else {		
+		document.getElementById("selectedAction").value = "chgFilter";	
+		document.getElementById("selectedFilter").value = document.getElementById("selectProjectFilter").value;
+		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
+		document.getElementById("f1").action = "liveDashboard";
+		f1.submit();
+	}
+}	
+-->
+</script>
