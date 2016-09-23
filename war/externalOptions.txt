@@ -1,0 +1,50 @@
+<div id="externalOptions" class="displayPic" style="width:25%">
+	<div style="width:100px;margin:0 auto; float: right;">
+		<div style="float:left" title="Press to log off the Tracker">
+			<input style="width:100px" type="button" class="displayPicButton" 
+				onClick="externalOptionsClick('logOff')" value="Log Off" /></div>
+		<div style="float:left" title="Press to change your password">
+			<input style="width:100px" type="button" class="displayPicButton" 
+				onClick="externalOptionsClick('chgPwd')" value="Change Password" /></div>
+		<div style="float:left" title="Press if no options required">
+			<input style="width:100px" type="button" class="displayPicButton" 
+				onClick="externalOptionsClick('cancel')" value="Cancel" /></div>
+	</div>		
+	<!-- <div>&nbsp;</div>	
+	<div>&nbsp;</div> -->
+</div>
+<script language="javascript">
+<!--
+function externalOptionsClick(operation) {
+	var aR = document.getElementById("externalOptions");
+	if (operation == "cancel") {
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else if (operation == "open" ) {	
+		var header = document.getElementById("hAnchor");
+		var position = getPosition(header);
+		if (aR.style.display == "inline") {	
+			aR.style.display = "none";
+			aR.style.left = "0px";
+			aR.style.top = "0px";
+		} else {
+			aR.style.display = "inline";
+			aR.style.left = position.x + "px";
+			aR.style.top = position.y + "px";
+			aR.style.zIndex = "10";
+		}
+	} else if (operation == "logOff" ) {	
+		document.getElementById("toScreen").value = '<%=ServletConstants.LOG_OFF%>';
+		document.getElementById("f1").action = "navigation";
+		document.getElementById("f1").submit();	
+	} else if (operation == "chgPwd" ) {
+		document.getElementById("toScreen").value = '<%=ServletConstants.CHANGE_PASSWORD%>';
+		document.getElementById("f1").action = "navigation";
+		document.getElementById("f1").submit();
+	} 
+
+}
+-->
+</script>
+
