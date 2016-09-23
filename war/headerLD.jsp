@@ -97,8 +97,8 @@
 <input type="hidden" name="toScreen" id="toScreen" value=""/>
 <div style="float:left;width:30%"><img src="images/dvt_only.png" height="15%" width="15%"><img src="images/client_access.png" height="15%" width="15%"></div>
 <div style="float:right;width:30%">&nbsp;</div>
-<div style="text-align:center;overflow:hidden"><h1><%=displayScreen%></h1></div>
-<div style="clear:both;text-align:center;font-weight:bold;" class="<%=messageClass%>"><%=message%></div>
+<div style="text-align:center;overflow:hidden;color:#53565A;"><h1><%=displayScreen%></h1></div>
+<!--  <div style="clear:both;text-align:center;font-weight:bold;" class="<%=messageClass%>"><%=message%></div> -->
 <div class="menu1" style="height:2px"></div>
 <%=uB.getMenu1()%>
 <div class="menu1" style="clear:both;height:2px"></div>

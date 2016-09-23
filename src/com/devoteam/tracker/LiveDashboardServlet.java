@@ -29,20 +29,20 @@ public class LiveDashboardServlet extends HttpServlet {
 		if (session == null) {
 			destination = "/logon.jsp";
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
 			session.setAttribute("prevScreen", "liveDashboard");
 		}
 		String selectedAction = req.getParameter("selectedAction");
 		User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 		String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+		String message = "", ok = "";
 		if ((selectedAction.equals("show")) || (selectedAction.equals("hide"))) {				
 			String hideProject = "N";
 			if ((selectedAction.equals("hide"))) {
 				hideProject="Y";
 			}
 			session.setAttribute("hideProject",hideProject);
-			String message = "", ok = "";
 			String display = "inline";
 	    	Connection conn = null;
 	    	CallableStatement cstmt = null;
@@ -75,7 +75,41 @@ public class LiveDashboardServlet extends HttpServlet {
 			    	ex.printStackTrace();
 			    }
 		    } 
-		}	     
+		}	
+		if (selectedAction.equals("chgFilter")) {
+			String selectedFilter = req.getParameter("selectedFilter");
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+	    	try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call UpdateProjectFilter(?,?)}");
+		    	cstmt.setString(1, thisU.getFullname());
+		    	cstmt.setString(2, selectedFilter);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						ok = rs.getString(1);
+						if (ok.equals("N")) {
+							message = message+"Failed to set selected project filter in UpdateProjectFilter()";
+						}
+					}
+				} else {
+					message= message+"not found";
+				}
+		    } catch (Exception ex) {
+		    	message = message+"Error in UpdateProjectFilter(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	session.setAttribute("userMessage", message );
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		}
 		if ((selectedAction.equals("rewind")) || (selectedAction.equals("go"))) {
 			UtilBean uB = new UtilBean(thisU, destination.substring(1), url);
 			if (selectedAction.equals("rewind")) {

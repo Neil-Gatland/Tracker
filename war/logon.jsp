@@ -18,18 +18,105 @@ session.removeAttribute("userMessage");
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Devoteam Tracker</title>
 <link rel="stylesheet" href="css/dvt.css" type="text/css">
+<script language="javascript">
+
+function resetPwd(action) {
+	var userEmail = document.getElementById("email").value;
+	if (userEmail=="") {
+		alert("Please enter email address before asking for password reset");
+	} else {
+		if (confirm("Confirm request for password reset via email. This action cannot be be undone")) {
+			document.getElementById("action").value = "resetPwd";
+			document.getElementById("f1").action = "/logon";
+			document.getElementById("f1").submit();
+		}
+	}	
+}
+
+</script>
 </head>
-<body>
-<form action="/logon" method="post">
-	<div><img src="images/dvt.jpg" height="25%" width="25%"></div>
-	<div class="menu1" style="text-align:center">Welcome to the Devoteam Tracker Application</div>
-	<div class="menu2" style="text-align:center"><%=message%></div>
-	<div>
-	    <div style="float:left;width:50%;text-align:right;margin:10px">User Id:</div><div style="float:left;margin:10px"><input class="text" type="text" name="userId"></input></div>
-	    <div style="clear:both;height:0px">&nbsp;</div><!-- just to make it work in IE! -->
-	    <div style="float:left;width:50%;text-align:right;margin:10px">Password:</div><div style="float:left;margin:10px"><input class="text" type="password" name="password"></input></div>
-	    <div style="clear:both;text-align:center"><input class="button" type="submit" value="Logon" /></div>
-    </div>
+<body bgcolor="#F0F0F0">
+<form id="f1" action="/logon" method="post">
+<input type="hidden" name="action" id="action" value=""/>
+
+<div>
+	<table style="width: 100%; table-layout: fixed; align: left;">
+	<colgroup>
+		<col width="40%"/>
+		<col width="30%"/>	
+		<col width="40%x"/>	
+	</colgroup>
+	<tbody>
+		<tr>
+			<td rowspan="2">				
+				<a href="http://www.devoteam.co.uk/" target="_blank">
+				<img src="images/dev_logo_rvb.png" height="50%" width="50%"></a>
+				</td>
+			<td class="lTitle1" align="left" valign="bottom">SMART</td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="lTitle2" align="left" valign="top">Part of the innovation engine</td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle2">&nbsp;<td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle3" align="left">Login</td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle4" align="left">Email Address</td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle4" align="left"><input class="lText" type="text" id="email" name="email"></input></td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle4" align="left">Password</td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle4" align="left"><input class="lText" type="password" name="password"></input></td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle4" align="left"><input class="LButton" type="submit" value="Log In" /></td>
+			<td >&nbsp;</td>
+		</tr>		
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle5" align="left" onClick="resetPwd()" title="Click to get new password">
+				Forgotten your password?</td>
+			<td >&nbsp;</td>
+		</tr>		
+		<tr>
+			<td>&nbsp;</td>
+			<td class="lTitle6" align="right" valign="center">
+				<a href="http://www.devoteam.co.uk/" target="_blank">
+				Powered by the Application Development Team @
+				www.devoteam.co.uk</a>
+				</td>
+			<td >&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="lMessage" colspan="3" align="center"><%=message%><td>
+		</tr>
+	</table>
+</div>
 </form>
 
 </body>

@@ -57,7 +57,7 @@ public class ValidateScheduleServlet extends HttpServlet {
 		if (session == null) {
 			destination = "/logon.jsp";
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
 	    	String scheduleFileName = req.getParameter("scheduleFileName");
 	    	session.removeAttribute(ServletConstants.SCHEDULE_SPREADSHEET_NAME_IN_SESSION);

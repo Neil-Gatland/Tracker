@@ -33,7 +33,7 @@ public class PasswordChangeServlet extends HttpServlet {
 		if (session == null) {
 			destination = "/logon.jsp";
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
 			String fromScreen = (String)session.getAttribute("fromScreen");
 			//String fromScreen = req.getParameter("fromScreen");
@@ -92,7 +92,7 @@ public class PasswordChangeServlet extends HttpServlet {
 						        			"Old password is incorrect! Try again!");
 								} else if (ret == -2) {
 							        	req.setAttribute("userMessage", 
-							        			"New password must differ from previous 12 passwords! Try again!");
+							        			"New password must differ from previous passwords! Try again!");
 								} else if (ret == 0) {
 									//dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
 						        	session.setAttribute("userMessage", 

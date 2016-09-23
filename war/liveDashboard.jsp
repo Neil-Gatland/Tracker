@@ -9,6 +9,7 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 <input type="hidden" name="selectedAction" id="selectedAction" value=""/>
 <input type="hidden" name="selectedProject" id="selectedProject" value=""/>
 <input type="hidden" name="selectedHide" id="selectedHide" value="<%=hideProject%>"/>
+<input type="hidden" name="selectedFilter" id="selectedFilter" value=""/>
 <script language="javascript">;
 
 	var display ="<%=uB.getDisplayProject()%>";
@@ -28,8 +29,8 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 	function drawPieChart() {
 		var data = google.visualization.arrayToDataTable([<%=uB.getDashboardPieData()%>]);
       var options = {
-        title: 'Migration outcome over last year',
-        titleTextStyle: { fontSize: '10' },
+        title: 'Project 12 Month Overview',
+        titleTextStyle: { fontSize: '10', color: '#53565A' },
         is3D: true,
         pieSliceText: 'value',
         legend: 'none',
@@ -49,7 +50,7 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 		var data = google.visualization.arrayToDataTable([<%=uB.getDashboardLineData()%>]);
 		var options = {
         	title: 'Project Activity (last quarter, next month)',
-            titleTextStyle: { fontSize: '10' },
+            titleTextStyle: { fontSize: '10', color: '#53565A' },
           	curveType: 'none', 
 			legend: 'none',
 			colors: ['#0090FF','gray','green','orange','red','firebrick'],
@@ -95,10 +96,10 @@ function navigationAction(action) {
 	} else if (action=='show') {
 		visible = "yes";
 		document.getElementById("selectedAction").value = "show";
-		document.getElementById("top").style.display = "none";
-		document.getElementById("siteList").style.height = "384px";
-		//document.getElementById("top").style.display = "inline";
-		//document.getElementById("siteList").style.height = "164px";	
+		//document.getElementById("top").style.display = "none";
+		//document.getElementById("siteList").style.height = "384px";
+		document.getElementById("top").style.display = "inline";
+		document.getElementById("siteList").style.height = "164px";	
 		document.getElementById("selectedHide").value = "N";
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
 		document.getElementById("f1").action = "liveDashboard";
@@ -135,6 +136,22 @@ function siteProgressStatusKeyClick(action) {
 		aR.style.left = position.x + "px";
 		aR.style.top = position.y + "px";
 		aR.style.zIndex = "20";
+	}
+}
+
+function projectClick(action) {
+	var header = document.getElementById("h3Anchor");
+	var position = getPosition(header);
+	var aR = document.getElementById("chgProjectFilter");
+	if (action=='close') {
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else {
+		aR.style.display = "inline";
+		aR.style.left = position.x + "px";
+		aR.style.top = position.y + "px";
+		aR.style.zIndex = "30";
 	}
 }
 </script> 
@@ -217,7 +234,7 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 	</tr>
 	<tr>
 		<td class="ldTitle" colspan="6"><%=uB.GetLiveSitesHeading()%></td>
-		<td id="hAnchor" class="ldBlank" colspan="3">&nbsp;</td>		
+		<td id="hAnchor" class="ldBlank" colspan="3"></td>		
 		</td>			
 	</tr>
 	<tr>
@@ -226,7 +243,8 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 	<tr>
 		<td class="ldHead" rowspan="2">Customer</td>
 		<td class="ldHead" rowspan="2">Partner</td>
-		<td class="ldHead" rowspan="2">Project</td>
+		<td id="h3Anchor" class="ldHead" rowspan="2" 
+			onClick="projectClick('open')" title="<%=uB.GetLiveSitesFilter()%>">Project</td>
 		<td class="ldHead" rowspan="2">Site</td>
 		<td class="ldHead" rowspan="2">BO</td>
 		<td id="h2Anchor" class="ldHead" rowspan="2">FE</td>
@@ -285,7 +303,8 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 </tbody>
 </table>
 <div id="siteList" style="margin: 0; padding: 0; overflow-y: auto; overflow-x: hidden; 
-max-width: 100%; height: 164px;">
+max-width: 100%; height: <%=(uB.getDisplayProject().equals("none")?"384":"164")%>px;"/>
+<!--max-width: 100%; height: 164px"/>  -->
 <table style="width: 1250px; table-layout: fixed;">
 <colgroup>
 <col width="8%"/>
@@ -331,6 +350,7 @@ max-width: 100%; height: 164px;">
 <!-- includes -->
 <%@ include file="siteProgressItemsKey.txt" %>
 <%@ include file="siteProgressStatusKey.txt" %>
+<%@ include file="chgProjectFilter.txt" %>
 </form>
 </body>
 </html>

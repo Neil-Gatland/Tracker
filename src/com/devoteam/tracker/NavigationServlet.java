@@ -28,7 +28,7 @@ public class NavigationServlet extends HttpServlet {
 		String destination = "/logon.jsp";
 		if (session == null) {
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
 			User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 			String fromScreen = req.getParameter("fromScreen");
@@ -50,6 +50,9 @@ public class NavigationServlet extends HttpServlet {
 				req.setAttribute("userMessage", "Please enter old and new passwords.");
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CHANGE_PASSWORD);
 				destination = "/passwordChange.jsp";
+			} else if (toScreen.equals(ServletConstants.CUSTOMER_MENU)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CUSTOMER_MENU);
+				destination = "/customerMenu.jsp";
 			} else if (toScreen.equals(ServletConstants.HOME)) {
 				if (thisU.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CUSTOMER_MENU);

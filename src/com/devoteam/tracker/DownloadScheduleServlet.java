@@ -86,7 +86,7 @@ public class DownloadScheduleServlet extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		if (session == null) {
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 			//resp.sendRedirect("/logon.jsp"+ran);
   	      	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/logon.jsp"+ran);
   	      	dispatcher.forward(req,resp);

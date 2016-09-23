@@ -1,7 +1,5 @@
 package com.devoteam.tracker.util;
 
-import java.util.Properties;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -16,7 +14,52 @@ import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
+import com.devoteam.tracker.util.Sendgrid;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+
 public class Email {
+	
+	public String sendResetEmail
+			( 	String resetEmail,
+				String resetPassword,
+				String accountName,
+				String accountPassword,
+				String sender,
+				String endMessage) {
+		String result = "";
+		
+		// set SendGrid credentials
+		Sendgrid mail = new Sendgrid(accountName,accountPassword);
+
+		// set up email		
+		mail.setTo(resetEmail);
+		mail.setFrom(sender);
+		mail.setSubject("SMART - Password reset");
+		String html = 
+			"Your password has been reset<br><br>New password: <b>"+resetPassword+"</b><br><br>"+
+			"Use this password to log on, you will then be asked to change it immediately<br><br>"+
+			"<i>"+endMessage+"</i>";
+		mail.setHtml(html);
+		String text = 
+				"Your password has been reset<to new temporary password: "+resetPassword+". "+
+				"Use this password to log on, you will then be asked to change it immediately. "+
+				endMessage;
+		mail.setText(text);		
+		
+		// send email
+		try {			
+			mail.send();
+			result = "success";
+		}
+		catch (Exception e)
+		{
+			result = 
+				"Password reset error (please contact support and note the following message): "+
+			mail.getServerResponse();
+			e.printStackTrace();
+		}
+		return result;
+	}
 		
 	public String send 
 			(	String messageBody, 

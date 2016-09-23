@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -47,6 +48,8 @@ public class UtilBean {
 	private String url;
 	private String prevScreen;
 	private String message;
+	
+	private int imageChoice;
 	
 	public UtilBean() {}
 
@@ -382,9 +385,11 @@ public class UtilBean {
 			canSee = true;
 		} else {
 			if (user.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
-				canSee = screen.equals(ServletConstants.CUSTOMER_MENU) ||
+				/*canSee = screen.equals(ServletConstants.CUSTOMER_MENU) ||
 					screen.equals(ServletConstants.VIEW_SNR_HISTORY) ||
-					screen.equals(ServletConstants.REPORTING);
+					screen.equals(ServletConstants.REPORTING);*/
+				canSee = screen.equals(ServletConstants.CUSTOMER_MENU) ||
+					screen.equals(ServletConstants.LIVE_DASHBOARD);
 			} else /*if ((user.getUserType().equals(User.USER_TYPE_DEVOTEAM)) ||
 					(user.getUserType().equals(User.USER_TYPE_THIRD_PARTY)))*/ {
 				if (screen.equals(ServletConstants.WORK_QUEUES)) {
@@ -1618,6 +1623,15 @@ public class UtilBean {
 	public String getSelectHTMLWithInitialValue(String selectItem, String prefix, 
 			String selectClass, String selectedOption, String onClickOption) {
 		String[] thisArray = {selectedOption};
+		parameterArray = thisArray;
+		String selectHTML = getSelectHTML(selectItem, prefix, selectClass, selectedOption, onClickOption);
+		parameterArray = null;
+		return selectHTML;
+	}
+	
+	public String getSelectHTMLWithInitialValue(String selectItem, String prefix, 
+			String selectClass, String selectedOption, String onClickOption, String selectedOption2 ) {
+		String[] thisArray = {selectedOption, selectedOption2};
 		parameterArray = thisArray;
 		String selectHTML = getSelectHTML(selectItem, prefix, selectClass, selectedOption, onClickOption);
 		parameterArray = null;
@@ -3890,9 +3904,11 @@ public class UtilBean {
 		String currentDay = dp.getCurrentDay();
 		// title bar
 		HTMLElement tra = new HTMLElement("tr");
+		//String options[] = { dp.getProject(), user.getFullname() };
 		HTMLElement tda0 = new HTMLElement("td", "dashHeadTitle", 
 				getSelectHTMLWithInitialValue(
-						"ProjectLD", "select", "filter", dp.getProject(),"navigationAction('go')"));
+						//"ProjectLD", "select", "filter", dp.getProject(),"navigationAction('go')"));
+					"ProjectLD", "select", "filter", dp.getProject(), "navigationAction('go')", user.getFullname()));
 		tda0.setAttribute("colspan", "4");
 		tda0.setAttribute("onClick", "navigationAction('go')");
 		tra.appendValue(tda0.toString());
@@ -4658,6 +4674,35 @@ public class UtilBean {
 		return updateResult;
 	}
 	
+	public String GetLiveSitesFilter() {
+		String value = "";
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetLiveSitesFilter(?)}");
+	    	cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					value = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetLiveSitesHeading(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return value;
+	}
+	
 	public String GetLiveSitesHeading() {
 		String heading = "";
     	Connection conn = null;
@@ -4718,6 +4763,11 @@ public class UtilBean {
 	    			"onclick=\"navigationAction('show')\" "+
     				"title=\"Show current project\">";
 	    }
+	    heading = heading + "&nbsp;" +
+	    		"<img src=\"images/fwd.png\" "+
+				"height=\"15\" width=\"15\" border:1px solid black; "+
+				"onClick=\"navigationAction('fwd')\""+
+				"title=\"Go to next project\">";
 		return heading;
 	}
 	
@@ -4728,7 +4778,8 @@ public class UtilBean {
     	CallableStatement cstmt = null;
 	    try {
 	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call GetLiveDashboardSites()}");
+	    	cstmt = conn.prepareCall("{call GetLiveDashboardSites(?)}");
+	    	cstmt.setString(1, user.getFullname());
 			boolean found = cstmt.execute();
 			if (found) {
 				ResultSet rs = cstmt.getResultSet();
@@ -4897,5 +4948,69 @@ public class UtilBean {
 		}
 		return html.toString();
 	}	
+	
+	public String imageChoice1() {
+		String imageName = "dev_logo_rvb.png";
+		Random r = new Random();
+		imageChoice = r.nextInt(3) + 1;
+		if (imageChoice==1) imageName = "ideas_banner_rvb.jpg";
+		if (imageChoice==2) imageName = "Digital_battle_banner_rvb.png";
+		if (imageChoice==3) imageName = "sherpa_banner_rvb.jpg";
+		return imageName;
+	}
+	
+	public String imageChoice2() {
+		String imageName = "dev_logo_rvb.png";
+		if (imageChoice==1) imageName = "up_banner_rvb.jpg";
+		if (imageChoice==2) imageName = "RedCross_banner_rvb.jpg";
+		if (imageChoice==3) imageName = "Flag_banner_rvb.png";
+		return imageName;
+	}
+	
+	public String imageChoice3() {
+		String imageName = "dev_logo_rvb.png";
+		if (imageChoice==1) imageName = "Flag_banner_rvb.png";
+		if (imageChoice==2) imageName = "sherpa_banner_rvb.jpg";
+		if (imageChoice==3) imageName = "Digital_battle_banner_rvb.png";
+		return imageName;
+	}
+	
+	public String externalTitle() {
+		String title = "Client Access";
+		if (user.getUserType().equals("Third Party")) {
+			title = "Supplier Access";
+		}
+		return title;
+	}
+	
+	public String getProjectFilterHTML() {
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	Select select = new Select("selectProjectFilter",  "filter");
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetProjectLDFilterList(?)}");
+   			cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						false);
+					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
 	
 }

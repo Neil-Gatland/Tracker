@@ -52,7 +52,7 @@ public class MultiSNRListServlet extends HttpServlet  {
 		if (session == null) {
 			destination = "/logon.jsp";
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
 			for (int i = 0; i < filters.length; i++) {
 		    	req.setAttribute(filters[i], req.getParameter(filters[i]));
