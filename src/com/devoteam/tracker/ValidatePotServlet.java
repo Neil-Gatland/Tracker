@@ -61,7 +61,7 @@ public class ValidatePotServlet extends HttpServlet  {
 		if (session == null) {
 			destination = "/logon.jsp";
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
 			String potFileName = req.getParameter("potFileName");
 			String customerName = null;

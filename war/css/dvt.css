@@ -448,7 +448,7 @@ td.ldTitle {
 	padding-top:5px;
 	padding-bottom:5px;
 	background-color:#FFFFFF;
-	color:#000000;
+	color:#53565A;
 	text-align:left;
 	border: none;
 	font-size:medium;
@@ -459,6 +459,16 @@ td.ldBlank {
 	padding:0;
 	border-collapse:collapse;
 	background-color:#FFFFFF;
+	text-align:left;
+	font-size:x-small;
+	font-weight:bold;
+}
+td.ldFilter {
+	margin:0; 
+	padding:0;
+	border-collapse:collapse;
+	background-color:#FFFFFF;
+	color: #53565A;
 	text-align:left;
 	font-size:x-small;
 	font-weight:bold;
@@ -1341,6 +1351,73 @@ input.button {
 	text-align:center;
 	cursor:pointer;
 }
+td.lTitle1 {
+	color:#53565A;
+	font-size:large;
+	font-weight: bold;
+	padding-left:50px;
+}
+td.lTitle2 {
+	color:#53565A;
+	font-size:medium;
+	padding-left:50px;
+}
+td.lTitle3 {
+	background-color:#FFFFFF;
+	color:#F8485E;
+	font-size:medium;
+	padding-left:10px;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+td.lTitle4 {
+	background-color:#FFFFFF;
+	color:#0090FF;
+	font-size:small;
+	font-weight: bold;
+	padding-left:10px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+td.lTitle5 {
+	background-color:#FFFFFF;
+	color:#53565A;
+	font-size:medium;
+	padding-right:10px;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-bottom: 30px;
+	text-decoration: underline;
+}
+td.lTitle6 {
+	background-color:#FFFFFF;
+	color:#53565A;
+	font-size:xx-small;
+	padding-right:10px;
+}
+td.lTitle7 {
+	background-color:#FFFFFF;
+	color:#53565A;
+	font-size:xx-small;
+	padding-right:50px;
+}
+td.lMessage {
+	color:#F8485E;
+	font-size:small;
+}
+input.lText {
+	width: 225px;
+	font-size:small;
+}
+input.LButton {
+	background-color:#0090FF;
+	color:#ffffff;
+	border-color: #0090FF;
+	font-size:small;
+	font-weight:bold;
+	text-align:center;
+	cursor:pointer;
+}
 div.menu1 {
 	background-color:#F8485E;
 	color:#ffffff;
@@ -1413,7 +1490,7 @@ div.filterAlt {
 	display:none
 }
 div.displayPic {
-	background-color:#FFFFF;
+	background-color:#FFFFFF;
 	color:#000000;
 	border:none;
 	padding:10px;
@@ -1431,6 +1508,15 @@ div.displayPicX {
 	float:right;
 	font-size:x-small;
 	font-weight:bold;
+}
+input.displayPicButton {
+	background-color:#FFFFFF;
+	color:#000000;
+	border: silver 0.5px solid;
+	font-size:x-small;
+	font-weight: bold;
+	text-align:center;
+	cursor:pointer;
 }
 div.closeX {
 	cursor:pointer;

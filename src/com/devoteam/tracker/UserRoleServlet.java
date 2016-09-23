@@ -33,7 +33,7 @@ public class UserRoleServlet extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		if (session == null) {
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
   	      	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/logon.jsp"+ran);
   	      	dispatcher.forward(req,resp);
 		} else {

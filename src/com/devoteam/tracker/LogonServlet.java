@@ -21,6 +21,8 @@ import com.devoteam.tracker.model.User;
 import com.devoteam.tracker.util.DBDeterminer;
 import com.devoteam.tracker.util.ServletConstants;
 
+import com.devoteam.tracker.util.Email;
+
 public class LogonServlet extends HttpServlet {
 	  /**
 	 * 
@@ -49,21 +51,127 @@ public class LogonServlet extends HttpServlet {
 	    	}
 	    	Connection conn = DriverManager.getConnection(url);
 	    	try {
-	    		String userId = req.getParameter("userId");
+	    		//String userId = req.getParameter("userId");
 	    		String password = req.getParameter("password");
-	    		if (userId == "" || password == "") {
+	    		String email = req.getParameter("email");
+	    		String action = req.getParameter("action");
+	    		if (action.equals("resetPwd")) {
+	    			// first check that the user exists
+	    			conn = null;
+	    			boolean found = false;
+			    	CallableStatement cstmt = null;
+					long id = -999;
+				    try {
+				    	conn = DriverManager.getConnection(url);
+				    	cstmt = conn.prepareCall("{call GetUserIdFromEmail(?)}");
+						cstmt.setString(1, email);
+						found = cstmt.execute();
+						if (found) {
+							ResultSet rs = cstmt.getResultSet();
+							if (rs.next()) {
+								id = rs.getLong(1);
+							}
+						}
+						if ((id==-999)||(id==-99)) {
+				        	req.setAttribute("userMessage", "Error: unable to determine if user exists");
+						}
+				    } catch (Exception ex) {
+			        	req.setAttribute("userMessage", "Error: unable to reset user password, " + ex.getMessage());
+			        } finally {
+				    	try {
+				    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+				    		if ((conn != null) && (!conn.isClosed())) conn.close();
+					    } catch (SQLException ex) {
+					    	ex.printStackTrace();
+					    }
+				    } 
+				    if (id<0) {
+				    	req.setAttribute("userMessage", 
+						"Please enter valid email address");
+				    } else if (id>0) {
+					    try {
+							conn = DriverManager.getConnection(url);
+					    	cstmt = conn.prepareCall("{call GetSendGridAccountDetails()}");
+							found = cstmt.execute();
+							String sgAccount = "unavailable", sgPassword = "", sender = "", 
+									endMessage = "", sgActive = "";
+							if (found) {
+								ResultSet rs = cstmt.getResultSet();
+								if (rs.next()) {
+									sgAccount = rs.getString(1);
+									sgPassword = rs.getString(2);
+									sender = rs.getString(3);
+									endMessage = rs.getString(4);
+									sgActive = rs.getString(5);
+								}
+							}
+							if ((sgAccount.equals("unavailable")) || (sgAccount.equals("failed"))) {
+					        	req.setAttribute("userMessage", "Error: unable to get SendGrid account details");
+							} else {
+								// Reset user password and send email
+								String ret = null;
+								try {
+									conn = DriverManager.getConnection(url);
+							    	cstmt = conn.prepareCall("{call ResetUserPassword(?,?)}");
+									cstmt.setLong(1, id);
+									cstmt.setString(2, "Password.Reset");
+									found = cstmt.execute();
+									if (found) {
+										ResultSet rs = cstmt.getResultSet();
+										if (rs.next()) {
+											ret = rs.getString(1);
+										}
+									}
+								}
+								catch (Exception ex) {
+							        	req.setAttribute("userMessage", "Error: unable to reset user password, " + ex.getMessage());
+								}
+								finally {
+							    	try {
+							    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+							    		if ((conn != null) && (!conn.isClosed())) conn.close();
+									    } catch (SQLException ex) {
+									    	ex.printStackTrace();
+									    }
+								}
+								// SendGrid code
+								if (sgActive.equals("Y")) {
+									Email e = new Email();
+									String sgResult = e.sendResetEmail(email, ret, sgAccount, sgPassword, sender, endMessage);
+									if (sgResult.equals("success")) {
+										req.setAttribute("userMessage", "Password reset email has been sent to "+email);
+									} else {
+										req.setAttribute("userMessage", sgResult );
+									}
+								} else {
+									req.setAttribute("userMessage", "Password for "+email+" reset to "+ret);
+								}	
+							}
+						    } catch (Exception ex) {
+					        	req.setAttribute("userMessage", "Error: unable to get SendGrid account details, " + ex.getMessage());
+						    } finally {
+						    	try {
+						    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+						    		if ((conn != null) && (!conn.isClosed())) conn.close();
+							    } catch (SQLException ex) {
+							    	ex.printStackTrace();
+							    }
+					    } 
+				    }
+	    		}
+	    		else if (email == "" || password == "") {
 	    			req.setAttribute("userMessage", 
-					"User Id and password cannot be blank! Try again!");
+					"Email and password cannot be blank! Try again!"+action);
 	    		} else {
-	    			long uId = 0;
+	    			/*long uId = 0;
 	    			try {
 	    				uId = Long.parseLong(userId);
 	    			} catch (NumberFormatException nfe) {
 	    				req.setAttribute("userMessage", 
 			    			"User Id must be numeric! Try again!");
-	    			}
-	    			CallableStatement cstmt = conn.prepareCall("{call GetUserDetails(?, ?)}");
-	    			cstmt.setLong(1, uId);
+	    			}*/
+	    			CallableStatement cstmt = conn.prepareCall("{call GetUserDets(?, ?)}");
+	    			cstmt.setString(1, email);
 	    			cstmt.setString(2, password);
 	    			boolean found = cstmt.execute();
 	    			if (found) {
@@ -74,7 +182,7 @@ public class LogonServlet extends HttpServlet {
 	    						rs.getDate(9));
 	    					if (thisU.getStatus().equalsIgnoreCase(User.STATUS_ACTIVE)) {
 		    					if ((thisU.getUserType().equalsIgnoreCase(User.USER_TYPE_CUSTOMER)) ||
-		    						(thisU.getUserType().equalsIgnoreCase(User.USER_TYPE_THIRD_PARTY))) {
+		    						(thisU.getUserType().equalsIgnoreCase(User.USER_TYPE_THIRD_PARTY))) {		    						
 		    						getCustomers(conn);
 		    					}
 								session = req.getSession(false);
@@ -128,8 +236,6 @@ public class LogonServlet extends HttpServlet {
 			}
 	    } catch (Exception e) {
 	    	e.printStackTrace();
-			//req.setAttribute("userMessage", e.getMessage());
-			//dispatcher.forward(req,resp);
 	    }
 	}
 	

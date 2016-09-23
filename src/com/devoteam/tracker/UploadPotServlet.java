@@ -38,7 +38,7 @@ public class UploadPotServlet extends HttpServlet {
 		if (session == null) {
 			destination = "/logon.jsp";
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid user id and password");
+			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
 			User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 			String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
