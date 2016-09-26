@@ -3503,7 +3503,7 @@ public class UtilBean {
 							rs.getString(9),rs.getTimestamp(10),rs.getTimestamp(11),
 							rs.getTimestamp(12),rs.getTimestamp(13), rs.getTimestamp(14), 
 							rs.getString(15), rs.getString(16), rs.getString(17),
-							rs.getString(18)));
+							rs.getString(18),rs.getString(19)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -3529,13 +3529,13 @@ public class UtilBean {
 			if (message != null) {
 				HTMLElement tr = new HTMLElement("tr");
 				HTMLElement td = new HTMLElement("td", "grid1",	message);
-				td.setAttribute("colspan", "17");
+				td.setAttribute("colspan", "18");
 				tr.appendValue(td.toString());
 				html.append(tr.toString());
 			} else {
 				HTMLElement tr = new HTMLElement("tr");
 				HTMLElement td = new HTMLElement("td", "grid1","No outstanding work");
-				td.setAttribute("colspan", "17");
+				td.setAttribute("colspan", "18");
 				tr.appendValue(td.toString());
 				html.append(tr.toString());	
 			}				
@@ -3577,7 +3577,8 @@ public class UtilBean {
 										sli.getHopStatus()+"','"+
 										sli.getSfrStatus()+"','"+
 										sli.getEFOs()+"','"+
-										sli.getPCOs()+"')");
+										sli.getPCOs()+"','"+
+										sli.getProgressIncomplete()+"')");
 				HTMLElement td2 = new HTMLElement("td", (oddRow?"grid1":"grid2"), 
 					input.toString());
 				tr.appendValue(td2.toString());

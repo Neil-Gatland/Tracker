@@ -290,10 +290,10 @@ td.dashCellFill {
 td.dashCellDBot {
 	margin:0; 
 	padding:0;	
-	border-left: none;
-	border-right: none;
+	border-left: white 0.5px solid;
+	border-right: white 0.5px solid;
 	border-bottom: black 0.5px dashed;
-	border-top: none;
+	border-top: white 0.5px solid;
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
@@ -303,10 +303,10 @@ td.dashCellDBot {
 td.dashCellDBotRight {
 	margin:0; 
 	padding:0;	
-	border-left: none;
+	border-left: white 0.5px solid;
 	border-right: black 0.5px solid;
 	border-bottom: black 0.5px dashed;
-	border-top: none;
+	border-top: white 0.5px solid;
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
@@ -316,9 +316,9 @@ td.dashCellDBotRight {
 td.dashCellDTop {
 	margin:0; 
 	padding:0;	
-	border-left: none;
-	border-right: none;
-	border-bottom: none;
+	border-left: white 0.5px solid;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
 	border-top: black 0.5px dashed;
 	background-color:#FFFFFF;
 	color:#000000;
@@ -329,9 +329,9 @@ td.dashCellDTop {
 td.dashCellDTopFill {
 	margin:0; 
 	padding:0;	
-	border-left: none;
-	border-right: none;
-	border-bottom: none;
+	border-left: white 0.5px solid;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
 	border-top: black 0.5px dashed;
 	background-color:#E3C500;
 	color:#000000;
@@ -342,9 +342,9 @@ td.dashCellDTopFill {
 td.dashCellDTopRight {
 	margin:0; 
 	padding:0;	
-	border-left: none;
+	border-left: white 0.5px solid;
 	border-right: black 0.5px solid;
-	border-bottom: none;
+	border-bottom: white 0.5px solid;
 	border-top: black 0.5px dashed;
 	background-color:#FFFFFF;
 	color:#000000;
@@ -355,9 +355,9 @@ td.dashCellDTopRight {
 td.dashCellDTopRightFill {
 	margin:0; 
 	padding:0;	
-	border-left: none;
+	border-left: white 0.5px solid;
 	border-right: black 0.5px solid;
-	border-bottom: none;
+	border-bottom: white 0.5px solid;
 	border-top: black 0.5px dashed;
 	background-color:#E3C500;
 	color:#000000;
@@ -394,10 +394,10 @@ td.dashCellBoxRightFill {
 td.dashCellBoxBot {
 	margin:0; 
 	padding:0;	
-	border-left: none;
-	border-right: none;
+	border-left: white 0.5px solid;
+	border-right: white 0.5px solid;
 	border-bottom: black 0.5px solid;
-	border-top: none;
+	border-top: white 0.5px solid;
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
@@ -407,10 +407,10 @@ td.dashCellBoxBot {
 td.dashCellBoxBotFill {
 	margin:0; 
 	padding:0;	
-	border-left: none;
-	border-right: none;
+	border-left: white 0.5px solid;
+	border-right: white 0.5px solid;
 	border-bottom: black 0.5px solid;
-	border-top: none;
+	border-top: white 0.5px solid;
 	background-color:#E3C500;
 	color:#000000;
 	text-align:center;
@@ -420,10 +420,10 @@ td.dashCellBoxBotFill {
 td.dashCellBoxBRH {
 	margin:0; 
 	padding:0;	
-	border-left: none;
+	border-left: white 0.5px solid;
 	border-right: black 0.5px solid;
 	border-bottom: black 0.5px solid;
-	border-top: none;
+	border-top: white 0.5px solid;
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
@@ -433,10 +433,10 @@ td.dashCellBoxBRH {
 td.dashCellBoxBRHFill {
 	margin:0; 
 	padding:0;	
-	border-left: none;
+	border-left: white 0.5px solid;
 	border-right: black 0.5px solid;
 	border-bottom: black 0.5px solid;
-	border-top: none;
+	border-top: white 0.5px solid;
 	background-color:#E3C500;
 	color:#000000;
 	text-align:center;
