@@ -98,15 +98,16 @@ function snrSelect(snrId,snrStatus,site,nrId) {
 	document.getElementById("nrId").value = nrId;
 }
 
-function osWorkSelect(snrId,snrStatus,site,nrId,hopStatus, sfrStatus, efOS, pcOS) {
+function osWorkSelect(snrId,snrStatus,site,nrId,hopStatus, sfrStatus, efOS, pcOS, progressIncomplete) {
 	document.getElementById("showImplementationDetail").style.display = "none";
 	document.getElementById("siteProgress").style.display = "none";
 	document.getElementById("viewCommentary").style.display = "none";
 	document.getElementById("accessDetail").style.display = "none";
 	document.getElementById("snrHist").style.display = "none";
-	if (((efOS=="Y")||(hopStatus!="Y")||(sfrStatus!="Y"))&&(snrStatus == "<%=ServletConstants.STATUS_COMPLETED%>")) {
+	if (((efOS=="Y")||(hopStatus!="Y")||(sfrStatus!="Y")||(progressIncomplete=="N"))&&
+			(snrStatus == "<%=ServletConstants.STATUS_COMPLETED%>")) {
 		document.getElementById("showImplementationDetail2").style.display = "inline"; 
-			document.getElementById("siteProgress2").style.display = "inline";
+		document.getElementById("siteProgress2").style.display = "inline";
 	} else {
 		document.getElementById("showImplementationDetail2").style.display = "none";
 		document.getElementById("siteProgress2").style.display = "none";
@@ -115,6 +116,9 @@ function osWorkSelect(snrId,snrStatus,site,nrId,hopStatus, sfrStatus, efOS, pcOS
 		document.getElementById("showPreCheck").style.display = "inline";
 	} else {
 		document.getElementById("showPreCheck").style.display = "none";
+	}
+	if ((progressIncomplete=="N")&&(snrStatus == "<%=ServletConstants.STATUS_SCHEDULED%>")) {
+		document.getElementById("siteProgress2").style.display = "inline";
 	}
 	document.getElementById("viewCommentary2").style.display = "inline";
 	selectedSNRId = snrId;
@@ -157,7 +161,7 @@ function emailCopy() {
 }
 
 </script>
-<div style="width:1270px;margin:0 auto;margin-top:10px; 
+<div style="width:1270px;margin:0;margin-top:10px; 
 overflow-y: auto; overflow-x: hidden; border: 1px solid black; height: 460px;">
 <div style="margin: 0; padding: 0; border-collapse: collapse;width: 1250px; 
 overflow: visible; border: 1px solid black;">
@@ -266,13 +270,13 @@ overflow-x: hidden; overflow-y: auto; border: 1px solid black;; max-height: 200p
 <div id="uWS" onClick="gotoAnchor('weeklySchedule')" onMouseOut="invertClass('uWS')" onMouseOver="invertClass('uWS')" style="float:right" class="menu2Item">Weekly Schedule</div>
 <div id="tmAnchor" class="menu2">&nbsp;</div>
 </div>
-<div style="width:1250px;margin:0 auto;margin-top:10px; border: 1px solid black;">
+<div style="width:1250px;margin:0;margin-top:10px; border: 1px solid black;">
 <div style="margin: 0; padding: 0; border-collapse: collapse;width: 1250px; 
 overflow: visible; border: 1px solid black;">
 <table style="width: 1250px;height: 20px;  table-layout: fixed;">
 <colgroup>
 <col width="20px"/>
-<col width="30px"/>
+<col width="20px"/>
 <col width="30px"/>
 <col width="50px"/>
 <col width="20px"/>
@@ -284,10 +288,11 @@ overflow: visible; border: 1px solid black;">
 <col width="10px"/>
 <col width="10px"/>
 <col width="10px"/>
+<col width="10px"/>
 </colgroup>
 <tbody>
 <tr>		
-	<th id="outstandingWorks" class="menu1" colspan="13" align="left">Outstanding Works</th>
+	<th id="outstandingWorks" class="menu1" colspan="14" align="left">Outstanding Works</th>
 </tr>
 </tbody>
 </table>
@@ -299,7 +304,7 @@ overflow: visible; border: 1px solid black;">
 <table style="width: 1250px;height: 20px;  table-layout: fixed;">
 <colgroup>
 <col width="20px"/>
-<col width="30px"/>
+<col width="20px"/>
 <col width="30px"/>
 <col width="50px"/>
 <col width="20px"/>
@@ -307,6 +312,7 @@ overflow: visible; border: 1px solid black;">
 <col width="40px"/>
 <col width="50px"/>
 <col width="25px"/>
+<col width="10px"/>
 <col width="10px"/>
 <col width="10px"/>
 <col width="10px"/>
@@ -326,6 +332,7 @@ overflow: visible; border: 1px solid black;">
 	<th class="altBar" title="HOP Status">HOP</th>
 	<th class="altBar" title="SFR Status">SFR</th>
 	<th class="altBar" title="Next PreCheck">NPC</th>
+	<th class="altBar" title="Progress Complete">PC</th>
 	<th class="altBar" title="Select">&nbsp;</th>	
 </tr>
 </tbody>
@@ -336,7 +343,7 @@ overflow-x: hidden; overflow-y: auto; border: 1px solid black;; max-height: 200p
 <table style="width: 1250px;  table-layout: fixed;">
 <colgroup>
 <col width="20px"/>
-<col width="30px"/>
+<col width="20px"/>
 <col width="30px"/>
 <col width="50px"/>
 <col width="20px"/>
@@ -348,6 +355,7 @@ overflow-x: hidden; overflow-y: auto; border: 1px solid black;; max-height: 200p
 <col width="5px"/>
 <col width="5px"/>
 <col width="5px"/>
+<col width="10px"/>
 <col width="10px"/>
 <col width="10px"/>
 <col width="10px"/>
@@ -370,7 +378,7 @@ overflow-x: hidden; overflow-y: auto; border: 1px solid black;; max-height: 200p
 <div id="uWS" onClick="gotoAnchor('weeklySchedule')" onMouseOut="invertClass('uWS')" onMouseOver="invertClass('uWS')" style="float:right" class="menu2Item">Weekly Schedule</div>
 <div id="tmAnchor2" class="menu2">&nbsp;</div>
 </div>
-<div style="width:1250px;margin:0 auto;margin-top:10px;">
+<div style="width:1250px;margin:0;margin-top:10px;">
 <div style="margin: 0; padding: 0; border-collapse: collapse;width: 1250px; 
 overflow: visible; border: 1px solid black;">
 <table style="width: 1250px;height: 20px;  table-layout: fixed;">
@@ -644,7 +652,7 @@ overflow-x: hidden; overflow-y: auto; border: 1px solid black;; max-height: 200p
 </tbody>
 </table>
 </div>
-<div id="tm" class="menu2"  style="width:1250px;border: 1px solid black;margin:0 auto;margin-top:">
+<div id="tm" class="menu2"  style="width:1250px;border: 1px solid black;margin:0;margin-top:">
 <div style="float:left;width:2px" class="menu2">&nbsp;</div>
 <div id="action" style="float:left;display:inline;" class="menu2">Action:</div>
 <div id="uDSS" onClick="gotoAnchor('dailySiteSchedule')" onMouseOut="invertClass('uDSS')" onMouseOver="invertClass('uDSS')" style="float:right" class="menu2Item">Daily Site Schedule</div>
