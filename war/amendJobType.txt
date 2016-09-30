@@ -13,6 +13,8 @@
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendProjectManagerEmail" id="amendProjectManagerEmail" maxlength="100"></div>
 	<div>Acting Customer</div>
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendActingCustomer" id="amendActingCustomer" maxlength="100"></div>
+	<div>Redundant</div>
+	<div style="padding-bottom:10px"><%=uB.getRedundantHTML2(jobType)%></div>
 	<div style="width:240px;margin:0 auto;">
 		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="amendJobTypeClick('jobTypeAmend')" value="Submit" /></div>
 		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="amendJobTypeClick('cancel')" value="Cancel" /></div>

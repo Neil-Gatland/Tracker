@@ -38,6 +38,7 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 			} else {
 				String buttonPressed = req.getParameter("buttonPressed");
 				String jobType = req.getParameter("jobType");
+				String redundant = req.getParameter("redundant");
 		    	req.setAttribute("buttonPressed", buttonPressed);
 		    	req.setAttribute("jobType", jobType);
 				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
@@ -81,9 +82,10 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 					String newProjectManager = req.getParameter("newProjectManager");
 					String newProjectManagerEmail = req.getParameter("newProjectManagerEmail");
 					String newActingCustomer = req.getParameter("newActingCustomer");
+					String newRedundant = req.getParameter("selectRedundantFilter");
 				    try {
 				    	conn = DriverManager.getConnection(url);
-				    	cstmt = conn.prepareCall("{call AddJobTypeScreen(?,?,?,?,?,?,?)}");
+				    	cstmt = conn.prepareCall("{call AddJobTypeScreen(?,?,?,?,?,?,?,?)}");
 						cstmt.setString(1, newJobType.trim());
 						cstmt.setString(2, newProjectRequestor.trim());
 						cstmt.setString(3, thisU.getNameForLastUpdatedBy());
@@ -91,6 +93,7 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 						cstmt.setString(5, newActingCustomer.trim());
 						cstmt.setString(6, newProjectRequestorEmail.trim());
 						cstmt.setString(7, newProjectManagerEmail.trim());
+						cstmt.setString(8, newRedundant.trim());
 						boolean found = cstmt.execute();
 						String ok = "N";
 						if (found) {
@@ -121,9 +124,10 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 					String amendProjectManager = req.getParameter("amendProjectManager");
 					String amendProjectManagerEmail = req.getParameter("amendProjectManagerEmail");
 					String amendActingCustomer = req.getParameter("amendActingCustomer");
+					String newRedundant = req.getParameter("selectRedundantFilter2");
 				    try {
 				    	conn = DriverManager.getConnection(url);
-				    	cstmt = conn.prepareCall("{call AmendJobTypeScreen(?,?,?,?,?,?,?)}");
+				    	cstmt = conn.prepareCall("{call AmendJobTypeScreen(?,?,?,?,?,?,?,?)}");
 						cstmt.setString(1, currentJobType.trim());
 						cstmt.setString(2, amendProjectRequestor.trim());
 						cstmt.setString(3, thisU.getNameForLastUpdatedBy());
@@ -131,6 +135,7 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 						cstmt.setString(5, amendActingCustomer.trim());
 						cstmt.setString(6, amendProjectRequestorEmail.trim());
 						cstmt.setString(7, amendProjectManagerEmail.trim());
+						cstmt.setString(8, newRedundant.trim());
 						boolean found = cstmt.execute();
 						String ok = "N";
 						if (found) {

@@ -61,7 +61,7 @@ public class SNRListItem {
 	private int siteVisits;
 	private String sfrStatus;
 	private String feList;
-	private String progressIncomplete;
+	private String progressComplete;
 
 	private final String STATUS_A_S = ServletConstants.STATUS_AWAITING_SCHEDULING;
 	private final String STATUS_A_S_SHORT = "Awaiting Sch.";
@@ -870,8 +870,8 @@ public class SNRListItem {
 		return pcOS;
 	} 
 	
-	public String getProgressIncomplete() {
-		return progressIncomplete;
+	public String getProgressComplete() {
+		return progressComplete;
 	}
 
 	public SNRListItem(long snrId, Date scheduledDate, String status,
@@ -899,7 +899,7 @@ public class SNRListItem {
 		this.sfrStatus = sfrStatus;
 		this.nextPrecheck = nextPrecheck;
 		//this.customerName = customerName;
-		this.progressIncomplete = progressIncomplete;
+		this.progressComplete = progressIncomplete;
 	}	
 
 	public String[] getOutstandingWorksArray() {
@@ -908,7 +908,7 @@ public class SNRListItem {
 				getBOEngineersDisplay(), this.getEF345ClaimDTSet(),
 				this.getEF360ClaimDTSet(), this.getEF390ClaimDTSet(), 
 				this.getEF400ClaimDTSet(), this.getEF410ClaimDTSet(),
-				hopStatus, sfrStatus, NPC_SHORT, progressIncomplete};
+				hopStatus, sfrStatus, NPC_SHORT, progressComplete};
 				//hopStatus, sfrStatus, NPC_SHORT};
 		return values;
 	}		
