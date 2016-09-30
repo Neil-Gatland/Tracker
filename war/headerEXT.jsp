@@ -98,25 +98,25 @@ function isWhitespaceOrEmpty(text) {
 	<table style="table-layout: fixed; border-style: none; width: 100%;">
 	<colgroup>
 		<col width="40%"/>
-		<col width="30%"/>	
-		<col width="25%"/>	
+		<col width="37%"/>	
+		<col width="18%"/>	
 		<col width="5%"/>	
 	</colgroup>
 	<tbody>
 		<tr>
 			<td align="left" valign="bottom">
 				<a href="http://www.devoteam.co.uk/" target="_blank">
-				<img src="images/dev_logo_rvb.png" height="40%" width="40%"></a>			
+				<img src="images/dev_logo_rvb.png" height="110px" width="264px"></a>			
 			</td>
 			<td>&nbsp;</td>					
-			<td id="hAnchor" align="left" valign="bottom" class="lTitle1"><%=uB.externalTitle()%></td>
+			<td id="hAnchor" align="left" valign="bottom" class="lTitle8"><%=uB.externalTitle()%></td>
 			<td align="right" valign="bottom" title="Press for options">
-				<img src="images/dev_pictos_rvb-21.png" height="40%" width="40%" 
+				<img src="images/dev_pictos_rvb-21.png" height="30px" width="30px" 
 					onclick="externalOptionsClick('open')">&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="2">&nbsp;</td>
-			<td align="left" valign="top" class="lTitle2">
+			<td align="left" valign="top" class="lTitle9">
 				Welcome, <%=thisU.getNameForLastUpdatedBy()%></td>
 			<td>&nbsp;</td>					
 		</tr>

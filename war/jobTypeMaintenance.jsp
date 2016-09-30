@@ -1,21 +1,26 @@
 <%@ include file="header.jsp" %>
 <%
 String jobType = request.getAttribute("jobType")==null?"none":(String)request.getAttribute("jobType");
+String redundant = request.getAttribute("redundant")==null?"none":(String)request.getAttribute("redundant");
 String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(String)request.getAttribute("buttonPressed");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="jobTypeMaint.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.JOB_TYPE_MAINTENANCE%>"/>
 <input type="hidden" name="jobType" id="jobType" value="<%=jobType%>"/>
+<input type="hidden" name="redundant" id="redundant" value="<%=redundant%>"/>
 <input type="hidden" name="buttonPressed" id="buttonPressed" value="<%=buttonPressed%>"/>
 <script language="javascript">
 <!--
 var selectedJobType = "<%=jobType%>";
+var selectedRedundant = "<%=redundant%>";
 
 function thisScreenLoad() {
 	
 }	
 
-function jobTypeSelect(jobType,projectRequestor,projectRequestorEmail,projectManager,projectManagerEmail,actingCustomer) {
+function jobTypeSelect
+			(	jobType,projectRequestor,projectRequestorEmail,projectManager,
+				projectManagerEmail,actingCustomer,redundant) {
 	document.getElementById("jobTypeDelete").style.visibility = "visible";
 	document.getElementById("jobTypeAmend").style.visibility = "visible";
 	selectedJobType = jobType;
@@ -24,6 +29,7 @@ function jobTypeSelect(jobType,projectRequestor,projectRequestorEmail,projectMan
 	selectedProjectManager = projectManager;
 	selectedProjectManagerEmail = projectManagerEmail;
 	selectedActingCustomer = actingCustomer;
+	selectedRedundant = redundant;
 }
 
 function tbClick(btn) {
@@ -57,6 +63,7 @@ function tbClick(btn) {
 		document.getElementById("amendProjectManager").value = selectedProjectManager;
 		document.getElementById("amendProjectManagerEmail").value = selectedProjectManagerEmail;
 		document.getElementById("amendActingCustomer").value = selectedActingCustomer;
+		document.getElementById("amendRedundant").value = selectedRedundant;
 	}
 	
 }
@@ -66,17 +73,18 @@ function tbClick(btn) {
 <div style="
 margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden; border: 1px solid black;"
 >
-<table style="width: 1250px; height: 20px;"
+<table style="width: 1270px; height: 20px;"
 >
 <colgroup>
 <col width="190px"/>
 <col width="130px"/>
-<col width="230px"/>
-<col width="130px"/>
 <col width="220px"/>
 <col width="120px"/>
+<col width="230px"/>
+<col width="120px"/>
 <col width="140px"/>
-<col width="70px"/>
+<col width="80px"/>
+<col width="30px"/>
 <col width="30px"/>
 </colgroup>
 <tbody>
@@ -86,26 +94,28 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 		<th>Project Requestor Email</th>
 		<th>Project Manager</th>
 		<th>Project Manager Email</th>
-		<th>Acting Customer</th>
-		<th>Last Updated By</th>
+		<th title="Acting Customer">AC</th>
+		<th title="Last Updated By">LU By</th>
 		<th title="Last Updated Date">LU Date</th>
+		<th title="Redundant">R</th>
 		<th title="Select">&nbsp;</th>
 </tr>
 </tbody>
 </table>
 <div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto;"
 >
-<table style="width: 1250px;"
+<table style="width: 1270px;"
 >
 <colgroup>
 <col width="190px"/>
 <col width="130px"/>
-<col width="230px"/>
-<col width="130px"/>
 <col width="220px"/>
 <col width="120px"/>
+<col width="210px"/>
+<col width="120px"/>
 <col width="140px"/>
-<col width="70px"/>
+<col width="80px"/>
+<col width="30px"/>
 <col width="30px"/>
 </colgroup>
 <tbody>

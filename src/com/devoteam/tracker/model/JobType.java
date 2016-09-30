@@ -12,12 +12,14 @@ public class JobType {
 	private String lastUpdatedBy;
 	private String projectRequestorEmail;
 	private String projectManagerEmail;
+	private String redundant;
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	
 	public JobType(String jobType, String projectRequestor,
 			Date lastUpdatedDate, String lastUpdatedBy,
 			String projectManager, String actingCustomer,
-			String projectRequestorEmail, String projectManagerEmail ) {
+			String projectRequestorEmail, String projectManagerEmail,
+			String redundant) {
 		this.jobType = jobType;
 		this.projectRequestor = projectRequestor;
 		this.lastUpdatedDate = lastUpdatedDate;
@@ -26,6 +28,7 @@ public class JobType {
 		this.actingCustomer = actingCustomer;
 		this.projectRequestorEmail = projectRequestorEmail;
 		this.projectManagerEmail = projectManagerEmail;
+		this.redundant = redundant;
 	}
 
 	public String getJobType() {
@@ -64,6 +67,10 @@ public class JobType {
 		return projectManagerEmail;
 	}
 	
+	public String getRedundant() {
+		return redundant;
+	}
+	
 	/*public String[] getListValueArray() {
 		String[] values = {this.getJobType(), this.getProjectRequestor(),
 				this.getProjectManager(), this.getActingCustomer(),	
@@ -75,7 +82,8 @@ public class JobType {
 		String[] values = {this.getJobType(), this.getProjectRequestor(),
 				this.getProjectRequestorEmail(), this.getProjectManager(), 
 				this.getProjectManagerEmail(), this.getActingCustomer(),	
-			this.getLastUpdatedBy(), this.getLastUpdatedDateString()};
+			this.getLastUpdatedBy(), this.getLastUpdatedDateString(),
+			this.getRedundant()};
 		return values;
 	}
 }

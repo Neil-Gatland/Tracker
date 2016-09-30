@@ -29,8 +29,6 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 	function drawPieChart() {
 		var data = google.visualization.arrayToDataTable([<%=uB.getDashboardPieData()%>]);
       var options = {
-        title: 'Project 12 Month Overview',
-        titleTextStyle: { fontSize: '10', color: '#53565A' },
         is3D: true,
         pieSliceText: 'value',
         legend: 'none',
@@ -49,12 +47,10 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 	function drawLineChart() {
 		var data = google.visualization.arrayToDataTable([<%=uB.getDashboardLineData()%>]);
 		var options = {
-        	title: 'Project Activity (last quarter, next month)',
-            titleTextStyle: { fontSize: '10', color: '#53565A' },
           	curveType: 'none', 
 			legend: 'none',
 			colors: ['#0090FF','gray','green','orange','red','firebrick'],
-			chartArea: { width: '70%', height: '70%', top: '10%' }
+			chartArea: { width: '80%', height: '70%' }
 		};
 		var chart = new google.visualization.LineChart(document.getElementById('linechart'));
         chart.draw(data, options);
@@ -177,14 +173,17 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 </tbody>
 </table>
 </td>
-<td width="40%" valign="center" align="center"> 
+<td width="40%" class="chartTitle" valign="center" align="center"> 
+Project Activity (last quarter, next month)
 <!--  line chart section -->
 	<div id="linechart"></div>
 </td>
 <td width="5%" valign="center" align="center"> 
-	<img src="images/lcLegend.png" height="76" width="65">
+	<!-- <img src="images/lcLegend.png" height="76" width="65"> -->
+	<img src="images/lcLegend.png" height="120" width="102">
  </td>
-<td width="30%" valign="center" align="center"> 
+<td width="30%" class="chartTitle" valign="center" align="center"> 
+Project 12 Month Overview
 <!--  pie chart section -->
  	<div id="piechart"></div>
 </td>

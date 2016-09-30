@@ -1,4 +1,4 @@
-<div id="externalOptions" class="displayPic" style="width:25%">
+<div id="externalOptions" class="displayPic" style="width:18%">
 	<div style="width:100px;margin:0 auto; float: right;">
 		<div style="float:left" title="Press to log off the Tracker">
 			<input style="width:100px" type="button" class="displayPicButton" 
