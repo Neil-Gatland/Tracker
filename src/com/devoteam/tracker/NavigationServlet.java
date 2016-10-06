@@ -28,7 +28,7 @@ public class NavigationServlet extends HttpServlet {
 		String destination = "/logon.jsp";
 		if (session == null) {
 			session = req.getSession(true);
-			session.setAttribute("userMessage", "Please enter a valid email address and password");
+			session.setAttribute("userMessage", "");
 		} else {
 			User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 			String fromScreen = req.getParameter("fromScreen");

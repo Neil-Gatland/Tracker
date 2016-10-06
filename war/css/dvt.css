@@ -454,6 +454,16 @@ td.ldTitle {
 	font-size:medium;
 	font-weight:bold;
 }
+td.chartTitle {
+	margin:0; 
+	padding-top:5px;
+	padding-bottom:5px;
+	background-color:#FFFFFF;
+	color:#53565A;
+	text-align:centre;
+	border: none;
+	font-size:small;
+}
 td.ldBlank {
 	margin:0; 
 	padding:0;
@@ -1353,41 +1363,42 @@ input.button {
 }
 td.lTitle1 {
 	color:#53565A;
-	font-size:large;
-	font-weight: bold;
-	padding-left:50px;
+	font-size:xx-large;
+	font-weight:bold;
+	text-align:center;
 }
 td.lTitle2 {
 	color:#53565A;
-	font-size:medium;
-	padding-left:50px;
+	font-size: large;
+	text-align: center;
 }
 td.lTitle3 {
 	background-color:#FFFFFF;
 	color:#F8485E;
-	font-size:medium;
-	padding-left:10px;
-	padding-top:10px;
+	font-size:x-large;
+	padding-left:20px;
+	padding-top:20px;
 	padding-bottom:10px;
+	border-radius: 5px 5px 0px 0px;
 }
 td.lTitle4 {
 	background-color:#FFFFFF;
-	color:#0090FF;
+	color:dimgray;
 	font-size:small;
 	font-weight: bold;
-	padding-left:10px;
+	padding-left:20px;
 	padding-top:5px;
 	padding-bottom:5px;
 }
 td.lTitle5 {
 	background-color:#FFFFFF;
-	color:#53565A;
-	font-size:medium;
+	color:#0090FF;
+	font-size:small;
 	padding-right:10px;
 	padding-top: 10px;
-	padding-left: 10px;
+	padding-left: 20px;
 	padding-bottom: 30px;
-	text-decoration: underline;
+	border-radius: 0px 0px 5px 5px;
 }
 td.lTitle6 {
 	background-color:#FFFFFF;
@@ -1399,15 +1410,32 @@ td.lTitle7 {
 	background-color:#FFFFFF;
 	color:#53565A;
 	font-size:xx-small;
+	text-align: left;
+	vertical-align: top;
 	padding-right:50px;
+}
+td.lTitle8 {
+	color:#53565A;
+	font-size: large;
+	text-align: left;
+	font-weight:bold;
+}
+td.lTitle9 {
+	color:#53565A;
+	font-size: medium;
+	text-align: left;
 }
 td.lMessage {
 	color:#F8485E;
-	font-size:small;
+	font-size:medium;
 }
 input.lText {
-	width: 225px;
-	font-size:small;
+	width: 250px;
+	font-size:medium;
+	padding: 10px;
+	border-radius: 5px;
+	border-color: #0090FF;
+	border: 0.5px solid;
 }
 input.LButton {
 	background-color:#0090FF;
@@ -1417,6 +1445,9 @@ input.LButton {
 	font-weight:bold;
 	text-align:center;
 	cursor:pointer;
+	padding:5px;
+	border-radius: 10px;
+	
 }
 div.menu1 {
 	background-color:#F8485E;

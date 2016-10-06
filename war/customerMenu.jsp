@@ -9,77 +9,53 @@
 		<col width="33.34%"/>	
 	</colgroup>
 	<tbody><tr>
-		<td class="lTitle7" align="left" valign="bottom" colspan="3">
-			<a href="http://www.devoteam.co.uk/" target="_blank">
-			Powered by the Application Development Team @ www.devoteam.co.uk
+		<td class="lTitle7" align="left" valign="top" >			
+			Powered by the Application Development Team @
+			<a href="http://www.devoteam.co.uk/" target="_blank">www.devoteam.co.uk
 			</a><td>
+		<td colspan="2">&nbsp;<td>
 		</tr><tr>
-		<td align="center">
+		<td align="center" height="200px" overflow="hidden">
 			<a href="http://www.devoteam.co.uk/" target="_blank">
-			<img src="images/<%=uB.imageChoice1()%>" height="50%" width="100%"></a>
+			<img src="images/<%=uB.imageChoice1()%>" height="100%x" width="100%"></a>
 		</td>
-		<td align="center">
+		<td align="center" height="200px" overflow="hidden">
 			<a href="http://www.devoteam.co.uk/" target="_blank">
-			<img src="images/<%=uB.imageChoice2()%>" height="50%" width="100%"></a>
+			<img src="images/<%=uB.imageChoice2()%>" height="100%" width="100%"></a>
 		</td>
-		<td align="center">
+		<td align="center" height="200px" overflow="hidden">
 			<a href="http://www.devoteam.co.uk/">
-			<img src="images/<%=uB.imageChoice3()%>" height="50%" width="100%"></a>
+			<img src="images/<%=uB.imageChoice3()%>" height="100%x" width="100%"></a>
 		</td>
 		</tr><tr>
 		<td class="lTitle1" align="center" colspan="3">&nbsp;</td>
 		</tr><tr>
-		<td class="lTitle1" align="center" colspan="3">SMART - Service Management Automated Reference Tool</td>
+		<td align="center" colspan="3"><font color="#53565A" size="5">
+		<b>SMART</b> - <b>S</b>ervice <b>M</b>anagement <b>A</b>utomated <b>R</b>eference <b>T</b>ool
+		</font></td>
 		</tr><tr>
 		<td class="lTitle2" align="center"  colspan="3">Please select from the Client options below</td>
 		</tr><tr>
 		<td class="lTitle2" align="center"  colspan="3">&nbsp;</td>
 		</tr><tr>
-		<td class="lTitle1" align="center" colspan="3">
-			<table>
-				<tr>
-					<td class="lTitle2" align="center" title="Press for live dashboard"
-						onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
-						<img src="images/client_access.png" height="70%" width="70%">
-					</td>
-					<!-- <td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>  -->
-				</tr>
-				<tr>					
-					<td class="lTitle2" align="center" title="Press for live dashboard"
-						onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
-						Live Dashboard
-					</td>
-					<!-- <td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>
-					<td class="lTitle2" align="center">
-						&nbsp;
-					</td>  -->
-				</tr>
-			</table>				
+		<td class="lTitle2" align="center" colspan="3">
+			<table style="table-layout: fixed; border-style: none; width: 100%;">	
+			<tbody>
+			<tr>
+				<td align="center" title="Press for live dashboard"
+					onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
+					<img src="images/client_access.png" height="80px" width="80px">
+				</td>
+			</tr>	
+			<tr>
+				<td align="center" class="lTitle2" title="Press for live dashboard"
+					onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
+					Live Dashboard
+				</td>
+			</tr>	
+			</tbody>		
+			</table>
+		</td>				
 		</tr>
 	</tbody>
 	</table>

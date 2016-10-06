@@ -2547,7 +2547,7 @@ public class UtilBean {
 				while (rs.next()) {
 					jobTypeList.add(new JobType(rs.getString(1), rs.getString(2), 
 						rs.getDate(3), rs.getString(4), rs.getString(5), rs.getString(6),
-						rs.getString(7),rs.getString(8)));
+						rs.getString(7),rs.getString(8),rs.getString(9)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -2588,7 +2588,8 @@ public class UtilBean {
 						jtli.getProjectRequestorEmail()+"','"+
 						jtli.getProjectManager()+"','"+
 						jtli.getProjectManagerEmail()+"','"+
-						jtli.getActingCustomer()+"')");
+						jtli.getActingCustomer()+"','"+
+						jtli.getRedundant()+"')");
 			HTMLElement td = new HTMLElement("td", oddRow?"grid1":"grid2", 
 				input.toString());
 			tr.appendValue(td.toString());
@@ -3578,7 +3579,7 @@ public class UtilBean {
 										sli.getSfrStatus()+"','"+
 										sli.getEFOs()+"','"+
 										sli.getPCOs()+"','"+
-										sli.getProgressIncomplete()+"')");
+										sli.getProgressComplete()+"')");
 				HTMLElement td2 = new HTMLElement("td", (oddRow?"grid1":"grid2"), 
 					input.toString());
 				tr.appendValue(td2.toString());
@@ -4999,6 +5000,76 @@ public class UtilBean {
 					Option option = new Option(rs.getString(1), rs.getString(2),
 						false);
 					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
+	
+	public String getRedundantHTML() {
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	Select select = new Select("selectRedundantFilter",  "filter");
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetRedundantFilterList(?)}");
+   			cstmt.setString(1, "None" );
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					boolean optSelected = false;
+					if (rs.getString(1).equals("N")) {
+						optSelected = true;
+					}
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						optSelected);
+					select.appendValue(option.toString());
+					
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
+	
+	public String getRedundantHTML2(String jobType) {
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	Select select = new Select("selectRedundantFilter2",  "filter");
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetRedundantFilterList(?)}");
+   			cstmt.setString(1, jobType);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					boolean optSelected = false;
+					/*if (rs.getString(1).equals("N")) {
+						optSelected = true;
+					}*/
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						optSelected);
+					select.appendValue(option.toString());
+					
 				}
 			}
 	    } catch (Exception ex) {

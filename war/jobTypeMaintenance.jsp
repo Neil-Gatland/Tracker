@@ -10,11 +10,9 @@ String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(Strin
 <script language="javascript">
 <!--
 var selectedJobType = "<%=jobType%>";
-
 function thisScreenLoad() {
 	
 }	
-
 function jobTypeSelect(jobType,projectRequestor,projectRequestorEmail,projectManager,projectManagerEmail,actingCustomer) {
 	document.getElementById("jobTypeDelete").style.visibility = "visible";
 	document.getElementById("jobTypeAmend").style.visibility = "visible";
@@ -25,7 +23,6 @@ function jobTypeSelect(jobType,projectRequestor,projectRequestorEmail,projectMan
 	selectedProjectManagerEmail = projectManagerEmail;
 	selectedActingCustomer = actingCustomer;
 }
-
 function tbClick(btn) {
 	if (btn == "jobTypeDelete") {
 		if (!confirm("Please confirm deletion of " + selectedJobType)) {

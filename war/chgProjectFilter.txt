@@ -1,11 +1,20 @@
-<div id="chgProjectFilter" class="filter" style="width:270px">
-	<div class="closeX" title="close" onClick="chgProjectFilterClick('cancel')"></div>
-	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Change Project Filter</h2></div>
-	<div style="padding-bottom:10px"><%=uB.getProjectFilterHTML()%></div>
-	<div style="width:240px;margin:0 auto;">
-		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="chgProjectFilterClick('submit')" value="Submit" /></div>
-		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="chgProjectFilterClick('cancel')" value="Cancel" /></div>
-	</div>
+<div id="chgProjectFilter" class="displayPic">
+<table>
+	<tr>
+		<td width="160px"><%=uB.getProjectFilterHTML()%></td>
+		<td width="10px">
+			&nbsp;
+		</td>
+		<td width="20px" title="click to confirm filter change">
+			<img src="images/green_tick.png" height="15px" width="15px" 
+				onClick="chgProjectFilterClick('submit')"/>
+		</td>
+		<td width="20px" title="click to cancel">
+			<img src="images/red_cross.png" height="15px" width="15px" 
+				onClick="chgProjectFilterClick('cancel')"/>
+		</td>
+	</tr>
+</table>
 </div>
 <script language="javascript">
 <!--

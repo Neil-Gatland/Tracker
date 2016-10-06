@@ -42,15 +42,15 @@ function resetPwd(action) {
 <div>
 	<table style="width: 100%; table-layout: fixed; align: left;">
 	<colgroup>
-		<col width="40%"/>
-		<col width="30%"/>	
-		<col width="40%x"/>	
+		<col width="37%"/>
+		<col width="310px"/>	
+		<col width="37%x"/>	
 	</colgroup>
 	<tbody>
 		<tr>
 			<td rowspan="2">				
 				<a href="http://www.devoteam.co.uk/" target="_blank">
-				<img src="images/dev_logo_rvb.png" height="50%" width="50%"></a>
+				<img src="images/dev_logo_rvb.png" height="110px" width="264px"></a>
 				</td>
 			<td class="lTitle1" align="left" valign="bottom">SMART</td>
 			<td >&nbsp;</td>
@@ -91,22 +91,13 @@ function resetPwd(action) {
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td class="lTitle4" align="left"><input class="LButton" type="submit" value="Log In" /></td>
+			<td class="lTitle4" align="left"><input class="LButton" type="submit" value="&nbsp;&nbsp;Log In&nbsp;&nbsp;" /></td>
 			<td >&nbsp;</td>
 		</tr>		
 		<tr>
 			<td>&nbsp;</td>
-			<td class="lTitle5" align="left" onClick="resetPwd()" title="Click to get new password">
-				Forgotten your password?</td>
-			<td >&nbsp;</td>
-		</tr>		
-		<tr>
-			<td>&nbsp;</td>
-			<td class="lTitle6" align="right" valign="center">
-				<a href="http://www.devoteam.co.uk/" target="_blank">
-				Powered by the Application Development Team @
-				www.devoteam.co.uk</a>
-				</td>
+			<td class="lTitle5" align="left" onClick="resetPwd()">
+				I forgot my password</td>
 			<td >&nbsp;</td>
 		</tr>
 		<tr>
