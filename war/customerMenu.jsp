@@ -9,11 +9,7 @@
 		<col width="33.34%"/>	
 	</colgroup>
 	<tbody><tr>
-<<<<<<< HEAD
-		<td class="lTitle7" align="left" valign="top" >			
-=======
-		<td class="lTitle7" align="left" valign="center" colspan="3">			
->>>>>>> master
+		<td class="lTitle7" align="left" valign="top" >		
 			Powered by the Application Development Team @
 			<a href="http://www.devoteam.co.uk/" target="_blank">www.devoteam.co.uk
 			</a><td>
@@ -48,11 +44,7 @@
 			<tr>
 				<td align="center" title="Press for live dashboard"
 					onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
-<<<<<<< HEAD
 					<img src="images/client_access.png" height="80px" width="80px">
-=======
-					<img src="images/client_access.png" height="60px" width="60px">
->>>>>>> master
 				</td>
 			</tr>	
 			<tr>
