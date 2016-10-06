@@ -84,6 +84,7 @@ function navigationAction(action) {
 		visible = "no";
 		document.getElementById("selectedAction").value = "hide";
 		document.getElementById("top").style.display = "none";
+		document.getElementById("siteList").style.display = "none";
 		document.getElementById("siteList").style.height = "384px";
 		document.getElementById("selectedHide").value = "Y";
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
@@ -92,9 +93,8 @@ function navigationAction(action) {
 	} else if (action=='show') {
 		visible = "yes";
 		document.getElementById("selectedAction").value = "show";
-		//document.getElementById("top").style.display = "none";
-		//document.getElementById("siteList").style.height = "384px";
 		document.getElementById("top").style.display = "inline";
+		document.getElementById("siteList").style.display = "none";
 		document.getElementById("siteList").style.height = "164px";	
 		document.getElementById("selectedHide").value = "N";
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
@@ -301,7 +301,7 @@ Project 12 Month Overview
 	</tr>
 </tbody>
 </table>
-<div id="siteList" style="margin: 0; padding: 0; overflow-y: auto; overflow-x: hidden; 
+<div id="siteList" style="margin: 0; padding: 0; overflow-y: auto; overflow-x: hidden; display; inline; 
 max-width: 100%; height: <%=(uB.getDisplayProject().equals("none")?"384":"164")%>px;"/>
 <!--max-width: 100%; height: 164px"/>  -->
 <table style="width: 1250px; table-layout: fixed;">
