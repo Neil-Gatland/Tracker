@@ -43,11 +43,7 @@ function resetPwd(action) {
 	<table style="width: 100%; table-layout: fixed; align: left;">
 	<colgroup>
 		<col width="37%"/>
-<<<<<<< HEAD
-		<col width="310px"/>	
-=======
-		<col width="26%"/>	
->>>>>>> master
+		<col width="310px"/>
 		<col width="37%x"/>	
 	</colgroup>
 	<tbody>
@@ -100,11 +96,7 @@ function resetPwd(action) {
 		</tr>		
 		<tr>
 			<td>&nbsp;</td>
-<<<<<<< HEAD
-			<td class="lTitle5" align="left" onClick="resetPwd()">
-=======
 			<td class="lTitle5" align="left" onClick="resetPwd()" title="Click to get new password">
->>>>>>> master
 				I forgot my password</td>
 			<td >&nbsp;</td>
 		</tr>

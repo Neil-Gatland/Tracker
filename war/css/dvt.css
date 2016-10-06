@@ -1363,11 +1363,7 @@ input.button {
 }
 td.lTitle1 {
 	color:#53565A;
-<<<<<<< HEAD
 	font-size:xx-large;
-=======
-	font-size:x-large;
->>>>>>> master
 	font-weight:bold;
 	text-align:center;
 }
@@ -1387,11 +1383,8 @@ td.lTitle3 {
 }
 td.lTitle4 {
 	background-color:#FFFFFF;
-<<<<<<< HEAD
 	color:dimgray;
-=======
 	color:#53565A;
->>>>>>> master
 	font-size:small;
 	font-weight: bold;
 	padding-left:20px;
@@ -1401,19 +1394,12 @@ td.lTitle4 {
 td.lTitle5 {
 	background-color:#FFFFFF;
 	color:#0090FF;
-<<<<<<< HEAD
 	font-size:small;
-=======
-	font-size:medium;
->>>>>>> master
 	padding-right:10px;
 	padding-top: 10px;
 	padding-left: 20px;
 	padding-bottom: 30px;
-<<<<<<< HEAD
 	border-radius: 0px 0px 5px 5px;
-=======
->>>>>>> master
 }
 td.lTitle6 {
 	background-color:#FFFFFF;
@@ -1448,12 +1434,9 @@ input.lText {
 	width: 250px;
 	font-size:medium;
 	padding: 10px;
-<<<<<<< HEAD
 	border-radius: 5px;
 	border-color: #0090FF;
 	border: 0.5px solid;
-=======
->>>>>>> master
 }
 input.LButton {
 	background-color:#0090FF;
@@ -1464,11 +1447,7 @@ input.LButton {
 	text-align:center;
 	cursor:pointer;
 	padding:5px;
-<<<<<<< HEAD
 	border-radius: 10px;
-	
-=======
->>>>>>> master
 }
 div.menu1 {
 	background-color:#F8485E;

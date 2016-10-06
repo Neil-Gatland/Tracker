@@ -12,12 +12,6 @@ String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(Strin
 <script language="javascript">
 <!--
 var selectedJobType = "<%=jobType%>";
-<<<<<<< HEAD
-function thisScreenLoad() {
-	
-}	
-function jobTypeSelect(jobType,projectRequestor,projectRequestorEmail,projectManager,projectManagerEmail,actingCustomer) {
-=======
 var selectedRedundant = "<%=redundant%>";
 
 function thisScreenLoad() {
@@ -27,7 +21,6 @@ function thisScreenLoad() {
 function jobTypeSelect
 			(	jobType,projectRequestor,projectRequestorEmail,projectManager,
 				projectManagerEmail,actingCustomer,redundant) {
->>>>>>> master
 	document.getElementById("jobTypeDelete").style.visibility = "visible";
 	document.getElementById("jobTypeAmend").style.visibility = "visible";
 	selectedJobType = jobType;
