@@ -14,8 +14,14 @@
 	<div>Acting Customer</div>
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="newActingCustomer" id="newActingCustomer" value="" maxlength="100"></div>
 	<div>Redundant</div>
-	<div style="padding-bottom:10px"><%=uB.getRedundantHTML()%></div>
-	<div style="width:240px;margin:0 auto;">
+	<div>
+		<select id="selectRedundantFilter" style="width:20%;" name="selectRedundantFilter" class="filter">
+			<option value="N">N</option>
+			<option value="Y">Y</option>
+		</select>
+	</div>
+	<div>&nbsp;</div> 
+	<div style="width:240px;margin:0 auto;padding-bottom:10px">
 		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addJobTypeClick('jobTypeAdd')" value="Submit" /></div>
 		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addJobTypeClick('cancel')" value="Cancel" /></div>
 	</div>

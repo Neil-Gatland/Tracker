@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
+import java.util.Properties;
 
 import com.devoteam.tracker.util.Sendgrid;
 import com.google.appengine.labs.repackaged.org.json.JSONException;

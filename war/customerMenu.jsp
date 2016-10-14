@@ -44,13 +44,13 @@
 			<tr>
 				<td align="center" title="Press for live dashboard"
 					onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
-					<img src="images/client_access.png" height="80px" width="80px">
+					<img src="images/dev_pictos_red_circle_rvb-26.png" height="80px" width="80px">
 				</td>
 			</tr>	
 			<tr>
-				<td align="center" class="lTitle2" title="Press for live dashboard"
+				<td align="center" title="Press for live dashboard"
 					onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
-					Live Dashboard
+					<img src="images/live_dashboard_text.png" height="16px" width="138px">
 				</td>
 			</tr>	
 			</tbody>		

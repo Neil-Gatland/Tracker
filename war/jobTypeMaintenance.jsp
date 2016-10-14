@@ -1,7 +1,7 @@
 <%@ include file="header.jsp" %>
 <%
 String jobType = request.getAttribute("jobType")==null?"none":(String)request.getAttribute("jobType");
-String redundant = request.getAttribute("redundant")==null?"none":(String)request.getAttribute("redundant");
+String redundant = request.getAttribute("redundant")==null?"N":(String)request.getAttribute("redundant");
 String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(String)request.getAttribute("buttonPressed");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="jobTypeMaint.jsp"/>
@@ -62,7 +62,7 @@ function tbClick(btn) {
 		document.getElementById("amendProjectManager").value = selectedProjectManager;
 		document.getElementById("amendProjectManagerEmail").value = selectedProjectManagerEmail;
 		document.getElementById("amendActingCustomer").value = selectedActingCustomer;
-		document.getElementById("amendRedundant").value = selectedRedundant;
+		document.getElementById("selectRedundantFilter2").value = selectedRedundant;
 	}
 	
 }
@@ -75,21 +75,21 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <table style="width: 1270px; height: 20px;"
 >
 <colgroup>
+<col width="135px"/>
+<col width="100px"/>
+<col width="205px"/>
 <col width="190px"/>
-<col width="130px"/>
 <col width="220px"/>
-<col width="120px"/>
-<col width="230px"/>
-<col width="120px"/>
-<col width="140px"/>
-<col width="80px"/>
-<col width="30px"/>
-<col width="30px"/>
+<col width="95px"/>
+<col width="110px"/>
+<col width="75px"/>
+<col width="20px"/>
+<col width="55px"/>
 </colgroup>
 <tbody>
 <tr>
 		<th id="hJobType">Job Type</th>
-		<th>Project Requestor</th>
+		<th title="Project Requestor">Proj. Requestor</th>
 		<th>Project Requestor Email</th>
 		<th>Project Manager</th>
 		<th>Project Manager Email</th>
@@ -103,10 +103,10 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 </table>
 <div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto;"
 >
-<table style="width: 1270px;"
+<table style="width: 1250px;"
 >
 <colgroup>
-<col width="190px"/>
+<col width="170px"/>
 <col width="130px"/>
 <col width="220px"/>
 <col width="120px"/>
@@ -114,8 +114,8 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <col width="120px"/>
 <col width="140px"/>
 <col width="80px"/>
-<col width="30px"/>
-<col width="30px"/>
+<col width="20px"/>
+<col width="50px"/>
 </colgroup>
 <tbody>
 <%=uB.getJobTypeListHTML(jobType)%>
