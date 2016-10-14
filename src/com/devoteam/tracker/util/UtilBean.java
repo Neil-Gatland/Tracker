@@ -4692,7 +4692,7 @@ public class UtilBean {
 				}
 			}
 	    } catch (Exception ex) {
-	    	message = "Error in GetLiveSitesHeading(): " + ex.getMessage();
+	    	message = "Error in GetLiveSitesFilter(): " + ex.getMessage();
 	    	ex.printStackTrace();
 	    } finally {
 	    	try {
@@ -4753,7 +4753,7 @@ public class UtilBean {
 		    	ex.printStackTrace();
 		    }
 	    } 
-	    if (display.equals("inline")) {
+	    /*if (display.equals("inline")) {
 	    	heading = heading + "&nbsp;" +
 	    			"<img src=\"images/hide.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('hide')\" "+
@@ -4764,12 +4764,12 @@ public class UtilBean {
 	    			"<img src=\"images/show.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('show')\" "+
     				"title=\"Show current project\">";
-	    }
+	    }*/
 	    heading = heading + "&nbsp;" +
 	    		"<img src=\"images/fwd.png\" "+
 				"height=\"15\" width=\"15\" border:1px solid black; "+
 				"onClick=\"navigationAction('fwd')\""+
-				"title=\"Go to next project\">";
+				"title=\"Manually refresh the live sites list\">";
 		return heading;
 	}
 	
@@ -5000,76 +5000,6 @@ public class UtilBean {
 					Option option = new Option(rs.getString(1), rs.getString(2),
 						false);
 					select.appendValue(option.toString());
-				}
-			}
-	    } catch (Exception ex) {
-	    	ex.printStackTrace();
-	    } finally {
-	    	try {
-	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
-	    		if ((conn != null) && (!conn.isClosed())) conn.close();
-		    } catch (SQLException ex) {
-		    	ex.printStackTrace();
-		    }
-	    }
-		return select.toString();
-	}
-	
-	public String getRedundantHTML() {
-    	Connection conn = null;
-    	CallableStatement cstmt = null;
-    	Select select = new Select("selectRedundantFilter",  "filter");
-	    try {
-	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call GetRedundantFilterList(?)}");
-   			cstmt.setString(1, "None" );
-			boolean found = cstmt.execute();
-			if (found) {
-				ResultSet rs = cstmt.getResultSet();
-				while (rs.next()) {
-					boolean optSelected = false;
-					if (rs.getString(1).equals("N")) {
-						optSelected = true;
-					}
-					Option option = new Option(rs.getString(1), rs.getString(2),
-						optSelected);
-					select.appendValue(option.toString());
-					
-				}
-			}
-	    } catch (Exception ex) {
-	    	ex.printStackTrace();
-	    } finally {
-	    	try {
-	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
-	    		if ((conn != null) && (!conn.isClosed())) conn.close();
-		    } catch (SQLException ex) {
-		    	ex.printStackTrace();
-		    }
-	    }
-		return select.toString();
-	}
-	
-	public String getRedundantHTML2(String jobType) {
-    	Connection conn = null;
-    	CallableStatement cstmt = null;
-    	Select select = new Select("selectRedundantFilter2",  "filter");
-	    try {
-	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call GetRedundantFilterList(?)}");
-   			cstmt.setString(1, jobType);
-			boolean found = cstmt.execute();
-			if (found) {
-				ResultSet rs = cstmt.getResultSet();
-				while (rs.next()) {
-					boolean optSelected = false;
-					/*if (rs.getString(1).equals("N")) {
-						optSelected = true;
-					}*/
-					Option option = new Option(rs.getString(1), rs.getString(2),
-						optSelected);
-					select.appendValue(option.toString());
-					
 				}
 			}
 	    } catch (Exception ex) {

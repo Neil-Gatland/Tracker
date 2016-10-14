@@ -6,12 +6,11 @@ String message = session.getAttribute("userMessage")!=null?
 	(String)session.getAttribute("userMessage"):	
 	request.getAttribute("userMessage")!=null?
 	(String)request.getAttribute("userMessage"):
-	request.getParameter("timeout")!=null?"Your session has timed out. Please log in again.":"Please enter a valid user id and password to continue";
+	request.getParameter("timeout")!=null?"Your session has timed out. Please log in again.":"";
 session.removeAttribute("userMessage");
 //if (session != null) {
 	session.invalidate();
-//}
-%>    
+//}%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>

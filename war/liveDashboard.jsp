@@ -12,49 +12,7 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 <input type="hidden" name="selectedFilter" id="selectedFilter" value=""/>
 <script language="javascript">;
 
-	var display ="<%=uB.getDisplayProject()%>";
-	var visible = "yes";
-	if (display="none") {
-		visible = "no";
-	}
-
-	//Load the Visualization API and the corechart package.
-	google.charts.load('current', {'packages':['corechart']});
-
-	// Set a callback to run when the Google Visualization API is loaded.
-	google.charts.setOnLoadCallback(drawPieChart);
-	google.charts.setOnLoadCallback(drawLineChart);
-	
-	// pie chart function
-	function drawPieChart() {
-		var data = google.visualization.arrayToDataTable([<%=uB.getDashboardPieData()%>]);
-      var options = {
-        is3D: true,
-        pieSliceText: 'value',
-        legend: 'none',
-		slices: {
-		  0: { color: 'green' },
-		  1: { color: 'orange'},
-		  2: { color: 'red'},
-		  3: { color: 'firebrick' } },
-		 chartArea: { width: '100%', height: '100%', top: '10%' }
-      };
-      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-      chart.draw(data, options);
-	}
-	
-	// line chart function
-	function drawLineChart() {
-		var data = google.visualization.arrayToDataTable([<%=uB.getDashboardLineData()%>]);
-		var options = {
-          	curveType: 'none', 
-			legend: 'none',
-			colors: ['#0090FF','gray','green','orange','red','firebrick'],
-			chartArea: { width: '80%', height: '70%' }
-		};
-		var chart = new google.visualization.LineChart(document.getElementById('linechart'));
-        chart.draw(data, options);
-	}
+var visible = "no";
 
 function thisScreenLoad() {	
 }
@@ -156,39 +114,6 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 <div id="top" Style="height: 180px; display: <%=uB.getDisplayProject()%>;">
 <table style="table-layout: fixed; border-style: none;">
 <tr>
-<td width="35%" valign="top"> 
-<!-- counts table section -->
-<table style="width: 100%;height: 100%;table-layout: fixed;">
-<colgroup>
-<col width="16%"/>
-<col width="14%"/>
-<col width="14%"/>
-<col width="14%"/>
-<col width="14%"/>
-<col width="14%"/>
-<col width="14%"/>
-</colgroup>
-<tbody>
-<%=uB.getDashboardTableHTML()%>
-</tbody>
-</table>
-</td>
-<td width="40%" class="chartTitle" valign="center" align="center"> 
-Project Activity (last quarter, next month)
-<!--  line chart section -->
-	<div id="linechart"></div>
-</td>
-<td width="5%" valign="center" align="center"> 
-	<!-- <img src="images/lcLegend.png" height="76" width="65"> -->
-	<img src="images/lcLegend.png" height="120" width="102">
- </td>
-<td width="30%" class="chartTitle" valign="center" align="center"> 
-Project 12 Month Overview
-<!--  pie chart section -->
- 	<div id="piechart"></div>
-</td>
-</tr>
-<tr>
 </table>
 </div>
 <div style="margin: 0; padding: 0; max-height: 640px; overflow; hidden;">
@@ -233,8 +158,7 @@ Project 12 Month Overview
 	</tr>
 	<tr>
 		<td class="ldTitle" colspan="6"><%=uB.GetLiveSitesHeading()%></td>
-		<td id="hAnchor" class="ldBlank" colspan="3"></td>		
-		</td>			
+		<td id="hAnchor" class="ldBlank" colspan="3"></td>			
 	</tr>
 	<tr>
 		<td class="ldBlank" colspan="4">&nbsp;</td>
