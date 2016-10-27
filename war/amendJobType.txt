@@ -12,9 +12,16 @@
 	<div>Project Manager Email</div>
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendProjectManagerEmail" id="amendProjectManagerEmail" maxlength="100"></div>
 	<div>Acting Customer</div>
+	<div>Redundant</div>
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendActingCustomer" id="amendActingCustomer" maxlength="100"></div>
 	<div>Redundant</div>
-	<div style="padding-bottom:10px"><%=uB.getRedundantHTML2(jobType)%></div>
+	<div>
+		<select id ="selectRedundantFilter2" style="width:20%" name="selectRedundantFilter2" class="filter">
+			<option value="N">N</option>
+			<option value="Y">Y</option>
+		</select>
+	</div>	
+	<div>&nbsp;</div> 
 	<div style="width:240px;margin:0 auto;">
 		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="amendJobTypeClick('jobTypeAmend')" value="Submit" /></div>
 		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="amendJobTypeClick('cancel')" value="Cancel" /></div>
@@ -25,10 +32,10 @@
 function amendJobTypeClick(operation) {
 	var f1 = document.getElementById("f1");
 	if (operation == "cancel") {
-		var aJT = document.getElementById("amendJobType");
-		aJT.style.display = "none";
-		aJT.style.left = "0px";
-		aJT.style.top = "0px";
+		var bJT = document.getElementById("amendJobType");
+		bJT.style.display = "none";
+		bJT.style.left = "0px";
+		bJT.style.top = "0px";
 	} else { //if (operation == "amendJobType") {
 		if (isWhitespaceOrEmpty(document.getElementById("amendProjectRequestor").value)) {
 			alert("Project Requestor cannot be blank")

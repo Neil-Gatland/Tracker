@@ -1,0 +1,61 @@
+<div id="amendUserJobTypes" class="filter2" style="width:320px">
+	<div class="closeX" title="close" onClick="amendUserJobTypesClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden">
+		<h3 class="white">Amend Job Types for <%=userName%></h3></div>	
+	<div>
+		<table>			
+			<colgroup>
+				<col width="200px"/>
+				<col width="70px"/>
+				<col width="40px"/>	
+			</colgroup>
+		<tbody>
+			<tr>
+				<td class=>Job Type</td>
+				<td>Redundant</td>
+				<td>Delete</td>
+			</tr>
+			<%=uB.getUserJobTypesHTML(userId)%>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			<tr>
+				<td><%=uB.getAvailableJobTypesForUserHTML(userId)%></td>
+				<td colspan="2"><input style="width:120px" type="button" class="button" 
+						onClick="amendUserJobTypesClick('addUserJobTypeSubmit')" 
+						value="Add Job Type" /></td>
+			</tr>
+		</tbody>
+		</table>
+	</div>	
+</div>
+<script language="javascript">
+<!--
+function amendUserJobTypesClick(operation) {
+	if (operation == "cancel") {
+		var aUR = document.getElementById("amendUserJobTypes");
+		aUR.style.display = "none";
+		aUR.style.left = "0px";
+		aUR.style.top = "0px";
+	} else {
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("jobType").value = document.getElementById("selectJobTypesForUser").value;
+		document.getElementById("f1").action = "userAdministration";
+		document.getElementById("f1").submit();
+	}
+}
+
+function deleteUserJobType(userId,jobType) {
+	if (!confirm("Please confirm deletion of " + jobType)) {	
+			return;
+	} else {		
+		document.getElementById("buttonPressed").value = "deleteUserJobTypeSubmit";		
+		document.getElementById("userId").value = userId;
+		document.getElementById("jobType").value = jobType;
+		document.getElementById("f1").action = "userAdministration";
+		document.getElementById("f1").submit();
+	}
+}
+-->
+</script>
+

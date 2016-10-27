@@ -318,13 +318,49 @@ public class CompletionReport {
 			    } finally {
 			    	try {
 			    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
-				    } catch (SQLException ex) {
-				    	result = " - automated completion report failed: closing after AddEmailCopy(): " + ex.getMessage();
-				    	ex.printStackTrace();
-				    } finally {
-				    	Email em = new Email();
-				    	result = em.send(messageBody, cRD.getEmailSendAddress(), toList, ccList, bccList, subject);
-				    }
+				    	} catch (SQLException ex) {
+				    		result = " - automated completion report failed: closing after AddEmailCopy(): " + ex.getMessage();
+				    		ex.printStackTrace();
+				    	} finally {
+				    		Email em = new Email();
+				    		try {
+				    			cstmt = conn.prepareCall("{call GetSendGridAccountDetails()}");
+								boolean found = cstmt.execute();
+								String sgAccount = "unavailable", sgPassword = "", sender = "", 
+										endMessage = "", sgActive = "";
+								if (found) {
+									ResultSet rs = cstmt.getResultSet();
+									if (rs.next()) {
+										sgAccount = rs.getString(1);
+										sgPassword = rs.getString(2);
+										sender = rs.getString(3);
+										endMessage = rs.getString(4);
+										sgActive = rs.getString(5);
+									}
+								}
+								if ((sgAccount.equals("unavailable")) || (sgAccount.equals("failed"))) {
+									result = " - unable to get SendGrid account details";
+								} else {
+									if (sgActive.equals("N")) {
+										result = " - SendGrid switched off so email is not being produced!";
+									} else {
+										result = em.sendConfirmationEmail(
+														messageBody, 
+														cRD.getEmailSendAddress(), 
+														toList, 
+														ccList, 
+														bccList, 
+														sgAccount, 
+														sgPassword, 
+														subject);										
+									}
+								}								
+				    		}
+				    		catch (SQLException ex) {
+				    			result = " - unable to get SendGrid account details";
+				    			ex.printStackTrace();
+				    		}
+				    	}
 			    } 
 		} 		
 		return result;

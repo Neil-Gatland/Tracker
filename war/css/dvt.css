@@ -1509,6 +1509,18 @@ div.filter {
 	left:0px;
 	display:none
 }
+div.filter2 {
+	background-color:#5d686e;
+	color:#ffffff;
+	border:1px solid black;
+	padding:10px;
+	font-size:small;
+	font-weight: normal;
+	position:absolute;
+	top:0px;
+	left:0px;
+	display:none
+}
 div.filterAlt {
 	background-color:#F8485E;
 	color:#ffffff;
@@ -1573,6 +1585,9 @@ select.filter {
 	width:100%	
 }
 h2.white {
+	color:#ffffff;
+}
+h3.white {
 	color:#ffffff;
 }
 h2 {
