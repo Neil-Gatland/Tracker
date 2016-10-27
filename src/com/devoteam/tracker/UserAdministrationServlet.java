@@ -51,12 +51,14 @@ public class UserAdministrationServlet extends HttpServlet  {
 			String userName = req.getParameter("userName");
 			String userType = req.getParameter("userType");
 			String userEmail = req.getParameter("userEmail");
+			String jobType = req.getParameter("jobType");
 	    	req.setAttribute("buttonPressed", buttonPressed);
 	    	req.setAttribute("userId", userId);
 	    	req.setAttribute("userStatus", req.getParameter("userStatus"));
 	    	req.setAttribute("userName", userName);
 	    	req.setAttribute("userType", userType);
 	    	req.setAttribute("userEmail", userEmail);
+	    	req.setAttribute("jobType", jobType);
 			if (buttonPressed.equals("amendUserStatusSubmit")) {
 				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
 				User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
@@ -72,6 +74,68 @@ public class UserAdministrationServlet extends HttpServlet  {
 		        	req.setAttribute("userMessage", "Status amended for user " + userName);
 			    } catch (Exception ex) {
 		        	req.setAttribute("userMessage", "Error: unable to amend user status, " + ex.getMessage());
+		        	req.removeAttribute("buttonPressed");
+			    } finally {
+			    	try {
+			    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+			    		if ((conn != null) && (!conn.isClosed())) conn.close();
+				    } catch (SQLException ex) {
+				    	ex.printStackTrace();
+				    }
+			    } 
+			} else if (buttonPressed.equals("addUserJobTypeSubmit")) {
+				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+				User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
+		    	Connection conn = null;
+		    	CallableStatement cstmt = null;
+			    try {
+			    	conn = DriverManager.getConnection(url);
+			    	cstmt = conn.prepareCall("{call AddUserJobType(?,?,?)}");
+					cstmt.setLong(1, Long.parseLong(userId));
+					cstmt.setString(2, jobType);
+					cstmt.setString(3, thisU.getNameForLastUpdatedBy());
+					boolean found = cstmt.execute();
+					if (found) {
+						ResultSet rs = cstmt.getResultSet();
+						if (rs.next()) {
+							if (!rs.getString(1).equalsIgnoreCase("Y")) {
+								throw new Exception("negative return code from AddUserJobType()");
+							}
+						}
+					}
+		        	req.setAttribute("userMessage", "Job type "+jobType+" added for user " + userName);
+			    } catch (Exception ex) {
+		        	req.setAttribute("userMessage", "Error: unable to add user job type, " + ex.getMessage());
+		        	req.removeAttribute("buttonPressed");
+			    } finally {
+			    	try {
+			    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+			    		if ((conn != null) && (!conn.isClosed())) conn.close();
+				    } catch (SQLException ex) {
+				    	ex.printStackTrace();
+				    }
+			    } 
+			} else if (buttonPressed.equals("deleteUserJobTypeSubmit")) {
+				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+		    	Connection conn = null;
+		    	CallableStatement cstmt = null;
+			    try {
+			    	conn = DriverManager.getConnection(url);
+			    	cstmt = conn.prepareCall("{call DeleteUserJobType(?,?)}");
+					cstmt.setLong(1, Long.parseLong(userId));
+					cstmt.setString(2, jobType);
+					boolean found = cstmt.execute();
+					if (found) {
+						ResultSet rs = cstmt.getResultSet();
+						if (rs.next()) {
+							if (!rs.getString(1).equalsIgnoreCase("Y")) {
+								throw new Exception("negative return code from DeleteUserJobType()");
+							}
+						}
+					}
+		        	req.setAttribute("userMessage", "Job type "+jobType+" deleted for user " + userName);
+			    } catch (Exception ex) {
+		        	req.setAttribute("userMessage", "Error: unable to delete user job type, " + ex.getMessage());
 		        	req.removeAttribute("buttonPressed");
 			    } finally {
 			    	try {

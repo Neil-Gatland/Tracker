@@ -6,9 +6,6 @@
 		<div style="float:left" title="Press to change your password">
 			<input style="width:100px" type="button" class="displayPicButton" 
 				onClick="externalOptionsClick('chgPwd')" value="Change Password" /></div>
-		<div style="float:left" title="Press if no options required">
-			<input style="width:100px" type="button" class="displayPicButton" 
-				onClick="externalOptionsClick('cancel')" value="Cancel" /></div>
 	</div>		
 	<!-- <div>&nbsp;</div>	
 	<div>&nbsp;</div> -->

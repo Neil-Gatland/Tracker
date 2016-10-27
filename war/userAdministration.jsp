@@ -12,6 +12,7 @@ String userCustomer = request.getAttribute("userCustomer")==null?"":(String)requ
 String selectUserType = request.getAttribute("selectUserType")==null?"":(String)request.getAttribute("selectUserType");
 String[] selectCustomerId = request.getAttribute("selectCustomerId")==null?null:(String[])request.getAttribute("selectCustomerId");
 String selectThirdParty = request.getAttribute("selectThirdParty")==null?"":(String)request.getAttribute("selectThirdParty");
+String jobType = request.getAttribute("jobType")==null?"":(String)request.getAttribute("jobType");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="userAdministration.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.USER_ADMINISTRATION%>"/>
@@ -21,6 +22,7 @@ String selectThirdParty = request.getAttribute("selectThirdParty")==null?"":(Str
 <input type="hidden" name="userEmail" id="userEmail" value="<%=userEmail%>"/>
 <input type="hidden" name="userName" id="userName" value="<%=userName%>"/>
 <input type="hidden" name="userType" id="userType" value="<%=userType%>"/>
+<input type="hidden" name="jobType" id="jobType" value="<%=jobType%>"/>
 <script language="javascript">
 <!--
 var selectedUserId = <%=userId%>;
@@ -30,6 +32,10 @@ var selectedUserName = "<%=userName%>";
 var selectedUserType = "<%=userType%>";
 
 function thisScreenLoad() {
+	var aUJT = document.getElementById("amendUserJobTypes");
+	aUJT.style.display = "none";
+	aUJT.style.left = "0px";
+	aUJT.style.top = "0px";
 <%	if (userId != -1) {%>
 	userSelect(<%=userId%>, "<%=userStatus%>", "<%=userName%>", "<%=userType%>");
 <%		if (buttonPressed.equals("amendStatus")) {%>
@@ -50,6 +56,15 @@ function thisScreenLoad() {
 	var header = document.getElementById("hUserId");
 	var position = getPosition(header);
 	var aUR = document.getElementById("amendUserRoles");
+	aUR.style.display = "inline";
+	aUR.style.left = position.x + "px";
+	aUR.style.top = position.y + "px";
+<%		} else if ((buttonPressed.equals("amendJobTypes"))||
+		(buttonPressed.equals("deleteUserJobTypeSubmit"))||
+		(buttonPressed.equals("addUserJobTypeSubmit"))) {%>
+	var header = document.getElementById("hUserId");
+	var position = getPosition(header);
+	var aUR = document.getElementById("amendUserJobTypes");
 	aUR.style.display = "inline";
 	aUR.style.left = position.x + "px";
 	aUR.style.top = position.y + "px";
@@ -88,6 +103,11 @@ function userSelect(userId, userStatus, userName, userType, userEmail) {
 		}		
 		document.getElementById("resetPwd").style.display = "inline";	
 		document.getElementById("amendEmail").style.display = "inline";
+		if ((userType=="<%=User.USER_TYPE_CUSTOMER%>")||(userType=="<%=User.USER_TYPE_THIRD_PARTY%>")) {
+			document.getElementById("amendJobTypes").style.display = "inline";
+		} else {
+			document.getElementById("amendJobTypes").style.display = "none";
+		}
 	}
 	selectedUserId = userId;
 	selectedUserStatus = userStatus;
@@ -194,6 +214,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <div id="amendRoles" onClick="tbClick('amendRoles')" onMouseOut="invertClass('amendRoles')" onMouseOver="invertClass('amendRoles')" style="float:right;display:none" class="menu2Item">Amend Roles</div>
 <div id="resetPwd" onClick="tbClick('resetPwd')" onMouseOut="invertClass('resetPwd')" onMouseOver="invertClass('resetPwd')" style="float:right;display:none" class="menu2Item">Reset Password</div>
 <div id="amendEmail" onClick="tbClick('amendEmail')" onMouseOut="invertClass('amendEmail')" onMouseOver="invertClass('amendEmail')" style="float:right;display:none" class="menu2Item">Amend Email</div>
+<div id="amendJobTypes" onClick="tbClick('amendJobTypes')" onMouseOut="invertClass('amendJobTypes')" onMouseOver="invertClass('amendJobTypes')" style="float:right;display: none;" class="menu2Item">Amend Job Types</div>
 <div id="tmAnchor" class="menu2">&nbsp;</div>
 </div>
 <div class="menu2" style="height:2px"></div>
@@ -207,6 +228,8 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <%@ include file="amendUserStatus.txt" %>
 <!-- amend user email -->
 <%@ include file="amendUserEmail.txt" %>
+<!-- amend user job types -->
+<%@ include file="amendUserJobTypes.txt" %>
 </form>
 </body>
 </html>

@@ -39,6 +39,7 @@ import com.devoteam.tracker.model.SiteConfiguration;
 import com.devoteam.tracker.model.SiteProgress;
 import com.devoteam.tracker.model.User;
 import com.devoteam.tracker.model.UserAdminListItem;
+import com.devoteam.tracker.model.UserJobType;
 import com.devoteam.tracker.model.UserRole;
 
 public class UtilBean {
@@ -4692,7 +4693,7 @@ public class UtilBean {
 				}
 			}
 	    } catch (Exception ex) {
-	    	message = "Error in GetLiveSitesHeading(): " + ex.getMessage();
+	    	message = "Error in GetLiveSitesFilter(): " + ex.getMessage();
 	    	ex.printStackTrace();
 	    } finally {
 	    	try {
@@ -4753,7 +4754,7 @@ public class UtilBean {
 		    	ex.printStackTrace();
 		    }
 	    } 
-	    if (display.equals("inline")) {
+	    /*if (display.equals("inline")) {
 	    	heading = heading + "&nbsp;" +
 	    			"<img src=\"images/hide.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('hide')\" "+
@@ -4764,12 +4765,12 @@ public class UtilBean {
 	    			"<img src=\"images/show.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('show')\" "+
     				"title=\"Show current project\">";
-	    }
+	    }*/
 	    heading = heading + "&nbsp;" +
 	    		"<img src=\"images/fwd.png\" "+
 				"height=\"15\" width=\"15\" border:1px solid black; "+
 				"onClick=\"navigationAction('fwd')\""+
-				"title=\"Go to next project\">";
+				"title=\"Manually refresh the live sites list\">";
 		return heading;
 	}
 	
@@ -5015,26 +5016,100 @@ public class UtilBean {
 		return select.toString();
 	}
 	
-	public String getRedundantHTML() {
+	public Collection<UserJobType> getUserJobTypes(long userId) {
+		ArrayList<UserJobType> ujtList = new ArrayList<UserJobType>();
     	Connection conn = null;
     	CallableStatement cstmt = null;
-    	Select select = new Select("selectRedundantFilter",  "filter");
 	    try {
 	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call GetRedundantFilterList(?)}");
-   			cstmt.setString(1, "None" );
+	    	cstmt = conn.prepareCall("{call GetUserJobTypes(?)}");
+   			cstmt.setLong(1, userId);
+			boolean found = cstmt.execute();
+			if (found) {
+				
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					ujtList.add(new UserJobType(
+							rs.getLong(1),
+							rs.getString(2),
+							rs.getString(3)));
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+	    return ujtList;
+	}
+		
+	public String getUserJobTypesHTML(long userId) {
+		boolean oddRow = false;
+		int row = 0;
+		StringBuilder html = new StringBuilder();
+		Collection<UserJobType> ujtList = getUserJobTypes(userId);
+		if (ujtList.isEmpty()) {
+			if (message!=null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td1 = new HTMLElement("td", "grid1i", message);
+				td1.setAttribute("align", "left");
+				td1.setAttribute("colspan", "3");
+				tr.appendValue(td1.toString());
+				html.append(tr.toString());
+				
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td1 = new HTMLElement("td", "grid1i", "No job types allocated");
+				td1.setAttribute("align", "left");
+				td1.setAttribute("colspan", "3");
+				tr.appendValue(td1.toString());
+				html.append(tr.toString());
+			}
+		} else {			
+			for (Iterator<UserJobType> it = ujtList.iterator(); it.hasNext(); ) {
+				row++;
+				oddRow = !oddRow;
+				UserJobType uJT = it.next();
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td1 = new HTMLElement("td", (oddRow?"grid1i":"grid2i"), uJT.getJobType());
+				tr.appendValue(td1.toString());
+				HTMLElement td2 = new HTMLElement("td", (oddRow?"grid1i":"grid2i"), uJT.getRedundant());
+				td2.setAttribute("align", "center");
+				tr.appendValue(td2.toString());
+				HTMLElement input = new HTMLElement("input", "user"+row, "usrId",
+													"radio", uJT.getUserIdString()+uJT.getJobType(),
+													"deleteUserJobType("+userId+",'"+uJT.getJobType()+"')");
+				HTMLElement td3 = new HTMLElement("td", (oddRow?"grid1i":"grid2i"), input.toString());
+				HTMLElement td = new HTMLElement("td", oddRow?"grid1":"grid2", 
+					input.toString());
+				td3.setAttribute("align", "center");
+				tr.appendValue(td3.toString());
+				html.append(tr.toString());
+			}
+		}
+		return html.toString();
+	}
+	
+	public String getAvailableJobTypesForUserHTML(long userId) {
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	Select select = new Select("selectJobTypesForUser",  "filter");
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetAvailableJobTypesForUser(?)}");
+   			cstmt.setLong(1, userId);
 			boolean found = cstmt.execute();
 			if (found) {
 				ResultSet rs = cstmt.getResultSet();
 				while (rs.next()) {
-					boolean optSelected = false;
-					if (rs.getString(1).equals("N")) {
-						optSelected = true;
-					}
 					Option option = new Option(rs.getString(1), rs.getString(2),
-						optSelected);
+						false);
 					select.appendValue(option.toString());
-					
 				}
 			}
 	    } catch (Exception ex) {
@@ -5049,40 +5124,4 @@ public class UtilBean {
 	    }
 		return select.toString();
 	}
-	
-	public String getRedundantHTML2(String jobType) {
-    	Connection conn = null;
-    	CallableStatement cstmt = null;
-    	Select select = new Select("selectRedundantFilter2",  "filter");
-	    try {
-	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call GetRedundantFilterList(?)}");
-   			cstmt.setString(1, jobType);
-			boolean found = cstmt.execute();
-			if (found) {
-				ResultSet rs = cstmt.getResultSet();
-				while (rs.next()) {
-					boolean optSelected = false;
-					/*if (rs.getString(1).equals("N")) {
-						optSelected = true;
-					}*/
-					Option option = new Option(rs.getString(1), rs.getString(2),
-						optSelected);
-					select.appendValue(option.toString());
-					
-				}
-			}
-	    } catch (Exception ex) {
-	    	ex.printStackTrace();
-	    } finally {
-	    	try {
-	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
-	    		if ((conn != null) && (!conn.isClosed())) conn.close();
-		    } catch (SQLException ex) {
-		    	ex.printStackTrace();
-		    }
-	    }
-		return select.toString();
-	}
-	
 }
