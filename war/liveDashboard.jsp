@@ -109,9 +109,9 @@ function projectClick(action) {
 	}
 }
 </script> 
-<div style="width: 1270px; margin: auto; margin-top: 10px;
+<div style="float: left;width: 1270px; margin: auto; margin-top: 10px; 
 overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
-<div id="top" Style="height: 180px; display: <%=uB.getDisplayProject()%>;">
+<div id="top" style="height: 180px; display: <%=uB.getDisplayProject()%>;">
 <table style="table-layout: fixed; border-style: none;">
 <tr>
 </table>

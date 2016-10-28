@@ -13,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
+
+import java.util.ArrayList;
 import java.util.Properties;
 
 import com.devoteam.tracker.util.Sendgrid;
@@ -60,6 +62,69 @@ public class Email {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public String sendConfirmationEmail
+		(	String messageBody, 
+			String sender, 
+			String recipientToList, 
+			String recipientCCList, 
+			String recipientBCCList, 
+			String accountName,
+			String accountPassword,
+			String subject) {
+		
+	    String result = "";
+	    
+		// set SendGrid credentials
+		Sendgrid mail = new Sendgrid(accountName,accountPassword);
+		
+		// set up recipients
+		String[] rTo = recipients(recipientToList);
+        for ( int i=0; i < rTo.length; i++ ) { 
+        	if (rTo[i]!="") {
+        		mail.addTo(rTo[i]);
+        	}	        	
+        }
+		String[] rCC = recipients(recipientCCList);
+        for ( int i=0; i < rTo.length; i++ ) { 
+        	if (rCC[i]!="") {
+        		mail.addTo(rCC[i]); 	// currently set cc as to as can't find way to set cc!
+        	}	        	
+        }
+    	String[] rBCC = recipients(recipientBCCList);
+        for ( int i=0; i < rTo.length; i++ ) { 
+        	if (rBCC[i]!="") {
+        		//mail.setBcc(rBCC[i]);
+        		mail.addTo(rBCC[i]);	// set to To so that user can see their own email address!
+        	}	        	
+        }
+        
+        // set sender and subject
+		mail.setFrom(sender);
+		mail.setSubject(subject);
+		
+		// set message body
+		mail.setHtml(messageBody);
+		mail.setText("Dummy test");		
+		
+		// send email
+		if (result.equals(""))
+		{
+			try {			
+				mail.send();
+				result = " - automated email produced";
+			}
+			catch (Exception e)
+			{
+				result = 
+					"Password reset error (please contact support and note the following message): "+
+				mail.getServerResponse();
+				e.printStackTrace();
+			}
+		}
+			    
+	    return result;		
 	}
 		
 	public String send 
@@ -209,5 +274,6 @@ public class Email {
 		}
 		return list;
 	}
+		
 	
 }

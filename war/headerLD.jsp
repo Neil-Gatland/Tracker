@@ -99,8 +99,10 @@
 <div style="float:right;width:30%">&nbsp;</div>
 <div style="text-align:center;overflow:hidden;color:#53565A;"><h1><%=displayScreen%></h1></div>
 <div style="clear:both;text-align:center;font-weight:bold;" class="<%=messageClass%>"><%=message%></div>
-<div class="menu1" style="height:2px"></div>
-<%=uB.getMenu1()%>
-<div class="menu1" style="clear:both;height:2px"></div>
+<table style="table-layout: fixed; border-style: none;width:1250px;">
+<tr>
+<td class="menu1"><%=uB.getMenu1()%></td>
+</tr>
+</table>
 <!--/body>
 </html-->

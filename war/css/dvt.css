@@ -1099,6 +1099,42 @@ td.ldGrayRDash {
 	color:#000000;
 	text-align:center;
 	font-size:x-small;	
+}	
+td.ldPurple {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:purple;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;	
+}
+td.ldPurpleLDash {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: black 0.5px dashed;
+	background-color:purple;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;	
+}
+td.ldPurpleRDash {
+	margin:0; 
+	padding:0;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	background-color:purple;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;	
 }
 td.grid1 {
 	border-bottom: silver 1px solid;
@@ -1473,6 +1509,30 @@ div.menu1ItemNeg {
 	font-weight:bold;
 	cursor:pointer;
 }
+td.menu1 {
+	background-color:#F8485E;
+	color:#ffffff;
+	font-size:small;
+	font-weight:bold;
+}
+td.menu1Item {
+	background-color:#F8485E;
+	color:#ffffff;
+	padding-left:10px;
+	padding-right:10px;
+	font-size:small;
+	font-weight:bold;
+	cursor:pointer;
+}
+td.menu1ItemNeg {
+	background-color:#ffffff;
+	color:#F8485E;
+	padding-left:10px;
+	padding-right:10px;
+	font-size:small;
+	font-weight:bold;
+	cursor:pointer;
+}
 div.menu2 {
 	background-color:#53565A;
 	color:#ffffff;
@@ -1504,6 +1564,18 @@ div.filter {
 	padding:10px;
 	font-size:small;
 	font-weight:bold;
+	position:absolute;
+	top:0px;
+	left:0px;
+	display:none
+}
+div.filter2 {
+	background-color:#5d686e;
+	color:#ffffff;
+	border:1px solid black;
+	padding:10px;
+	font-size:small;
+	font-weight: normal;
 	position:absolute;
 	top:0px;
 	left:0px;
@@ -1573,6 +1645,9 @@ select.filter {
 	width:100%	
 }
 h2.white {
+	color:#ffffff;
+}
+h3.white {
 	color:#ffffff;
 }
 h2 {
