@@ -202,6 +202,7 @@ public class MultiSNRListServlet extends HttpServlet  {
 			    }
 			} else if ((buttonPressed.equals("updateEF345")) ||
 					(buttonPressed.equals("updateWorkDetails")) ||
+					(buttonPressed.equals("updateHardwareVendor")) ||
 					(buttonPressed.equals("updateSiteIssues")) ||
 					(buttonPressed.equals("updateSiteDetails")) ||
 					(buttonPressed.equals("updateImplDates")) ||
@@ -228,6 +229,8 @@ public class MultiSNRListServlet extends HttpServlet  {
 		    	req.setAttribute("ef345ClaimDT", ef345ClaimDT);
 				String workDetails = req.getParameter("workDetails");
 		    	req.setAttribute("workDetails",workDetails);
+				String hardwareVendor = req.getParameter("hardwareVendor");
+		    	req.setAttribute("hardwareVendor",hardwareVendor);
 				String siteIssues = req.getParameter("siteIssues");
 		    	req.setAttribute("siteIssues",siteIssues);
 				String implementationStatus = req.getParameter("selectImplementationStatus")==null
@@ -411,6 +414,34 @@ public class MultiSNRListServlet extends HttpServlet  {
 						    	conn.close();
 						    } catch (SQLException ex) {
 					        	req.setAttribute("userMessage", "Error: updating Implementation Dates, " + ex.getMessage());
+						    }
+					    }
+					} else if (buttonPressed.equals("updateHardwareVendor")) {
+					    try {
+							conn = DriverManager.getConnection(url);
+							cstmt = conn.prepareCall("{call UpdateHardwareVendor(?,?,?)}");
+							cstmt.setLong(1, Long.parseLong(snrId));
+							cstmt.setString(2, hardwareVendor);
+							cstmt.setString(3, thisU.getNameForLastUpdatedBy());
+							boolean found = cstmt.execute();
+							if (found) {
+								ResultSet rs = cstmt.getResultSet();
+								if (rs.next()) {
+									if (rs.getString(1).equalsIgnoreCase("Y")) {
+										req.setAttribute("userMessage", "Hardware Vendor updated");
+									} else {
+										throw new Exception("negative return code from UpdateHardwareVendor()");
+									}
+								}
+							}
+					    } catch (Exception ex) {
+				        	req.setAttribute("userMessage", "Error: unable to update Work Details, " + ex.getMessage());
+					    } finally {
+					    	try {					    		
+						    	cstmt.close();
+						    	conn.close();
+						    } catch (SQLException ex) {
+					        	req.setAttribute("userMessage", "Error: updating Work Details, " + ex.getMessage());
 						    }
 					    }
 					} else if (buttonPressed.equals("updateWorkDetails")) {

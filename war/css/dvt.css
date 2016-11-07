@@ -1408,6 +1408,12 @@ td.lTitle2 {
 	font-size: large;
 	text-align: center;
 }
+td.lTitle2b {
+	color:#53565A;
+	font-size: x-large;
+	text-align: center;
+	font-weight:bold;
+}
 td.lTitle3 {
 	background-color:#FFFFFF;
 	color:#F8485E;
@@ -1746,4 +1752,13 @@ td.grid2RedBold {
 	font-weight:bold;
 	background-color : #ffffff;
 	height: 20px
+}
+td.siteCompGreen {
+	font-size: xx-small;
+	border-radius: 5px;
+	border-color: #FFFFFF;
+	background-color: #008000;
+	color: #FFFFFF;
+	text-align: center;
+	text-weight: bold;	
 }

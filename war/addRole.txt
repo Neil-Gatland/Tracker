@@ -1,5 +1,5 @@
 <div id="addRole" class="filter" style="width:270px">
-	<div class="closeX" title="close" onClick="addJobTypeClick('cancel')">x</div>
+	<div class="closeX" title="close" onClick="addRoleClick('cancel')">x</div>
 	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Add <%=snrUserRole%></h2></div>
 	<div><%=snrUserRole%></div>
 	<div style="padding-bottom:10px"><%=snrId!=-1?uB.getAvailableUsersForRoleHTML(snrId, snrUserRole):""%></div>
@@ -8,6 +8,10 @@
 	<div>Third Party</div>
 	<div style="padding-bottom:10px"><%=uB.getSelectHTML("ThirdParty", "select", "filter", "-1", tpParameters) %></div>
 	<div>FE Number</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("FENumber", "select", "filter", "1") %></div>
+<%}%>	
+<%if (snrUserRole.equalsIgnoreCase(UserRole.ROLE_B_O_ENGINEER)) { %>
+	<div>BO Number</div>
 	<div style="padding-bottom:10px"><%=uB.getSelectHTML("FENumber", "select", "filter", "1") %></div>
 <%}%>	
 	<div style="width:240px;margin:0 auto;">
@@ -30,7 +34,7 @@ function addRoleClick(operation) {
 			alert("Please select a third party");
 			return;
 		}  
-<%}%>	
+<%}%>		
 		document.getElementById("buttonPressed").value = operation;
 		document.getElementById("f1").action = "multiSNRList";
 		f1.submit();

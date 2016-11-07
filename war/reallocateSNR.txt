@@ -24,7 +24,7 @@ margin: 0; padding:0;border-collapse:collapse;width:1250px;height:<%=reallocType
 <tr>
 		<th>Name</th>
 		<th>Role</th>
-		<th>FE Order</th>
+		<th>BO/FE Order</th>
 		<th>FE Third Party</th>
 		<th>Select</th>
 </tr>
@@ -134,8 +134,13 @@ function reallocateSNRClick(operation) {
 	} else if (operation == "deleteEngineer") {
 		var confirmText = "";
 		if (selectedRole == "<%=UserRole.ROLE_B_O_ENGINEER%>") {
-			confirmText = (selectedCount == 1?"This is the only allocated BO Engineer.":"") +
-				"Please confirm the removal of this engineer from the SNR";
+			if ((document.getElementById("reallocType").value == "realloc") &&
+				(selectedCount == 1) && (selectedLevel == 1)) {
+				alert("This is the only allocated level 1 BO Engineer. Another level 1 BO Engineer must be added before this one can be removed");
+				return;
+			} else {
+				confirmText = "Please confirm the removal of this engineer from the SNR";
+			}
 		} else {
 			if ((document.getElementById("reallocType").value == "realloc") &&
 				(selectedCount == 1) && (selectedLevel == 1)) {
@@ -190,7 +195,7 @@ function reallocateSNRClick(operation) {
 function scheduledDTChange() {
 	var sDT = document.getElementById("scheduledDT").value;
 	var reallocType = "<%=reallocType%>";
-	if ((sDT.length == 0) || (<%=feCount%> == 0)) {
+	if ((sDT.length == 0) || (<%=feCount%> == 0)|| (<%=boCount%> == 0)) {
 		document.getElementById("confirmSM").style.display = "none";
 	} else if (reallocType == "schedM") {
 		document.getElementById("confirmSM").style.display = "inline";

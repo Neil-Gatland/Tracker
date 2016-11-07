@@ -176,52 +176,49 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 		<td class="ldHeadRightDashStress" colspan="5">Starting</td>
 		<td class="ldHeadBothDashStress" colspan="8">In Progress</td>
 		<td class="ldHeadBothDashStress" colspan="5">Completing</td>
-		<!--td class="ldHeadRightDash" colspan="2">Issues</td>-->
 		<td class="ldHeadLeftDashStress" colspan="2">Issues</td>
 	</tr>
 	<tr>	
-		<!--<td class="ldHeadLeftDash" title="Checked In (BO)">CI</td>-->	
 		<td onClick="siteProgressItemsKeyClick('open')" 
 			class="ldHead" title="Checked In (BO)">CI</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Booked On (BO)">BO</td>
+			class="ldHead" title="Site Booked On (BO)">SB</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
 			class="ldHead" title="Site Accessed (FE)">SA</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
 			class="ldHead" title="Physical Checks (FE)">PC</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHeadRightDash" title="Pre Call Test (FE)">PCT</td>
+			class="ldHeadRightDash" title="Pre Call Tests (FE)">TC</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
 			class="ldHeadLeftDash" title="Site Locked (BO/FE)">SL</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="HW Installs (FE)">HWI</td>
+			class="ldHead" title="HW Installed (FE)">HW</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Commissioning (FE)">CFE</td>
+			class="ldHead" title="Field Commissioning (FE)">FC</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Commissioning (BO)">CBO</td>
+			class="ldHead" title="Back Office Commissioning (BO)">BC</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Tx Provisioning (Client)">TXP</td>
+			class="ldHead" title="Tx Provisioning (Client)">Tx</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
 			class="ldHead" title="Field Work (FE)">FW</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
 			class="ldHead" title="Site Unlocked (BO)">SU</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHeadRightDash" title="Post Call Test (FE)">PCT</td>
+			class="ldHeadRightDash" title="Post Call Test (FE)">TC</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
 			class="ldHeadLeftDash" title="Closure Code (BO)">CC</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Leave Site (BO)">LS</td>
+			class="ldHead" title="Left Site (BO)">SL</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Book Off Site (FE)">BOS</td>
+			class="ldHead" title="Booked Off Site (FE)">SB</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Performance (BO)">P</td>
+			class="ldHead" title="Performance Monitoring (BO)">Prf</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHeadRightDash" title="HOP (BO)">H</td>
+			class="ldHeadRightDash" title="Hand Over Pack (BO)">HoP</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHeadLeftDash" title="Devoteam">DVT</td>
-		<!--<td class="ldHead" title="Customer">CST</td>-->
+			class="ldHeadLeftDash" title="Devoteam">Devo</td>
 		<td onClick="siteProgressItemsKeyClick('open')" 
-			class="ldHead" title="Customer">CST</td>
+			class="ldHead" title="Vodafone">VF</td>
 	</tr>
 </tbody>
 </table>

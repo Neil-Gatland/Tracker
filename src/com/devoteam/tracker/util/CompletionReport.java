@@ -343,6 +343,14 @@ public class CompletionReport {
 								} else {
 									if (sgActive.equals("N")) {
 										result = " - SendGrid switched off so email is not being produced!";
+									} else if (sgActive.equals("R")) {
+										result = em.send(
+												messageBody, 
+												sender, 
+												toList, 
+												ccList, 
+												bccList, 
+												subject);
 									} else {
 										result = em.sendConfirmationEmail(
 														messageBody, 

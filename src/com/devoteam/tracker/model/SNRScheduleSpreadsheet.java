@@ -33,14 +33,16 @@ public class SNRScheduleSpreadsheet implements Serializable {
 	private ArrayList<BOEngineer> boEngineers;
 	private ArrayList<String> problems;
 	private String beName;
+	private int beRank;
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private final static String[] snrTitles = {"Site", "NR Id", /*"Job Type", 
-		"SNR Id",*/ "Upgrade Type", "Commentary", "Field Engineer", "No.", "Vendor", "BO Engineer"};
+		"SNR Id",*/ "Upgrade Type", "Commentary", "Field Engineer", "No.", "Vendor", "BO Engineer", "No."};
 	private final static int[] snrCellTypes = {Cell.CELL_TYPE_NUMERIC, Cell.CELL_TYPE_STRING, 
 		/*Cell.CELL_TYPE_STRING, Cell.CELL_TYPE_NUMERIC,*/ Cell.CELL_TYPE_STRING, Cell.CELL_TYPE_STRING, 
-		Cell.CELL_TYPE_STRING, Cell.CELL_TYPE_NUMERIC, Cell.CELL_TYPE_STRING, Cell.CELL_TYPE_STRING};
+		Cell.CELL_TYPE_STRING, Cell.CELL_TYPE_NUMERIC, Cell.CELL_TYPE_STRING, Cell.CELL_TYPE_STRING,
+		Cell.CELL_TYPE_NUMERIC};
 	private final static int[] columnWidths = {2304, 2560, /*"Job Type", 
-		"SNR Id",*/ 4352, 3840, 4864, 2048, 2816, 4096};
+		"SNR Id",*/ 4352, 3840, 4864, 2048, 2816, 4096, 2048};
 
 	public SNRScheduleSpreadsheet(Row dataRow, int start, Date scheduledDate,
 			String workflowName) {
@@ -74,13 +76,15 @@ public class SNRScheduleSpreadsheet implements Serializable {
 		//cell = dataRow.getCell(start+7);
 		//this.beName = cell==null?null:cell.getStringCellValue().trim();
 		this.beName = getStringCellValue(dataRow.getCell(start+7));
+		this.beRank = getNumericCellValue(dataRow.getCell(start+8));
 		fieldEngineers = new ArrayList<FieldEngineer>();
 		boEngineers = new ArrayList<BOEngineer>();
 		if (feName != null) {
 			fieldEngineers.add(new FieldEngineer(feName, feRank, feVendor));
 		}
 		if (beName != null) {
-			boEngineers.add(new BOEngineer(beName));
+			//boEngineers.add(new BOEngineer(beName));
+			boEngineers.add(new BOEngineer(beName, beRank));
 		}
 		problems = new ArrayList<String>();
 		snrId = -1;
@@ -147,6 +151,26 @@ public class SNRScheduleSpreadsheet implements Serializable {
 		this.feRank = feRank;
 		this.feVendor = feVendor;
 		this.beName = beName;
+		fieldEngineers = new ArrayList<FieldEngineer>();
+		boEngineers = new ArrayList<BOEngineer>();
+		problems = new ArrayList<String>();
+		snrId = -1;
+	}
+
+	public SNRScheduleSpreadsheet(Date scheduledDate, String workflowName, String site,
+			String nrId, String upgradeType, String commentary, String feName, int feRank,
+			String feVendor, String beName, int beRank) {
+		this.scheduledDate = scheduledDate;
+		this.workflowName = workflowName;
+		this.site = site;
+		this.nrId = nrId;
+		this.upgradeType = upgradeType;
+		this.commentary = commentary;
+		this.feName = feName;
+		this.feRank = feRank;
+		this.feVendor = feVendor;
+		this.beName = beName;
+		this.beRank = beRank;
 		fieldEngineers = new ArrayList<FieldEngineer>();
 		boEngineers = new ArrayList<BOEngineer>();
 		problems = new ArrayList<String>();
@@ -237,8 +261,12 @@ public class SNRScheduleSpreadsheet implements Serializable {
 		this.boEngineers.addAll(boEngineers);
 	}
 	
-	public void addBOEngineer(String boEngineer) {
+	/*public void addBOEngineer(String boEngineer) {
 		boEngineers.add(new BOEngineer(boEngineer));
+	}*/
+	
+	public void addBOEngineer(String boEngineer, int rank) {
+		boEngineers.add(new BOEngineer(boEngineer, rank));
 	}
 	
 	public ArrayList<BOEngineer> getBOEngineers() {
@@ -267,7 +295,7 @@ public class SNRScheduleSpreadsheet implements Serializable {
 				this.getFEVendorString(), this.getBENameString()};*/
 		String[] spreadsheetValues = {site, nrId, upgradeType, 
 				commentary, feName, this.getFERankString(), 
-				feVendor, beName};
+				feVendor, beName, this.getBERankString()};
 		return spreadsheetValues;
 	}
 	
@@ -306,5 +334,9 @@ public class SNRScheduleSpreadsheet implements Serializable {
 	
 	public String getBENameString() {
 		return beName==null?"":beName;
+	}
+	
+	public String getBERankString() {
+		return beRank<1?null:Integer.toString(beRank);
 	}
 }
