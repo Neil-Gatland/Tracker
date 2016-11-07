@@ -446,7 +446,7 @@ public class DownloadScheduleServlet extends HttpServlet {
 					if (rs.getString(7).equalsIgnoreCase(UserRole.ROLE_FIELD_ENGINEER)) {
 						sss.addFieldEngineer(rs.getString(8), rs.getInt(9), rs.getString(10));
 					} else if (rs.getString(7).equalsIgnoreCase(UserRole.ROLE_B_O_ENGINEER)) {
-						sss.addBOEngineer(rs.getString(8));
+						sss.addBOEngineer(rs.getString(8), rs.getInt(9));
 					} else {
 						throw new Exception("Unexpected role " + rs.getString(7) + 
 								"found in getScheduledSNRs()");
@@ -570,6 +570,7 @@ public class DownloadScheduleServlet extends HttpServlet {
 		for (int i = 0; i < sss.getRowCount(); i++) {
 			String feName = null;
 			int feRank = -1;
+			int beRank = -1;
 			String feVendor = null;
 			String beName = null;
 			if (i < fes.size()) {
@@ -581,12 +582,13 @@ public class DownloadScheduleServlet extends HttpServlet {
 			if (i < bes.size()) {
 				BOEngineer be = bes.get(i);
 				beName = be.getName();
+				beRank = be.getRank();
 			}
 			String commentary = i==0?sss.getCommentaryString():"";
 			todaysSNRs.add(new SNRScheduleSpreadsheet(sss.getScheduledDate(), 
 					sss.getWorkflowName(), sss.getSite(), sss.getNRId(), 
 					sss.getUpgradeType(), commentary, feName, feRank,
-					feVendor, beName));
+					feVendor, beName, beRank));
 		}
     }
     

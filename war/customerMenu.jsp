@@ -28,10 +28,14 @@
 			<img src="images/<%=uB.imageChoice3()%>" height="100%x" width="100%"></a>
 		</td>
 		</tr><tr>
-		<td class="lTitle1" align="center" colspan="3">&nbsp;</td>
+		<td align="center" colspan="3">&nbsp;</td>
+		</tr><tr>
+		<td align="center" colspan="3">
+			<img src="images/smart.png" height="44px" width="176px">
+		</td>
 		</tr><tr>
 		<td align="center" colspan="3"><font color="#53565A" size="5">
-		<b>SMART</b> - <b>S</b>ervice <b>M</b>anagement <b>A</b>utomated <b>R</b>eference <b>T</b>ool
+		<b>S</b>ervice <b>M</b>anagement <b>A</b>utomated <b>R</b>eference <b>T</b>ool
 		</font></td>
 		</tr><tr>
 		<td class="lTitle2" align="center"  colspan="3">Please select from the Client options below</td>

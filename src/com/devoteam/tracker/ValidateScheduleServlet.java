@@ -167,7 +167,7 @@ public class ValidateScheduleServlet extends HttpServlet {
 												sss.setSNRId(snr.getSNRId());
 												sss.setStatus(snr.getStatus());
 												//check field engineers, third parties and bo engineers exist
-												valid = validateFieldEngineers(sss, prevSSS) && validateBOEngineers(sss);
+												valid = validateFieldEngineers(sss, prevSSS) && validateBOEngineers(sss, prevSSS);
 											}
 											
 											if (valid) {
@@ -220,15 +220,41 @@ public class ValidateScheduleServlet extends HttpServlet {
 								break;
 							}
 						}
-						if ((!hasOne) && (!hasNo1FEOnDB(thisSSS.getSNRId()))) { 
+						/*if ((!hasOne) && (!hasNo1FEOnDB(thisSSS.getSNRId()))) { 
 							thisSSS.addProblem("Database record for site " + thisSSS.getSite() + 
-									" and NR Id " + thisSSS.getNRId() + " currently has no primary field engineeer");
+									" and NR Id " + thisSSS.getNRId() + " currently has no primary field engineer");
+							warnings = true;
+						}*/
+						if (!hasOne) { 
+							thisSSS.addProblem("Site " + thisSSS.getSite() + 
+									" and NR Id " + thisSSS.getNRId() + " currently has no primary field engineer");
 							warnings = true;
 						}
 						if ((thisSSS.getSNRId() != -1) && (!thisSSS.canSchedule())) { 
 							thisSSS.addProblem("Database record for site " + thisSSS.getSite() + 
 									" and NR Id " + thisSSS.getNRId() + " currently has a status of " +
 									thisSSS.getStatusDisplay() + " and cannot be scheduled");
+							warnings = true;
+						}
+					}
+					if (stillValid) {
+					//check if each snr has a no. 1 bo engineer
+						boolean hasOne = false;
+						for (Iterator<BOEngineer> it3 = thisSSS.getBOEngineers().iterator(); it3.hasNext(); ) {
+							BOEngineer bo = it3.next();
+							if (bo.getRank() == 1) {
+								hasOne = true;
+								break;
+							}
+						}
+						/*if ((!hasOne) && (!hasNo1BOOnDB(thisSSS.getSNRId()))) { 
+							thisSSS.addProblem("Database record for site " + thisSSS.getSite() + 
+									" and NR Id " + thisSSS.getNRId() + " currently has no primary bo engineer");
+							warnings = true;
+						}*/
+						if (!hasOne) { 
+							thisSSS.addProblem("Site " + thisSSS.getSite() + 
+									" and NR Id " + thisSSS.getNRId() + " currently has no primary bo engineer");
 							warnings = true;
 						}
 					}
@@ -274,46 +300,77 @@ public class ValidateScheduleServlet extends HttpServlet {
 		return found;
     }
 
-    private boolean validateBOEngineers(SNRScheduleSpreadsheet sss) 
+    private boolean hasNo1BOOnDB(long snrId) 
+        	throws Exception {
+    	boolean found = false;
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		try {
+			conn = DriverManager.getConnection(url);
+			cstmt = conn.prepareCall("{call GetSNRNo1BOEngineer(?)}");
+			cstmt.setLong(1, snrId);
+			if (cstmt.execute()) {
+				ResultSet rs = cstmt.getResultSet();
+				found = rs.next();
+			}
+		} catch (SQLException e) {
+			throw new Exception("calling GetSNRNo1BOEngineer(), " + e.getMessage());
+		} finally {
+			cstmt.close();
+			conn.close();
+		}
+		return found;
+    }
+
+    private boolean validateBOEngineers(SNRScheduleSpreadsheet sss, SNRScheduleSpreadsheet prevSSS ) 
             	throws Exception {
         	boolean valid = true;
-    	for (Iterator<BOEngineer> it = sss.getBOEngineers().iterator(); it.hasNext(); ) {
-    		BOEngineer be = it.next();
-    		if (be.getFirstName() != null) {
-    			long userId = 0;
-    			Connection conn = null;
-    			CallableStatement cstmt = null;
-    			try {
-    				conn = DriverManager.getConnection(url);
-    				cstmt = conn.prepareCall("{call GetUserIdFromName(?,?,?)}");
-    				cstmt.setString(1, be.getFirstName());
-    				cstmt.setString(2, be.getSurname());
-    				cstmt.setString(3, be.getSuffix());
-    				if (cstmt.execute()) {
-    					ResultSet rs = cstmt.getResultSet();
-    					if (rs.next()) {
-    						userId = rs.getLong(1);
-    					}
-    				}
-    			} catch (SQLException e) {
-    				throw new Exception("calling GetUserIdFromName(), " + e.getMessage());
-    			} finally {
-    				if ((cstmt !=null) && (!cstmt.isClosed())) cstmt.close();
-    				if ((conn !=null) && (!conn.isClosed())) conn.close();
-    			}
-    			if (userId > 0) {
-    				be.setUserId(userId);
-    			} else {	
-        			sss.addProblem("BO Engineer name " + be.getName() + " is not in the database");
+        	if (sss.getBOEngineers().isEmpty()) {
+        		if ((prevSSS == null) || (!prevSSS.getSite().equals(sss.getSite())) ||
+    					(!prevSSS.getNRId().equals(sss.getNRId()))) {
+        			sss.addProblem("No BO engineers found in spreadsheet entry dated " + 
+        					sss.getScheduledDateString() + " for site " + 
+        					sss.getSite() +	" and NR Id " + sss.getNRId());
         			valid = false;
     			}
-    			
-    		} else {
-    			sss.addProblem("BO Engineer name " + be.getName() + " is not in the expected format");
-    			valid = false;
-    		}
-    	}
-  	
+        	} else {
+        		for (Iterator<BOEngineer> it = sss.getBOEngineers().iterator(); it.hasNext(); ) {
+            		BOEngineer be = it.next();
+            		if (be.getFirstName() != null) {
+            			long userId = 0;
+            			Connection conn = null;
+            			CallableStatement cstmt = null;
+            			try {
+            				conn = DriverManager.getConnection(url);
+            				cstmt = conn.prepareCall("{call GetUserIdFromName(?,?,?)}");
+            				cstmt.setString(1, be.getFirstName());
+            				cstmt.setString(2, be.getSurname());
+            				cstmt.setString(3, be.getSuffix());
+            				if (cstmt.execute()) {
+            					ResultSet rs = cstmt.getResultSet();
+            					if (rs.next()) {
+            						userId = rs.getLong(1);
+            					}
+            				}
+            			} catch (SQLException e) {
+            				throw new Exception("calling GetUserIdFromName(), " + e.getMessage());
+            			} finally {
+            				if ((cstmt !=null) && (!cstmt.isClosed())) cstmt.close();
+            				if ((conn !=null) && (!conn.isClosed())) conn.close();
+            			}
+            			if (userId > 0) {
+            				be.setUserId(userId);
+            			} else {	
+                			sss.addProblem("BO Engineer name " + be.getName() + " is not in the database");
+                			valid = false;
+            			}
+            			
+            		} else {
+            			sss.addProblem("BO Engineer name " + be.getName() + " is not in the expected format");
+            			valid = false;
+            		}
+        	}    		
+    	}  	
     	return valid;
     }
     

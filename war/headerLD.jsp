@@ -95,14 +95,47 @@
 <body onLoad="thisScreenLoad()">
 <form id="f1" name="devoTracker" method="post" action="navigation">
 <input type="hidden" name="toScreen" id="toScreen" value=""/>
-<div style="float:left;width:30%"><img src="images/dvt_only.png" height="15%" width="15%"><img src="images/client_access.png" height="15%" width="15%"></div>
-<div style="float:right;width:30%">&nbsp;</div>
-<div style="text-align:center;overflow:hidden;color:#53565A;"><h1><%=displayScreen%></h1></div>
-<div style="clear:both;text-align:center;font-weight:bold;" class="<%=messageClass%>"><%=message%></div>
 <table style="table-layout: fixed; border-style: none;width:1250px;">
-<tr>
-<td class="menu1"><%=uB.getMenu1()%></td>
+<colgroup>
+	<col width="55px"/>
+	<col width="55px"/>	
+	<col width="870px"/>	
+	<col width="270px"/>	
+</colgroup>
+<tbody>
+<tr>	
+	<td align="left" valign="bottom">
+		<a href="http://www.devoteam.co.uk/" target="_blank">
+		<img src="images/dvt_only.png" height="55px" width="55px"></a>			
+	</td>
+	<td align="left" valign="bottom">
+		<a href="http://www.devoteam.co.uk/" target="_blank">
+		<img src="images/client_access.png" height="55px" width="55px"></a>			
+	</td>
+	<td class="lTitle2b"><%=displayScreen%></td>
+	<td>
+		<!--  <table>
+		<tr>	
+			<td class="siteCompGreen" width="50px">11739-12</td>
+			<td width="5px">&nbsp;</td>
+			<td class="siteCompGreen" width="50px">2004</td>
+			<td width="5px">&nbsp;</td>
+			<td class="siteCompGreen" width="50px">&nbsp;</td>
+			<td width="5px">&nbsp;</td>
+			<td class="siteCompGreen" width="50px">&nbsp;</td>
+			<td width="5px">&nbsp;</td>
+			<td class="siteCompGreen" width="50px">&nbsp;</td>
+		</tr>
+		</table>-->
+	<td>
 </tr>
+<tr>
+	<td colspan="4" class="<%=messageClass%>"><%=message%></td>
+</tr>
+<tr>
+	<td colspan="4" class="menu1"><%=uB.getMenu1()%></td>
+</tr>
+</tbody>
 </table>
 <!--/body>
 </html-->

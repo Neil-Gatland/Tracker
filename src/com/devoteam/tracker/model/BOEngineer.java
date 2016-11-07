@@ -12,8 +12,10 @@ public class BOEngineer implements Serializable {
 	private String firstName;
 	private String surname;
 	private String suffix;
+	private int rank;
 	
-	public BOEngineer(String name) {
+	public BOEngineer(String name, int rank) {
+		this.rank = rank;
 		this.name = name;
 		this.userId = 0;
 		this.suffix = null;
@@ -56,4 +58,9 @@ public class BOEngineer implements Serializable {
 	public long getUserId() {
 		return userId;
 	}
+	
+	public int getRank() {
+		return rank;
+	}
+	
 }

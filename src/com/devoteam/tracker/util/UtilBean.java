@@ -2976,6 +2976,12 @@ public class UtilBean {
 		return feCount;
 	}
 	
+	private int boCount = 0;
+	
+	public int getBOCount() {
+		return boCount;
+	}
+	
 	public String getCurrentDate() {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY");
 		Date date = new Date();
@@ -2990,6 +2996,7 @@ public class UtilBean {
 	
 	public String getSNRUserRoleListHTML(long snrId, long selectedUserId, boolean feOnly) {
 		feCount = 0;
+		boCount = 0;
 		boolean oddRow = false;
 		int row = 0;
 		StringBuilder html = new StringBuilder();
@@ -3014,6 +3021,9 @@ public class UtilBean {
 			}
 			if (snrUR.getRole().equals(UserRole.ROLE_FIELD_ENGINEER)) {
 				feCount++;
+			}
+			if (snrUR.getRole().equals(UserRole.ROLE_B_O_ENGINEER)) {
+				boCount++;
 			}
 			HTMLElement td = new HTMLElement("td", oddRow?"grid1":"grid2", 
 				input.toString());
@@ -4342,7 +4352,7 @@ public class UtilBean {
 			trb.appendValue(tdb2.toString());
 			HTMLElement tdb3 = new HTMLElement("td", "grid1", sp.getCheckedInDTString());
 			trb.appendValue(tdb3.toString());
-			HTMLElement tdb4 = new HTMLElement("td", "grid1OrangeBold", "TX Provisioning:");
+			HTMLElement tdb4 = new HTMLElement("td", "grid1OrangeBold", "Tx Provisioning:");
 			trb.appendValue(tdb4.toString());
 			HTMLElement tdb5 = new HTMLElement("td", "grid1", 
 					getSelectHTMLWithInitialValue("TXProvisioning", "select", "filter", sp.getTXProvisioning()));
@@ -4352,7 +4362,7 @@ public class UtilBean {
 			trb.appendValue(tdb6.toString());
 			html.append(trb.toString());			
 			HTMLElement trc = new HTMLElement("tr");
-			HTMLElement tdc1 = new HTMLElement("td", "grid2BlueBold", "Booked On:");
+			HTMLElement tdc1 = new HTMLElement("td", "grid2BlueBold", "Site Booked On:");
 			trc.appendValue(tdc1.toString());
 			HTMLElement tdc2 = new HTMLElement("td", "grid2", 
 					getSelectHTMLWithInitialValue("BookedOn", "select", "filter", sp.getBookedOn()));
@@ -4454,7 +4464,7 @@ public class UtilBean {
 			trh.appendValue(tdh6.toString());
 			html.append(trh.toString());
 			HTMLElement tri = new HTMLElement("tr");
-			HTMLElement tdi1 = new HTMLElement("td", "grid2OrangeBold", "HW Installs:");
+			HTMLElement tdi1 = new HTMLElement("td", "grid2OrangeBold", "HW Installed:");
 			tri.appendValue(tdi1.toString());
 			HTMLElement tdi2 = new HTMLElement("td", "grid2", 
 					getSelectHTMLWithInitialValue("HWInstalls", "select", "filter", sp.getHWInstalls()));
@@ -4462,7 +4472,7 @@ public class UtilBean {
 			tri.appendValue(tdi2.toString());
 			HTMLElement tdi3 = new HTMLElement("td", "grid2", sp.getHWInstallsDTString());
 			tri.appendValue(tdi3.toString());
-			HTMLElement tdi4 = new HTMLElement("td", "grid2GreenBold", "Leave Site:");
+			HTMLElement tdi4 = new HTMLElement("td", "grid2GreenBold", "Left Site:");
 			tri.appendValue(tdi4.toString());
 			HTMLElement tdi5 = new HTMLElement("td", "grid2", 
 					getSelectHTMLWithInitialValue("LeaveSite", "select", "filter", sp.getLeaveSite()));
@@ -4472,7 +4482,7 @@ public class UtilBean {
 			tri.appendValue(tdi6.toString());
 			html.append(tri.toString());			
 			HTMLElement trj = new HTMLElement("tr");
-			HTMLElement tdj1 = new HTMLElement("td", "grid1OrangeBold", "Commissioning (FE):");
+			HTMLElement tdj1 = new HTMLElement("td", "grid1OrangeBold", "Field Commissioning :");
 			trj.appendValue(tdj1.toString());
 			HTMLElement tdj2 = new HTMLElement("td", "grid1d", 
 					getSelectHTMLWithInitialValue("CommissioningFE", "select", "filter", sp.getCommissioningFE()));
@@ -4480,7 +4490,7 @@ public class UtilBean {
 			trj.appendValue(tdj2.toString());
 			HTMLElement tdj3 = new HTMLElement("td", "grid1", sp.getCommissioningFEDTString());
 			trj.appendValue(tdj3.toString());
-			HTMLElement tdj4 = new HTMLElement("td", "grid1GreenBold", "Book Off Site:");
+			HTMLElement tdj4 = new HTMLElement("td", "grid1GreenBold", "Booked Off Site:");
 			trj.appendValue(tdj4.toString());
 			HTMLElement tdj5 = new HTMLElement("td", "grid1", 
 					getSelectHTMLWithInitialValue("BookOffSite", "select", "filter", sp.getBookOffSite()));
@@ -4490,7 +4500,7 @@ public class UtilBean {
 			trj.appendValue(tdj6.toString());
 			html.append(trj.toString());
 			HTMLElement trk = new HTMLElement("tr");
-			HTMLElement tdk1 = new HTMLElement("td", "grid2OrangeBold", "Commissioning (BO):");
+			HTMLElement tdk1 = new HTMLElement("td", "grid2OrangeBold", "BO Commissioning:");
 			trk.appendValue(tdk1.toString());
 			HTMLElement tdk2 = new HTMLElement("td", "grid2", 
 					getSelectHTMLWithInitialValue("CommissioningBO", "select", "filter", sp.getCommissioningBO()));
@@ -4511,7 +4521,7 @@ public class UtilBean {
 			HTMLElement tdl1 = new HTMLElement("td", "grid2", "&nbsp;");
 			tdl1.setAttribute("colspan", "4");
 			trl.appendValue(tdl1.toString());
-			HTMLElement tdl4 = new HTMLElement("td", "grid2GreenBold", "Initial HOP:");
+			HTMLElement tdl4 = new HTMLElement("td", "grid2GreenBold", "Hand Over Pack:");
 			trl.appendValue(tdl4.toString());
 			HTMLElement tdl5 = new HTMLElement("td", "grid2", 
 					getSelectHTMLWithInitialValue("InitialHOP", "select", "filter", sp.getInitialHOP()));
@@ -4542,6 +4552,7 @@ public class UtilBean {
 		}		
 		return html.toString();
 	}
+	
 	
 	public String rewindProject(String fullname) {
 		String updateResult = "Error: Untrapped error with Rewind_Project";

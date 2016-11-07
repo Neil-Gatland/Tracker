@@ -51,7 +51,8 @@ function resetPwd(action) {
 				<a href="http://www.devoteam.co.uk/" target="_blank">
 				<img src="images/dev_logo_rvb.png" height="110px" width="264px"></a>
 				</td>
-			<td class="lTitle1" align="left" valign="bottom">SMART</td>
+			<td class="lTitle1" align="left" valign="bottom">
+				<img src="images/smart.png" height="44px" width="176px"></a></td>
 			<td >&nbsp;</td>
 		</tr>
 		<tr>

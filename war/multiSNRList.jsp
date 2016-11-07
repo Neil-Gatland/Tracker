@@ -81,6 +81,7 @@ String snrUserRoleListHTML = snrId==-1?"":uB.getSNRUserRoleListHTML(snrId, userI
 String workflowName = request.getAttribute("workflowName")==null?"":(String)request.getAttribute("workflowName");
 String scheduleCommentary = request.getAttribute("scheduleCommentary")==null?"":(String)request.getAttribute("scheduleCommentary");
 int feCount = uB.getFECount();
+int boCount = uB.getBOCount();
 String boEngineerList = request.getAttribute("boEngineerList")==null?"":(String)request.getAttribute("boEngineerList");
 String feList = request.getAttribute("feList")==null?"":(String)request.getAttribute("feList");
 String preTestCallsDone = request.getAttribute("preTestCallsDone")==null?"":(String)request.getAttribute("preTestCallsDone");
@@ -238,7 +239,7 @@ function thisScreenLoad() {
 	raSNR.style.zIndex = "20";
 	document.getElementById("cancelSM").style.display = "inline";
 	var sDT = document.getElementById("scheduledDT").value;
-	if ((sDT.length == 0) || (<%=feCount%> == 0)) {
+	if ((sDT.length == 0) || (<%=feCount%> == 0)|| (<%=boCount%> == 0)) {
 		document.getElementById("confirmSM").style.display = "none";
 	} else {
 		document.getElementById("confirmSM").style.display = "inline";

@@ -75,45 +75,60 @@ public class UploadScheduleServlet extends HttpServlet {
 						cstmt.close();
 						
 						if (scheduled) {
-					    	for (Iterator<FieldEngineer> it2 = sss.getFieldEngineers().iterator(); it2.hasNext(); ) {
-					    		FieldEngineer fe = it2.next();
-					    		cstmt = conn.prepareCall("{call Allocate_SNR_FE(?,?,?,?,?)}");
-					    		cstmt.setLong(1, sss.getSNRId());
-					    		cstmt.setLong(2, fe.getUserId());
-					    		cstmt.setLong(3, fe.getThirdPartyId());
-					    		cstmt.setInt(4, fe.getRank());
-					    		cstmt.setString(5, thisU.getNameForLastUpdatedBy());
-								if (cstmt.execute()) {
-									ResultSet rs = cstmt.getResultSet();
-									if (rs.next()) {
-										if (!rs.getString(1).equals("Y")) {
-											throw new SQLException("Negative return code from Allocate_SNR_FE() for SNR Id " +
-													sss.getSNRId() + " and Field Engineer " + fe.getName());
-										}
+							String success = "";
+							cstmt = conn.prepareCall("{call Remove_SNR_Engineers(?)}");
+				    		cstmt.setLong(1, sss.getSNRId());
+				    		if (cstmt.execute()) {
+								ResultSet rs = cstmt.getResultSet();
+								if (rs.next()) {
+									success = rs.getString(1);
+									if (!success.equals("Y")) {
+										throw new SQLException("Negative return code from Remove_SNR_Engineers() for SNR Id " +
+												sss.getSNRId());
 									}
 								}
-								cstmt.close();
-					    	}
-	
-					    	for (Iterator<BOEngineer> it3 = sss.getBOEngineers().iterator(); it3.hasNext(); ) {
-					    		BOEngineer be = it3.next();
-					    		cstmt = conn.prepareCall("{call Allocate_SNR_BO(?,?,?)}");
-					    		cstmt.setLong(1, sss.getSNRId());
-					    		cstmt.setLong(2, be.getUserId());
-					    		cstmt.setString(3, thisU.getNameForLastUpdatedBy());
-								if (cstmt.execute()) {
-									ResultSet rs = cstmt.getResultSet();
-									if (rs.next()) {
-										if (!rs.getString(1).equals("Y")) {
-											throw new SQLException("Negative return code from Allocate_SNR_BO() for SNR Id " +
-													sss.getSNRId() + " and BO Engineer " + be.getName());
+							}
+							cstmt.close();	
+							if (success.equals("Y")) {
+								for (Iterator<FieldEngineer> it2 = sss.getFieldEngineers().iterator(); it2.hasNext(); ) {
+						    		FieldEngineer fe = it2.next();
+						    		cstmt = conn.prepareCall("{call Allocate_SNR_FE(?,?,?,?,?)}");
+						    		cstmt.setLong(1, sss.getSNRId());
+						    		cstmt.setLong(2, fe.getUserId());
+						    		cstmt.setLong(3, fe.getThirdPartyId());
+						    		cstmt.setInt(4, fe.getRank());
+						    		cstmt.setString(5, thisU.getNameForLastUpdatedBy());
+									if (cstmt.execute()) {
+										ResultSet rs = cstmt.getResultSet();
+										if (rs.next()) {
+											if (!rs.getString(1).equals("Y")) {
+												throw new SQLException("Negative return code from Allocate_SNR_FE() for SNR Id " +
+														sss.getSNRId() + " and Field Engineer " + fe.getName());
+											}
 										}
 									}
-								}
-								cstmt.close();
-					    	}
-					    	
-					    	scheduledCount++;
+									cstmt.close();
+						    	}	
+						    	for (Iterator<BOEngineer> it3 = sss.getBOEngineers().iterator(); it3.hasNext(); ) {
+						    		BOEngineer be = it3.next();
+						    		cstmt = conn.prepareCall("{call Allocate_SNR_BO(?,?,?,?)}");
+						    		cstmt.setLong(1, sss.getSNRId());
+						    		cstmt.setLong(2, be.getUserId());
+						    		cstmt.setLong(3, be.getRank());
+						    		cstmt.setString(4, thisU.getNameForLastUpdatedBy());
+									if (cstmt.execute()) {
+										ResultSet rs = cstmt.getResultSet();
+										if (rs.next()) {
+											if (!rs.getString(1).equals("Y")) {
+												throw new SQLException("Negative return code from Allocate_SNR_BO() for SNR Id " +
+														sss.getSNRId() + " and BO Engineer " + be.getName());
+											}
+										}
+									}
+									cstmt.close();
+						    	}
+							}  					    	
+							scheduledCount++;
 						} else {
 							throw new SQLException("Negative return code from Schedule_SNR() for Site/NR Id " +
 									sss.getSite() + "/" + sss.getNRId());

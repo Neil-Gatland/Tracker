@@ -139,8 +139,13 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 351px; 
 	</tr>	
 	<tr>
 			<td class="grid1t" colspan="3">Hardware Vendor</td>
-			<td class="grid1" colspan="11"><input style="width:97%" type="text" id="hardwareVendor" name="hardwareVendor" value="<%=hardwareVendor%>" readonly></td>
-			<td class="grid1" colspan="10">&nbsp;</td>
+			<td class="grid1" colspan="11"><input style="width:97%" type="text" id="hardwareVendor" name="hardwareVendor" value="<%=hardwareVendor%>"></td>
+			<td class="grid1">
+				<input class="listbutton" type="button" value="U" 
+				onClick="snrImplementationDetailClick('updateHardwareVendor') "title="Update Hardware Vendor">
+			</td>
+			<td class="grid1" colspan="9">&nbsp;</td>
+				
 			<td class="grid1">&nbsp;</td>
 	</tr>
 	<tr>
