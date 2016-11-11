@@ -123,11 +123,12 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 <!-- daily status section -->
 <table style="height: 56px; width: 1250px; table-layout: fixed;">
 <colgroup>
-<col width="8%"/>
-<col width="8%"/>
-<col width="9%"/>
+<col width="2%"/>
+<col width="6%"/>
+<col width="12%"/>
+<col width="6%"/>
 <col width="5%"/>
-<col width="9%"/>
+<col width="8%"/>
 <col width="9%"/>
 <col width="9%"/>
 <col width="3%"/>
@@ -154,20 +155,26 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 </colgroup>
 <tbody>	
 	<tr>
-		<td  class="ldBlank" colspan="4">&nbsp;</td>
-	</tr>
-	<tr>
 		<td class="ldTitle" colspan="6"><%=uB.GetLiveSitesHeading()%></td>
-		<td id="hAnchor" class="ldBlank" colspan="3"></td>			
+		<td id="hAnchor" class="ldBlank" ></td>
+		<td id="hAnchor" class="ldIssueTitle" colspan="2">Current Issues:</td>
+		<td colspan="20" height="40px">
+			<div style="height:50px; overflow-y:auto; overflow-x:hidden; border: #53565A solid 0.5px;">
+			<table>
+			<%=uB.getSiteProgressIssuesHTML()%>
+			</table>
+			</div>
+		</td>			
 	</tr>
 	<tr>
-		<td class="ldBlank" colspan="4">&nbsp;</td>
+		<td><div style="height: 5px"/></td>
 	</tr>
 	<tr>
-		<td class="ldHead" rowspan="2">Customer</td>
-		<td class="ldHead" rowspan="2">Partner</td>
+		<td class="ldHead" rowspan="2">Risk</td>
+		<td class="ldHead" rowspan="2">Client</td>
 		<td id="h3Anchor" class="ldHead" rowspan="2" 
 			onClick="projectClick('open')" title="<%=uB.GetLiveSitesFilter()%>">Project</td>
+		<td class="ldHead" rowspan="2">Migration Type</td>
 		<td class="ldHead" rowspan="2">Site</td>
 		<td class="ldHead" rowspan="2">BO</td>
 		<td id="h2Anchor" class="ldHead" rowspan="2">FE</td>
@@ -179,45 +186,45 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 		<td class="ldHeadLeftDashStress" colspan="2">Issues</td>
 	</tr>
 	<tr>	
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td	onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Checked In (BO)">CI</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Site Booked On (BO)">SB</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Site Accessed (FE)">SA</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Physical Checks (FE)">PC</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHeadRightDash" title="Pre Call Tests (FE)">TC</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHeadLeftDash" title="Site Locked (BO/FE)">SL</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="HW Installed (FE)">HW</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Field Commissioning (FE)">FC</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Back Office Commissioning (BO)">BC</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Tx Provisioning (Client)">Tx</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Field Work (FE)">FW</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Site Unlocked (BO)">SU</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHeadRightDash" title="Post Call Test (FE)">TC</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHeadLeftDash" title="Closure Code (BO)">CC</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Left Site (BO)">SL</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Booked Off Site (FE)">SB</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Performance Monitoring (BO)">Prf</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHeadRightDash" title="Hand Over Pack (BO)">HoP</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHeadLeftDash" title="Devoteam">Devo</td>
-		<td onClick="siteProgressItemsKeyClick('open')" 
+		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Vodafone">VF</td>
 	</tr>
 </tbody>
@@ -227,11 +234,12 @@ max-width: 100%; height: <%=(uB.getDisplayProject().equals("none")?"384":"164")%
 <!--max-width: 100%; height: 164px"/>  -->
 <table style="width: 1250px; table-layout: fixed;">
 <colgroup>
-<col width="8%"/>
-<col width="8%"/>
-<col width="9%"/>
+<col width="2%"/>
+<col width="6%"/>
+<col width="12%"/>
+<col width="6%"/>
 <col width="5%"/>
-<col width="9%"/>
+<col width="8%"/>
 <col width="9%"/>
 <col width="9%"/>
 <col width="3%"/>

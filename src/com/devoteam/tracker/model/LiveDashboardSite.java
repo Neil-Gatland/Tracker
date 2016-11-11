@@ -31,6 +31,8 @@ public class LiveDashboardSite {
 	private String customerIssue;			//27
 	private String percentage;				//28
 	private String scheduledDDMM;			//29
+	private String migrationType;           //30
+	private String risk;           //31
 	
 	public LiveDashboardSite(
 			String customer,
@@ -61,7 +63,9 @@ public class LiveDashboardSite {
 			String devoteamIssue,
 			String customerIssue,
 			String percentage,
-			String scheduledDDMM ) {
+			String scheduledDDMM,
+			String migrationType,
+			String risk) {
 		this.customer = customer;
 		this.partner = partner;
 		this.project = project;
@@ -91,6 +95,8 @@ public class LiveDashboardSite {
 		this.customerIssue = customerIssue;
 		this.percentage = percentage;
 		this.scheduledDDMM = scheduledDDMM;
+		this.migrationType = migrationType;
+		this.risk = risk;
 	}
 	
 	public String getCustomer() {
@@ -216,6 +222,14 @@ public class LiveDashboardSite {
 	
 	public String getScheduledDDMM() {
 		return scheduledDDMM;
+	}
+	
+	public String getMigrationType() {
+		return migrationType;
+	}
+	
+	public String getRisk() {
+		return risk;
 	}
 
 }

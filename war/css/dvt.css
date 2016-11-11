@@ -454,6 +454,24 @@ td.ldTitle {
 	font-size:medium;
 	font-weight:bold;
 }
+td.ldIssueTitle {
+	margin:0; 
+	padding-right:5px;
+	background-color:#FFFFFF;
+	color:#53565A;
+	border: none;
+	font-size:x-small;
+	text-align:right;
+	font-weight:bold;
+}
+td.ldIssue {
+	margin:0; 
+	background-color:#FFFFFF;
+	color:#53565A;
+	border: none;
+	font-size:xx-small;
+	text-align:left;
+}
 td.chartTitle {
 	margin:0; 
 	padding-top:5px;
@@ -1741,6 +1759,18 @@ td.grid2GreenBold {
 	background-color : #ffffff;
 	height: 20px
 }
+td.grid1RedBold {
+	border-bottom: silver 1px solid;
+	border-left: medium none;
+	border-right: silver 1px solid;
+	border-top: medium none;
+	color: red;
+	font-family: arial, verdana, helvetica, sans-serif; 
+	font-size:small;
+	font-weight:bold;
+	background-color : #F3F5D7;
+	height: 20px
+}
 td.grid2RedBold {
 	border-bottom: silver 1px solid;
 	border-left: medium none;
@@ -1757,8 +1787,94 @@ td.siteCompGreen {
 	font-size: xx-small;
 	border-radius: 5px;
 	border-color: #FFFFFF;
-	background-color: #008000;
+	background-color: green;
 	color: #FFFFFF;
 	text-align: center;
 	text-weight: bold;	
+}
+td.siteCompAmber {
+	font-size: xx-small;
+	border-radius: 5px;
+	border-color: #FFFFFF;
+	background-color: orange;
+	color: #FFFFFF;
+	text-align: center;
+	text-weight: bold;	
+}
+td.siteCompRed {
+	font-size: xx-small;
+	border-radius: 5px;
+	border-color: #FFFFFF;
+	background-color: red;
+	color: #FFFFFF;
+	text-align: center;
+	text-weight: bold;	
+}
+@-webkit-keyframes amberFlash {
+  from { background-color: #FFDE75; }
+  to { background-color: orange; }
+}
+@-moz-keyframes amberFlash {
+  from { background-color: #FFDE75; }
+  to { background-color: orange; }
+}
+@-o-keyframes amberFlash {
+  from { background-color: #FFDE75; }
+  to { background-color: orange; }
+}
+@keyframes amberFlash {
+  from { background-color: #FFDE75; }
+  to { background-color: orange; }
+}
+td.amberFlash {
+  -webkit-animation: amberFlash 1s infinite; /* Safari 4+ */
+  -moz-animation:    amberFlash 1s infinite; /* Fx 5+ */
+  -o-animation:      amberFlash 1s infinite; /* Opera 12+ */
+  animation:         amberFlash 1s infinite; /* IE 10+ */
+}
+
+td.ldAmbeF {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;		
+	-webkit-animation: amberFlash 1s infinite; /* Safari 4+ */
+	-moz-animation:    amberFlash 1s infinite; /* Fx 5+ */
+	-o-animation:      amberFlash 1s infinite; /* Opera 12+ */
+	animation:         amberFlash 1s infinite; /* IE 10+ */
+}
+td.ldAmbeFLDash {
+	margin:0; 
+	padding:0;
+	border-right: white 0.5px solid;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: black 0.5px dashed;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;			
+	-webkit-animation: amberFlash 1s infinite; /* Safari 4+ */
+	-moz-animation:    amberFlash 1s infinite; /* Fx 5+ */
+	-o-animation:      amberFlash 1s infinite; /* Opera 12+ */
+	animation:         amberFlash 1s infinite; /* IE 10+ */
+}
+td.ldAmbeFRDash {
+	margin:0; 
+	padding:0;
+	border-right: black 0.5px dashed;
+	border-bottom: white 0.5px solid;
+	border-top: white 0.5px solid;
+	border-left: white 0.5px solid;
+	color:#000000;
+	text-align:center;
+	font-size:x-small;			
+	-webkit-animation: amberFlash 1s infinite; /* Safari 4+ */
+	-moz-animation:    amberFlash 1s infinite; /* Fx 5+ */
+	-o-animation:      amberFlash 1s infinite; /* Opera 12+ */
+	animation:         amberFlash 1s infinite; /* IE 10+ */
 }

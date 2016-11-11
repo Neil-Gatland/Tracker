@@ -97,43 +97,44 @@
 <input type="hidden" name="toScreen" id="toScreen" value=""/>
 <table style="table-layout: fixed; border-style: none;width:1250px;">
 <colgroup>
-	<col width="55px"/>
-	<col width="55px"/>	
-	<col width="870px"/>	
+	<col width="237px"/>
+	<col width="743px"/>	
 	<col width="270px"/>	
 </colgroup>
 <tbody>
 <tr>	
-	<td align="left" valign="bottom">
+	<td align="left" valign="center">
 		<a href="http://www.devoteam.co.uk/" target="_blank">
-		<img src="images/dvt_only.png" height="55px" width="55px"></a>			
+		<img src="images/devo_full.png" height="50px" width="162px"></a>			
 	</td>
-	<td align="left" valign="bottom">
+	<td align="center" valign="center">
 		<a href="http://www.devoteam.co.uk/" target="_blank">
-		<img src="images/client_access.png" height="55px" width="55px"></a>			
+		<img src="images/smart_LD.png" height="50px" width="126px"></a>			
 	</td>
-	<td class="lTitle2b"><%=displayScreen%></td>
 	<td>
-		<!--  <table>
-		<tr>	
-			<td class="siteCompGreen" width="50px">11739-12</td>
-			<td width="5px">&nbsp;</td>
-			<td class="siteCompGreen" width="50px">2004</td>
-			<td width="5px">&nbsp;</td>
-			<td class="siteCompGreen" width="50px">&nbsp;</td>
-			<td width="5px">&nbsp;</td>
-			<td class="siteCompGreen" width="50px">&nbsp;</td>
-			<td width="5px">&nbsp;</td>
-			<td class="siteCompGreen" width="50px">&nbsp;</td>
-		</tr>
-		</table>-->
+		<table>		
+		<colgroup>
+			<col width="50px"/>
+			<col width="5px"/>	
+			<col width="50px"/>
+			<col width="5px"/>	
+			<col width="50px"/>
+			<col width="5px"/>	
+			<col width="50px"/>
+			<col width="5px"/>	
+			<col width="50px"/>	
+		</colgroup>
+		<tbody>
+		<%=uB.getRecentCompletedSitesHTML()%>
+		</tbody>
+		</table>
 	<td>
 </tr>
 <tr>
-	<td colspan="4" class="<%=messageClass%>"><%=message%></td>
+	<td colspan="3">&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="4" class="menu1"><%=uB.getMenu1()%></td>
+	<td colspan="3" class="menu1"><%=uB.getMenu1()%></td>
 </tr>
 </tbody>
 </table>

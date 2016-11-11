@@ -69,6 +69,8 @@ public class SiteProgressServlet extends HttpServlet {
 				String initialHOP = req.getParameter("initialHOP");
 				String issueOwner = req.getParameter("issueOwner");
 				String crqClosureCode = req.getParameter("crqClosureCode");
+				String riskIndicator = req.getParameter("riskIndicator");
+				String progressIssue = req.getParameter("progressIssue");
 	    		String updateResult = uB.updateSiteProgress(
 	    				Long.parseLong(snrId),
 	    				checkedIn,
@@ -91,7 +93,9 @@ public class SiteProgressServlet extends HttpServlet {
 						initialHOP,
 						issueOwner,
 						thisU.getNameForLastUpdatedBy(),
-						crqClosureCode);
+						crqClosureCode,
+						riskIndicator,
+						progressIssue);
 	    		session.setAttribute("userMessage", updateResult);
 	    	}	    	
 		}
