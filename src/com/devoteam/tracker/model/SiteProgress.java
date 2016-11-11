@@ -47,6 +47,8 @@ public class SiteProgress {
 	private Timestamp initialHOPDT; //40
 	private String issueOwner; //41
 	private String crqClosureCode; //42
+	private String riskIndicator; //43
+	private String progressIssue; //43
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm ");
 	
@@ -92,7 +94,9 @@ public class SiteProgress {
 			String initialHOP, 
 			Timestamp initialHOPDT,
 			String issueOwner,
-			String crqClosureCode) {
+			String crqClosureCode,
+			String riskIndicator,
+			String progressIssue) {
 		this.site = site;
 		this.nrId = nrId;
 		this.status = status;
@@ -135,6 +139,8 @@ public class SiteProgress {
 		this.initialHOPDT = initialHOPDT;
 		this.issueOwner = issueOwner;
 		this.crqClosureCode = crqClosureCode;
+		this.riskIndicator = riskIndicator;
+		this.progressIssue = progressIssue;
 	}
 	
 	public SiteProgress
@@ -312,6 +318,14 @@ public class SiteProgress {
 	
 	public String getCrqClosureCode() {
 		return crqClosureCode==null?"":crqClosureCode;
+	}
+	
+	public String getRiskIndicator() {
+		return riskIndicator==null?"None":riskIndicator;
+	}
+	
+	public String getProgressIssue() {
+		return progressIssue==null?"":progressIssue;
 	}
 
 }

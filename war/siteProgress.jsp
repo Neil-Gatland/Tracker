@@ -36,6 +36,8 @@ String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(Strin
 <input type="hidden" name="initialHOP" id="initialHOP" value=""/>
 <input type="hidden" name="issueOwner" id="issueOwner" value=""/>
 <input type="hidden" name="crqClosureCode" id="crqClosureCode" value=""/>
+<input type="hidden" name="riskIndicator" id="riskIndicator" value=""/>
+<input type="hidden" name="progressIssue" id="progressIssue" value=""/>
 <script language="javascript">
 <!--
 var selectedSnrId = "<%=snrId%>";
@@ -79,6 +81,9 @@ function tbClick(btn) {
 		document.getElementById("initialHOP").value = document.getElementById("selectInitialHOP").value;
 		document.getElementById("issueOwner").value = document.getElementById("selectIssueOwner").value;
 		document.getElementById("crqClosureCode").value = document.getElementById("currentCRQClosureCode").value;
+		document.getElementById("crqClosureCode").value = document.getElementById("currentCRQClosureCode").value;
+		document.getElementById("riskIndicator").value = document.getElementById("selectRiskIndicator").value;
+		document.getElementById("progressIssue").value = document.getElementById("selectProgressIssue").value;
 		var issueCount = 0;
 		if (document.getElementById("selectCheckedIn").value == "Issue") { issueCount = issueCount + 1; }
 		if (document.getElementById("selectBookedOn").value == "Issue") { issueCount = issueCount + 1; }

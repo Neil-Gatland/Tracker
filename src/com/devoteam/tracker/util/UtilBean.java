@@ -4292,7 +4292,7 @@ public class UtilBean {
 							rs.getString(29), rs.getTimestamp(30), rs.getString(31),rs.getTimestamp(32),
 							rs.getString(33), rs.getTimestamp(34),rs.getString(35),rs.getTimestamp(36),
 							rs.getString(37), rs.getTimestamp(38), rs.getString(39),rs.getTimestamp(40),
-							rs.getString(41), rs.getString(42));
+							rs.getString(41), rs.getString(42), rs.getString(43), rs.getString(44));
 				}
 			}
 	    } catch (Exception ex) {
@@ -4536,9 +4536,9 @@ public class UtilBean {
 			trm.appendValue(tdm1.toString());			
 			html.append(trm.toString());			
 			HTMLElement trn = new HTMLElement("tr");
-			HTMLElement tdn1 = new HTMLElement("td", "grid2", "&nbsp;");
-			tdn1.setAttribute("colspan", "2");
-			trn.appendValue(tdn1.toString());
+			//HTMLElement tdn1 = new HTMLElement("td", "grid2", "&nbsp;");
+			//tdn1.setAttribute("colspan", "2");
+			//trn.appendValue(tdn1.toString());
 			HTMLElement tdn2 = new HTMLElement("td", "grid2RedBold", "Issue Owner:");
 			trn.appendValue(tdn2.toString());
 			HTMLElement tdn3 = new HTMLElement("td", "grid2", 
@@ -4546,9 +4546,37 @@ public class UtilBean {
 			tdn3.setAttribute("colspan", "2");
 			trn.appendValue(tdn3.toString());
 			HTMLElement tdn4 = new HTMLElement("td", "grid2", "&nbsp;");
-			tdn4.setAttribute("colspan", "3");
+			tdn4.setAttribute("colspan", "5");
 			trn.appendValue(tdn4.toString());
-			html.append(trn.toString());
+			html.append(trn.toString());			
+			HTMLElement tro = new HTMLElement("tr");
+			//HTMLElement tdo1 = new HTMLElement("td", "grid1", "&nbsp;");
+			//tdo1.setAttribute("colspan", "2");
+			//tro.appendValue(tdo1.toString());
+			HTMLElement tdo2 = new HTMLElement("td", "grid1RedBold", "Risk Indicator:");
+			tro.appendValue(tdo2.toString());
+			HTMLElement tdo3 = new HTMLElement("td", "grid1", 
+					getSelectHTMLWithInitialValue("RiskIndicator", "select", "filter", sp.getRiskIndicator()));
+			tdo3.setAttribute("colspan", "2");
+			tro.appendValue(tdo3.toString());
+			HTMLElement tdo4 = new HTMLElement("td", "grid1", "&nbsp;");
+			tdo4.setAttribute("colspan", "53");
+			tro.appendValue(tdo4.toString());
+			html.append(tro.toString());			
+			HTMLElement trp = new HTMLElement("tr");
+			//HTMLElement tdp1 = new HTMLElement("td", "grid2", "&nbsp;");
+			//tdp1.setAttribute("colspan", "2");
+			//trp.appendValue(tdp1.toString());
+			HTMLElement tdp2 = new HTMLElement("td", "grid2RedBold", "Progress Issue:");
+			trp.appendValue(tdp2.toString());
+			HTMLElement tdp3 = new HTMLElement("td", "grid2", 
+					getSelectHTMLWithInitialValue("ProgressIssue", "select", "filter", sp.getProgressIssue()));
+			tdp3.setAttribute("colspan", "4");
+			trp.appendValue(tdp3.toString());
+			HTMLElement tdp4 = new HTMLElement("td", "grid2", "&nbsp;");
+			tdp4.setAttribute("colspan", "5");
+			trp.appendValue(tdp4.toString());
+			html.append(trp.toString());			
 		}		
 		return html.toString();
 	}
@@ -4637,14 +4665,16 @@ public class UtilBean {
 			String initialHOP,
 			String issueOwner,
 			String lastUpdatedBy,
-			String crqClosureCode) {
+			String crqClosureCode,
+			String riskIndicator,
+			String progressIssue ) {
 		String updateResult = "Error: Untrapped error with UpdateSiteProgress";
 		String message = null; 
     	Connection conn = null;
     	CallableStatement cstmt = null;
 	    try {
 	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call UpdateSiteProgress(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+	    	cstmt = conn.prepareCall("{call UpdateSiteProgress(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 	    	cstmt.setLong(1, snrId);
 	    	cstmt.setString(2, checkedIn);
 	    	cstmt.setString(3, bookedOn);
@@ -4667,6 +4697,8 @@ public class UtilBean {
 	    	cstmt.setString(20, issueOwner);
 	    	cstmt.setString(21, lastUpdatedBy);
 	    	cstmt.setString(22, crqClosureCode);
+	    	cstmt.setString(23, riskIndicator);
+	    	cstmt.setString(24, progressIssue);
 			boolean found = cstmt.execute();
 			if (found) {
 				ResultSet rs = cstmt.getResultSet();
@@ -4806,7 +4838,7 @@ public class UtilBean {
 							rs.getString(17), rs.getString(18), rs.getString(19), rs.getString(20),
 							rs.getString(21), rs.getString(22), rs.getString(23), rs.getString(24),
 							rs.getString(25), rs.getString(26), rs.getString(27), rs.getString(28),
-							rs.getString(29)));
+							rs.getString(29), rs.getString(30), rs.getString(31)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -4846,15 +4878,22 @@ public class UtilBean {
 				oddRow = !oddRow;
 				LiveDashboardSite ldc = it.next();
 				HTMLElement tr = new HTMLElement("tr");
+				// Risk 
+				String riskImage = "";
+				if (!ldc.getRisk().isEmpty()) {
+					riskImage = "<img src=\"images/"+ldc.getRisk()+"_Risk.png\" height=\"10px\" width=\"10px\">";
+				}
+				HTMLElement td0 = new HTMLElement("td", (oddRow?"ldGrid1":"ldGrid2"), riskImage );
+				tr.appendValue(td0.toString());
 				// customer
 				HTMLElement td1 = new HTMLElement("td", (oddRow?"ldGrid1":"ldGrid2"), ldc.getCustomer());
 				tr.appendValue(td1.toString());
-				// partner
-				HTMLElement td2 = new HTMLElement("td", (oddRow?"ldGrid1":"ldGrid2"), ldc.getPartner());
-				tr.appendValue(td2.toString());
 				// project
 				HTMLElement td3 = new HTMLElement("td", (oddRow?"ldGrid1":"ldGrid2"), ldc.getProject());
 				tr.appendValue(td3.toString());
+				// migration type
+				HTMLElement td3b = new HTMLElement("td", (oddRow?"ldGrid1":"ldGrid2"), ldc.getMigrationType());
+				tr.appendValue(td3b.toString());
 				// site
 				HTMLElement td4 = new HTMLElement("td", (oddRow?"ldGrid1":"ldGrid2"), ldc.getSite());
 				tr.appendValue(td4.toString());
@@ -4875,86 +4914,85 @@ public class UtilBean {
 				HTMLElement td28 = new HTMLElement("td", (oddRow?"ldGrid1":"ldGrid2"), ldc.getScheduledDDMM());
 				tr.appendValue(td28.toString());
 				// Checked In
-				//HTMLElement td8 = new HTMLElement("td", "ld"+ldc.getCheckedIn()+"LDash", "");
-				HTMLElement td8 = new HTMLElement("td", "ld"+ldc.getCheckedIn(), "");
-				td8.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				HTMLElement td8 = new HTMLElement("td", "ld"+ldc.getCheckedIn()+"LDash", "");
+				//td8.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td8.toString());
 				// Booked On
 				HTMLElement td9 = new HTMLElement("td", "ld"+ldc.getBookedOn(), "");
-				td9.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td9.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td9.toString());
 				// Site Accessed
 				HTMLElement td10 = new HTMLElement("td", "ld"+ldc.getSiteAccessed(), "");
-				td10.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td10.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td10.toString());
 				// Physical Checks
 				HTMLElement td11 = new HTMLElement("td", "ld"+ldc.getPhysicalChecks(), "");
-				td11.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td11.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td11.toString());
 				// Pre Call Test
 				HTMLElement td12 = new HTMLElement("td", "ld"+ldc.getPreCallTest()+"RDash", "");
-				td12.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td12.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td12.toString());
 				// Site Locked
 				HTMLElement td13 = new HTMLElement("td", "ld"+ldc.getSiteLocked()+"LDash", "");
-				td13.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td13.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td13.toString());
 				// HW Installs
 				HTMLElement td14 = new HTMLElement("td", "ld"+ldc.getHwInstalls(), "");
-				td14.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td14.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td14.toString());
 				// Commissioning FE
 				HTMLElement td15 = new HTMLElement("td", "ld"+ldc.getCommissioningFE(), "");
-				td15.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td15.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td15.toString());
 				// Commissioning BO
 				HTMLElement td16 = new HTMLElement("td", "ld"+ldc.getCommissioningBO(), "");
-				td16.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td16.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td16.toString());
 				// TX Provisioning
 				HTMLElement td17 = new HTMLElement("td", "ld"+ldc.getTxProvisioning(), "");
-				td17.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td17.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td17.toString());
 				// Field Work
 				HTMLElement td18 = new HTMLElement("td", "ld"+ldc.getFieldWork(), "");
-				td18.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td18.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td18.toString());
 				// Site Unlocked
 				HTMLElement td19 = new HTMLElement("td", "ld"+ldc.getSiteUnlocked(), "");
-				td19.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td19.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td19.toString());
 				// Post Call Test
 				HTMLElement td20 = new HTMLElement("td", "ld"+ldc.getPostCallTest()+"RDash", "");
-				td20.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td20.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td20.toString());
 				// Closure Code
 				HTMLElement td21 = new HTMLElement("td", "ld"+ldc.getClosureCode()+"LDash", "");
-				td21.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td21.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td21.toString());
 				// Leave Site
 				HTMLElement td22 = new HTMLElement("td", "ld"+ldc.getLeaveSite(), "");
-				td22.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td22.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td22.toString());
 				// Book Off Site
 				HTMLElement td23 = new HTMLElement("td", "ld"+ldc.getBookOffSite(), "");
-				td23.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td23.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td23.toString());
 				// Performance Monitoring
 				HTMLElement td24 = new HTMLElement("td", "ld"+ldc.getPerformanceMonitoring(), "");
-				td24.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td24.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td24.toString());
 				// Initial HOP
 				HTMLElement td25 = new HTMLElement("td", "ld"+ldc.getInitialHOP()+"RDash", "");
-				td25.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td25.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td25.toString());
 				// Devoteam Issue
 				HTMLElement td26 = new HTMLElement("td", "ld"+ldc.getDevoteamIssue()+"LDash", "");
-				td26.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td26.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td26.toString());
 				// Customer Issue
 				//HTMLElement td27 = new HTMLElement("td", "ld"+ldc.getCustomerIssue()+"RDash", "");
 				HTMLElement td27 = new HTMLElement("td", "ld"+ldc.getCustomerIssue(), "");
-				td27.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
+				//td27.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td27.toString());
 				// Complete row
 				html.append(tr.toString());
@@ -5135,4 +5173,148 @@ public class UtilBean {
 	    }
 		return select.toString();
 	}
+	
+	public String getRecentCompletedSitesHTML() {
+		//set up empty string a
+		String[] csClass = new String[5];
+		String[] csNRId = new String[5];
+		String[] csTime = new String[5];
+		String[] csStatus = new String[5];
+		for (int j = 0;j<5;j++) {
+			csClass[j] = "";
+			csNRId[j] = "";
+			csTime[j] = "";
+			csStatus[j] = "";
+		}
+		int pos = 4;
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call Display_Recent_Completed_Sites(?)}");
+	    	cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					String nrId = rs.getString(1);
+					String boxColour = rs.getString(2);
+					String completedTime = rs.getString(3);
+					String impStatus = rs.getString(4);
+					if (pos>-1) {
+						csNRId[pos] = nrId;
+						csClass[pos] = "siteComp" + boxColour;
+						csTime[pos] = completedTime;
+						csStatus[pos] = impStatus;
+					}
+					pos--;
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in Display_Recent_Completed_Sites(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		StringBuilder html = new StringBuilder();
+		HTMLElement tr = new HTMLElement("tr");
+		HTMLElement td1 = new HTMLElement("td", csClass[0], csNRId[0] );
+		td1.setAttribute("width", "50px");
+		td1.setAttribute("height", "30px");
+		td1.setAttribute("title", csStatus[0]+" at "+csTime[0]);
+		tr.appendValue(td1.toString());
+		HTMLElement tdSP = new HTMLElement("td", "", "&nbsp;");
+		tdSP.setAttribute("width", "5px");
+		tr.appendValue(tdSP.toString());
+		HTMLElement td2 = new HTMLElement("td", csClass[1], csNRId[1]);
+		td2.setAttribute("width", "50px");
+		td2.setAttribute("height", "30px");
+		td2.setAttribute("title", csStatus[1]+" at "+csTime[1]);
+		tr.appendValue(td2.toString());
+		tr.appendValue(tdSP.toString());
+		HTMLElement td3 = new HTMLElement("td", csClass[2], csNRId[2]);
+		td3.setAttribute("width", "50px");
+		td3.setAttribute("height", "30px");
+		td3.setAttribute("title", csStatus[2]+" at "+csTime[2]);
+		tr.appendValue(td3.toString());
+		HTMLElement tdSP3 = new HTMLElement("td", "", "&nbsp;");
+		tr.appendValue(tdSP.toString());
+		HTMLElement td4 = new HTMLElement("td", csClass[3], csNRId[3]);
+		td4.setAttribute("width", "50px");
+		td4.setAttribute("height", "30px");
+		td4.setAttribute("title", csStatus[3]+" at "+csTime[3]);
+		tr.appendValue(td4.toString());
+		tr.appendValue(tdSP.toString());
+		HTMLElement td5 = new HTMLElement("td", csClass[4],csNRId[4]);
+		td5.setAttribute("width", "50px");
+		td5.setAttribute("height", "30px");
+		td5.setAttribute("title", csStatus[4]+" at "+csTime[4]);
+		tr.appendValue(td5.toString());
+		html.append(tr.toString());	
+		return html.toString();
+	}
+	
+	public String getSiteProgressIssuesHTML() {
+		StringBuilder html = new StringBuilder();
+		// add progress issue lines
+		int issues = 0;
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetSiteProgressIssues(?)}");
+	    	cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					HTMLElement trd = new HTMLElement("tr");
+					HTMLElement tdd = new HTMLElement("td", "ldIssue", rs.getString(1));
+					tdd.setAttribute("width", "500px");
+					tdd.setAttribute("height", "5px");
+					trd.appendValue(tdd.toString());
+					html.append(trd.toString());
+					issues++;
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetSiteProgressIssues(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    if (issues==0) {
+    		HTMLElement trd = new HTMLElement("tr");
+			HTMLElement tdd = new HTMLElement("td", "ldIssue", "None");
+			tdd.setAttribute("width", "500px");
+			tdd.setAttribute("height", "5px");
+			trd.appendValue(tdd.toString());
+			html.append(trd.toString());
+	    }
+	    // check no.issues and add blank lines if necessary
+	    /*if (issues<3) {
+	    	for (int i = issues; i<3; i++ ) {
+	    		HTMLElement trd = new HTMLElement("tr");
+				HTMLElement tdd = new HTMLElement("td", "ldIssue", "&nbsp;");
+				tdd.setAttribute("width", "500px");
+				tdd.setAttribute("height", "5px");
+				trd.appendValue(tdd.toString());
+				html.append(trd.toString());
+	    	}
+	    }*/
+		return html.toString();
+	}
+	
 }
