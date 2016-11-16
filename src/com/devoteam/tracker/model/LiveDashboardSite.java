@@ -32,7 +32,10 @@ public class LiveDashboardSite {
 	private String percentage;				//28
 	private String scheduledDDMM;			//29
 	private String migrationType;           //30
-	private String risk;           //31
+	private String risk;           			//31
+	private String todayDDMM;           	//32
+	private String firstYearWeek;  			//33
+	private String currentYearWeek;  		//34
 	
 	public LiveDashboardSite(
 			String customer,
@@ -65,7 +68,10 @@ public class LiveDashboardSite {
 			String percentage,
 			String scheduledDDMM,
 			String migrationType,
-			String risk) {
+			String risk,
+			String todayDDMM,
+			String firstYearWeek,
+			String currentYearWeek) {
 		this.customer = customer;
 		this.partner = partner;
 		this.project = project;
@@ -97,6 +103,9 @@ public class LiveDashboardSite {
 		this.scheduledDDMM = scheduledDDMM;
 		this.migrationType = migrationType;
 		this.risk = risk;
+		this.todayDDMM = todayDDMM;
+		this.firstYearWeek = firstYearWeek;
+		this.currentYearWeek = currentYearWeek;
 	}
 	
 	public String getCustomer() {
@@ -230,6 +239,18 @@ public class LiveDashboardSite {
 	
 	public String getRisk() {
 		return risk;
+	}
+	
+	public String getTodayDDMM() {
+		return todayDDMM;
+	}
+	
+	public String getFirstYearWeek() {
+		return firstYearWeek;
+	}
+	
+	public String getCurrentYearWeek() {
+		return currentYearWeek;
 	}
 
 }

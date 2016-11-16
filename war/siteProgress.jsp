@@ -83,7 +83,7 @@ function tbClick(btn) {
 		document.getElementById("crqClosureCode").value = document.getElementById("currentCRQClosureCode").value;
 		document.getElementById("crqClosureCode").value = document.getElementById("currentCRQClosureCode").value;
 		document.getElementById("riskIndicator").value = document.getElementById("selectRiskIndicator").value;
-		document.getElementById("progressIssue").value = document.getElementById("selectProgressIssue").value;
+		document.getElementById("progressIssue").value = document.getElementById("progressIssueAmended").value;
 		var issueCount = 0;
 		if (document.getElementById("selectCheckedIn").value == "Issue") { issueCount = issueCount + 1; }
 		if (document.getElementById("selectBookedOn").value == "Issue") { issueCount = issueCount + 1; }

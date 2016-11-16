@@ -12,22 +12,17 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 <input type="hidden" name="selectedFilter" id="selectedFilter" value=""/>
 <script language="javascript">;
 
-var visible = "no";
+var display ="<%=uB.getDisplayProject()%>";
+var visible = "yes";
+if (display="none") {
+	visible = "no";
+}
 
 function thisScreenLoad() {	
 }
 
 function navigationAction(action) {	
-	if (action=="fwd") {
-		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
-		document.getElementById("f1").action = "navigation";
-		document.getElementById("f1").submit();
-	} else if (action=="rwd") {
-		document.getElementById("selectedAction").value = "rewind";
-		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
-		document.getElementById("f1").action = "liveDashboard";
-		document.getElementById("f1").submit();
-	} else if (action=="go") {
+	if (action=="go") {
 		var selectedProject = document.getElementById("selectProjectLD").value;
 		if (selectedProject == "" ) {
 			alert('No project selected for GO action');
@@ -38,6 +33,10 @@ function navigationAction(action) {
 			document.getElementById("f1").action = "liveDashboard";
 			document.getElementById("f1").submit();
 		}
+	} else if (action=='fwd') {
+		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
+		document.getElementById("f1").action = "navigation";
+		document.getElementById("f1").submit();
 	} else if (action=='hide') {
 		visible = "no";
 		document.getElementById("selectedAction").value = "hide";
@@ -114,6 +113,25 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 <div id="top" style="height: 180px; display: <%=uB.getDisplayProject()%>;">
 <table style="table-layout: fixed; border-style: none;">
 <tr>
+<td width="406px">&nbsp;</td>
+<td width="438px" valign="top"> 
+<!-- counts table section -->
+<table style="width: 100%;height: 100%;table-layout: fixed; border-collapse: collapse;">
+<colgroup>
+<col width="16%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+</colgroup>
+<tbody>
+<%=uB.getDashboardTableHTML()%>
+</tbody>
+</table>
+</td>
+</tr>
 </table>
 </div>
 <div style="margin: 0; padding: 0; max-height: 640px; overflow; hidden;">
