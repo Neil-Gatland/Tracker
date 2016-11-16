@@ -49,6 +49,8 @@ public class UtilBean {
 	private String url;
 	private String prevScreen;
 	private String message;
+	private String prevDate;
+	private String prevYearWeek;
 	
 	private int imageChoice;
 	
@@ -1902,7 +1904,8 @@ public class UtilBean {
 						rs.getString(49),rs.getString(50),
 						rs.getString(51),rs.getString(52),
 						rs.getString(53),rs.getString(54),
-						rs.getString(55),rs.getString(56));
+						rs.getString(55),rs.getString(56),
+						rs.getString(57));
 				}
 			}
 	    } catch (Exception ex) {
@@ -3770,7 +3773,7 @@ public class UtilBean {
 		return html.toString();
 	}	
 	
-	public String getDashboardLineData() {
+	/*public String getDashboardLineData() {
 		String lineData = "['Week', 'Scheduled', 'Attempted', 'Completed', "+	
 							"'Partial', 'Abort (Cust)', 'Abort (Dvt)'],";
 		Connection conn = null;
@@ -3816,9 +3819,9 @@ public class UtilBean {
     	// remove last comma
     	lineData = lineData.substring(0, lineData.length() - 1 );
 		return lineData;
-	}
+	}*/
 	
-	public String getDashboardPieData() {
+	/*public String getDashboardPieData() {
 		String pieData = "['Outcome', 'No.'],";
 		int completedTotal = 0, partialTotal = 0, abortCustTotal = 0, abortDvtTotal = 0;
 		Connection conn = null;
@@ -3860,7 +3863,7 @@ public class UtilBean {
 			String.valueOf(abortDvtTotal)+
 			"]";
 		return pieData;
-	}
+	}*/
 		
 	private DashboardProject getDashboardProject() {
 		message = null;
@@ -3873,7 +3876,7 @@ public class UtilBean {
     	CallableStatement cstmt = null;
 	    try {
 	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call Next_Dashboard_Project(?)}");
+	    	cstmt = conn.prepareCall("{call GetDashboardProject(?)}");
 	    	cstmt.setString(1, user.getFullname());
 			boolean found = cstmt.execute();
 			if (found) {
@@ -3917,34 +3920,13 @@ public class UtilBean {
 		String currentDay = dp.getCurrentDay();
 		// title bar
 		HTMLElement tra = new HTMLElement("tr");
-		//String options[] = { dp.getProject(), user.getFullname() };
 		HTMLElement tda0 = new HTMLElement("td", "dashHeadTitle", 
 				getSelectHTMLWithInitialValue(
-						//"ProjectLD", "select", "filter", dp.getProject(),"navigationAction('go')"));
 					"ProjectLD", "select", "filter", dp.getProject(), "navigationAction('go')", user.getFullname()));
 		tda0.setAttribute("colspan", "4");
 		tda0.setAttribute("onClick", "navigationAction('go')");
 		tra.appendValue(tda0.toString());
-		HTMLElement tda1 = new HTMLElement(
-				"td","ldAction",				
-				"<img src=\"images/rwd.png\" "+
-				"height=\"15\" width=\"15\" "+
-				"onClick=\"navigationAction('rwd')\""+
-				"title=\"Go to previous project\"> "+
-				"<img src=\"images/fwd.png\" "+
-				"height=\"15\" width=\"15\" border:1px solid black; "+
-				"onClick=\"navigationAction('fwd')\""+
-				"title=\"Go to next project\">");
-		//tda1.setAttribute("colspan", "3");
-		tda1.setAttribute("align", "left");
-		tra.appendValue(tda1.toString());
-		html.append(tra.toString());
-		// empty row
-		HTMLElement trb = new HTMLElement("tr");
-		HTMLElement tdb0 = new HTMLElement("td", "dashHeadEmpty", "&nbsp;");
-		tdb0.setAttribute("colspan", "7");
-		trb.appendValue(tdb0.toString());
-		html.append(trb.toString());
+		html.append(tra.toString());;
 		// header row - part 1
 		HTMLElement trc = new HTMLElement("tr");
 		HTMLElement tdc0 = new HTMLElement("td", "dashColHeadCenterBoxTLH", "Week/Day");
@@ -4199,7 +4181,11 @@ public class UtilBean {
 								dp.getAbortDvtSun()); 
 		trl.appendValue(tdl6.toString());
 		html.append(trl.toString());
-		// empty row		
+		// empty row	
+		HTMLElement trb = new HTMLElement("tr");
+		HTMLElement tdb0 = new HTMLElement("td", "dashHeadEmpty", "&nbsp;");
+		tdb0.setAttribute("colspan", "7");
+		trb.appendValue(tdb0.toString());	
 		html.append(trb.toString());
 		// scheduled header row - part 1
 		HTMLElement trm = new HTMLElement("tr");
@@ -4235,6 +4221,8 @@ public class UtilBean {
 		HTMLElement tdn6 = new HTMLElement("td", "dashCellBoxBRH", dp.getWeek6Scheduled());
 		trn.appendValue(tdn6.toString());
 		html.append(trn.toString());
+		// empty row
+		html.append(trb.toString());
 		return html.toString();
 	}
 	
@@ -4570,7 +4558,8 @@ public class UtilBean {
 			HTMLElement tdp2 = new HTMLElement("td", "grid2RedBold", "Progress Issue:");
 			trp.appendValue(tdp2.toString());
 			HTMLElement tdp3 = new HTMLElement("td", "grid2", 
-					getSelectHTMLWithInitialValue("ProgressIssue", "select", "filter", sp.getProgressIssue()));
+					"<input style=\"width:95%;\" type=\"text\" name=\"progressIssueAmended\" id=\"progressIssueAmended\" value=\""+sp.getProgressIssue()+"\" maxlength=\"200\">");
+					//getSelectHTMLWithInitialValue("ProgressIssue", "select", "filter", sp.getProgressIssue()));
 			tdp3.setAttribute("colspan", "4");
 			trp.appendValue(tdp3.toString());
 			HTMLElement tdp4 = new HTMLElement("td", "grid2", "&nbsp;");
@@ -4580,9 +4569,10 @@ public class UtilBean {
 		}		
 		return html.toString();
 	}
+	//<input style="width:95%" type="text" name="newActingCustomer" id="newActingCustomer" value="" maxlength="100">
 	
 	
-	public String rewindProject(String fullname) {
+	/*public String rewindProject(String fullname) {
 		String updateResult = "Error: Untrapped error with Rewind_Project";
 		String message = null; 
     	Connection conn = null;
@@ -4610,7 +4600,7 @@ public class UtilBean {
 		    }
 	    } 	 
 		return updateResult;
-	}
+	}*/
 	
 	public String gotoProject(String project, String fullname) {
 		String updateResult = "Error: Untrapped error with Goto_Project";
@@ -4797,23 +4787,23 @@ public class UtilBean {
 		    	ex.printStackTrace();
 		    }
 	    } 
-	    /*if (display.equals("inline")) {
+	    if (display.equals("inline")) {
 	    	heading = heading + "&nbsp;" +
 	    			"<img src=\"images/hide.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('hide')\" "+
-    				"title=\"Hide current project\">";
+    				"title=\"Hide project counts table\">";
 	    }
 	    else {
 	    	heading = heading + "&nbsp;" +
 	    			"<img src=\"images/show.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('show')\" "+
-    				"title=\"Show current project\">";
-	    }*/
+    				"title=\"Show project counts table\">";
+	    }
 	    heading = heading + "&nbsp;" +
 	    		"<img src=\"images/fwd.png\" "+
 				"height=\"15\" width=\"15\" border:1px solid black; "+
 				"onClick=\"navigationAction('fwd')\""+
-				"title=\"Manually refresh the live sites list\">";
+				"title=\"Manually refresh the live dashboard\">";
 		return heading;
 	}
 	
@@ -4838,7 +4828,8 @@ public class UtilBean {
 							rs.getString(17), rs.getString(18), rs.getString(19), rs.getString(20),
 							rs.getString(21), rs.getString(22), rs.getString(23), rs.getString(24),
 							rs.getString(25), rs.getString(26), rs.getString(27), rs.getString(28),
-							rs.getString(29), rs.getString(30), rs.getString(31)));
+							rs.getString(29), rs.getString(30), rs.getString(31), rs.getString(32), 
+							rs.getString(33), rs.getString(34)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -4863,20 +4854,42 @@ public class UtilBean {
 			if (message != null) {
 				HTMLElement tr = new HTMLElement("tr");
 				HTMLElement td = new HTMLElement("td", "grid1",	message);
-				td.setAttribute("colspan", "28");
+				td.setAttribute("colspan", "29");
 				tr.appendValue(td.toString());
 				html.append(tr.toString());
 			} else {
 				HTMLElement tr = new HTMLElement("tr");
 				HTMLElement td = new HTMLElement("td", "grid1","No sites to display");
-				td.setAttribute("colspan", "28");
+				td.setAttribute("colspan", "29");
 				tr.appendValue(td.toString());
 				html.append(tr.toString());	
-			}				
+			}
 		} else {
+			prevDate = "DD/MM";
+			prevYearWeek = "YYYYWW";
 			for (Iterator<LiveDashboardSite> it = LiveDashboardSite.iterator(); it.hasNext(); ) {
 				oddRow = !oddRow;
 				LiveDashboardSite ldc = it.next();
+				// add break if previous row was for current date and now past current date
+				if ( (!prevDate.equals(ldc.getScheduledDDMM()))  &&
+						(prevDate.equals(ldc.getTodayDDMM()))) {
+					HTMLElement tr = new HTMLElement("tr");
+					HTMLElement td0 = new HTMLElement("td", "ldGridBreak", "" );
+					td0.setAttribute("height", "3px");
+					td0.setAttribute("colspan", "29");
+					tr.appendValue(td0.toString());					
+					html.append(tr.toString());
+				// add break if previous row was for current week and now past current week
+				} else if ( (!prevYearWeek.equals(ldc.getCurrentYearWeek()))  &&
+						(prevYearWeek.equals(ldc.getFirstYearWeek()))) {
+					HTMLElement tr = new HTMLElement("tr");
+					HTMLElement td0 = new HTMLElement("td", "ldGridBreak", "" );
+					td0.setAttribute("height", "3px");
+					td0.setAttribute("colspan", "29");
+					tr.appendValue(td0.toString());					
+					html.append(tr.toString());					
+				} 	
+				// output current row
 				HTMLElement tr = new HTMLElement("tr");
 				// Risk 
 				String riskImage = "";
@@ -4995,7 +5008,10 @@ public class UtilBean {
 				//td27.setAttribute("onClick", "siteProgressStatusKeyClick('open')");
 				tr.appendValue(td27.toString());
 				// Complete row
-				html.append(tr.toString());
+				html.append(tr.toString());					
+				// store current scheduled date and current year week
+				prevDate = ldc.getScheduledDDMM();
+				prevYearWeek = ldc.getCurrentYearWeek();
 			}
 		}
 		return html.toString();

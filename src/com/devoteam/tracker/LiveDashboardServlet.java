@@ -110,9 +110,10 @@ public class LiveDashboardServlet extends HttpServlet {
 			    }
 		    } 
 		}
-		if ((selectedAction.equals("rewind")) || (selectedAction.equals("go"))) {
+		//if ((selectedAction.equals("rewind")) || (selectedAction.equals("go"))) {
+		if (selectedAction.equals("go")) {
 			UtilBean uB = new UtilBean(thisU, destination.substring(1), url);
-			if (selectedAction.equals("rewind")) {
+			/*if (selectedAction.equals("rewind")) {
 				String updateResult = uB.rewindProject(thisU.getFullname());
 				if (updateResult.equals("Y")) {
 					updateResult = uB.rewindProject(thisU.getFullname());
@@ -122,7 +123,7 @@ public class LiveDashboardServlet extends HttpServlet {
 				} else {
 					session.setAttribute("userMessage", "Failed going back to previous project");
 				}
-			} else {
+			} else {*/
 				String selectedProject = req.getParameter("selectedProject");
 				String updateResult = uB.gotoProject(selectedProject,thisU.getFullname());
 				if (updateResult.equals("Y")) {
@@ -130,7 +131,7 @@ public class LiveDashboardServlet extends HttpServlet {
 				} else {
 					session.setAttribute("userMessage", "Failed going to selected project");
 				}
-			}			    		
+			//}			    		
 		}		
 		Random r = new Random();
 		String ran = "?ran=" + String.valueOf(Math.abs(r.nextLong()));

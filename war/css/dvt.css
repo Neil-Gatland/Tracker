@@ -670,6 +670,15 @@ td.ldHeadRed {
 	font-size:x-small;
 	font-weight: bold;
 }
+td.ldGridBreak {
+	margin:0; 
+	padding:0;
+	border: none;
+	background-color:#DDDDDD;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:x-small;	
+}
 td.ldGrid1 {
 	margin:0; 
 	padding:0;
