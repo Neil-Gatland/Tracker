@@ -392,7 +392,9 @@ public class UtilBean {
 					screen.equals(ServletConstants.VIEW_SNR_HISTORY) ||
 					screen.equals(ServletConstants.REPORTING);*/
 				canSee = screen.equals(ServletConstants.CUSTOMER_MENU) ||
-					screen.equals(ServletConstants.LIVE_DASHBOARD);
+					screen.equals(ServletConstants.LIVE_DASHBOARD) ||
+					screen.equals(ServletConstants.SITE_SEARCH) ||
+					screen.equals(ServletConstants.CLIENT_REPORTING);
 			} else /*if ((user.getUserType().equals(User.USER_TYPE_DEVOTEAM)) ||
 					(user.getUserType().equals(User.USER_TYPE_THIRD_PARTY)))*/ {
 				if (screen.equals(ServletConstants.WORK_QUEUES)) {
@@ -4873,21 +4875,35 @@ public class UtilBean {
 				// add break if previous row was for current date and now past current date
 				if ( (!prevDate.equals(ldc.getScheduledDDMM()))  &&
 						(prevDate.equals(ldc.getTodayDDMM()))) {
-					HTMLElement tr = new HTMLElement("tr");
-					HTMLElement td0 = new HTMLElement("td", "ldGridBreak", "" );
-					td0.setAttribute("height", "3px");
-					td0.setAttribute("colspan", "29");
-					tr.appendValue(td0.toString());					
-					html.append(tr.toString());
+					HTMLElement tr1 = new HTMLElement("tr");	
+					HTMLElement td11 = new HTMLElement("td", "", "" );
+					td11.setAttribute("height", "2px");
+					td11.setAttribute("colspan", "29");
+					tr1.appendValue(td11.toString());				
+					html.append(tr1.toString());
+					HTMLElement tr2 = new HTMLElement("tr");		
+					HTMLElement td21 = new HTMLElement("td", "ldGridBreak", "" );
+					td21.setAttribute("height", "3px");
+					td21.setAttribute("colspan", "29");
+					tr2.appendValue(td21.toString());				
+					html.append(tr2.toString());					
+					html.append(tr1.toString());
 				// add break if previous row was for current week and now past current week
 				} else if ( (!prevYearWeek.equals(ldc.getCurrentYearWeek()))  &&
 						(prevYearWeek.equals(ldc.getFirstYearWeek()))) {
-					HTMLElement tr = new HTMLElement("tr");
-					HTMLElement td0 = new HTMLElement("td", "ldGridBreak", "" );
-					td0.setAttribute("height", "3px");
-					td0.setAttribute("colspan", "29");
-					tr.appendValue(td0.toString());					
-					html.append(tr.toString());					
+					HTMLElement tr1 = new HTMLElement("tr");	
+					HTMLElement td11 = new HTMLElement("td", "", "" );
+					td11.setAttribute("height", "2px");
+					td11.setAttribute("colspan", "29");
+					tr1.appendValue(td11.toString());				
+					html.append(tr1.toString());
+					HTMLElement tr2 = new HTMLElement("tr");		
+					HTMLElement td21 = new HTMLElement("td", "ldGridBreak", "" );
+					td21.setAttribute("height", "3px");
+					td21.setAttribute("colspan", "29");
+					tr2.appendValue(td21.toString());				
+					html.append(tr2.toString());					
+					html.append(tr1.toString());
 				} 	
 				// output current row
 				HTMLElement tr = new HTMLElement("tr");
@@ -5319,18 +5335,212 @@ public class UtilBean {
 			trd.appendValue(tdd.toString());
 			html.append(trd.toString());
 	    }
-	    // check no.issues and add blank lines if necessary
-	    /*if (issues<3) {
-	    	for (int i = issues; i<3; i++ ) {
-	    		HTMLElement trd = new HTMLElement("tr");
-				HTMLElement tdd = new HTMLElement("td", "ldIssue", "&nbsp;");
-				tdd.setAttribute("width", "500px");
-				tdd.setAttribute("height", "5px");
-				trd.appendValue(tdd.toString());
-				html.append(trd.toString());
-	    	}
-	    }*/
 		return html.toString();
 	}
+	
+	public String logoFilename (String screen) {
+		String name = "smart.png";
+		if (screen.equals(ServletConstants.LIVE_DASHBOARD)) {
+			name = "smart_LD.png";
+		}
+		if (screen.equals(ServletConstants.SITE_SEARCH)) {
+			name = "smart_SS.png";
+		}
+		if (screen.equals(ServletConstants.CLIENT_REPORTING)) {
+			name = "smart_CR.png";
+		}
+		return name;
+	}
+	
+	public String emailCopySiteHTML () {
+		return getSelectHTMLWithInitialValue("EmailCopySite","select","filter",user.getFullname());
+	}
+	
+	public String emailCopyNRIdHTML () {
+		return getSelectHTMLWithInitialValue("EmailCopyNRId","select","filter",user.getFullname());
+	}
+	
+	public boolean showNew() {
+		boolean allow = false;
+		if ((user.getFullname().equals("Neil2.Gatland")) ||
+				(user.getFullname().equals("Test.Customer"))) {
+			allow = true;
+		}
+		return allow;
+	}
+	
+	public String getSiteCompletionReportListHTML
+			( String action, String year, String month, String day, String week, String site, String nrId) {
+		StringBuilder html = new StringBuilder();
+		if ((action.startsWith("fwd"))||
+				(action.startsWith("rwd"))||
+				(action.startsWith("init"))) {
+			HTMLElement tr = new HTMLElement("tr");
+			HTMLElement td= new HTMLElement("td", "siteReportDClass", "&nbsp;");
+			td.setAttribute("colspan", "4");
+			tr.appendValue(td.toString());
+			html.append(tr.toString());
+		} else {
+			String dbAction = action;
+			if (action.equals("chgMonth"))
+				dbAction = "month";
+			if (action.equals("chgDay"))
+				dbAction = "day";
+			if (action.equals("chgWeek"))
+				dbAction = "week";
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetSiteCompletionReportList(?,?,?,?,?,?,?,?)}");
+	   			cstmt.setString(1, dbAction);
+	   			cstmt.setString(2, year);
+	   			cstmt.setString(3, month);
+	   			cstmt.setString(4, day);
+	   			cstmt.setString(5, week);
+	   			cstmt.setString(6, site);
+	   			cstmt.setString(7, nrId);
+	   			cstmt.setString(8, user.getFullname());
+				boolean found = cstmt.execute();
+				boolean sitesDisplayed = false;
+				if (found) {
+					//html.append("<div style=\"height:300px;overflow-y: auto; overflow-x: hidden\">");
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String repSite = rs.getString(1);
+						String repNrId = rs.getString(2);
+						String repDate = rs.getString(3);
+						String repType = rs.getString(4);
+						HTMLElement tr = new HTMLElement("tr");
+						String onClickRS = 
+								"reportSelect('"+repSite+"','"+repNrId+"','"+repDate+"','"+repType+"')";
+						HTMLElement td1= new HTMLElement("td", "siteReportDClass", repSite);
+						td1.setAttribute("onClick", onClickRS);
+						tr.appendValue(td1.toString());
+						HTMLElement td2= new HTMLElement("td", "siteReportDClass", repNrId);
+						td2.setAttribute("onClick", onClickRS);
+						tr.appendValue(td2.toString());
+						HTMLElement td3= new HTMLElement("td", "siteReportDClass", repDate);
+						td3.setAttribute("onClick", onClickRS);
+						tr.appendValue(td3.toString());
+						String compClass = "siteReportDGreenClass";
+						if (repType.equals("Partial")) 
+							compClass = "siteReportDAmberClass";
+						else if (repType.equals("Abort")) 
+							compClass = "siteReportDRedClass";
+						HTMLElement td4= new HTMLElement("td", compClass, repType);
+						td4.setAttribute("onClick", onClickRS);
+						tr.appendValue(td4.toString());
+						html.append(tr.toString());	
+						sitesDisplayed = true;
+						html.append("</div>");
+					}
+					if (!sitesDisplayed) {
+						HTMLElement tr = new HTMLElement("tr");
+						HTMLElement td= new HTMLElement("td", "siteReportDClass", "No reports to display");
+						td.setAttribute("colspan", "4");
+						tr.appendValue(td.toString());
+						html.append(tr.toString());
+					}
+				}
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    }
+		}
+		return html.toString();
+	}
+	
+	public String getSiteCompletionReportCriteriaHTML
+			( String action, String year, String month, String day, String week, String site, String nrId) {
+		String criteria = "";
+		if ((action.startsWith("fwd"))||
+				(action.startsWith("rwd"))||
+				(action.startsWith("init"))) {
+			criteria = "";
+		} else {
+			criteria = "Reports for ";
+			if (action.equals("chgMonth")) {
+				criteria = criteria + decodeMonth(month) + " " + year;
+			} else if (action.equals("chgDay")) {
+				criteria = criteria + year + "/"+ month + "/" + day;
+			} else if (action.equals("chgWeek")) {
+				criteria = criteria + "week "+week+" / "+year;
+			} else if (action.equals("site")) {
+				criteria = criteria + "site " + site;
+			} else if (action.equals("nrId")) {
+				criteria = criteria + "nr id " + nrId;
+			}
+		}
+		return criteria;
+	}
+	
+	private String decodeMonth(String month) {
+		String fullMonth="";
+		if (month.equals("01")) fullMonth = "January";
+		else if (month.equals("02")) fullMonth = "February";
+		else if (month.equals("03")) fullMonth = "March";
+		else if (month.equals("04")) fullMonth = "April";
+		else if (month.equals("05")) fullMonth = "May";
+		else if (month.equals("06")) fullMonth = "June";
+		else if (month.equals("07")) fullMonth = "July";
+		else if (month.equals("08")) fullMonth = "August";
+		else if (month.equals("09")) fullMonth = "September";
+		else if (month.equals("10")) fullMonth = "October";
+		else if (month.equals("11")) fullMonth = "November";
+		else if (month.equals("12")) fullMonth = "December";
+		return fullMonth;
+	}
+	
+	public String getCompletionReportHeader(String site, String nrId, String date, String type) {
+		String title = "Closure report for ";
+		if (site.equals("")) {
+			title = "";
+		} else {
+			if (!type.equals("Completed")) title = type + " report for ";
+			title = title + "site " + site + " on " + date;
+		}		
+		return title;
+	}
+	
+	public String getCompletionReport(String site, String nrId, String date, String type) {
+		String completionReport = "";		
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetSiteCompletionReport(?,?,?,?)}");
+	    	cstmt.setString(1, site);
+	    	cstmt.setString(2, nrId);
+	    	cstmt.setString(3, date);
+	    	cstmt.setString(4, type);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					completionReport = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetSiteCompletionReport(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return completionReport;
+	}
+		
 	
 }

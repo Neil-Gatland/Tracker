@@ -195,6 +195,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>LiveDashboard</servlet-name>
 		<url-pattern>/liveDashboard</url-pattern>
+	</servlet-mapping>			
+	<servlet>
+		<servlet-name>SiteSearch</servlet-name>
+		<servlet-class>com.devoteam.tracker.SiteSearchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SiteSearch</servlet-name>
+		<url-pattern>/siteSearch</url-pattern>
 	</servlet-mapping>		
 	<servlet>
 		<servlet-name>UrTracker</servlet-name>

@@ -42,7 +42,7 @@ function navigationAction(action) {
 		document.getElementById("selectedAction").value = "hide";
 		document.getElementById("top").style.display = "none";
 		document.getElementById("siteList").style.display = "none";
-		document.getElementById("siteList").style.height = "384px";
+		document.getElementById("siteList").style.height = "771px";
 		document.getElementById("selectedHide").value = "Y";
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
 		document.getElementById("f1").action = "liveDashboard";
@@ -52,7 +52,7 @@ function navigationAction(action) {
 		document.getElementById("selectedAction").value = "show";
 		document.getElementById("top").style.display = "inline";
 		document.getElementById("siteList").style.display = "none";
-		document.getElementById("siteList").style.height = "164px";	
+		document.getElementById("siteList").style.height = "492px";	
 		document.getElementById("selectedHide").value = "N";
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
 		document.getElementById("f1").action = "liveDashboard";
@@ -248,7 +248,7 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 </tbody>
 </table>
 <div id="siteList" style="margin: 0; padding: 0; overflow-y: auto; overflow-x: hidden; display; inline; 
-max-width: 100%; height: <%=(uB.getDisplayProject().equals("none")?"384":"164")%>px;"/>
+max-width: 100%; height: <%=(uB.getDisplayProject().equals("none")?"771":"492")%>px;"/>
 <!--max-width: 100%; height: 164px"/>  -->
 <table style="width: 1250px; table-layout: fixed;">
 <colgroup>

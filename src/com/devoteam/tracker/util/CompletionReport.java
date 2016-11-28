@@ -303,7 +303,7 @@ public class CompletionReport {
 			messageBody = messageBody + emailEnd;
 			cstmt = null;
 			try {;
-				cstmt = conn.prepareCall("{call AddEmailCopy(?,?,?,?,?,?,?)}");
+				cstmt = conn.prepareCall("{call AddEmailCopy(?,?,?,?,?,?,?,?,?,?)}");
 		    	cstmt.setString(1, completingBO);
 		    	cstmt.setString(2, subject);
 		    	cstmt.setString(3, toList);
@@ -311,6 +311,9 @@ public class CompletionReport {
 		    	cstmt.setString(5, bccList);
 		    	cstmt.setString(6, messageBody);
 		    	cstmt.setString(7, cRD.getEmailSendAddress());
+		    	cstmt.setString(8, cRD.getSite());
+		    	cstmt.setString(9, cRD.getNRId());
+		    	cstmt.setString(10, cRD.getCompletionStatus());
 				cstmt.execute();
 			    } catch (Exception ex) {
 			    	result = " - automated completion report failed: AddEmailCopy(): " + ex.getMessage();
