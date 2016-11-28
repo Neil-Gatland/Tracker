@@ -1887,3 +1887,90 @@ td.ldAmbeFRDash {
 	-o-animation:      amberFlash 1s infinite; /* Opera 12+ */
 	animation:         amberFlash 1s infinite; /* IE 10+ */
 }
+td.infoMsg {
+	color:#53565A;
+}
+td.errorMsg {
+	color:#F8485E;
+}
+td.clientBox {
+	color:#53565A;
+	background-color:#F0F0F0;
+	font-size: medium;
+	text-align: center;
+}
+td.whiteBox {
+	color:#53565A;
+	background-color:#FFFFFF;
+	font-size: medium;
+	text-align: center;
+}
+td.clientTop {
+	color:#53565A;
+	background-color:#FFFFFF;
+	font-size: xx-small;
+	text-align: center;
+}
+td.dateSearchTClass {
+	color:#53565A;
+	background-color:#F0F0F0;
+	font-size:medium;
+	text-align:center;
+	font-weight:bold;
+}
+td.dateSearchHClass {
+	color:#53565A;
+	background-color:#C0C0C0;
+	font-size:small;
+	text-align:center;
+	font-weight:bold;
+}
+td.dateSearchDClass{
+	color:#C0C0C0;
+	background-color:#FFFFFF;
+	font-size:small;
+	text-align:center;
+}
+td.dateSearchDBClass {
+	color:#53565A;
+	background-color:#FFFFFF;
+	font-size:small;
+	text-align:center;
+	font-weight:bold;
+}
+td.siteReportHClass {
+	color:#FFFFFF;
+	background-color:#53565A;
+	border: 1.0px #53565A; solid;
+	font-size:x-small;
+	text-align:center;
+	font-weight:bold;
+}
+td.siteReportDClass {
+	color:#53565A;
+	background-color:#FFFFFF;
+	font-size:x-small;
+	text-align:center;
+	font-weight:bold;
+}
+td.siteReportDGreenClass {
+	color:green;
+	background-color:#FFFFFF;
+	font-size:x-small;
+	text-align:center;
+	font-weight:bold;
+}
+td.siteReportDAmberClass {
+	color:orange;
+	background-color:#FFFFFF;
+	font-size:x-small;
+	text-align:center;
+	font-weight:bold;
+}
+td.siteReportDRedClass {
+	color:red;
+	background-color:#FFFFFF;
+	font-size:x-small;
+	text-align:center;
+	font-weight:bold;
+}
