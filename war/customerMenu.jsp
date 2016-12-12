@@ -83,13 +83,13 @@
 				<td align="center" valign="top" height="120px">
 					<table>
 						<tr>
-							<td align="center" title="Press for client reporting"
+							<td align="center" title="Press for reporting"
 								onClick="menuClick('<%=ServletConstants.CLIENT_REPORTING%>')">
 								<img src="images/dev_pictos_red_circle_rvb-01.png" height="80px" width="80px">
 							</td>
 						</tr>
 						<tr>
-							<td align="center" valign="top"  title="Press for client reporting"
+							<td align="center" valign="top"  title="Press for reporting"
 								onClick="menuClick('<%=ServletConstants.CLIENT_REPORTING%>')">
 								<img src="images/client_reporting_text.png" height="16px" width="138px">
 							</td>

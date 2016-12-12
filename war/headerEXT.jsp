@@ -28,8 +28,7 @@
 	User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 	String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
 	String displayScreen = title;
-	//String displayScreen = (String)session.getAttribute("screenTitle");
-	//session.setAttribute("fromScreen", displayScreen);
+	session.setAttribute("fromScreen", displayScreen);
 	UtilBean uB = new UtilBean(thisU, displayScreen, url);
 	if (!uB.canSee()) {
 		session.setAttribute("userMessage", "Error: Access not authorised!");

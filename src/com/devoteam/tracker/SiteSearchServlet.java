@@ -1,6 +1,11 @@
 package com.devoteam.tracker;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.devoteam.tracker.model.User;
+import com.devoteam.tracker.util.ServletConstants;
 
 public class SiteSearchServlet extends HttpServlet {
 
@@ -29,6 +37,8 @@ public class SiteSearchServlet extends HttpServlet {
 		String month = req.getParameter("selectedMonth");
 		String day = req.getParameter("selectedDay");
 		String week = req.getParameter("selectedWeek");
+		String client = req.getParameter("selectedClient");
+		String project = req.getParameter("selectedProject");
 		String site = req.getParameter("selectedSite");
 		String nrId = req.getParameter("selectedNrId");
 		String reportSite = req.getParameter("reportSite");
@@ -40,6 +50,8 @@ public class SiteSearchServlet extends HttpServlet {
 		req.setAttribute("month", month);
 		req.setAttribute("day", day);
 		req.setAttribute("week", week);
+		req.setAttribute("client", client);
+		req.setAttribute("project", project);
 		req.setAttribute("site", site);
 		req.setAttribute("nrId", nrId);
 		req.setAttribute("reportSite", reportSite);
