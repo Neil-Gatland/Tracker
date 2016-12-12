@@ -88,6 +88,7 @@ public interface ServletConstants {
 	final static public String LIVE_DASHBOARD = "Live Dashboard";
 	final static public String SITE_PROGRESS = "Site Progress";
 	final static public String SITE_SEARCH = "Site Search";
-	final static public String CLIENT_REPORTING = "Client Reporting";
+	final static public String CLIENT_REPORTING = "Reporting";
+	final static public String HOME_FE = "Home (FE)";
 
 }

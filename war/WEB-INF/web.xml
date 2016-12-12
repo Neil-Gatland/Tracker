@@ -205,6 +205,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/siteSearch</url-pattern>
 	</servlet-mapping>		
 	<servlet>
+		<servlet-name>ClientReporting</servlet-name>
+		<servlet-class>com.devoteam.tracker.ClientReportingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClientReporting</servlet-name>
+		<url-pattern>/clientReporting</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>HomeFE</servlet-name>
+		<servlet-class>com.devoteam.tracker.HomeFEServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HomeFE</servlet-name>
+		<url-pattern>/homeFE</url-pattern>
+	</servlet-mapping>			
+	<servlet>
 		<servlet-name>UrTracker</servlet-name>
 		<servlet-class>com.devoteam.UrTrackerServlet</servlet-class>
 	</servlet>

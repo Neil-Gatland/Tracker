@@ -118,6 +118,7 @@
 		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="50px" width="126px"></a>	
 	</td>
 	<td>
+	<% if (displayScreen.equals(ServletConstants.LIVE_DASHBOARD)) {%>
 		<table>		
 		<colgroup>
 			<col width="50px"/>
@@ -131,9 +132,12 @@
 			<col width="50px"/>	
 		</colgroup>
 		<tbody>
-		<%=uB.getRecentCompletedSitesHTML()%>
+		<%=uB.getRecentCompletedSitesHTML()%>	
 		</tbody>
-		</table>
+		</table>		
+	<%} else {%>
+		&nbsp;
+	<%}%>
 	<td>
 </tr>
 <tr>

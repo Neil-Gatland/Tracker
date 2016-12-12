@@ -207,7 +207,7 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 		<td	onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Checked In (BO)">CI</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
-			class="ldHead" title="Site Booked On (BO)">SB</td>
+			class="ldHead" title="Site Booked On (FE)">SB</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Site Accessed (FE)">SA</td>
 		<td onClick="siteProgressItemsKeyClick('open')"

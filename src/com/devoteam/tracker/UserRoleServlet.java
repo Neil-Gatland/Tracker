@@ -41,9 +41,12 @@ public class UserRoleServlet extends HttpServlet {
 			User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 			if (thisU.getUserType().equalsIgnoreCase(User.USER_TYPE_CUSTOMER)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CUSTOMER_MENU);
-				//resp.sendRedirect("/customerMenu.jsp"+ran);
 	  	      	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/customerMenu.jsp"+ran);
 	  	      	dispatcher.forward(req,resp);
+			/*} else if (thisU.getUserType().equalsIgnoreCase(User.USER_TYPE_THIRD_PARTY)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_FE);
+	  	      	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/homeFE.jsp"+ran);
+	  	      	dispatcher.forward(req,resp);*/
 			} else {
 				try {
 					ArrayList<UserRole> userRoles = new ArrayList<UserRole>();
@@ -70,6 +73,9 @@ public class UserRoleServlet extends HttpServlet {
 						if (thisU.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
 							destination = "/homeBO.jsp";
 							title = ServletConstants.HOME_BO;
+						} else if (thisU.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) {
+							destination = "/homeFE.jsp";
+							title = ServletConstants.HOME_FE;
 						}
 						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, title);
 			  	      	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destination+ran);

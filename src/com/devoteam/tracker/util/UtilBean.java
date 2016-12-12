@@ -81,6 +81,13 @@ public class UtilBean {
 						"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_BO);
 			}
 		}
+		if (!screen.equals(ServletConstants.CHANGE_PASSWORD)) {
+			if (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) {
+				m01 = new HTMLElement("div", "m01", "float:left;",   
+						"menu1Item", "menuClick('" + ServletConstants.HOME_FE + "')", 
+						"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_FE);
+			}
+		}
 		HTMLElement m02 = new HTMLElement("div", "m02", "float:right;", 
 			"menu1Item", "menuClick('" + ServletConstants.CHANGE_PASSWORD + "')",
 			"invertClass('m02')", "invertClass('m02')", 
@@ -101,19 +108,30 @@ public class UtilBean {
 		}
 		else
 		{
-			//if (user.getUserId()==1) {
+			if (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) {
+				m0.setValue(m0a.toString() + m0b.toString() + 
+						m03.toString() + 
+						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
+						m0c.toString());
+			} else if (user.getUserType().equals(user.USER_TYPE_CUSTOMER)) {
+				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
+						m03.toString() + 
+						m04.toString() + 
+						(screen.equals(ServletConstants.SITE_SEARCH)?"":new HTMLElement("div", "m05", "float:right;", 
+								"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
+								"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH)) +
+						(screen.equals(ServletConstants.CLIENT_REPORTING)?"":new HTMLElement("div", "m06", "float:right;", 
+								"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
+								"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING)) + 
+						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
+						m0c.toString());
+			} else {
 				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
 						m03.toString() + 
 						m04.toString() + 
 						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
 						m0c.toString());
-			/*} else {
-				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-						m03.toString() + 
-						//m04.toString() + // COMMENT OUT DASHBOARD 
-						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
-						m0c.toString());
-			}*/
+			}	
 		}		
 		return m0.toString();
 	}
@@ -395,6 +413,8 @@ public class UtilBean {
 					screen.equals(ServletConstants.LIVE_DASHBOARD) ||
 					screen.equals(ServletConstants.SITE_SEARCH) ||
 					screen.equals(ServletConstants.CLIENT_REPORTING);
+			} else if (user.getUserType().equals(User.USER_TYPE_THIRD_PARTY)) {
+					canSee = screen.equals(ServletConstants.HOME_FE);
 			} else /*if ((user.getUserType().equals(User.USER_TYPE_DEVOTEAM)) ||
 					(user.getUserType().equals(User.USER_TYPE_THIRD_PARTY)))*/ {
 				if (screen.equals(ServletConstants.WORK_QUEUES)) {
@@ -5349,6 +5369,9 @@ public class UtilBean {
 		if (screen.equals(ServletConstants.CLIENT_REPORTING)) {
 			name = "smart_CR.png";
 		}
+		if (screen.equals(ServletConstants.HOME_FE)) {
+			name = "smart_FE.png";
+		}
 		return name;
 	}
 	
@@ -5358,6 +5381,14 @@ public class UtilBean {
 	
 	public String emailCopyNRIdHTML () {
 		return getSelectHTMLWithInitialValue("EmailCopyNRId","select","filter",user.getFullname());
+	}
+	
+	public String emailCopyProjectHTML () {
+		return getSelectHTMLWithInitialValue("EmailCopyProject","select","filter",user.getFullname());
+	}
+	
+	public String emailCopyClientHTML () {
+		return getSelectHTMLWithInitialValue("EmailCopyClient","select","filter",user.getFullname());
 	}
 	
 	public boolean showNew() {
@@ -5370,7 +5401,8 @@ public class UtilBean {
 	}
 	
 	public String getSiteCompletionReportListHTML
-			( String action, String year, String month, String day, String week, String site, String nrId) {
+			( String action, String year, String month, String day, String week, 
+					String client, String project, String site, String nrId) {
 		StringBuilder html = new StringBuilder();
 		if ((action.startsWith("fwd"))||
 				(action.startsWith("rwd"))||
@@ -5392,19 +5424,20 @@ public class UtilBean {
 	    	CallableStatement cstmt = null;
 		    try {
 		    	conn = DriverManager.getConnection(url);
-		    	cstmt = conn.prepareCall("{call GetSiteCompletionReportList(?,?,?,?,?,?,?,?)}");
+		    	cstmt = conn.prepareCall("{call GetSiteCompletionReportList(?,?,?,?,?,?,?,?,?,?)}");
 	   			cstmt.setString(1, dbAction);
 	   			cstmt.setString(2, year);
 	   			cstmt.setString(3, month);
 	   			cstmt.setString(4, day);
 	   			cstmt.setString(5, week);
-	   			cstmt.setString(6, site);
-	   			cstmt.setString(7, nrId);
-	   			cstmt.setString(8, user.getFullname());
+	   			cstmt.setString(6, (client.equals("")?"All":client));
+	   			cstmt.setString(7, (project.equals("")?"All":project));
+	   			cstmt.setString(8, (site.equals("")?"All":site));
+	   			cstmt.setString(9, (nrId.equals("")?"All":nrId));
+	   			cstmt.setString(10, user.getFullname());
 				boolean found = cstmt.execute();
 				boolean sitesDisplayed = false;
 				if (found) {
-					//html.append("<div style=\"height:300px;overflow-y: auto; overflow-x: hidden\">");
 					ResultSet rs = cstmt.getResultSet();
 					while (rs.next()) {
 						String repSite = rs.getString(1);
@@ -5433,7 +5466,6 @@ public class UtilBean {
 						tr.appendValue(td4.toString());
 						html.append(tr.toString());	
 						sitesDisplayed = true;
-						html.append("</div>");
 					}
 					if (!sitesDisplayed) {
 						HTMLElement tr = new HTMLElement("tr");
@@ -5458,7 +5490,8 @@ public class UtilBean {
 	}
 	
 	public String getSiteCompletionReportCriteriaHTML
-			( String action, String year, String month, String day, String week, String site, String nrId) {
+			( String action, String year, String month, String day, String week, 
+			  String client, String project, String site, String nrId) {
 		String criteria = "";
 		if ((action.startsWith("fwd"))||
 				(action.startsWith("rwd"))||
@@ -5476,6 +5509,18 @@ public class UtilBean {
 				criteria = criteria + "site " + site;
 			} else if (action.equals("nrId")) {
 				criteria = criteria + "nr id " + nrId;
+			} else {
+				criteria = criteria + " selected criteria";
+				/*if (!client.equals(""))
+					criteria = criteria+ " client "+client+", ";
+				if (!project.equals(""))
+					criteria = criteria+ " project "+project+", ";
+				if (!site.equals(""))
+					criteria = criteria+ " site "+site+", ";
+				if (!nrId.equals(""))
+					criteria = criteria+ " nr id "+nrId+", ";
+				// strip off last comma and space
+				criteria = criteria.substring(0, criteria.length() - 2);*/
 			}
 		}
 		return criteria;
@@ -5496,6 +5541,507 @@ public class UtilBean {
 		else if (month.equals("11")) fullMonth = "November";
 		else if (month.equals("12")) fullMonth = "December";
 		return fullMonth;
+	}
+	
+	public String clientReportingHeader( String action, String year, String month, String day, String week) {
+		String header = decodeMonth(month) + " " + year;
+		if (action.endsWith("Week")) {
+			header = "Week "+ week + " / " + year;
+		} else if (action.endsWith("Day")) {
+			header = day + "/" + month + "/" + year;		
+		}
+		return header;	
+	}
+	
+	public String getSuccessDetailHTML(String action, String year, String month, String day, String week) {
+		StringBuilder html = new StringBuilder();
+		String dbAction = "Month";	
+		int iCount = 0;
+		if (action.endsWith("Week")) {
+			dbAction = "Week";
+		} else if (action.endsWith("Day")) {
+			dbAction = "Day";		
+		}
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	String 	storedMigrationType = "empty", 
+    			storedPrevHead = "", 
+    			storedCurrHead = "", 
+    			storedCurrentPercentage = "N/A", 
+    			storedPreviousPercentage = "N/A",
+    			migrationType = "",
+				currHead = "",
+				prevHead = "",
+				nowValue = "",
+				percentage = "";
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetSuccessRateDetail(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, dbAction);
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, day);
+	    	cstmt.setString(5, week);
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					migrationType = rs.getString(1);
+					currHead = rs.getString(2);
+					prevHead = rs.getString(3);
+					nowValue = rs.getString(4);
+					percentage = rs.getString(5);
+					if (!percentage.equals("N/A"))
+						percentage = percentage + "%";
+					if (storedMigrationType.equals("empty")) {
+						storedPrevHead = prevHead;
+						storedCurrHead = currHead; 
+					}				
+					if (!migrationType.equals(storedMigrationType)) {
+						if (storedMigrationType.equals("empty")) {
+							HTMLElement tr = new HTMLElement("tr");
+							HTMLElement td1 = new HTMLElement("td", "popUpHead", "Migration Type");
+							tr.appendValue(td1.toString());
+							HTMLElement td2 = new HTMLElement("td", "popUpHead", storedPrevHead);
+							tr.appendValue(td2.toString());
+							HTMLElement td3 = new HTMLElement("td", "popUpHead", storedCurrHead);
+							tr.appendValue(td3.toString());
+							html.append(tr.toString());
+						} else {
+							//write out line
+							HTMLElement tr = new HTMLElement("tr");
+							HTMLElement td1 = new HTMLElement("td", "popUpDetail", storedMigrationType);
+							tr.appendValue(td1.toString());
+							HTMLElement td2 = new HTMLElement("td", "popUpDetail", storedPreviousPercentage);
+							tr.appendValue(td2.toString());
+							HTMLElement td3 = new HTMLElement("td", "popUpDetail", storedCurrentPercentage);
+							tr.appendValue(td3.toString());
+							html.append(tr.toString());	
+						}
+						storedMigrationType = migrationType;
+		    			storedCurrentPercentage = "N/A"; 
+		    			storedPreviousPercentage = "N/A";				
+					}
+					// store relevant percentage values
+					if (nowValue.equals(prevHead))						
+						storedPreviousPercentage = percentage;						
+					else
+						storedCurrentPercentage = percentage;
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetSuccessRateSummary(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		if (!storedMigrationType.equals("empty")) {
+			if (nowValue.equals(prevHead))
+				storedPreviousPercentage = percentage;
+			else
+				storedCurrentPercentage = percentage;	
+			//write out line
+			HTMLElement tr = new HTMLElement("tr");
+			HTMLElement td1 = new HTMLElement("td", "popUpDetail", storedMigrationType);
+			tr.appendValue(td1.toString());
+			HTMLElement td2 = new HTMLElement("td", "popUpDetail", storedPreviousPercentage);
+			tr.appendValue(td2.toString());
+			HTMLElement td3 = new HTMLElement("td", "popUpDetail", storedCurrentPercentage);
+			tr.appendValue(td3.toString());
+			html.append(tr.toString());
+		} else {
+			// write out blank line
+			HTMLElement tr = new HTMLElement("tr");
+			HTMLElement td1 = new HTMLElement("td", "popUpDetail", "No details to display");
+			td1.setAttribute("colspan", "3");
+			tr.appendValue(td1.toString());
+			html.append(tr.toString());
+		}
+		return html.toString();
+	}
+	
+	public String getSuccessSummaryHTML(String action, String year, String month, String day, String week) {
+		StringBuilder html = new StringBuilder();
+		String dbAction = "Month";	
+		int iCount = 0;
+		if (action.endsWith("Week")) {
+			dbAction = "Week";
+		} else if (action.endsWith("Day")) {
+			dbAction = "Day";		
+		}	
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetSuccessRateSummary(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, dbAction);
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, day);
+	    	cstmt.setString(5, week);
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					HTMLElement tra = new HTMLElement("tr");
+					HTMLElement tda1 = new HTMLElement(
+											"td", 
+											"clientHead", 
+											clientReportingHeader(action, year, month, day, week) +
+											"&nbsp;" +
+											"- Success Rate" );
+					tda1.setAttribute("id", "srAnchor");
+					tda1.setAttribute("height", "20px");
+					tda1.setAttribute("colspan", "4");
+					tda1.setAttribute("onclick", "successRateDetailClick('open')");
+					tra.appendValue(tda1.toString());
+					html.append(tra.toString());
+					HTMLElement trb = new HTMLElement("tr");
+					HTMLElement tdb1 = new HTMLElement("td","clientHeadLarge","<");
+					tdb1.setAttribute("rowspan", "2");
+					tdb1.setAttribute("height", "60px");
+					tdb1.setAttribute("onClick", "moveDate('back')");
+					trb.appendValue(tdb1.toString());
+					HTMLElement tdb2 = new HTMLElement("td","clientHeadLarge"+rs.getString(3),rs.getString(1));
+					tdb2.setAttribute("rowspan", "2");
+					tdb2.setAttribute("height", "60px");
+					tdb2.setAttribute("onclick", "successRateDetailClick('open')");
+					trb.appendValue(tdb2.toString());
+					HTMLElement tdb3 = new HTMLElement(
+											"td",
+											"clientHead",
+											"<img src=\"images/"+rs.getString(4)+"Arrow.png"+"\""+
+											"height=\"30px\" width=\"30px\""+">");
+					tdb3.setAttribute("height", "30px");
+					trb.appendValue(tdb3.toString());
+					HTMLElement tdb4 = new HTMLElement("td","clientHeadLarge",">");
+					tdb4.setAttribute("rowspan", "2");
+					tdb4.setAttribute("height", "60px");
+					tdb4.setAttribute("onClick", "moveDate('forward')");
+					trb.appendValue(tdb4.toString());
+					html.append(trb.toString());
+					HTMLElement trc = new HTMLElement("tr");
+					HTMLElement tdc1 = new HTMLElement("td","clientHead",rs.getString(2));
+					tdc1.setAttribute("height", "30px");
+					trc.appendValue(tdc1.toString());
+					html.append(trc.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetSuccessRateSummary(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return html.toString();
+	}
+	
+	public String getOutageSummaryHTML(String action, String year, String month, String day, String week) {
+		StringBuilder html = new StringBuilder();
+		String dbAction = "Month";	
+		int iCount = 0;
+		if (action.endsWith("Week")) {
+			dbAction = "Week";
+		} else if (action.endsWith("Day")) {
+			dbAction = "Day";		
+		}	
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetOutageSummary(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, dbAction);
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, day);
+	    	cstmt.setString(5, week);
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					HTMLElement tra = new HTMLElement("tr");
+					HTMLElement tda1 = new HTMLElement(
+											"td", 
+											"clientHead", 
+											clientReportingHeader(action, year, month, day, week) +
+											"&nbsp;" +
+											"- Outage" );
+					tda1.setAttribute("id", "oAnchor");
+					tda1.setAttribute("height", "20px");
+					tda1.setAttribute("colspan", "4");
+					tda1.setAttribute("onclick", "outageDetailClick('open')");
+					tra.appendValue(tda1.toString());
+					html.append(tra.toString());
+					HTMLElement trb = new HTMLElement("tr");
+					HTMLElement tdb1 = new HTMLElement("td","clientHeadLarge","<");
+					tdb1.setAttribute("rowspan", "2");
+					tdb1.setAttribute("height", "60px");
+					tdb1.setAttribute("onClick", "moveDate('back')");
+					trb.appendValue(tdb1.toString());
+					HTMLElement tdb2 = new HTMLElement("td","clientHeadLarge"+rs.getString(3),rs.getString(1));
+					tdb2.setAttribute("rowspan", "2");
+					tdb2.setAttribute("height", "60px");
+					tdb2.setAttribute("onclick", "outageDetailClick('open')");
+					trb.appendValue(tdb2.toString());
+					HTMLElement tdb3 = new HTMLElement(
+											"td",
+											"clientHead",
+											"<img src=\"images/"+rs.getString(4)+"Arrow.png"+"\""+
+											"height=\"30px\" width=\"30px\""+">");
+					tdb3.setAttribute("height", "30px");
+					trb.appendValue(tdb3.toString());
+					HTMLElement tdb4 = new HTMLElement("td","clientHeadLarge",">");
+					tdb4.setAttribute("rowspan", "2");
+					tdb4.setAttribute("height", "60px");
+					tdb4.setAttribute("onClick", "moveDate('forward')");
+					trb.appendValue(tdb4.toString());
+					html.append(trb.toString());
+					HTMLElement trc = new HTMLElement("tr");
+					HTMLElement tdc1 = new HTMLElement("td","clientHead",rs.getString(2));
+					tdc1.setAttribute("height", "30px");
+					trc.appendValue(tdc1.toString());
+					html.append(trc.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetOutageSummary(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return html.toString();
+	}
+	
+	public String getOutageDetailHTML(String action, String year, String month, String day, String week) {
+		StringBuilder html = new StringBuilder();
+		String dbAction = "Month";	
+		int iCount = 0;
+		if (action.endsWith("Week")) {
+			dbAction = "Week";
+		} else if (action.endsWith("Day")) {
+			dbAction = "Day";		
+		}
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	String 	storedMigrationType = "empty", 
+    			storedPrevHead = "", 
+    			storedCurrHead = "", 
+    			storedCurrentOutage = "N/A", 
+    			storedPreviousOutage = "N/A",
+    			migrationType = "",
+				currHead = "",
+				prevHead = "",
+				nowValue = "",
+				outage = "";
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetOutageDetail(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, dbAction);
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, day);
+	    	cstmt.setString(5, week);
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					migrationType = rs.getString(1);
+					currHead = rs.getString(2);
+					prevHead = rs.getString(3);
+					nowValue = rs.getString(4);
+					outage = rs.getString(5);
+					if (storedMigrationType.equals("empty")) {
+						storedPrevHead = prevHead;
+						storedCurrHead = currHead; 
+					}				
+					if (!migrationType.equals(storedMigrationType)) {
+						if (storedMigrationType.equals("empty")) {
+							HTMLElement tr = new HTMLElement("tr");
+							HTMLElement td1 = new HTMLElement("td", "popUpHead", "Migration Type");
+							tr.appendValue(td1.toString());
+							HTMLElement td2 = new HTMLElement("td", "popUpHead", storedPrevHead);
+							tr.appendValue(td2.toString());
+							HTMLElement td3 = new HTMLElement("td", "popUpHead", storedCurrHead);
+							tr.appendValue(td3.toString());
+							html.append(tr.toString());
+						} else {
+							//write out line
+							HTMLElement tr = new HTMLElement("tr");
+							HTMLElement td1 = new HTMLElement("td", "popUpDetail", storedMigrationType);
+							tr.appendValue(td1.toString());
+							HTMLElement td2 = new HTMLElement("td", "popUpDetail", storedPreviousOutage);
+							tr.appendValue(td2.toString());
+							HTMLElement td3 = new HTMLElement("td", "popUpDetail", storedCurrentOutage);
+							tr.appendValue(td3.toString());
+							html.append(tr.toString());	
+						}
+						storedMigrationType = migrationType;
+		    			storedCurrentOutage = "N/A"; 
+		    			storedPreviousOutage = "N/A";				
+					}
+					// store relevant percentage values
+					if (nowValue.equals(prevHead))						
+						storedPreviousOutage = outage;						
+					else
+						storedCurrentOutage = outage;
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetSuccessRateDetail(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		if (!storedMigrationType.equals("empty")) {
+			if (nowValue.equals(prevHead))
+				storedPreviousOutage = outage;
+			else
+				storedCurrentOutage = outage;	
+			//write out line
+			HTMLElement tr = new HTMLElement("tr");
+			HTMLElement td1 = new HTMLElement("td", "popUpDetail", storedMigrationType);
+			tr.appendValue(td1.toString());
+			HTMLElement td2 = new HTMLElement("td", "popUpDetail", storedPreviousOutage);
+			tr.appendValue(td2.toString());
+			HTMLElement td3 = new HTMLElement("td", "popUpDetail", storedCurrentOutage);
+			tr.appendValue(td3.toString());
+			html.append(tr.toString());
+		} else {
+			// write out blank line
+			HTMLElement tr = new HTMLElement("tr");
+			HTMLElement td1 = new HTMLElement("td", "popUpDetail", "No details to display");
+			td1.setAttribute("colspan", "3");
+			tr.appendValue(td1.toString());
+			html.append(tr.toString());
+		}
+		return html.toString();
+	}
+	
+	public String getIncidentTotal( String action, String year, String month, String day, String week) {
+		String iCount = "-1", dbAction = "Month";	
+		if (action.endsWith("Week")) {
+			dbAction = "Week";
+		} else if (action.endsWith("Day")) {
+			dbAction = "Day";		
+		}	
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetIncidentTotal(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, dbAction);
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, day);
+	    	cstmt.setString(5, week);
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					iCount = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetIncidentTotal(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return iCount;	
+	}
+	
+	public String getIncidentDetailHTML(String action, String year, String month, String day, String week) {
+		StringBuilder html = new StringBuilder();
+		String dbAction = "Month";	
+		int iCount = 0;
+		if (action.endsWith("Week")) {
+			dbAction = "Week";
+		} else if (action.endsWith("Day")) {
+			dbAction = "Day";		
+		}	
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetIncidentDetail(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, dbAction);
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, day);
+	    	cstmt.setString(5, week);
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					iCount++;
+					HTMLElement tr = new HTMLElement("tr");
+					HTMLElement td1 = new HTMLElement("td", "popUpDetail", rs.getString(1));
+					tr.appendValue(td1.toString());
+					HTMLElement td2 = new HTMLElement("td", "popUpDetail", rs.getString(2));
+					tr.appendValue(td2.toString());
+					HTMLElement td3 = new HTMLElement("td", "popUpDetail", rs.getString(3));
+					tr.appendValue(td3.toString());
+					HTMLElement td4 = new HTMLElement("td", "popUpDetail", rs.getString(4));
+					tr.appendValue(td4.toString());
+					html.append(tr.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetIncidentDetail(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    if (iCount==0) {
+			HTMLElement tr = new HTMLElement("tr");
+			HTMLElement td= new HTMLElement("td", "popUpDetail", "No incidents to display");
+			td.setAttribute("colspan", "5");
+			tr.appendValue(td.toString());
+			html.append(tr.toString());
+	    }
+		return html.toString();	
 	}
 	
 	public String getCompletionReportHeader(String site, String nrId, String date, String type) {
@@ -5541,6 +6087,430 @@ public class UtilBean {
 	    } 
 		return completionReport;
 	}
-		
+	
+	public String getClientReportHTML(String action, String year, String month, String day, String week) {
+		StringBuilder html = new StringBuilder();
+		String report = "&nbsp;", siteCounts = "&nbsp;";
+		String dbAction = "Month";	
+		if (action.endsWith("Week")) {
+			dbAction = "Week";
+			report = clientWeeklyReport(year,month,week);
+		} else if (action.endsWith("Day")) {
+			dbAction = "Day";
+			report = clientDailyReport(year,month,day);
+		}
+		if (dbAction.equals("Month")) {
+			report = clientMonthlyReport(year,month);
+		}
+		HTMLElement tra = new HTMLElement("tr");
+		HTMLElement tda1 = new HTMLElement(
+								"td", 
+								"clientHeadNoBord", 
+								clientReportingHeader(action, year, month, day, week) );
+		tda1.setAttribute("height", "20px");
+		tda1.setAttribute("valign", "top");
+		tda1.setAttribute("align", "center");
+		tra.appendValue(tda1.toString());
+		html.append(tra.toString());
+		HTMLElement trb = new HTMLElement("tr");
+		HTMLElement tdb1 = new HTMLElement("td", "clientBox", report);
+		tdb1.setAttribute("height", "405px");
+		tdb1.setAttribute("width", "700px");
+		tdb1.setAttribute("valign", "top");
+		trb.appendValue(tdb1.toString());
+		html.append(trb.toString());
+		return html.toString();
+	}
+	
+	public String clientMonthlyReport( String year, String month ) {
+		String report = 
+				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
+				"<colgroup><col width=\"50px\"/><col width=\"120px\"/>"+
+				"<col width=\"120px\"/><col width=\"120px\"/><col width=\"120px\"/>"+
+				"<col width=\"120px\"/><col width=\"50px\"/>"+
+				"</colgroup><tbody><tr>"+
+				"<td class=\"clientBox\" colspan=\"7\">"+
+				"<img src=\"images/sc_monthly_report.png\" height=\"87px\" width=\"600px\"/></td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"repHead\">Week</td>"+
+				"<td class=\"repHead\">Attempted</td>"+
+				"<td class=\"repHead\">Completed</td>"+
+				"<td class=\"repHead\">Partials</td>"+
+				"<td class=\"repHead\">Aborts</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr>";
+		message = null;
+		long attempted = 0, completed = 0, partials = 0, aborts = 0;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetCRMonthlyReport(?,?,?)}");
+	    	cstmt.setString(1, year);
+	    	cstmt.setString(2, month);
+	    	cstmt.setString(3, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					// report line
+					report = report +
+							"<tr><td class=\"clientBox\">&nbsp;</td>"+
+							"<td class=\"weekCell\">"+
+							rs.getString(1)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(2)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(3)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(4)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(5)+
+							"</td></tr>";
+					// increment counts
+					attempted = attempted + rs.getLong(2);
+					completed = completed + rs.getLong(3);
+					partials = partials + rs.getLong(4);
+					aborts = aborts + rs.getLong(5);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetCRMonthlyReport(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		report = report +				
+				"</tbody></table>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
+				"<colgroup><col width=\"50px\"/><col width=\"105px\"/>"+
+				"<col width=\"60px\"/><col width=\"105px\"/><col width=\"60px\"/>"+
+				"<col width=\"105px\"/><col width=\"60px\"/>"+
+				"<col width=\"105px\"/><col width=\"50px\"/><tr>"+
+				"</colgroup><tbody><tr>"+
+				"<td class=\"clientBox\" colspan=\"9\">&nbsp;</td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBold\">Attempted</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldGreen\">Completed</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldAmber\">Partials</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldRed\">Aborts</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxGrey\">"+attempted+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxGreen\">"+completed+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxAmber\">"+partials+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxRed\">"+aborts+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr></tbody></table>";
+		return report;
+	}
+	
+	public String clientWeeklyReport( String year, String month, String week ) {
+		String report = 
+				"<div style=\"height:300px;overflow-y: auto; overflow-x: hidden\">"+
+				"<table style=\"table-layout:fixed;border-style:none;width:700px;"+
+				"<colgroup><col width=\"50px\"/>"+
+				"<col width=\"50px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"50px\"/>"+
+				"<col width=\"80px\"/>"+
+				"<col width=\"40px\"/>"+
+				"<col width=\"90px\"/>"+
+				"<col width=\"40px\"/>"+
+				"<col width=\"130px\"/>"+
+				"<col width=\"50px\"/>"+
+				"</colgroup><tbody><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBox\" colspan=\"9\">"+
+				"<img src=\"images/sc_weekly_report.png\" height=\"87px\" width=\"600px\"/></td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"repHead\">Day</td>"+
+				"<td class=\"repHead\">Date</td>"+
+				"<td class=\"repHead\">Site</td>"+
+				"<td class=\"repHead\">Project</td>"+
+				"<td class=\"repHead\">Mig. Type</td>"+
+				"<td class=\"repHead\">Technologies</td>"+
+				"<td class=\"repHead\">Status</td>"+
+				"<td class=\"repHead\">Comments</td>"+
+				"<td class=\"repHead\">Outage</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr>";
+		message = null;
+		long completed = 0, partials = 0, aborts = 0;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetClientReporting(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, "Weekly");
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, "01");
+	    	cstmt.setString(5, week);
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					// report line
+					report = report +
+							"<tr><td class=\"clientBox\">&nbsp;</td>"+
+							"<td class=\"totalCell\">"+
+							rs.getString(1)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(2)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(3)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(4)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(5)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(6)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(7)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(8)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(9)+
+							"</td></tr>";
+					// increment relevant counts
+					if (rs.getString(7).equals("Completed")) {
+						completed++;
+					} else if (rs.getString(7).equals("Partial")) {
+						partials++;
+					} else {
+						aborts++;
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetCRMonthlyReport(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		report = report +				
+				"</tbody></table>"+
+				"</div>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
+				"<colgroup><col width=\"100px\"/>"+
+				"<col width=\"105px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"105px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"105px\"/>"+
+				"<col width=\"50px\"/><tr>"+
+				"</colgroup><tbody><tr>"+
+				"<td class=\"clientBox\" colspan=\"7\">&nbsp;</td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldGreen\">Completed</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldAmber\">Partials</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldRed\">Aborts</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxGreen\">"+completed+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxAmber\">"+partials+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxRed\">"+aborts+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr></tbody></table>";
+		return report;
+	}
+	
+	public String clientDailyReport( String year, String month, String day ) {
+		String report =
+				"<div style=\"height:300px;overflow-y: auto; overflow-x: hidden\">"+
+				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
+				"<col width=\"50px\"/>"+
+				"<col width=\"40px\"/>"+
+				"<col width=\"80px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"90px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"150px\"/>"+
+				"<col width=\"40px\"/>"+
+				"<col width=\"40px\"/>"+				
+				"<col width=\"40px\"/>"+				
+				"<col width=\"50px\"/>"+
+				"</colgroup><tbody><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBox\" colspan=\"9\">"+
+				"<img src=\"images/sc_daily_report.png\" height=\"87px\" width=\"600px\"/></td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"repHead\">Site</td>"+
+				"<td class=\"repHead\">Project</td>"+
+				"<td class=\"repHead\">Mig. Type</td>"+
+				"<td class=\"repHead\">Technologies</td>"+
+				"<td class=\"repHead\">Status</td>"+
+				"<td class=\"repHead\">Comments</td>"+
+				"<td class=\"repHead\">Owner</td>"+
+				"<td class=\"repHead\">Lock</td>"+
+				"<td class=\"repHead\">Unlock</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<col width=\"50px\"/>"+
+				"<col width=\"40px\"/>"+
+				"<col width=\"80px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"90px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"150px\"/>"+
+				"<col width=\"40px\"/>"+
+				"<col width=\"40px\"/>"+				
+				"<col width=\"40px\"/>"+				
+				"<col width=\"50px\"/>"+
+				"</colgroup><tbody>";		
+		message = null;
+		long completed = 0, partials = 0, aborts = 0;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetClientReporting(?,?,?,?,?,?)}");
+	    	cstmt.setString(1, "Daily");
+	    	cstmt.setString(2, year);
+	    	cstmt.setString(3, month);
+	    	cstmt.setString(4, day);
+	    	cstmt.setString(5, "01");
+	    	cstmt.setString(6, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					// report line
+					report = report +
+							"<tr><td class=\"clientBox\">&nbsp;</td>"+
+							"<td class=\"totalCell\">"+
+							rs.getString(1)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(2)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(3)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(4)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(5)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(6)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(7)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(8)+
+							"</td><td class=\"totalCell\">"+
+							rs.getString(9)+
+							"</td></tr>";
+					// increment relevant counts
+					if (rs.getString(5).equals("Completed")) {
+						completed++;
+					} else if (rs.getString(5).equals("Partial")) {
+						partials++;
+					} else {
+						aborts++;
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetCRMonthlyReport(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		report = report +				
+				"</tbody></table>"+
+				"</div>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
+				"<colgroup><col width=\"100px\"/>"+
+				"<col width=\"105px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"105px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"105px\"/>"+
+				"<col width=\"50px\"/><tr>"+
+				"</colgroup><tbody><tr>"+
+				"<td class=\"clientBox\" colspan=\"7\">&nbsp;</td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldGreen\">Completed</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldAmber\">Partials</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"clientBoxBoldRed\">Aborts</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr><tr>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxGreen\">"+completed+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxAmber\">"+partials+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"<td class=\"totalBoxRed\">"+aborts+"</td>"+
+				"<td class=\"clientBox\">&nbsp;</td>"+
+				"</tr></tbody></table>";
+		return report;
+	}
+	
+	public String[] GetLastCompletedSite() {
+		String[] results = new String[4];
+		String message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetLastCompletedSite(?)}");
+	    	cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					results[0] = rs.getString(1);
+					results[1] = rs.getString(2);
+					results[2] = rs.getString(3);
+					results[3] = rs.getString(4);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetLastCompletedSite(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return results;
+	}
 	
 }
