@@ -187,23 +187,23 @@ public class DateSearch {
 		tra.appendValue(tda0.toString());
 		HTMLElement tda1 = new HTMLElement("td","dateSearchHClass","&nbsp");
 		tra.appendValue(tda1.toString());
-		HTMLElement tda2 = new HTMLElement("td","dateSearchHClass","<<");
+		HTMLElement tda2 = new HTMLElement("td","dateSearchHPClass","<<");
 		tda2.setAttribute("onclick", "clickSearchBox('rwdYear')");
 		tda2.setAttribute("title", "go back a year");
 		tra.appendValue(tda2.toString());
-		HTMLElement tda3 = new HTMLElement("td","dateSearchHClass","<");
+		HTMLElement tda3 = new HTMLElement("td","dateSearchHPClass","<");
 		tda3.setAttribute("onclick", "clickSearchBox('rwdMonth')");
 		tda3.setAttribute("title", "go back a month");
 		tra.appendValue(tda3.toString());
-		HTMLElement tda4 = new HTMLElement("td","dateSearchHClass",displayMonth);
+		HTMLElement tda4 = new HTMLElement("td","dateSearchHPClass",displayMonth);
 		tda4.setAttribute("colspan", "3");
 		tda4.setAttribute("onclick", "dateAction('chgMonth','"+year+"','"+month+"','0','0')");
 		tra.appendValue(tda4.toString());
-		HTMLElement tda5 = new HTMLElement("td","dateSearchHClass",">");
+		HTMLElement tda5 = new HTMLElement("td","dateSearchHPClass",">");
 		tda5.setAttribute("onclick", "clickSearchBox('fwdMonth')");
 		tda5.setAttribute("title", "go forward a month");
 		tra.appendValue(tda5.toString());
-		HTMLElement tda6 = new HTMLElement("td","dateSearchHClass",">>");
+		HTMLElement tda6 = new HTMLElement("td","dateSearchHPClass",">>");
 		tda6.setAttribute("onclick", "clickSearchBox('fwdYear')");
 		tda6.setAttribute("title", "go forward a year");
 		tra.appendValue(tda6.toString());
@@ -214,26 +214,26 @@ public class DateSearch {
 		trb.appendValue(tdb0.toString());
 		HTMLElement tdb1 = new HTMLElement("td","dateSearchHClass","&nbsp");
 		trb.appendValue(tdb1.toString());
-		HTMLElement tdb2 = new HTMLElement("td","dateSearchDBClass","MON");
+		HTMLElement tdb2 = new HTMLElement("td","dateSearchDTClass","MON");
 		trb.appendValue(tdb2.toString());
-		HTMLElement tdb3 = new HTMLElement("td","dateSearchDBClass","TUE");
+		HTMLElement tdb3 = new HTMLElement("td","dateSearchDTClass","TUE");
 		trb.appendValue(tdb3.toString());
-		HTMLElement tdb4 = new HTMLElement("td","dateSearchDBClass","WED");
+		HTMLElement tdb4 = new HTMLElement("td","dateSearchDTClass","WED");
 		trb.appendValue(tdb4.toString());
-		HTMLElement tdb5 = new HTMLElement("td","dateSearchDBClass","THU");
+		HTMLElement tdb5 = new HTMLElement("td","dateSearchDTClass","THU");
 		trb.appendValue(tdb5.toString());
-		HTMLElement tdb6 = new HTMLElement("td","dateSearchDBClass","FRI");
+		HTMLElement tdb6 = new HTMLElement("td","dateSearchDTClass","FRI");
 		trb.appendValue(tdb6.toString());
-		HTMLElement tdb7 = new HTMLElement("td","dateSearchDBClass","SAT");
+		HTMLElement tdb7 = new HTMLElement("td","dateSearchDTClass","SAT");
 		trb.appendValue(tdb7.toString());
-		HTMLElement tdb8 = new HTMLElement("td","dateSearchDBClass","SUN");
+		HTMLElement tdb8 = new HTMLElement("td","dateSearchDTClass","SUN");
 		trb.appendValue(tdb8.toString());
 		html.append(trb.toString());
 		// week 1 line
 		HTMLElement trc = new HTMLElement("tr");
 		HTMLElement tdc0 = new HTMLElement("td","","&nbsp;");
 		trc.appendValue(tdc0.toString());
-		HTMLElement tdc1 = new HTMLElement("td","dateSearchHClass",week1);
+		HTMLElement tdc1 = new HTMLElement("td","dateSearchHPClass",week1);
 		tdc1.setAttribute("onclick", "dateAction('chgWeek','"+year+"','"+month+"','0','"+week1+"')");
 		trc.appendValue(tdc1.toString());
 		HTMLElement tdc8 = new HTMLElement("td","dateSearchDBClass",formatDay(week1Sun));
@@ -297,7 +297,7 @@ public class DateSearch {
 		HTMLElement trd = new HTMLElement("tr");
 		HTMLElement tdd0 = new HTMLElement("td","","&nbsp;");
 		trd.appendValue(tdd0.toString());
-		HTMLElement tdd1 = new HTMLElement("td","dateSearchHClass",week2);
+		HTMLElement tdd1 = new HTMLElement("td","dateSearchHPClass",week2);
 		tdd1.setAttribute("onclick", "dateAction('chgWeek','"+year+"','"+month+"','0','"+week2+"')");
 		trd.appendValue(tdd1.toString());
 		HTMLElement tdd2 = new HTMLElement("td","dateSearchDBClass",formatDay(week2Mon));
@@ -340,7 +340,7 @@ public class DateSearch {
 		HTMLElement tre = new HTMLElement("tr");
 		HTMLElement tde0 = new HTMLElement("td","","&nbsp;");
 		tre.appendValue(tde0.toString());
-		HTMLElement tde1 = new HTMLElement("td","dateSearchHClass",week3);
+		HTMLElement tde1 = new HTMLElement("td","dateSearchHPClass",week3);
 		tde1.setAttribute("onclick", "dateAction('chgWeek','"+year+"','"+month+"','0','"+week3+"')");
 		tre.appendValue(tde1.toString());
 		HTMLElement tde2 = new HTMLElement("td","dateSearchDBClass",formatDay(week3Mon));
@@ -383,7 +383,7 @@ public class DateSearch {
 		HTMLElement trf = new HTMLElement("tr");
 		HTMLElement tdf0 = new HTMLElement("td","","&nbsp;");
 		trf.appendValue(tdf0.toString());
-		HTMLElement tdf1 = new HTMLElement("td","dateSearchHClass",week4);
+		HTMLElement tdf1 = new HTMLElement("td","dateSearchHPClass",week4);
 		tdf1.setAttribute("onclick", "dateAction('chgWeek','"+year+"','"+month+"','0','"+week4+"')");
 		trf.appendValue(tdf1.toString());
 		HTMLElement tdf2 = new HTMLElement("td","dateSearchDBClass",week4Mon);
@@ -426,7 +426,7 @@ public class DateSearch {
 		HTMLElement trg = new HTMLElement("tr");
 		HTMLElement tdg0 = new HTMLElement("td","","&nbsp;");
 		trg.appendValue(tdg0.toString());
-		HTMLElement tdg1 = new HTMLElement("td","dateSearchHClass",week5);
+		HTMLElement tdg1 = new HTMLElement("td","dateSearchHPClass",week5);
 		tdg1.setAttribute("onclick", "dateAction('chgWeek','"+year+"','"+month+"','0','"+week5+"')");
 		trg.appendValue(tdg1.toString());
 		HTMLElement tdg2 = new HTMLElement("td","dateSearchDBClass",week5Mon);
@@ -492,8 +492,11 @@ public class DateSearch {
 		HTMLElement tdh0 = new HTMLElement("td","","&nbsp;");
 		trh.appendValue(tdh0.toString());
 		HTMLElement tdh1 = new HTMLElement("td","dateSearchHClass",week6);
-		if (!week6Mon.equals(""))
+		if (!week6Mon.equals("")) {
+			tdh1 = new HTMLElement("td","dateSearchHPClass",week6);
 			tdh1.setAttribute("onclick", "dateAction('chgWeek','"+year+"','"+month+"','0','"+week6+"')");
+		}
+			
 		trh.appendValue(tdh1.toString());
 		HTMLElement tdh2 = new HTMLElement("td","dateSearchDBClass",week6Mon);
 		if (week6Mon.equals("")) {

@@ -41,6 +41,8 @@ public class SiteSearchServlet extends HttpServlet {
 		String project = req.getParameter("selectedProject");
 		String site = req.getParameter("selectedSite");
 		String nrId = req.getParameter("selectedNrId");
+		String startDT = req.getParameter("selectedStartDT");
+		String endDT = req.getParameter("selectedEndDT");
 		String reportSite = req.getParameter("reportSite");
 		String reportNrId = req.getParameter("reportNrId");
 		String reportDate = req.getParameter("reportDate");
@@ -54,6 +56,8 @@ public class SiteSearchServlet extends HttpServlet {
 		req.setAttribute("project", project);
 		req.setAttribute("site", site);
 		req.setAttribute("nrId", nrId);
+		req.setAttribute("startDT", startDT);
+		req.setAttribute("endDT", endDT);
 		req.setAttribute("reportSite", reportSite);
 		req.setAttribute("reportNrId", reportNrId);
 		req.setAttribute("reportDate", reportDate);
