@@ -38,24 +38,71 @@
 		<b>S</b>ervice <b>M</b>anagement <b>A</b>utomated <b>R</b>eference <b>T</b>ool
 		</font></td>
 		</tr><tr>
-		<td class="lTitle2" align="center"  colspan="3">Please select from the Client options below</td>
+		<td class="lTitle2m" align="center"  colspan="3">Please select from the Client options below</td>
 		</tr><tr>
 		<td class="lTitle2" align="center"  colspan="3">&nbsp;</td>
 		</tr><tr>
-		<td class="lTitle2" align="center" colspan="3">
+		<td>&nbsp;</td>
+		<td class="lTitle2" align="center" colspan="1">
 			<table style="table-layout: fixed; border-style: none; width: 100%;">	
 			<tbody>
 			<tr>
-				<td align="center" title="Press for live dashboard"
-					onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
-					<img src="images/dev_pictos_red_circle_rvb-26.png" height="80px" width="80px">
+				<td align="center" valign="top" height="120px">
+					<table>
+						<tr>
+							<td align="center" title="Press for live dashboard"
+								onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')"
+								style="cursor:pointer;">
+								<img src="images/dev_pictos_red_circle_rvb-26.png" height="80px" width="80px">
+							</td>
+						</tr>
+						<tr>
+							<td align="center" valign="top" title="Press for live dashboard"
+								onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')"
+								style="cursor:pointer;">
+								<img src="images/live_dashboard_text.png" height="16px" width="138px">
+							</td>
+						<tr>
+					</table>
 				</td>
-			</tr>	
-			<tr>
-				<td align="center" title="Press for live dashboard"
-					onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')">
-					<img src="images/live_dashboard_text.png" height="16px" width="138px">
+				<% if (uB.showNew()) { %> 
+				<td align="center" valign="bottom" height="120px">
+					<table>
+						<tr>
+							<td align="center" valign="top"  title="Press for site search"
+								onClick="menuClick('<%=ServletConstants.SITE_SEARCH%>')"
+								style="cursor:pointer;">					
+								<img src="images/dev_pictos_red_circle_rvb-05.png" height="80px" width="80px">
+							</td>
+						</tr>
+						<tr>
+							<td align="center" title="Press for site search"
+								onClick="menuClick('<%=ServletConstants.SITE_SEARCH%>')"
+								style="cursor:pointer;">
+								<img src="images/site_search_text.png" height="16px" width="138px">
+							</td>
+						<tr>
+					</table>
 				</td>
+				<td align="center" valign="top" height="120px">
+					<table>
+						<tr>
+							<td align="center" title="Press for reporting"
+								onClick="menuClick('<%=ServletConstants.CLIENT_REPORTING%>')"
+								style="cursor:pointer;">
+								<img src="images/dev_pictos_red_circle_rvb-01.png" height="80px" width="80px">
+							</td>
+						</tr>
+						<tr>
+							<td align="center" valign="top"  title="Press for reporting"
+								onClick="menuClick('<%=ServletConstants.CLIENT_REPORTING%>')"
+								style="cursor:pointer;">
+								<img src="images/client_reporting_text.png" height="16px" width="138px">
+							</td>
+						<tr>
+					</table>
+				</td>
+				<% } %>
 			</tr>	
 			</tbody>		
 			</table>

@@ -28,8 +28,7 @@
 	User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 	String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
 	String displayScreen = title;
-	//String displayScreen = (String)session.getAttribute("screenTitle");
-	//session.setAttribute("fromScreen", displayScreen);
+	session.setAttribute("fromScreen", displayScreen);
 	UtilBean uB = new UtilBean(thisU, displayScreen, url);
 	if (!uB.canSee()) {
 		session.setAttribute("userMessage", "Error: Access not authorised!");
@@ -110,7 +109,7 @@ function isWhitespaceOrEmpty(text) {
 			</td>
 			<td>&nbsp;</td>					
 			<td id="hAnchor" align="left" valign="bottom" class="lTitle8"><%=uB.externalTitle()%></td>
-			<td align="right" valign="bottom" title="Press for options">
+			<td align="right" valign="bottom" title="Press for options" style="cursor:pointer;">
 				<img src="images/dev_pictos_rvb-21.png" height="30px" width="30px" 
 					onclick="externalOptionsClick('open')">&nbsp;&nbsp;</td>
 		</tr>

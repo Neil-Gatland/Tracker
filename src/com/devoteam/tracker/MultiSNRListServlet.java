@@ -149,6 +149,7 @@ public class MultiSNRListServlet extends HttpServlet  {
 					req.setAttribute("postTestCallsDone", snr.getPostTestCallsDone());
 					req.setAttribute("crqClosureCode", snr.getCrqClosureCode());
 					req.setAttribute("siteIssues", snr.getSiteIssues());
+					req.setAttribute("progressCompleted", snr.getProgressCompleted());
 				} else if (buttonPressed.equals("realloc")) {
 					SNR snr = uB.getSNRDetail(Long.parseLong(snrId), false, 0);
 					req.setAttribute("scheduledDT", snr.getScheduledDateString());
@@ -233,6 +234,8 @@ public class MultiSNRListServlet extends HttpServlet  {
 		    	req.setAttribute("hardwareVendor",hardwareVendor);
 				String siteIssues = req.getParameter("siteIssues");
 		    	req.setAttribute("siteIssues",siteIssues);
+				String progressCompleted = req.getParameter("progressCompleted");
+		    	req.setAttribute("progressCompleted",progressCompleted);
 				String implementationStatus = req.getParameter("selectImplementationStatus")==null
 						?req.getParameter("disabledImplementationStatus")
 						:req.getParameter("selectImplementationStatus");

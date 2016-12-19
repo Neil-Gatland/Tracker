@@ -53,10 +53,13 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.CUSTOMER_MENU)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CUSTOMER_MENU);
 				destination = "/customerMenu.jsp";
+			} else if (toScreen.equals(ServletConstants.HOME_FE)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_FE);
+				destination = "/homeFE.jsp";
 			} else if (toScreen.equals(ServletConstants.HOME)) {
 				if (thisU.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CUSTOMER_MENU);
-					destination = "/customerMenu.jsp";
+					destination = "/customerMenu.jsp";				
 				/*} else if (thisU.getUserType().equals(User.USER_TYPE_DEVOTEAM)) {					
 					if (thisU.hasUserRole(UserRole.ROLE_B_O_ENGINEER))  {
 						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_BO);
@@ -64,7 +67,11 @@ public class NavigationServlet extends HttpServlet {
 					} else {
 						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
 						destination = "/workQueues.jsp";
-					}	*/		
+					}	*/	
+				} else if ((thisU.getUserType().equals(User.USER_TYPE_THIRD_PARTY))&&
+						(thisU.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))) {
+					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_FE);
+					destination = "/homeFE.jsp";					
 				} else {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
 					destination = "/workQueues.jsp";
@@ -72,10 +79,26 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.HOME_BO)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_BO);
 				destination = "/homeBO.jsp";
+			} else if (toScreen.equals(ServletConstants.HOME_FE)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_FE);
+				destination = "/homeFE.jsp";
 			} else if (toScreen.equals(ServletConstants.LIVE_DASHBOARD)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.LIVE_DASHBOARD);
 				destination = "/liveDashboard.jsp";
 				req.setAttribute("hideProject", req.getParameter("hideProject"));
+			} else if (toScreen.equals(ServletConstants.SITE_SEARCH)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.SITE_SEARCH);
+				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+		    	UtilBean uB = new UtilBean(thisU, destination.substring(1), url);
+				String[] lastCompletedSiteDetails = uB.GetLastCompletedSite();
+				req.setAttribute("reportSite", lastCompletedSiteDetails[0]);
+				req.setAttribute("reportNrId", lastCompletedSiteDetails[1]);
+				req.setAttribute("reportDate", lastCompletedSiteDetails[2]);
+				req.setAttribute("reportType", lastCompletedSiteDetails[3]);
+				destination = "/siteSearch.jsp";
+			} else if (toScreen.equals(ServletConstants.CLIENT_REPORTING)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CLIENT_REPORTING);
+				destination = "/clientReporting.jsp";
 			} else if (toScreen.equals(ServletConstants.EXPANDED)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
 				destination = "/workQueues.jsp";

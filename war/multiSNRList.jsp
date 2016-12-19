@@ -119,6 +119,7 @@ String[] statusParameters = {"All"};
 String filterScheduledStart = request.getAttribute("filterScheduledStart")==null?"":(String)request.getAttribute("filterScheduledStart");
 String filterScheduledEnd = request.getAttribute("filterScheduledEnd")==null?"":(String)request.getAttribute("filterScheduledEnd");
 StringBuilder hScheduledTitle = new StringBuilder("Scheduled Date - ");
+String progressCompleted = request.getAttribute("progressCompleted")==null?"N":(String)request.getAttribute("progressCompleted");
 if (filterScheduledStart.equals("")) {
 	if (filterScheduledEnd.equals("")) {
 		hScheduledTitle.append("filter not set");
@@ -162,6 +163,7 @@ String prevScreen = request.getAttribute("prevScreen")==null?"":(String)request.
 <input type="hidden" name="nextPreCheck" id="nextPreCheck" value="<%=nextPreCheck%>"/>
 <input type="hidden" name="preCheckId" id="preCheckId" value="<%=preCheckId%>"/>
 <input type="hidden" name="prevScreen" id="prevScreen" value="<%=prevScreen%>"/>
+<input type="hidden" name="progressCompleted" id="progressCompleted" value="<%=progressCompleted%>"/>
 <script language="javascript">
 <!--
 var selectedSNRId = <%=snrId%>;

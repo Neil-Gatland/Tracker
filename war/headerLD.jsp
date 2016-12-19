@@ -39,10 +39,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!--Load the AJAX API-->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!--Load the AJAX API COMMENTING OUT AS CURRENTLY NOT USING IT
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<!--<meta http-equiv="refresh" content="<%=sP.getLiveDashboardRefresh()%>; url=liveDashboard.jsp">  -->
+<% if (displayScreen.equals(ServletConstants.LIVE_DASHBOARD)) {%>
 <meta http-equiv="refresh" content="<%=sP.getLiveDashboardRefresh()%>; url=liveDashboard.jsp">
+<% } else {%>
+<meta http-equiv="refresh" content="<%=sP.getTimeoutPeriodSeconds()%>; url=logon.jsp?timeout=true">
+<%}%>
+
 <title>Devoteam Tracker</title>
 <link rel="stylesheet" type="text/css" href="css/datepickr.css">
 <link rel="stylesheet" type="text/css" href="css/dvt.css">
@@ -64,8 +70,16 @@
 	}
 	
 	function menuClick(destination) {
-		//alert(destination); 
-		document.getElementById("toScreen").value = destination;
+		//alert(destination);
+		if (destination=="home") {
+			if ('<%=thisU.getUserType()%>'=='Customer') {
+				document.getElementById("toScreen").value ="<%=ServletConstants.CUSTOMER_MENU%>";
+			} else {
+				document.getElementById("toScreen").value = "<%=ServletConstants.HOME_BO%>";
+			}
+		} else {
+			document.getElementById("toScreen").value = destination;
+		}
 		//alert(document.getElementById("toScreen").value );
 		document.getElementById("f1").action = "navigation";
 		document.getElementById("f1").submit();
@@ -107,11 +121,11 @@
 		<a href="http://www.devoteam.co.uk/" target="_blank">
 		<img src="images/devo_full.png" height="50px" width="162px"></a>			
 	</td>
-	<td align="center" valign="center">
-		<a href="http://www.devoteam.co.uk/" target="_blank">
-		<img src="images/smart_LD.png" height="50px" width="126px"></a>			
+	<td align="center" valign="center" onClick="menuClick('home')">
+		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="50px" width="126px"></a>	
 	</td>
 	<td>
+	<% if (displayScreen.equals(ServletConstants.LIVE_DASHBOARD)) {%>
 		<table>		
 		<colgroup>
 			<col width="50px"/>
@@ -125,13 +139,16 @@
 			<col width="50px"/>	
 		</colgroup>
 		<tbody>
-		<%=uB.getRecentCompletedSitesHTML()%>
+		<%=uB.getRecentCompletedSitesHTML()%>	
 		</tbody>
-		</table>
+		</table>		
+	<%} else {%>
+		&nbsp;
+	<%}%>
 	<td>
 </tr>
 <tr>
-	<td colspan="3">&nbsp;</td>
+	<td colspan="3" class="<%=messageClass%>"><%=message%></td>
 </tr>
 <tr>
 	<td colspan="3" class="menu1"><%=uB.getMenu1()%></td>

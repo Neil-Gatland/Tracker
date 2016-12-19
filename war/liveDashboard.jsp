@@ -12,22 +12,17 @@ String hideProject = request.getAttribute("hideProject")==null?"N":(String)reque
 <input type="hidden" name="selectedFilter" id="selectedFilter" value=""/>
 <script language="javascript">;
 
-var visible = "no";
+var display ="<%=uB.getDisplayProject()%>";
+var visible = "yes";
+if (display="none") {
+	visible = "no";
+}
 
 function thisScreenLoad() {	
 }
 
 function navigationAction(action) {	
-	if (action=="fwd") {
-		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
-		document.getElementById("f1").action = "navigation";
-		document.getElementById("f1").submit();
-	} else if (action=="rwd") {
-		document.getElementById("selectedAction").value = "rewind";
-		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
-		document.getElementById("f1").action = "liveDashboard";
-		document.getElementById("f1").submit();
-	} else if (action=="go") {
+	if (action=="go") {
 		var selectedProject = document.getElementById("selectProjectLD").value;
 		if (selectedProject == "" ) {
 			alert('No project selected for GO action');
@@ -38,12 +33,16 @@ function navigationAction(action) {
 			document.getElementById("f1").action = "liveDashboard";
 			document.getElementById("f1").submit();
 		}
+	} else if (action=='fwd') {
+		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
+		document.getElementById("f1").action = "navigation";
+		document.getElementById("f1").submit();
 	} else if (action=='hide') {
 		visible = "no";
 		document.getElementById("selectedAction").value = "hide";
 		document.getElementById("top").style.display = "none";
 		document.getElementById("siteList").style.display = "none";
-		document.getElementById("siteList").style.height = "384px";
+		document.getElementById("siteList").style.height = "771px";
 		document.getElementById("selectedHide").value = "Y";
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
 		document.getElementById("f1").action = "liveDashboard";
@@ -53,7 +52,7 @@ function navigationAction(action) {
 		document.getElementById("selectedAction").value = "show";
 		document.getElementById("top").style.display = "inline";
 		document.getElementById("siteList").style.display = "none";
-		document.getElementById("siteList").style.height = "164px";	
+		document.getElementById("siteList").style.height = "492px";	
 		document.getElementById("selectedHide").value = "N";
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
 		document.getElementById("f1").action = "liveDashboard";
@@ -114,6 +113,25 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 <div id="top" style="height: 180px; display: <%=uB.getDisplayProject()%>;">
 <table style="table-layout: fixed; border-style: none;">
 <tr>
+<td width="406px">&nbsp;</td>
+<td width="438px" valign="top"> 
+<!-- counts table section -->
+<table style="width: 100%;height: 100%;table-layout: fixed; border-collapse: collapse;">
+<colgroup>
+<col width="16%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+<col width="14%"/>
+</colgroup>
+<tbody>
+<%=uB.getDashboardTableHTML()%>
+</tbody>
+</table>
+</td>
+</tr>
 </table>
 </div>
 <div style="margin: 0; padding: 0; max-height: 640px; overflow; hidden;">
@@ -173,8 +191,9 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 		<td class="ldHead" rowspan="2">Risk</td>
 		<td class="ldHead" rowspan="2">Client</td>
 		<td id="h3Anchor" class="ldHead" rowspan="2" 
+			style="cursor:pointer;"
 			onClick="projectClick('open')" title="<%=uB.GetLiveSitesFilter()%>">Project</td>
-		<td class="ldHead" rowspan="2">Migration Type</td>
+		<td class="ldHead" rowspan="2">Work Type</td>
 		<td class="ldHead" rowspan="2">Site</td>
 		<td class="ldHead" rowspan="2">BO</td>
 		<td id="h2Anchor" class="ldHead" rowspan="2">FE</td>
@@ -187,42 +206,60 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 	</tr>
 	<tr>	
 		<td	onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Checked In (BO)">CI</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
-			class="ldHead" title="Site Booked On (BO)">SB</td>
+			style="cursor:pointer;"
+			class="ldHead" title="Site Booked On (FE)">SB</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Site Accessed (FE)">SA</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Physical Checks (FE)">PC</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHeadRightDash" title="Pre Call Tests (FE)">TC</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHeadLeftDash" title="Site Locked (BO/FE)">SL</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="HW Installed (FE)">HW</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Field Commissioning (FE)">FC</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Back Office Commissioning (BO)">BC</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Tx Provisioning (Client)">Tx</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Field Work (FE)">FW</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Site Unlocked (BO)">SU</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHeadRightDash" title="Post Call Test (FE)">TC</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHeadLeftDash" title="Closure Code (BO)">CC</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Left Site (BO)">SL</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Booked Off Site (FE)">SB</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHead" title="Performance Monitoring (BO)">Prf</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHeadRightDash" title="Hand Over Pack (BO)">HoP</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
+			style="cursor:pointer;"
 			class="ldHeadLeftDash" title="Devoteam">Devo</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
 			class="ldHead" title="Vodafone">VF</td>
@@ -230,7 +267,7 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 </tbody>
 </table>
 <div id="siteList" style="margin: 0; padding: 0; overflow-y: auto; overflow-x: hidden; display; inline; 
-max-width: 100%; height: <%=(uB.getDisplayProject().equals("none")?"384":"164")%>px;"/>
+max-width: 100%; height: <%=(uB.getDisplayProject().equals("none")?"771":"492")%>px;"/>
 <!--max-width: 100%; height: 164px"/>  -->
 <table style="width: 1250px; table-layout: fixed;">
 <colgroup>

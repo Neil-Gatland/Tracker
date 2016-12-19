@@ -1,0 +1,48 @@
+<div id="incidentDetail" name="incidentDetail" class="popUp" style="width:380px">
+	<div class="popUpX" title="close" onClick="incidentDetailClick('cancel')">x</div>
+	<div>	
+		<table>
+		<colgroup>
+			<col width="10px"/>
+			<col width="60px"/>
+			<col width="100px"/>
+			<col width="40px"/>
+			<col width="180px"/>
+		</colgroup>
+		<tbody>
+		<tr>
+			<td colspan="5" class="clientHeadWBord">
+				<%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week) %>
+				&nbsp;- Site Commentary
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="popUpHead">Site</td>
+			<td class="popUpHead">Project</td>
+			<td class="popUpHead">Date</td>
+			<td class="popUpHead">Issue</td>
+		</tr>
+		<%=uB.getIncidentDetailHTML(action, dS.getYear(), dS.getMonth(), day, week) %>
+		</tbody>
+		</table>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function incidentDetailClick(operation) {
+	var header = document.getElementById("iAnchor");
+	var position = getPosition(header);
+	var aR = document.getElementById("incidentDetail");
+	if (operation == "cancel") {
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else {	
+		aR.style.display = "inline";
+		aR.style.left = position.x + "px";
+		aR.style.top = position.y + "px";
+		aR.style.zIndex = "10";
+	}
+}
+-->
+</script>

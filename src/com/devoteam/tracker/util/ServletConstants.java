@@ -34,7 +34,7 @@ public interface ServletConstants {
 	final static public String CHANGE_PASSWORD = "Change Password";
 	final static public String VIEW_SNR_HISTORY = "View NR History";
 	final static public String VIEW_SNR_HISTORY_SHORT = "View NR";
-	final static public String REPORTING = "Reporting";
+	final static public String REPORTING = "Reports";
 	final static public String CUSTOMER_MENU = "Customer Menu";
 	final static public String JOB_TYPE_MAINTENANCE = "Job Type Maintenance";
 	final static public String JOB_TYPE_MAINTENANCE_SHORT = "Job Type";
@@ -87,5 +87,8 @@ public interface ServletConstants {
 	final static public String VIEW_COMMENTARY_DETAIL = "View Commentary Detail";
 	final static public String LIVE_DASHBOARD = "Live Dashboard";
 	final static public String SITE_PROGRESS = "Site Progress";
+	final static public String SITE_SEARCH = "Site Search";
+	final static public String CLIENT_REPORTING = "Reporting";
+	final static public String HOME_FE = "Home (FE)";
 
 }

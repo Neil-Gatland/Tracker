@@ -1,0 +1,40 @@
+<div id="successRateDetail" name="successRateDetail" class="popUp" style="width:380px">
+	<div class="popUpX" title="close" onClick="successRateDetailClick('cancel')">x</div>
+	<div>	
+		<table>
+		<colgroup>
+			<col width="140px"/>
+			<col width="120px"/>
+			<col width="120px"/>
+		</colgroup>
+		<tbody>
+		<tr>
+			<td colspan="3" class="clientHeadWBord">
+				<%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week) %>
+				&nbsp;- Success Rate
+			</td>
+		</tr>
+		<%=uB.getSuccessDetailHTML(action, dS.getYear(), dS.getMonth(), day, week)%>
+		</tbody>
+		</table>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function successRateDetailClick(operation) {
+	var header = document.getElementById("srAnchor");
+	var position = getPosition(header);
+	var aR = document.getElementById("successRateDetail");
+	if (operation == "cancel") {
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else {	
+		aR.style.display = "inline";
+		aR.style.left = position.x + "px";
+		aR.style.top = position.y + "px";
+		aR.style.zIndex = "10";
+	}
+}
+-->
+</script>

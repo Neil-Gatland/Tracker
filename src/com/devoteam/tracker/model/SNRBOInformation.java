@@ -61,6 +61,7 @@ public class SNRBOInformation {
 	private String postTestCallsDone; //54
 	private String crqClosureCode; //55
 	private String siteIssues; //56
+	private String progressCompleted; // 57
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -83,7 +84,8 @@ public class SNRBOInformation {
 			Date ef390ClaimDT, String performanceChecks, Date ef400ClaimDT,
 			Date ef410ClaimDT, String hopOnSharepoint, String sfrOnSharepoint,
 			String workDetails, String hardwareVendor, String preTestCallsDone, 
-			String postTestCallsDone, String crqClosureCode, String siteIssues) {
+			String postTestCallsDone, String crqClosureCode, String siteIssues,
+			String progressCompleted) {
 		this.snrId = snrId;
 		this.site = site;
 		this.nrId = nrId;
@@ -140,6 +142,7 @@ public class SNRBOInformation {
 		this.postTestCallsDone = postTestCallsDone;
 		this.crqClosureCode = crqClosureCode;
 		this.siteIssues = siteIssues;
+		this.progressCompleted = progressCompleted;
 	}
 	
 	public long getSNRId() {
@@ -412,6 +415,10 @@ public class SNRBOInformation {
 	
 	public String getSiteIssues() {
 		return siteIssues==null?"":siteIssues;
+	}
+	
+	public String getProgressCompleted() {
+		return progressCompleted;
 	}
 	
 }
