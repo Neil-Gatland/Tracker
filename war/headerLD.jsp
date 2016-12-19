@@ -70,8 +70,16 @@
 	}
 	
 	function menuClick(destination) {
-		//alert(destination); 
-		document.getElementById("toScreen").value = destination;
+		//alert(destination);
+		if (destination=="home") {
+			if ('<%=thisU.getUserType()%>'=='Customer') {
+				document.getElementById("toScreen").value ="<%=ServletConstants.CUSTOMER_MENU%>";
+			} else {
+				document.getElementById("toScreen").value = "<%=ServletConstants.HOME_BO%>";
+			}
+		} else {
+			document.getElementById("toScreen").value = destination;
+		}
 		//alert(document.getElementById("toScreen").value );
 		document.getElementById("f1").action = "navigation";
 		document.getElementById("f1").submit();
@@ -113,8 +121,7 @@
 		<a href="http://www.devoteam.co.uk/" target="_blank">
 		<img src="images/devo_full.png" height="50px" width="162px"></a>			
 	</td>
-	<td align="center" valign="center">
-		<a href="http://www.devoteam.co.uk/" target="_blank">
+	<td align="center" valign="center" onClick="menuClick('home')">
 		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="50px" width="126px"></a>	
 	</td>
 	<td>

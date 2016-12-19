@@ -103,8 +103,21 @@ public class UtilBean {
 		HTMLElement m0c = new HTMLElement("div", "overflow:hidden", "menu1", 
 			"&nbsp;");
 		if (screen.equals(ServletConstants.LIVE_DASHBOARD)){
-			m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-					m03.toString() + m0c.toString());
+			if (user.getUserType().equals(user.USER_TYPE_CUSTOMER)) {
+				HTMLElement m05 = new HTMLElement("div", "m05", "float:right;", 
+						"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
+						"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH);
+				HTMLElement m06 = new HTMLElement("div", "m06", "float:right;", 
+						"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
+						"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);
+				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
+						m03.toString() + m05.toString() + m06.toString() + m0c.toString());
+				
+			} else {
+				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
+						m03.toString() + m0c.toString());
+			}
+			
 		}
 		else
 		{
@@ -122,8 +135,8 @@ public class UtilBean {
 								"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH)) +
 						(screen.equals(ServletConstants.CLIENT_REPORTING)?"":new HTMLElement("div", "m06", "float:right;", 
 								"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
-								"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING)) + 
-						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
+								"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING)) +
+						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") +
 						m0c.toString());
 			} else {
 				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
@@ -4813,18 +4826,21 @@ public class UtilBean {
 	    	heading = heading + "&nbsp;" +
 	    			"<img src=\"images/hide.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('hide')\" "+
+	    			"style=\"cursor:pointer;\" "+
     				"title=\"Hide project counts table\">";
 	    }
 	    else {
 	    	heading = heading + "&nbsp;" +
 	    			"<img src=\"images/show.png\" height=\"15\" width=\"15\" "+
 	    			"onclick=\"navigationAction('show')\" "+
+	    			"style=\"cursor:pointer;\" "+
     				"title=\"Show project counts table\">";
 	    }
 	    heading = heading + "&nbsp;" +
 	    		"<img src=\"images/fwd.png\" "+
 				"height=\"15\" width=\"15\" border:1px solid black; "+
 				"onClick=\"navigationAction('fwd')\""+
+    			"style=\"cursor:pointer;\" "+
 				"title=\"Manually refresh the live dashboard\">";
 		return heading;
 	}
@@ -5402,14 +5418,15 @@ public class UtilBean {
 	
 	public String getSiteCompletionReportListHTML
 			( String action, String year, String month, String day, String week, 
-					String client, String project, String site, String nrId) {
+					String client, String project, String site, String nrId,
+					String startDT, String endDT ) {
 		StringBuilder html = new StringBuilder();
 		if ((action.startsWith("fwd"))||
 				(action.startsWith("rwd"))||
 				(action.startsWith("init"))) {
 			HTMLElement tr = new HTMLElement("tr");
 			HTMLElement td= new HTMLElement("td", "siteReportDClass", "&nbsp;");
-			td.setAttribute("colspan", "4");
+			td.setAttribute("colspan", "6");
 			tr.appendValue(td.toString());
 			html.append(tr.toString());
 		} else {
@@ -5424,7 +5441,7 @@ public class UtilBean {
 	    	CallableStatement cstmt = null;
 		    try {
 		    	conn = DriverManager.getConnection(url);
-		    	cstmt = conn.prepareCall("{call GetSiteCompletionReportList(?,?,?,?,?,?,?,?,?,?)}");
+		    	cstmt = conn.prepareCall("{call GetSiteCompletionReportList(?,?,?,?,?,?,?,?,?,?,?,?)}");
 	   			cstmt.setString(1, dbAction);
 	   			cstmt.setString(2, year);
 	   			cstmt.setString(3, month);
@@ -5434,7 +5451,9 @@ public class UtilBean {
 	   			cstmt.setString(7, (project.equals("")?"All":project));
 	   			cstmt.setString(8, (site.equals("")?"All":site));
 	   			cstmt.setString(9, (nrId.equals("")?"All":nrId));
-	   			cstmt.setString(10, user.getFullname());
+	   			cstmt.setString(10, startDT);
+	   			cstmt.setString(11, endDT);
+	   			cstmt.setString(12, user.getFullname());
 				boolean found = cstmt.execute();
 				boolean sitesDisplayed = false;
 				if (found) {
@@ -5444,16 +5463,17 @@ public class UtilBean {
 						String repNrId = rs.getString(2);
 						String repDate = rs.getString(3);
 						String repType = rs.getString(4);
+						String repProject = rs.getString(5);
+						String repClient = rs.getString(6);
+						String repMigType = rs.getString(7);
+						String repDisplaySite = rs.getString(8);
 						HTMLElement tr = new HTMLElement("tr");
 						String onClickRS = 
 								"reportSelect('"+repSite+"','"+repNrId+"','"+repDate+"','"+repType+"')";
-						HTMLElement td1= new HTMLElement("td", "siteReportDClass", repSite);
+						HTMLElement td1 = new HTMLElement("td", "siteReportDClass", repDisplaySite);
 						td1.setAttribute("onClick", onClickRS);
 						tr.appendValue(td1.toString());
-						HTMLElement td2= new HTMLElement("td", "siteReportDClass", repNrId);
-						td2.setAttribute("onClick", onClickRS);
-						tr.appendValue(td2.toString());
-						HTMLElement td3= new HTMLElement("td", "siteReportDClass", repDate);
+						HTMLElement td3 = new HTMLElement("td", "siteReportDClass", repDate);
 						td3.setAttribute("onClick", onClickRS);
 						tr.appendValue(td3.toString());
 						String compClass = "siteReportDGreenClass";
@@ -5464,13 +5484,22 @@ public class UtilBean {
 						HTMLElement td4= new HTMLElement("td", compClass, repType);
 						td4.setAttribute("onClick", onClickRS);
 						tr.appendValue(td4.toString());
+						HTMLElement td5 = new HTMLElement("td", "siteReportDClass", repClient);
+						td5.setAttribute("onClick", onClickRS);
+						tr.appendValue(td5.toString());
+						HTMLElement td6 = new HTMLElement("td", "siteReportDClass", repProject);
+						td6.setAttribute("onClick", onClickRS);
+						tr.appendValue(td6.toString());
+						HTMLElement td7 = new HTMLElement("td", "siteReportDClass", repMigType);
+						td7.setAttribute("onClick", onClickRS);
+						tr.appendValue(td7.toString());
 						html.append(tr.toString());	
 						sitesDisplayed = true;
 					}
 					if (!sitesDisplayed) {
 						HTMLElement tr = new HTMLElement("tr");
-						HTMLElement td= new HTMLElement("td", "siteReportDClass", "No reports to display");
-						td.setAttribute("colspan", "4");
+						HTMLElement td= new HTMLElement("td", "siteReportDEClass", "No reports to display");
+						td.setAttribute("colspan", "6");
 						tr.appendValue(td.toString());
 						html.append(tr.toString());
 					}
@@ -5602,7 +5631,7 @@ public class UtilBean {
 					if (!migrationType.equals(storedMigrationType)) {
 						if (storedMigrationType.equals("empty")) {
 							HTMLElement tr = new HTMLElement("tr");
-							HTMLElement td1 = new HTMLElement("td", "popUpHead", "Migration Type");
+							HTMLElement td1 = new HTMLElement("td", "popUpHead", "Work Type");
 							tr.appendValue(td1.toString());
 							HTMLElement td2 = new HTMLElement("td", "popUpHead", storedPrevHead);
 							tr.appendValue(td2.toString());
@@ -5703,6 +5732,7 @@ public class UtilBean {
 					tda1.setAttribute("height", "20px");
 					tda1.setAttribute("colspan", "4");
 					tda1.setAttribute("onclick", "successRateDetailClick('open')");
+					tda1.setAttribute("style", "cursor:pointer;");
 					tra.appendValue(tda1.toString());
 					html.append(tra.toString());
 					HTMLElement trb = new HTMLElement("tr");
@@ -5710,11 +5740,13 @@ public class UtilBean {
 					tdb1.setAttribute("rowspan", "2");
 					tdb1.setAttribute("height", "60px");
 					tdb1.setAttribute("onClick", "moveDate('back')");
+					tdb1.setAttribute("style", "cursor:pointer;");
 					trb.appendValue(tdb1.toString());
 					HTMLElement tdb2 = new HTMLElement("td","clientHeadLarge"+rs.getString(3),rs.getString(1));
 					tdb2.setAttribute("rowspan", "2");
 					tdb2.setAttribute("height", "60px");
 					tdb2.setAttribute("onclick", "successRateDetailClick('open')");
+					tdb2.setAttribute("style", "cursor:pointer;");
 					trb.appendValue(tdb2.toString());
 					HTMLElement tdb3 = new HTMLElement(
 											"td",
@@ -5727,6 +5759,7 @@ public class UtilBean {
 					tdb4.setAttribute("rowspan", "2");
 					tdb4.setAttribute("height", "60px");
 					tdb4.setAttribute("onClick", "moveDate('forward')");
+					tdb4.setAttribute("style", "cursor:pointer;");
 					trb.appendValue(tdb4.toString());
 					html.append(trb.toString());
 					HTMLElement trc = new HTMLElement("tr");
@@ -5786,6 +5819,7 @@ public class UtilBean {
 					tda1.setAttribute("height", "20px");
 					tda1.setAttribute("colspan", "4");
 					tda1.setAttribute("onclick", "outageDetailClick('open')");
+					tda1.setAttribute("style", "cursor:pointer;");
 					tra.appendValue(tda1.toString());
 					html.append(tra.toString());
 					HTMLElement trb = new HTMLElement("tr");
@@ -5793,11 +5827,13 @@ public class UtilBean {
 					tdb1.setAttribute("rowspan", "2");
 					tdb1.setAttribute("height", "60px");
 					tdb1.setAttribute("onClick", "moveDate('back')");
+					tdb1.setAttribute("style", "cursor:pointer;");
 					trb.appendValue(tdb1.toString());
 					HTMLElement tdb2 = new HTMLElement("td","clientHeadLarge"+rs.getString(3),rs.getString(1));
 					tdb2.setAttribute("rowspan", "2");
 					tdb2.setAttribute("height", "60px");
 					tdb2.setAttribute("onclick", "outageDetailClick('open')");
+					tdb2.setAttribute("style", "cursor:pointer;");
 					trb.appendValue(tdb2.toString());
 					HTMLElement tdb3 = new HTMLElement(
 											"td",
@@ -5810,6 +5846,7 @@ public class UtilBean {
 					tdb4.setAttribute("rowspan", "2");
 					tdb4.setAttribute("height", "60px");
 					tdb4.setAttribute("onClick", "moveDate('forward')");
+					tdb4.setAttribute("style", "cursor:pointer;");
 					trb.appendValue(tdb4.toString());
 					html.append(trb.toString());
 					HTMLElement trc = new HTMLElement("tr");
@@ -5880,7 +5917,7 @@ public class UtilBean {
 					if (!migrationType.equals(storedMigrationType)) {
 						if (storedMigrationType.equals("empty")) {
 							HTMLElement tr = new HTMLElement("tr");
-							HTMLElement td1 = new HTMLElement("td", "popUpHead", "Migration Type");
+							HTMLElement td1 = new HTMLElement("td", "popUpHead", "Work Type");
 							tr.appendValue(td1.toString());
 							HTMLElement td2 = new HTMLElement("td", "popUpHead", storedPrevHead);
 							tr.appendValue(td2.toString());
@@ -6012,7 +6049,13 @@ public class UtilBean {
 				while (rs.next()) {
 					iCount++;
 					HTMLElement tr = new HTMLElement("tr");
+					HTMLElement td0 = new HTMLElement(
+							"td", 
+							"popUpDetail","<img src=\"images/"+rs.getString(5)+"_circle.png\""+
+									" height=\"15px\" width=\"15px\">");
+					tr.appendValue(td0.toString());
 					HTMLElement td1 = new HTMLElement("td", "popUpDetail", rs.getString(1));
+					//td1.setAttribute("colspan", "2");
 					tr.appendValue(td1.toString());
 					HTMLElement td2 = new HTMLElement("td", "popUpDetail", rs.getString(2));
 					tr.appendValue(td2.toString());
@@ -6044,18 +6087,88 @@ public class UtilBean {
 		return html.toString();	
 	}
 	
-	public String getCompletionReportHeader(String site, String nrId, String date, String type) {
+	/*public String getCompletionReportHeader(String site, String nrId, String date, String type) {
 		String title = "Closure report for ";
 		if (site.equals("")) {
-			title = "";
+			title = "";	
 		} else {
 			if (!type.equals("Completed")) title = type + " report for ";
 			title = title + "site " + site + " on " + date;
 		}		
 		return title;
+	}*/
+	
+	public String getCompletionReportHeader(
+			String action, String year, String month, String day, String week, 
+			String client, String project, String site, String nrId,
+			String startDT, String endDT, 
+			String reportSite, String reportNrId, String reportDate, String reportType) {
+		String title = "Closure report for ";
+		if (reportSite.equals("")) {
+			title = "";	
+			String repSite = "", repNrId = "", repDate = "", repType = "";
+			String dbAction = action;
+			if (action.equals("chgMonth"))
+				dbAction = "month";
+			if (action.equals("chgDay"))
+				dbAction = "day";
+			if (action.equals("chgWeek"))
+				dbAction = "week";
+			message = null;
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+	    	try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetSiteCompletionReportListTop(?,?,?,?,?,?,?,?,?,?,?,?)}");
+	   			cstmt.setString(1, dbAction);
+	   			cstmt.setString(2, year);
+	   			cstmt.setString(3, month);
+	   			cstmt.setString(4, day);
+	   			cstmt.setString(5, week);
+	   			cstmt.setString(6, (client.equals("")?"All":client));
+	   			cstmt.setString(7, (project.equals("")?"All":project));
+	   			cstmt.setString(8, (site.equals("")?"All":site));
+	   			cstmt.setString(9, (nrId.equals("")?"All":nrId));
+	   			cstmt.setString(10, startDT);
+	   			cstmt.setString(11, endDT);
+	   			cstmt.setString(12, user.getFullname());
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					if (rs.next()) {
+						repSite = rs.getString(1);
+						repNrId = rs.getString(2);
+						repDate = rs.getString(3);
+						repType = rs.getString(4);
+						if (repType.equals("Completed")) {
+							title = "Closure report for ";
+						} else {
+							title = repType + " report for ";
+						}
+						title = title + "site " + repSite + " on " + repDate;
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetSiteCompletionReportListTop(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    	conn = null;
+		    	cstmt = null;
+		    }		
+		} else {
+			if (!reportType.equals("Completed")) title = reportType + " report for ";
+			title = title + "site " + reportSite + " on " + reportDate;
+		}		
+		return title;
 	}
 	
-	public String getCompletionReport(String site, String nrId, String date, String type) {
+	/*public String getCompletionReport(String site, String nrId, String date, String type) {
 		String completionReport = "";		
 		message = null;
     	Connection conn = null;
@@ -6070,7 +6183,103 @@ public class UtilBean {
 			boolean found = cstmt.execute();
 			if (found) {
 				ResultSet rs = cstmt.getResultSet();
-				while (rs.next()) {
+				if (rs.next()) {
+					completionReport = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetSiteCompletionReport(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return completionReport;
+	}*/
+	
+	public String getCompletionReport(
+			String action, String year, String month, String day, String week, 
+			String client, String project, String site, String nrId,
+			String startDT, String endDT, 
+			String reportSite, String reportNrId, String reportDate, String reportType ) {
+		String completionReport = "";	
+		String repSite = "", repNrId = "", repDate = "", repType = "";
+		String dbAction = action;
+		if (action.equals("chgMonth"))
+			dbAction = "month";
+		if (action.equals("chgDay"))
+			dbAction = "day";
+		if (action.equals("chgWeek"))
+			dbAction = "week";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	if (reportType.length()>0) {
+			repSite = reportSite;
+			repNrId = reportNrId;
+			repDate = reportDate;
+			repType = reportType;
+    	} else {
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetSiteCompletionReportListTop(?,?,?,?,?,?,?,?,?,?,?,?)}");
+	   			cstmt.setString(1, dbAction);
+	   			cstmt.setString(2, year);
+	   			cstmt.setString(3, month);
+	   			cstmt.setString(4, day);
+	   			cstmt.setString(5, week);
+	   			cstmt.setString(6, (client.equals("")?"All":client));
+	   			cstmt.setString(7, (project.equals("")?"All":project));
+	   			cstmt.setString(8, (site.equals("")?"All":site));
+	   			cstmt.setString(9, (nrId.equals("")?"All":nrId));
+	   			cstmt.setString(10, startDT);
+	   			cstmt.setString(11, endDT);
+	   			cstmt.setString(12, user.getFullname());
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					if (rs.next()) {
+						repSite = rs.getString(1);
+						repNrId = rs.getString(2);
+						repDate = rs.getString(3);
+						repType = rs.getString(4);
+					}
+				}
+				else {
+					repSite = reportSite;
+					repNrId = reportNrId;
+					repDate = reportDate;
+					repType = reportType;
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetSiteCompletionReportListTop(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    	conn = null;
+		    	cstmt = null;
+		    }		
+    	}
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetSiteCompletionReport(?,?,?,?)}");
+	    	cstmt.setString(1, repSite);
+	    	cstmt.setString(2, repNrId);
+	    	cstmt.setString(3, repDate);
+	    	cstmt.setString(4, repType);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				if (rs.next()) {
 					completionReport = rs.getString(1);
 				}
 			}
@@ -6102,16 +6311,25 @@ public class UtilBean {
 		if (dbAction.equals("Month")) {
 			report = clientMonthlyReport(year,month);
 		}
+		HTMLElement tr0 = new HTMLElement("tr");
+		HTMLElement td0 = new HTMLElement(
+				"td", 
+				"dateSearchTClass", 
+				"&nbsp");
+		td0.setAttribute("height", "10px");
+		tr0.appendValue(td0.toString());
+		html.append(tr0.toString());
 		HTMLElement tra = new HTMLElement("tr");
 		HTMLElement tda1 = new HTMLElement(
-								"td", 
-								"clientHeadNoBord", 
-								clientReportingHeader(action, year, month, day, week) );
+				"td", 
+				"dateSearchTClass", 
+				clientReportingHeader(action, year, month, day, week) );
 		tda1.setAttribute("height", "20px");
 		tda1.setAttribute("valign", "top");
 		tda1.setAttribute("align", "center");
 		tra.appendValue(tda1.toString());
 		html.append(tra.toString());
+		html.append(tr0.toString());
 		HTMLElement trb = new HTMLElement("tr");
 		HTMLElement tdb1 = new HTMLElement("td", "clientBox", report);
 		tdb1.setAttribute("height", "405px");
@@ -6124,13 +6342,18 @@ public class UtilBean {
 	
 	public String clientMonthlyReport( String year, String month ) {
 		String report = 
-				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
-				"<colgroup><col width=\"50px\"/><col width=\"120px\"/>"+
-				"<col width=\"120px\"/><col width=\"120px\"/><col width=\"120px\"/>"+
-				"<col width=\"120px\"/><col width=\"50px\"/>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:900px;\">"+
+				"<colgroup>"+
+				"<col width=\"50px\"/>"+
+				"<col width=\"160px\"/>"+
+				"<col width=\"160px\"/>"+
+				"<col width=\"160px\"/>"+
+				"<col width=\"160px\"/>"+
+				"<col width=\"160px\"/>"+
+				"<col width=\"50px\"/>"+
 				"</colgroup><tbody><tr>"+
 				"<td class=\"clientBox\" colspan=\"7\">"+
-				"<img src=\"images/sc_monthly_report.png\" height=\"87px\" width=\"600px\"/></td>"+
+				"<img src=\"images/sc_monthly_report.png\" height=\"116px\" width=\"800px\"/></td>"+
 				"</tr><tr>"+
 				"<td class=\"clientBox\">&nbsp;</td>"+
 				"<td class=\"repHead\">Week</td>"+
@@ -6188,11 +6411,17 @@ public class UtilBean {
 	    } 
 		report = report +				
 				"</tbody></table>"+
-				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
-				"<colgroup><col width=\"50px\"/><col width=\"105px\"/>"+
-				"<col width=\"60px\"/><col width=\"105px\"/><col width=\"60px\"/>"+
-				"<col width=\"105px\"/><col width=\"60px\"/>"+
-				"<col width=\"105px\"/><col width=\"50px\"/><tr>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:900px;\">"+
+				"<colgroup>"+
+				"<col width=\"50px\"/>"+
+				"<col width=\"110px\"/>"+
+				"<col width=\"120px\"/>"+
+				"<col width=\"110px\"/>"+
+				"<col width=\"120px\"/>"+
+				"<col width=\"110px\"/>"+
+				"<col width=\"120px\"/>"+
+				"<col width=\"110px\"/>"+
+				"<col width=\"50px\"/><tr>"+
 				"</colgroup><tbody><tr>"+
 				"<td class=\"clientBox\" colspan=\"9\">&nbsp;</td>"+
 				"</tr><tr>"+
@@ -6222,29 +6451,30 @@ public class UtilBean {
 	public String clientWeeklyReport( String year, String month, String week ) {
 		String report = 
 				"<div style=\"height:300px;overflow-y: auto; overflow-x: hidden\">"+
-				"<table style=\"table-layout:fixed;border-style:none;width:700px;"+
-				"<colgroup><col width=\"50px\"/>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:900px;\">"+
+				"<colgroup>"+
 				"<col width=\"50px\"/>"+
 				"<col width=\"60px\"/>"+
 				"<col width=\"60px\"/>"+
-				"<col width=\"50px\"/>"+
-				"<col width=\"80px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"140px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"220px\"/>"+
 				"<col width=\"40px\"/>"+
-				"<col width=\"90px\"/>"+
-				"<col width=\"40px\"/>"+
-				"<col width=\"130px\"/>"+
 				"<col width=\"50px\"/>"+
 				"</colgroup><tbody><tr>"+
 				"<td class=\"clientBox\">&nbsp;</td>"+
 				"<td class=\"clientBox\" colspan=\"9\">"+
-				"<img src=\"images/sc_weekly_report.png\" height=\"87px\" width=\"600px\"/></td>"+
+				"<img src=\"images/sc_weekly_report.png\" height=\"116px\" width=\"800px\"/></td>"+
 				"</tr><tr>"+
 				"<td class=\"clientBox\">&nbsp;</td>"+
 				"<td class=\"repHead\">Day</td>"+
 				"<td class=\"repHead\">Date</td>"+
 				"<td class=\"repHead\">Site</td>"+
 				"<td class=\"repHead\">Project</td>"+
-				"<td class=\"repHead\">Mig. Type</td>"+
+				"<td class=\"repHead\">Work Type</td>"+
 				"<td class=\"repHead\">Technologies</td>"+
 				"<td class=\"repHead\">Status</td>"+
 				"<td class=\"repHead\">Comments</td>"+
@@ -6301,7 +6531,7 @@ public class UtilBean {
 				}
 			}
 	    } catch (Exception ex) {
-	    	message = "Error in GetCRMonthlyReport(): " + ex.getMessage();
+	    	message = "Error in GetClientReporting(): " + ex.getMessage();
 	    	ex.printStackTrace();
 	    } finally {
 	    	try {
@@ -6314,14 +6544,15 @@ public class UtilBean {
 		report = report +				
 				"</tbody></table>"+
 				"</div>"+
-				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
-				"<colgroup><col width=\"100px\"/>"+
-				"<col width=\"105px\"/>"+
-				"<col width=\"60px\"/>"+
-				"<col width=\"105px\"/>"+
-				"<col width=\"60px\"/>"+
-				"<col width=\"105px\"/>"+
-				"<col width=\"50px\"/><tr>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:900px;\">"+
+				"<colgroup>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"150px\"/>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"150px\"/>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"100px\"/><tr>"+
 				"</colgroup><tbody><tr>"+
 				"<td class=\"clientBox\" colspan=\"7\">&nbsp;</td>"+
 				"</tr><tr>"+
@@ -6347,27 +6578,27 @@ public class UtilBean {
 	public String clientDailyReport( String year, String month, String day ) {
 		String report =
 				"<div style=\"height:300px;overflow-y: auto; overflow-x: hidden\">"+
-				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
+				"<table style=\"table-layout:fixed;border-style:none;width:900px;\">"+
 				"<col width=\"50px\"/>"+
-				"<col width=\"40px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"120px\"/>"+
+				"<col width=\"60px\"/>"+
+				"<col width=\"140px\"/>"+
 				"<col width=\"80px\"/>"+
+				"<col width=\"200px\"/>"+
 				"<col width=\"60px\"/>"+
-				"<col width=\"90px\"/>"+
-				"<col width=\"60px\"/>"+
-				"<col width=\"150px\"/>"+
-				"<col width=\"40px\"/>"+
 				"<col width=\"40px\"/>"+				
 				"<col width=\"40px\"/>"+				
 				"<col width=\"50px\"/>"+
 				"</colgroup><tbody><tr>"+
 				"<td class=\"clientBox\">&nbsp;</td>"+
 				"<td class=\"clientBox\" colspan=\"9\">"+
-				"<img src=\"images/sc_daily_report.png\" height=\"87px\" width=\"600px\"/></td>"+
+				"<img src=\"images/sc_daily_report.png\" height=\"116px\" width=\"800px\"/></td>"+
 				"</tr><tr>"+
 				"<td class=\"clientBox\">&nbsp;</td>"+
 				"<td class=\"repHead\">Site</td>"+
 				"<td class=\"repHead\">Project</td>"+
-				"<td class=\"repHead\">Mig. Type</td>"+
+				"<td class=\"repHead\">Work Type</td>"+
 				"<td class=\"repHead\">Technologies</td>"+
 				"<td class=\"repHead\">Status</td>"+
 				"<td class=\"repHead\">Comments</td>"+
@@ -6450,14 +6681,15 @@ public class UtilBean {
 		report = report +				
 				"</tbody></table>"+
 				"</div>"+
-				"<table style=\"table-layout:fixed;border-style:none;width:700px;\">"+
-				"<colgroup><col width=\"100px\"/>"+
-				"<col width=\"105px\"/>"+
-				"<col width=\"60px\"/>"+
-				"<col width=\"105px\"/>"+
-				"<col width=\"60px\"/>"+
-				"<col width=\"105px\"/>"+
-				"<col width=\"50px\"/><tr>"+
+				"<table style=\"table-layout:fixed;border-style:none;width:900px;\">"+
+				"<colgroup>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"150px\"/>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"150px\"/>"+
+				"<col width=\"100px\"/>"+
+				"<col width=\"100px\"/><tr>"+
 				"</colgroup><tbody><tr>"+
 				"<td class=\"clientBox\" colspan=\"7\">&nbsp;</td>"+
 				"</tr><tr>"+
@@ -6511,6 +6743,113 @@ public class UtilBean {
 		    }
 	    } 
 		return results;
+	}
+	
+	public String getSiteSummaryHTML( String site, String nrId) {
+		String report = "";
+		if ((site.length()>0)||(nrId.length()>0 )) {
+			report = 
+				"<table style=\"table-layout:fixed;border-style:none;width:300px;\">"+
+						"<col width=\"20px\"/>"+
+						"<col width=\"70px\"/>"+
+						"<col width=\"70px\"/>"+
+						"<col width=\"70px\"/>"+
+						"<col width=\"70px\"/>"+
+				"</colgroup><tbody>";
+			String outSite="", status = "", scheduledDate = "", implementationStatus = "",
+					impStartDT = "", impEndDT = "", outageStartDT = "", outageEndDT = "",
+					client = "", project = "", migType = "", BO = "", FE = "";
+			message = null;
+			long completed = 0, partials = 0, aborts = 0;
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetSiteSummary(?,?)}");
+		    	cstmt.setString(1, site);
+		    	cstmt.setString(2, nrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						outSite = rs.getString(1);
+						status = rs.getString(2);
+						scheduledDate = rs.getString(3);
+						implementationStatus = rs.getString(4);
+						impStartDT = rs.getString(5); 
+						impEndDT = rs.getString(6);
+						outageStartDT = rs.getString(7); 
+						outageEndDT = rs.getString(8);
+						client = rs.getString(9); 
+						project = rs.getString(10);
+						migType = rs.getString(11); 
+						BO = rs.getString(12); 
+						FE = rs.getString(13);
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetSiteSummary(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+			report = report +
+					"<tr>"+
+					"<td>&nbsp;</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">Site:</td>"+
+					"<td class=\"summaryDet\">"+outSite+"</td>"+
+					"<td class=\"summaryLit\">Status:</td>"+
+					"<td class=\"summaryDet\">"+status+"</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">Client:</td>"+
+					"<td colspan=\"3\" class=\"summaryDet\">"+client+"</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">Project:</td>"+
+					"<td colspan=\"3\" class=\"summaryDet\">"+project+"</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">Scheduled Date:</td>"+
+					"<td class=\"summaryDet\">"+scheduledDate+"</td>"+
+					"<td class=\"summaryLit\">Migration Type:</td>"+
+					"<td class=\"summaryDet\">"+migType+"</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td colspan=\"2\" class=\"summaryLit\">Implementation:</td>"+
+					"<td colspan=\"2\" class=\"summaryDet\">"+implementationStatus+"</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">Imp. Start:</td>"+
+					"<td class=\"summaryDet\">"+impStartDT+"</td>"+
+					"<td class=\"summaryLit\">Imp. End:</td>"+
+					"<td class=\"summaryDet\">"+impEndDT+"</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">Outage Start:</td>"+
+					"<td class=\"summaryDet\">"+outageStartDT+"</td>"+
+					"<td class=\"summaryLit\">Outage End:</td>"+
+					"<td class=\"summaryDet\">"+outageEndDT+"</td>"+
+					"<td>&nbsp;</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">BO:</td>"+
+					"<td colspan=\"3\" class=\"summaryDet\">"+BO+"</td>"+
+					"</tr><tr>"+
+					"<td>&nbsp;</td>"+
+					"<td class=\"summaryLit\">FE:</td>"+
+					"<td colspan=\"3\" class=\"summaryDet\">"+FE+"</td>"+
+					"</tr>"+				
+				"</tbody></table>";
+		}
+		return report;
 	}
 	
 }

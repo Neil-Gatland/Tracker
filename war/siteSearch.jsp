@@ -13,6 +13,8 @@ String reportSite = request.getAttribute("reportSite")==null?"":(String)request.
 String reportNrId = request.getAttribute("reportNrId")==null?"":(String)request.getAttribute("reportNrId");
 String reportDate = request.getAttribute("reportDate")==null?"":(String)request.getAttribute("reportDate");
 String reportType = request.getAttribute("reportType")==null?"":(String)request.getAttribute("reportType");
+String startDT = request.getAttribute("startDT")==null?"":(String)request.getAttribute("startDT");
+String endDT = request.getAttribute("startDT")==null?"":(String)request.getAttribute("endDT");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="siteSearch.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.SITE_SEARCH%>"/>
@@ -25,6 +27,8 @@ String reportType = request.getAttribute("reportType")==null?"":(String)request.
 <input type="hidden" name="selectedProject" id="selectedProject" value="<%=project%>"/>
 <input type="hidden" name="selectedSite" id="selectedSite" value="<%=site%>"/>
 <input type="hidden" name="selectedNrId" id="selectedNrId" value="<%=nrId%>"/>
+<input type="hidden" name="selectedStartDT" id="selectedStartDT" value="<%=startDT%>"/>
+<input type="hidden" name="selectedEndDT" id="selectedEndDT" value="<%=startDT%>"/>
 <input type="hidden" name="reportSite" id="reportSite" value="<%=reportSite%>"/>
 <input type="hidden" name="reportNrId" id="reportNrId" value="<%=reportNrId%>"/>
 <input type="hidden" name="reportDate" id="reportDate" value="<%=reportDate%>"/>
@@ -50,6 +54,8 @@ function thisScreenLoad() {
 	document.getElementById("selectedProject").value = "<%=project%>";
 	document.getElementById("selectedSite").value = "<%=site%>";
 	document.getElementById("selectedNrId").value = "<%=nrId%>";
+	document.getElementById("selectedStartDT").value = "<%=startDT%>";
+	document.getElementById("selectedEndDT").value = "<%=endDT%>";
 }
 
 function clickSearchBox(operation) {
@@ -80,6 +86,8 @@ function dateAction(operation,year,month,day,week) {
 	document.getElementById("reportNrId").value = '';
 	document.getElementById("reportDate").value = '';
 	document.getElementById("reportType").value = '';
+	document.getElementById("selectedStartDT").value = '';
+	document.getElementById("selectedEndDT").value = '';
 	document.getElementById("toScreen").value = "<%=ServletConstants.SITE_SEARCH%>";
 	document.getElementById("f1").action = "siteSearch";
 	document.getElementById("f1").submit();
@@ -91,11 +99,11 @@ function search(operation) {
 	var site = document.getElementById("selectEmailCopySite").value;
 	var nrId = document.getElementById("selectEmailCopyNRId").value;
 	if ((client=='')&&(project=='')&&(site=='')&&(nrId=='')) {
-		alert('No search criteria selected');
+		alert('Either client or project or site or nr id must be selected');
 		return;
 	}
 	if (!((site=='')||(nrId==''))) {
-		alert('Only enter Site or NR Id');
+		alert('Only site or nr id can selected');
 		return;
 	}
 	document.getElementById("selectedAction").value = operation;
@@ -107,6 +115,8 @@ function search(operation) {
 	document.getElementById("selectedProject").value = document.getElementById("selectEmailCopyProject").value;
 	document.getElementById("selectedSite").value = document.getElementById("selectEmailCopySite").value;
 	document.getElementById("selectedNrId").value = document.getElementById("selectEmailCopyNRId").value;
+	document.getElementById("selectedStartDT").value = document.getElementById("startDT").value;
+	document.getElementById("selectedEndDT").value = document.getElementById("endDT").value;
 	document.getElementById("toScreen").value = "<%=ServletConstants.SITE_SEARCH%>";
 	document.getElementById("reportSite").value = '';
 	document.getElementById("reportNrId").value = '';
@@ -125,6 +135,8 @@ function clearSearchCriteria() {
 	document.getElementById("selectedProject").value = "";
 	document.getElementById("selectedSite").value = "";
 	document.getElementById("selectedNrId").value = "";
+	document.getElementById("startDT").value = "";
+	document.getElementById("endDT").value = "";
 }
 
 function reportSelect(site,nrId,date,type) {
@@ -147,6 +159,8 @@ function moveMonth(newMonth) {
 	document.getElementById("selectedWeek").value = '00';
 	document.getElementById("selectedSite").value = '';
 	document.getElementById("selectedNrId").value = '';
+	document.getElementById("selectedStartDT").value = "";
+	document.getElementById("selectedEndDT").value = "";
 	document.getElementById("reportSite").value = '';
 	document.getElementById("reportNrId").value = '';
 	document.getElementById("reportDate").value = '';
@@ -196,50 +210,35 @@ function moveMonth(newMonth) {
 					</td>
 				</tr>
 				<tr>
-					<td colspan="9" class="dateSearchTClass">
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td class="dateSearchTClass">&nbsp;<td>
+					<td>&nbsp;</td>
 					<td colspan="9" align="center">
-						<table>
+						<table style="border-style:solid;border-width:1.0px;">
 						<tr>
+							<!-- <td class="dateSearchMClass" height="5px" width="3px"></td>-->
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('01')" title="go to January">J</td>
-							<td>&nbsp;</td>
-							<td class="dateSearchMClass" height="5px" width="5px"" 
-								onClick="moveMonth('02')" title="go to February">F</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('01')" style="cursor:pointer;">Jan</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('03')" title="go to March">M</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('02')"  style="cursor:pointer;">Feb</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('04')" title="go to April">A</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('03')"  style="cursor:pointer;">Mar</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('05')" title="go to May">M</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('04')"  style="cursor:pointer;">Apr</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('06')" title="go to June">J</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('05')"  style="cursor:pointer;">May</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('07')" title="go to July">J</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('06')"  style="cursor:pointer;">Jun</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('08')" title="go to August">A</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('07')"  style="cursor:pointer;">Jul</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('09')" title="go to September">S</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('08')"  style="cursor:pointer;">Aug</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('10')" title="go to October">O</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('09')"  style="cursor:pointer;">Sep</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('11')" title="go to November">N</td>
-							<td>&nbsp;</td>
+								onClick="moveMonth('10')"  style="cursor:pointer;">Oct</td>
 							<td class="dateSearchMClass" height="5px" width="5px" 
-								onClick="moveMonth('12')" title="go to December">D</td>
+								onClick="moveMonth('11')"  style="cursor:pointer;">Nov</td>
+							<td class="dateSearchMClass" height="5px" width="5px" 
+								onClick="moveMonth('12')"  style="cursor:pointer;">Dec</td>
 						</tr>
 						</table>
 					</td>				
@@ -247,160 +246,219 @@ function moveMonth(newMonth) {
 				<!-- calendar month box -->
 				<%=dS.searchBoxHTML()%>
 				<tr>
-					<td colspan="9" class="dateSearchTClass">
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
 					<td colspan="1" class="dateSearchTClass">
 						&nbsp;
 					</td>
-					<td colspan="9" class="dateSearchTLClass"">
+					<td colspan="9" class="dateSearchTLClass">
 						Search by selected criteria:
 					</td>
 				</tr>
 				<tr>
-					<td colspan="9" class="dateSearchTLClass">
+					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-				</tr>
-				<tr>
-					<td colspan="1" class="dateSearchTClass">
-						&nbsp;
-					</td>
-					<td colspan="3" class="dateSearchTLClass">
+					<td colspan="3" class="dateSearchTLCClass">
 						Client:
 					</td>
-					<td colspan="5" class="dateSearchTClass">
+					<td colspan="5" class="dateSearchTLCClass">
 						<%=uB.emailCopyClientHTML()%>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="1" class="dateSearchTClass">
+					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td colspan="3" class="dateSearchTLClass">
+					<td colspan="3" class="dateSearchTLCClass">
 						Project:
 					</td>
-					<td colspan="5" class="dateSearchTClass">
+					<td colspan="5" class="dateSearchTLCClass">
 						<%=uB.emailCopyProjectHTML()%>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="1" class="dateSearchTClass">
+					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td colspan="3" class="dateSearchTLClass">
+					<td colspan="3" class="dateSearchTLCClass">
 						Site:
 					</td>
-					<td colspan="5" class="dateSearchTClass">
+					<td colspan="5" class="dateSearchTLCClass">
 						<%=uB.emailCopySiteHTML()%>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="1" class="dateSearchTClass">
+					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td colspan="3" class="dateSearchTLClass">
+					<td colspan="3" class="dateSearchTLCClass">
 						NR Id:
 					</td>
-					<td colspan="5" class="dateSearchTClass">
+					<td colspan="5" class="dateSearchTLCClass">
 						<%=uB.emailCopyNRIdHTML()%>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="9" class="dateSearchTClass">
+					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
+					</td>
+					<td colspan="3" class="dateSearchTLCClass">
+						From Date:
+					</td>
+					<td colspan="6" align="left">
+						<input 
+							type="text" 
+							size="10"
+							id="startDT" 
+							name="startDT" 
+							value="<%=startDT%>"
+							onclick="javascript:NewCssCal 
+									('startDT','ddMMyyyy','arrow')" 
+									style="cursor:pointer"
+							readonly/>
+						<img src="images/cal.gif" 
+								onclick="javascript:NewCssCal 
+										('startDT','ddMMyyyy','arrow')" 
+								style="cursor:pointer"/>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="1" class="dateSearchTClass">
+					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td class="dateSearchTClass">
+					<td colspan="3" class="dateSearchTLCClass">
+						To Date:
+					</td>
+					<td colspan="6" align="left">
+						<input 
+							type="text" 
+							size="10" 
+							id="endDT" 
+							name="endDT" 
+							value="<%=endDT%>"
+							onclick="javascript:NewCssCal 
+									('endDT','ddMMyyyy','arrow')" 
+							style="cursor:pointer;"
+							readonly/>
+						<img src="images/cal.gif" 
+								onclick="javascript:NewCssCal 
+										('endDT','ddMMyyyy','arrow')" 
+								style="cursor:pointer"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td colspan="3" class="dateSearchTClass">
+					<td class="dateSearchTLCClass">
+						&nbsp;
+					</td>
+					<td title="search by criteria" valign="bottom">
 						<div id="siteSearch" onClick="search('open')" 
-							onMouseOut="invertClass('search')" onMouseOver="invertClass('search')" 
-							style="float:left;width:75px;display:inline" class="menu2Item">Search</div>
+							onMouseOut="invertClass('search')" 
+							onMouseOver="invertClass('search')" 
+							style="float:left;width:75px;display:inline;cursor:pointer;">
+							<img src="images/dev_pictos_red_circle_rvb-05.png"
+								height="40px" width="40px" >
+							</div>
 					</td>
-					<td class="dateSearchTClass">
+					<td class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td colspan="3" class="dateSearchTClass">
+					<td class="dateSearchTLCClass">
+						&nbsp;
+					</td>
+					<td height="50px" title="clear all criteria" valign="bottom">
 						<div id="siteSearch" onClick="clearSearchCriteria()" 
 							onMouseOut="invertClass('clear')" onMouseOver="invertClass('clear')" 
-							style="float:left;width:75px;display:inline" class="menu2Item">Clear</div>
+							style="float:left;width:75px;display:inline;cursor:pointer;" >
+							<img src="images/clear.png"
+								height="40px" width="40px" ></div>
 					</td>
 				</tr>
 				<tr>
-					<td height="600px">&nbsp;<td>
+					<td height="250px" valign="top">
+						<%=uB.getSiteSummaryHTML(site, nrId) %>
+					<td>
 				<tr>
 			</tbody>
 			</table>
 		</td>
 		<td>&nbsp;</td>
-		<td valign="top" height="560px" class="clientBox">
+		<td valign="top" height="650px" class="clientBox">
 			<table>
 			<colgroup>
 				<col width="20px"/>
-				<col width="360px"/>
-				<col width="40px"/>
-				<col width="549px"/>
+				<col width="500px"/>
+				<col width="20px"/>
+				<col width="449px"/>
 				<col width="10px"/>
 			</colgroup>	
 			<tbody>
 			<tr>
 				<td>&nbsp;</td>		
-				<td class="dateSearchTClass">					
+				<td class="dateSearchTLClass">					
 					<%=uB.getSiteCompletionReportCriteriaHTML(action, year, month, day, week, client, project, site, nrId)%>	
 				</td>
 				<td>&nbsp;</td>	
-				<td  class="dateSearchTClass">
-					<%=uB.getCompletionReportHeader(reportSite, reportNrId, reportDate, reportType) %>
+				<td  class="dateSearchTLClass">
+					<%=uB.getCompletionReportHeader(action, year, month, day, week, 
+													client, project, site, nrId,
+													startDT, endDT, reportSite, reportNrId, 
+													reportDate, reportType) %>
 				</td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>		
-				<td height="560px" valign="top" class="whiteBox">
+				<td height="650px" valign="top" class="whiteBox">
 					<table height="10px">
 					<colgroup>
-						<col width="40px"/>
-						<col width="120px"/>
+						<col width="30px"/>
+						<col width="65px"/>
 						<col width="60px"/>
+						<col width="110px"/>
+						<col width="50px"/>
 						<col width="80px"/>
 					</colgroup>
 					<tbody>
 						<tr>
-							<td class="siteReportHClass" valign="top" >Site</td>
-							<td class="siteReportHClass" valign="top" >NR Id</td>
+							<td class="siteReportHClass"  valign="top" >Site</td>
 							<td class="siteReportHClass" valign="top" >Date</td>
 							<td class="siteReportHClass" valign="top" >Type</td>
+							<td class="siteReportHClass" valign="top" >Client</td>
+							<td class="siteReportHClass" valign="top" >Project</td>
+							<td class="siteReportHClass" valign="top" >Work Type</td>
 						</tr>
 					</tbody>
 					</table>
-					<div style="height:550px;overflow-y: auto; overflow-x: hidden">
+					<div style="height:650px;overflow-y: auto; overflow-x: hidden">
 					<table>
 					<colgroup>
 						<col width="40px"/>
+						<col width="60px"/>
+						<col width="80px"/>
+						<col width="90px"/>
 						<col width="120px"/>
-						<col width="70px"/>
 						<col width="70px"/>
 					</colgroup>
 					<tbody>
-						<%=uB.getSiteCompletionReportListHTML(action, year, month, day, week, client, project, site, nrId)%>	
+						<%=uB.getSiteCompletionReportListHTML(
+								action, year, month, day, week, client, project, site, nrId,
+								startDT, endDT)%>
 					</tbody>
 					</table>
 					</div>
 				</td>
 				<td>&nbsp;
 				</td>
-				<td height="560px" align="center" class="whiteBox">				
-					<div style="width: 549px; overflow-y: auto; overflow-x: auto; 
-						position: relative; left: 30px;">
-						<%=uB.getCompletionReport(reportSite, reportNrId, reportDate, reportType)%>
+				<td align="center" class="whiteBox" valign="top">				
+					<div style="width: 440px;  height: 650px; overflow-y: auto; 
+								overflow-x: hidden;" >
+						<%=uB.getCompletionReport(
+								action, year, month, day, week, 
+								client, project, site, nrId,
+								startDT, endDT, 
+								reportSite, reportNrId, reportDate, reportType) %>
 					</div>
 				<td>
 				<td>&nbsp;</td>

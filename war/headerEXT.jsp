@@ -109,7 +109,7 @@ function isWhitespaceOrEmpty(text) {
 			</td>
 			<td>&nbsp;</td>					
 			<td id="hAnchor" align="left" valign="bottom" class="lTitle8"><%=uB.externalTitle()%></td>
-			<td align="right" valign="bottom" title="Press for options">
+			<td align="right" valign="bottom" title="Press for options" style="cursor:pointer;">
 				<img src="images/dev_pictos_rvb-21.png" height="30px" width="30px" 
 					onclick="externalOptionsClick('open')">&nbsp;&nbsp;</td>
 		</tr>

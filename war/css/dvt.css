@@ -1441,6 +1441,11 @@ td.lTitle2b {
 	text-align: center;
 	font-weight:bold;
 }
+td.lTitle2m {
+	color:#53565A;
+	font-size: medium;
+	text-align: center;
+}
 td.lTitle3 {
 	background-color:#FFFFFF;
 	color:#F8485E;
@@ -1947,22 +1952,40 @@ td.dateSearchTClass {
 	font-weight:bold;
 }
 td.dateSearchTLClass {
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:5px;
 	color:#53565A;
 	background-color:#F0F0F0;
 	font-size:medium;
 	text-align:left;
 	font-weight:bold;
 }
+td.dateSearchTLCClass {
+	color:#53565A;
+	background-color:#F0F0F0;
+	font-size:small;
+	text-align:left;
+	font-weight:bold;
+}
 td.dateSearchMClass {
-	padding: 1px;
-	color:#FFFFFF;
-	background-color:#53565A;
-	font-size:medium;
+	padding: 2px;
+	color:#53565A;
+	background-color:#F0F0F0;
+	font-size:x-small;
 	text-align:center;
 	font-weight:bold;
-	border-radius:5px;	
+	border:#53565A 1.0px solid;	
 }
 td.dateSearchHClass {
+	color:#53565A;
+	background-color:#C0C0C0;
+	font-size:small;
+	text-align:center;
+	font-weight:bold;
+}
+td.dateSearchHPClass {	
+	cursor:pointer;
 	color:#53565A;
 	background-color:#C0C0C0;
 	font-size:small;
@@ -1976,6 +1999,14 @@ td.dateSearchDClass{
 	text-align:center;
 }
 td.dateSearchDBClass {
+	cursor:pointer;
+	color:#53565A;
+	background-color:#FFFFFF;
+	font-size:small;
+	text-align:center;
+	font-weight:bold;
+}
+td.dateSearchDTClass {
 	color:#53565A;
 	background-color:#FFFFFF;
 	font-size:small;
@@ -1991,6 +2022,14 @@ td.siteReportHClass {
 	font-weight:bold;
 }
 td.siteReportDClass {
+	cursor:pointer;
+	color:#53565A;
+	background-color:#FFFFFF;
+	font-size:x-small;
+	text-align:center;
+	font-weight:bold;
+}
+td.siteReportDEClass {
 	color:#53565A;
 	background-color:#FFFFFF;
 	font-size:x-small;
@@ -1998,6 +2037,7 @@ td.siteReportDClass {
 	font-weight:bold;
 }
 td.siteReportDGreenClass {
+	cursor:pointer;
 	color:green;
 	background-color:#FFFFFF;
 	font-size:x-small;
@@ -2005,6 +2045,7 @@ td.siteReportDGreenClass {
 	font-weight:bold;
 }
 td.siteReportDAmberClass {
+	cursor:pointer;
 	color:orange;
 	background-color:#FFFFFF;
 	font-size:x-small;
@@ -2012,6 +2053,7 @@ td.siteReportDAmberClass {
 	font-weight:bold;
 }
 td.siteReportDRedClass {
+	cursor:pointer;
 	color:red;
 	background-color:#FFFFFF;
 	font-size:x-small;
@@ -2114,9 +2156,9 @@ td.weekCell {
 	font-size:x-small;
 	text-align:center;
 	font-weight:bold;
-	border-bottom:0.5px orange solid;
-	border-left:0.5px orange solid;
-	border-right:0.5px orange solid;
+	border-bottom:0.5px #53565A solid;
+	border-left:0.5px #53565A solid;
+	border-right:0.5px #53565A solid;
 }
 td.totalCell {
 	color:#53565A;
@@ -2124,9 +2166,9 @@ td.totalCell {
 	font-size:x-small;
 	text-align:center;
 	font-weight:bold;
-	border-bottom:0.5px orange solid;
-	border-left:0.5px orange solid;
-	border-right:0.5px orange solid;
+	border-bottom:0.5px #53565A solid;
+	border-left:0.5px #53565A solid;
+	border-right:0.5px #53565A solid;
 }
 td.totalBoxGrey {
 	color:#53565A;
@@ -2167,4 +2209,21 @@ td.totalBoxRed {
 	border-radius: 20px;
 	border-color: red;
 	border: 0.5px solid;
+}
+td.summaryLit {
+	padding-left: 5px;
+	color:#53565A;
+	background-color:#F0F0F0;
+	border: #53565A 0.5px solid;
+	font-size:xx-small;
+	text-align:left;
+	font-weight:bold;
+}
+td.summaryDet {
+	padding-left: 5px;
+	color:#53565A;
+	background-color:#F0F0F0;
+	border: #53565A 0.5px solid;
+	font-size:xx-small;
+	text-align:left;
 }

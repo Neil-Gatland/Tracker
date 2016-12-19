@@ -34,7 +34,7 @@ public interface ServletConstants {
 	final static public String CHANGE_PASSWORD = "Change Password";
 	final static public String VIEW_SNR_HISTORY = "View NR History";
 	final static public String VIEW_SNR_HISTORY_SHORT = "View NR";
-	final static public String REPORTING = "Reporting";
+	final static public String REPORTING = "Reports";
 	final static public String CUSTOMER_MENU = "Customer Menu";
 	final static public String JOB_TYPE_MAINTENANCE = "Job Type Maintenance";
 	final static public String JOB_TYPE_MAINTENANCE_SHORT = "Job Type";
