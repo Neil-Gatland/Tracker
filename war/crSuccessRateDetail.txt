@@ -10,11 +10,11 @@
 		<tbody>
 		<tr>
 			<td colspan="3" class="clientHeadWBord">
-				<%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week) %>
+				<%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week, project) %>
 				&nbsp;- Success Rate
 			</td>
 		</tr>
-		<%=uB.getSuccessDetailHTML(action, dS.getYear(), dS.getMonth(), day, week)%>
+		<%=uB.getSuccessDetailHTML(action, dS.getYear(), dS.getMonth(), day, week, project)%>
 		</tbody>
 		</table>
 	</div>

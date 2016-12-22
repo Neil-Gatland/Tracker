@@ -37,6 +37,7 @@ public class ClientReportingServlet extends HttpServlet {
 		String day = req.getParameter("selectedDay");
 		String week = req.getParameter("selectedWeek");
 		String moveDate = req.getParameter("moveDate");
+		String project = req.getParameter("selectedProject");
 		if ((moveDate.equals("back"))||(moveDate.equals("forward"))) {
 			String dateAction = "month";
 			if (action.endsWith("Day")) {
@@ -85,6 +86,7 @@ public class ClientReportingServlet extends HttpServlet {
 		req.setAttribute("month", month);
 		req.setAttribute("day", day);
 		req.setAttribute("week", week);
+		req.setAttribute("project",project);
 		Random r = new Random();
 		String ran = "?ran=" + String.valueOf(Math.abs(r.nextLong()));
 	  	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destination+ran);

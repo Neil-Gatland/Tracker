@@ -1,6 +1,6 @@
-<div id="incidentDetail" name="incidentDetail" class="popUp" style="width:380px">
+<div id="incidentDetail" name="incidentDetail" class="popUp" style="width:380px;">
 	<div class="popUpX" title="close" onClick="incidentDetailClick('cancel')">x</div>
-	<div>	
+	<div style="max-height:300px;overflow-y: auto; overflow-x: hidden;">	
 		<table>
 		<colgroup>
 			<col width="10px"/>
@@ -12,7 +12,7 @@
 		<tbody>
 		<tr>
 			<td colspan="5" class="clientHeadWBord">
-				<%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week) %>
+				<%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week, project) %>
 				&nbsp;- Site Commentary
 			</td>
 		</tr>
@@ -22,9 +22,10 @@
 			<td class="popUpHead">Date</td>
 			<td class="popUpHead">Issue</td>
 		</tr>
-		<%=uB.getIncidentDetailHTML(action, dS.getYear(), dS.getMonth(), day, week) %>
+		<%=uB.getIncidentDetailHTML(action, dS.getYear(), dS.getMonth(), day, week, project) %>
 		</tbody>
 		</table>
+	</div>
 	</div>
 </div>
 <script language="javascript">
