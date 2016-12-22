@@ -15,6 +15,7 @@ String reportDate = request.getAttribute("reportDate")==null?"":(String)request.
 String reportType = request.getAttribute("reportType")==null?"":(String)request.getAttribute("reportType");
 String startDT = request.getAttribute("startDT")==null?"":(String)request.getAttribute("startDT");
 String endDT = request.getAttribute("startDT")==null?"":(String)request.getAttribute("endDT");
+String completionType = request.getAttribute("completionType")==null?"":(String)request.getAttribute("completionType");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="siteSearch.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.SITE_SEARCH%>"/>
@@ -29,6 +30,7 @@ String endDT = request.getAttribute("startDT")==null?"":(String)request.getAttri
 <input type="hidden" name="selectedNrId" id="selectedNrId" value="<%=nrId%>"/>
 <input type="hidden" name="selectedStartDT" id="selectedStartDT" value="<%=startDT%>"/>
 <input type="hidden" name="selectedEndDT" id="selectedEndDT" value="<%=startDT%>"/>
+<input type="hidden" name="selectedCompletionType" id="selectedCompletionType" value="<%=completionType%>"/>
 <input type="hidden" name="reportSite" id="reportSite" value="<%=reportSite%>"/>
 <input type="hidden" name="reportNrId" id="reportNrId" value="<%=reportNrId%>"/>
 <input type="hidden" name="reportDate" id="reportDate" value="<%=reportDate%>"/>
@@ -56,6 +58,7 @@ function thisScreenLoad() {
 	document.getElementById("selectedNrId").value = "<%=nrId%>";
 	document.getElementById("selectedStartDT").value = "<%=startDT%>";
 	document.getElementById("selectedEndDT").value = "<%=endDT%>";
+	document.getElementById("selectedCompletionType").value = "<%=completionType%>";
 }
 
 function clickSearchBox(operation) {
@@ -88,6 +91,7 @@ function dateAction(operation,year,month,day,week) {
 	document.getElementById("reportType").value = '';
 	document.getElementById("selectedStartDT").value = '';
 	document.getElementById("selectedEndDT").value = '';
+	document.getElementById("selectedCompletionType").value = '';
 	document.getElementById("toScreen").value = "<%=ServletConstants.SITE_SEARCH%>";
 	document.getElementById("f1").action = "siteSearch";
 	document.getElementById("f1").submit();
@@ -98,8 +102,12 @@ function search(operation) {
 	var project = document.getElementById("selectEmailCopyProject").value;
 	var site = document.getElementById("selectEmailCopySite").value;
 	var nrId = document.getElementById("selectEmailCopyNRId").value;
-	if ((client=='')&&(project=='')&&(site=='')&&(nrId=='')) {
-		alert('Either client or project or site or nr id must be selected');
+	var completionType = document.getElementById("selectEmailCopyCompletionType").value;
+	var startDate = document.getElementById("startDT").value;
+	var endDate = document.getElementById("endDT").value;
+	if ((client=='')&&(project=='')&&(site=='')&&(nrId=='')&&(completionType=='')&&
+			(startDate=='')&&(endDate=='')) {
+		alert('Either client or project or site or nr id or type or one date must be selected');
 		return;
 	}
 	if (!((site=='')||(nrId==''))) {
@@ -117,6 +125,7 @@ function search(operation) {
 	document.getElementById("selectedNrId").value = document.getElementById("selectEmailCopyNRId").value;
 	document.getElementById("selectedStartDT").value = document.getElementById("startDT").value;
 	document.getElementById("selectedEndDT").value = document.getElementById("endDT").value;
+	document.getElementById("selectedCompletionType").value = document.getElementById("selectEmailCopyCompletionType").value;
 	document.getElementById("toScreen").value = "<%=ServletConstants.SITE_SEARCH%>";
 	document.getElementById("reportSite").value = '';
 	document.getElementById("reportNrId").value = '';
@@ -137,6 +146,7 @@ function clearSearchCriteria() {
 	document.getElementById("selectedNrId").value = "";
 	document.getElementById("startDT").value = "";
 	document.getElementById("endDT").value = "";
+	document.getElementById("selectCompletionType").value = "";
 }
 
 function reportSelect(site,nrId,date,type) {
@@ -161,6 +171,7 @@ function moveMonth(newMonth) {
 	document.getElementById("selectedNrId").value = '';
 	document.getElementById("selectedStartDT").value = "";
 	document.getElementById("selectedEndDT").value = "";
+	document.getElementById("selectedCompletionType").value = "";
 	document.getElementById("reportSite").value = '';
 	document.getElementById("reportNrId").value = '';
 	document.getElementById("reportDate").value = '';
@@ -176,9 +187,9 @@ function moveMonth(newMonth) {
 <table style="table-layout: fixed; border-style: none;width:1250px;">
 <colgroup>
 	<col width="5px"/>
-	<col width="360x"/>
+	<col width="320x"/>
 	<col width="5px"/>
-	<col width="875px"/>	
+	<col width="915px"/>	
 	<col width="5px"/>	
 </colgroup>
 <tbody>
@@ -188,9 +199,9 @@ function moveMonth(newMonth) {
 	<tr>
 		<td>&nbsp;</td>
 		<td height="360px" class="clientBox">
-			<table style="table-layout: fixed; border-style: none;width:310px;">
+			<table style="table-layout: fixed; border-style: none;width:300px;">
 			<colgroup>
-				<col width="30px"/>
+				<col width="20px"/>
 				<col width="35px"/>
 				<col width="35px"/>
 				<col width="35px"/>
@@ -205,13 +216,13 @@ function moveMonth(newMonth) {
 					<td colspan="1" class="dateSearchTLClass">
 						&nbsp;
 					</td>
-					<td colspan="9" class="dateSearchTLClass">
+					<td colspan="9" class="dateSearchTop">
 						Search by month or week or day:
 					</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td colspan="9" align="center">
+					<td colspan="8" align="center">
 						<table style="border-style:solid;border-width:1.0px;">
 						<tr>
 							<!-- <td class="dateSearchMClass" height="5px" width="3px"></td>-->
@@ -349,10 +360,18 @@ function moveMonth(newMonth) {
 					<td colspan="1" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td class="dateSearchTLCClass">
+					<td colspan="3" class="dateSearchTLCClass">
+						Type:
+					</td>
+					<td colspan="5" class="dateSearchTLCClass">
+						<%=uB.emailCopyCompletionTypeHTML(completionType)%>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" class="dateSearchTLCClass">
 						&nbsp;
 					</td>
-					<td title="search by criteria" valign="bottom">
+					<td title="search by criteria" valign="bottom" align="left">
 						<div id="siteSearch" onClick="search('open')" 
 							onMouseOut="invertClass('search')" 
 							onMouseOver="invertClass('search')" 
@@ -361,13 +380,7 @@ function moveMonth(newMonth) {
 								height="40px" width="40px" >
 							</div>
 					</td>
-					<td class="dateSearchTLCClass">
-						&nbsp;
-					</td>
-					<td class="dateSearchTLCClass">
-						&nbsp;
-					</td>
-					<td height="50px" title="clear all criteria" valign="bottom">
+					<td height="50px" title="clear all criteria" valign="bottom" align="center">
 						<div id="siteSearch" onClick="clearSearchCriteria()" 
 							onMouseOut="invertClass('clear')" onMouseOver="invertClass('clear')" 
 							style="float:left;width:75px;display:inline;cursor:pointer;" >
@@ -396,14 +409,16 @@ function moveMonth(newMonth) {
 			<tbody>
 			<tr>
 				<td>&nbsp;</td>		
-				<td class="dateSearchTLClass">					
-					<%=uB.getSiteCompletionReportCriteriaHTML(action, year, month, day, week, client, project, site, nrId)%>	
+				<td class="dateSearchTop">					
+					<%=uB.getSiteCompletionReportCriteriaHTML
+						(action, year, month, day, week, client, project, site, nrId)%>	
 				</td>
 				<td>&nbsp;</td>	
-				<td  class="dateSearchTLClass">
+				<td  class="dateSearchTop">
 					<%=uB.getCompletionReportHeader(action, year, month, day, week, 
-													client, project, site, nrId,
-													startDT, endDT, reportSite, reportNrId, 
+													client, project, site, nrId, 
+													startDT, endDT, completionType,
+													reportSite, reportNrId, 
 													reportDate, reportType) %>
 				</td>
 				<td>&nbsp;</td>
@@ -413,16 +428,16 @@ function moveMonth(newMonth) {
 				<td height="650px" valign="top" class="whiteBox">
 					<table height="10px">
 					<colgroup>
-						<col width="30px"/>
+						<col width="40px"/>
 						<col width="65px"/>
-						<col width="60px"/>
-						<col width="110px"/>
 						<col width="50px"/>
-						<col width="80px"/>
+						<col width="90px"/>
+						<col width="100px"/>
+						<col width="90px"/>
 					</colgroup>
 					<tbody>
 						<tr>
-							<td class="siteReportHClass"  valign="top" >Site</td>
+							<td class="siteReportHClass" valign="top" >Site</td>
 							<td class="siteReportHClass" valign="top" >Date</td>
 							<td class="siteReportHClass" valign="top" >Type</td>
 							<td class="siteReportHClass" valign="top" >Client</td>
@@ -437,14 +452,14 @@ function moveMonth(newMonth) {
 						<col width="40px"/>
 						<col width="60px"/>
 						<col width="80px"/>
-						<col width="90px"/>
-						<col width="120px"/>
+						<col width="100px"/>
+						<col width="140px"/>
 						<col width="70px"/>
 					</colgroup>
 					<tbody>
 						<%=uB.getSiteCompletionReportListHTML(
 								action, year, month, day, week, client, project, site, nrId,
-								startDT, endDT)%>
+								startDT, endDT, completionType)%>
 					</tbody>
 					</table>
 					</div>
@@ -457,7 +472,7 @@ function moveMonth(newMonth) {
 						<%=uB.getCompletionReport(
 								action, year, month, day, week, 
 								client, project, site, nrId,
-								startDT, endDT, 
+								startDT, endDT, completionType,
 								reportSite, reportNrId, reportDate, reportType) %>
 					</div>
 				<td>

@@ -1,0 +1,36 @@
+<div id="chgReportingProjectFilter" class="displayPic">
+<table>
+	<tr>
+		<td width="160px"><%=uB.getProjectFilterHTML()%></td>
+		<td width="10px">
+			&nbsp;
+		</td>
+		<td width="20px" title="click to confirm filter change">
+			<img src="images/green_tick.png" height="15px" width="15px" 
+				onClick="chgProjectFilterClick('submit')"/>
+		</td>
+		<td width="20px" title="click to cancel">
+			<img src="images/red_cross.png" height="15px" width="15px" 
+				onClick="chgProjectFilterClick('cancel')"/>
+		</td>
+	</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+function chgProjectFilterClick(operation) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("chgReportingProjectFilter");
+		aR.style.display = "none";
+	if (operation == "cancel") {
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else {		
+		document.getElementById("selectedProject").value = document.getElementById("selectProjectFilter").value;
+		document.getElementById("toScreen").value = "<%=ServletConstants.CLIENT_REPORTING%>";
+		document.getElementById("f1").action = "clientReporting";
+		f1.submit();
+	}
+}	
+-->
+</script>

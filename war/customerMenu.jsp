@@ -65,7 +65,6 @@
 						<tr>
 					</table>
 				</td>
-				<% if (uB.showNew()) { %> 
 				<td align="center" valign="bottom" height="120px">
 					<table>
 						<tr>
@@ -102,7 +101,8 @@
 						<tr>
 					</table>
 				</td>
-				<% } %>
+				<% if (uB.showNew()) { %> 
+				<% } %> 
 			</tr>	
 			</tbody>		
 			</table>

@@ -5,6 +5,7 @@ String month = request.getAttribute("month")==null?"":(String)request.getAttribu
 String action = request.getAttribute("action")==null?"initialise":(String)request.getAttribute("action");
 String day = request.getAttribute("day")==null?"":(String)request.getAttribute("day");
 String week = request.getAttribute("week")==null?"":(String)request.getAttribute("week");
+String project = request.getAttribute("project")==null?"All":(String)request.getAttribute("project");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="clientReporting.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.CLIENT_REPORTING%>"/>
@@ -14,6 +15,7 @@ String week = request.getAttribute("week")==null?"":(String)request.getAttribute
 <input type="hidden" name="selectedDay" id="selectedDay" value="<%=day%>"/>
 <input type="hidden" name="selectedWeek" id="selectedWeek" value="<%=week%>"/>
 <input type="hidden" name="moveDate" id="moveDate" value=""/>
+<input type="hidden" name="selectedProject" id="selectedProject" value="<%=project%>"/>
 <%@ page import="com.devoteam.tracker.util.DateSearch"%>
 <%
 	DateSearch dS = new DateSearch(url);
@@ -27,6 +29,7 @@ function thisScreenLoad() {
 	document.getElementById("selectedMonth").value = "<%=month%>";
 	document.getElementById("selectedDay").value = "<%=day%>";
 	document.getElementById("selectedWeek").value = "<%=week%>";
+	document.getElementById("selectedProject").value = "<%=project%>";	
 }
 
 function clickSearchBox(operation) {
@@ -65,8 +68,17 @@ function moveMonth(newMonth) {
 	document.getElementById("selectedWeek").value = '00';
 	document.getElementById("toScreen").value = "<%=ServletConstants.CLIENT_REPORTING%>";
 	document.getElementById("f1").action = "clientReporting";
-	document.getElementById("f1").submit();	
-	
+	document.getElementById("f1").submit();		
+}
+
+function chgProjectFilter() {
+	var header = document.getElementById("pAnchor");
+	var position = getPosition(header);
+	var aR = document.getElementById("chgReportingProjectFilter");
+	aR.style.display = "inline";
+	aR.style.left = position.x + "px";
+	aR.style.top = position.y + "px";
+	aR.style.zIndex = "10";
 }
 
 </script>
@@ -94,7 +106,7 @@ function moveMonth(newMonth) {
 		<col width="30px"/>
 	</colgroup>
 	<tbody>
-	<%=uB.getSuccessSummaryHTML(action, dS.getYear(), dS.getMonth(), day, week) %>
+	<%=uB.getSuccessSummaryHTML(action, dS.getYear(), dS.getMonth(), day, week, project) %>
 	</tbody>
 	</table>	
 </td>
@@ -108,7 +120,7 @@ function moveMonth(newMonth) {
 		<col width="30px"/>
 	</colgroup>
 	<tbody>
-	<%=uB.getOutageSummaryHTML(action, dS.getYear(), dS.getMonth(), day, week) %>
+	<%=uB.getOutageSummaryHTML(action, dS.getYear(), dS.getMonth(), day, week, project) %>
 	</tbody>
 	</table>
 </td>
@@ -127,8 +139,9 @@ function moveMonth(newMonth) {
 			title="Click for site commentary detail"
 			onClick="incidentDetailClick('open')"
 			style="cursor:pointer">
-			<%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week) %>&nbsp;
-			- Site Commentary
+			<!--  <%=uB.clientReportingHeader(action, dS.getYear(), dS.getMonth(), day, week, project) %>&nbsp;
+			- Site Commentary -->
+			Site Commentary
 		</td>
 	</tr>
 	<tr>
@@ -139,7 +152,7 @@ function moveMonth(newMonth) {
 			title="Click for site commentary detail"
 			onClick="incidentDetailClick('open')"
 			style="cursor:pointer">
-			<%=uB.getIncidentTotal(action, dS.getYear(), dS.getMonth(), day, week) %>
+			<%=uB.getIncidentTotal(action, dS.getYear(), dS.getMonth(), day, week, project) %>
 		</td>
 		<td height="60px" rowspan="2" class="clientHeadLarge"
 			onClick="moveDate('forward')"
@@ -171,12 +184,8 @@ function moveMonth(newMonth) {
 	</colgroup>
 	<tbody>
 		<tr>
-			<td colspan="9" class="dateSearchTClass">
-				&nbsp;
-			</td>
-		</tr>
-		<tr>
-			<td colspan="9" class="dateSearchTClass">
+			<td>&nbsp;</td>
+			<td colspan="8" class="dateSearchTop">
 				Search by Month or Week or Day
 			</td>
 		</tr>
@@ -221,6 +230,23 @@ function moveMonth(newMonth) {
 		</tr>
 		<!-- calendar month box -->
 		<%=dS.searchBoxHTML()%>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td id="pAnchor" colspan="2" class="dateSearchTLCClass" 
+				onClick="chgProjectFilter()" 
+				style="cursor:pointer;"
+				title="click to change project filter">
+				Project:
+			<td colspan="6" class="dateSearchTLCClass" 
+				onClick="chgProjectFilter()" 
+				style="cursor:pointer;"
+				title="click to change project filter">
+				<%=project%>
+			</td>	
+		</tr>
 	</tbody>
 	</table>
 </td>
@@ -231,7 +257,7 @@ function moveMonth(newMonth) {
 		<col width="900px"/>
 	</colgroup>
 	<tbody>
-	<%=uB.getClientReportHTML(action, dS.getYear(), dS.getMonth(), day, week) %>
+	<%=uB.getClientReportHTML(action, dS.getYear(), dS.getMonth(), day, week, project) %>
 	</tbody>
 	</table>
 </td>
@@ -242,6 +268,7 @@ function moveMonth(newMonth) {
 <%@ include file="crIncidentDetail.txt" %>
 <%@ include file="crSuccessRateDetail.txt" %>
 <%@ include file="crOutageDetail.txt" %>
+<%@ include file="chgReportingProject.txt" %>
 <a href="" id="aLink" name="aLink" style="display:none"></a>
 </form>
 </body>
