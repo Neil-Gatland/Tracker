@@ -24,6 +24,7 @@ public interface ServletConstants {
 	final static public String USER_ROLE_COLLECTION_NAME_IN_SESSION = "userRoles";
 	final static public String SNR_TECHNOLOGY_COLLECTION_NAME_IN_SESSION = "snrTechnologyList";
 	final static public String SNR_BO_TECHNOLOGY_ADD_COLLECTION_NAME_IN_SESSION = "snrBOTechnologyAddList";
+	final static public String SNR_BO_TECHNOLOGY_DEL_COLLECTION_NAME_IN_SESSION = "snrBOTechnologyDelList";
 	final static public String SNR_SCHEDULED_DATE_IN_SESSION = "snrScheduledDate";
 	final static public String SCHEDULED_SNRS_IN_SESSION = "scheduledSNRs";
 	final static public String INVALID_SNRS_IN_SESSION = "invalidSNRs";

@@ -94,6 +94,7 @@ function userSelect(userId, userStatus, userName, userType, userEmail) {
 		document.getElementById("amendRoles").style.display = "none";
 		document.getElementById("resetPwd").style.display = "none";
 		document.getElementById("amendEmail").style.display = "none";
+		document.getElementById("amendJobTypes").style.display = "none";
 	} else {	
 		document.getElementById("amendStatus").style.display = "inline";
 		if (userType == "<%=User.USER_TYPE_CUSTOMER%>") {
@@ -103,11 +104,7 @@ function userSelect(userId, userStatus, userName, userType, userEmail) {
 		}		
 		document.getElementById("resetPwd").style.display = "inline";	
 		document.getElementById("amendEmail").style.display = "inline";
-		if ((userType=="<%=User.USER_TYPE_CUSTOMER%>")||(userType=="<%=User.USER_TYPE_THIRD_PARTY%>")) {
-			document.getElementById("amendJobTypes").style.display = "inline";
-		} else {
-			document.getElementById("amendJobTypes").style.display = "none";
-		}
+		document.getElementById("amendJobTypes").style.display = "inline";
 	}
 	selectedUserId = userId;
 	selectedUserStatus = userStatus;

@@ -95,32 +95,45 @@ public class UtilBean {
 				"menu1Item", "menuClick('" + ServletConstants.LOG_OFF + "')", 
 				"invertClass('m03')", "invertClass('m03')", ServletConstants.LOG_OFF);
 		HTMLElement m04 = new HTMLElement("div", "m04", "float:right;", 
-				"menu1Item", "menuClick('" + ServletConstants.LIVE_DASHBOARD + "')", 
-				"invertClass('m04')", "invertClass('m04')", ServletConstants.LIVE_DASHBOARD);
+						"menu1Item", "menuClick('" + ServletConstants.LIVE_DASHBOARD + "')", 
+						"invertClass('m04')", "invertClass('m04')", ServletConstants.LIVE_DASHBOARD);
+		HTMLElement m05 = new HTMLElement("div", "m05", "float:right;", 
+				"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
+				"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH);
+		HTMLElement m06 = new HTMLElement("div", "m06", "float:right;", 
+				"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
+				"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);
 		HTMLElement m0b = new HTMLElement("div", "float:right;width:2px", "menu1", 
 			"&nbsp;");
 		HTMLElement m0c = new HTMLElement("div", "overflow:hidden", "menu1", 
 			"&nbsp;");
 		if (screen.equals(ServletConstants.LIVE_DASHBOARD)){
-			if (user.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
-				HTMLElement m05 = new HTMLElement("div", "m05", "float:right;", 
+			if ((user.getUserType().equals(User.USER_TYPE_CUSTOMER))||
+				((user.hasUserRole(UserRole.ROLE_B_O_ENGINEER))&&(getReportingBO(user.getUserId())))) {
+				/*m05 = new HTMLElement("div", "m05", "float:right;", 
 						"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
 						"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH);
 				HTMLElement m06 = new HTMLElement("div", "m06", "float:right;", 
 						"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
-						"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);
-				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-						m03.toString() + m05.toString() + m06.toString() + m0c.toString());
+						"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);*/
+				m0.setValue(m0a.toString() + 
+						m01.toString() + 
+						m0b.toString() + 
+						m03.toString() + 
+						m05.toString() + 
+						m06.toString() + 
+						m0c.toString());
 				
 			} else {
 				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-						m03.toString() + m0c.toString());
+						(screen.equals(ServletConstants.CHANGE_PASSWORD)?"":m03.toString()) + m0c.toString());
 			}
 			
 		}
 		else
 		{
-			if (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) {
+			if ((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
+					(user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))) {
 				m0.setValue(m0a.toString() + m0b.toString() + 
 						m03.toString() + 
 						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
@@ -128,11 +141,15 @@ public class UtilBean {
 			} else if (user.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
 				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
 						m03.toString() + 
-						m04.toString() + 
-						(screen.equals(ServletConstants.SITE_SEARCH)?"":new HTMLElement("div", "m05", "float:right;", 
+						(screen.equals(ServletConstants.CHANGE_PASSWORD)?"":m04.toString()) + 
+						(screen.equals(ServletConstants.SITE_SEARCH)||
+							screen.equals(ServletConstants.CHANGE_PASSWORD)?"":
+								new HTMLElement("div", "m05", "float:right;", 
 								"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
 								"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH)) +
-						(screen.equals(ServletConstants.CLIENT_REPORTING)?"":new HTMLElement("div", "m06", "float:right;", 
+						(screen.equals(ServletConstants.CLIENT_REPORTING)||
+								screen.equals(ServletConstants.CHANGE_PASSWORD)?"":
+								new HTMLElement("div", "m06", "float:right;", 
 								"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
 								"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING)) +
 						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") +
@@ -140,7 +157,13 @@ public class UtilBean {
 			} else {
 				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
 						m03.toString() + 
-						m04.toString() + 
+						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
+								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
+										(getReportingBO(user.getUserId())))?m05.toString():"") + 
+						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
+								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
+										(getReportingBO(user.getUserId())))?m06.toString():"") + 
+						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m04.toString():"") + 
 						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
 						m0c.toString());
 			}	
@@ -472,6 +495,12 @@ public class UtilBean {
 					canSee = user.hasUserRole(UserRole.ROLE_PMO);
 				} else if (screen.equals(ServletConstants.LIVE_DASHBOARD)) {
 					canSee = true;
+				} else if (screen.equals(ServletConstants.CLIENT_REPORTING)) {
+					canSee = getReportingBO(user.getUserId()) &&
+						user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
+				} else if (screen.equals(ServletConstants.SITE_SEARCH)) {
+					canSee = getReportingBO(user.getUserId()) &&
+						user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
 				}
 				
 			}
@@ -2038,6 +2067,11 @@ public class UtilBean {
 		buttonAT.setAttribute("onClick", "showAddBOTechnologies()");
 		buttonAT.setAttribute("title", "Add technology");
 		buttonAT.setAttribute("value", "A");
+		HTMLElement buttonDT = new HTMLElement("input", "listbutton", "");
+		buttonDT.setAttribute("type", "button");
+		buttonDT.setAttribute("onClick", "showDelBOTechnologies()");
+		buttonDT.setAttribute("title", "Delete technology");
+		buttonDT.setAttribute("value", "D");
 		for (int i = 0; i < 5; i++) {
 			oddRow = !oddRow;
 			SNRTechnology thisT = i<al.size()?al.get(i):null;
@@ -2052,7 +2086,7 @@ public class UtilBean {
 			td.setAttribute("colspan", "2");
 			tr.appendValue(td.toString());
 			td = new HTMLElement("td", oddRow?"grid1br":"grid2br", 
-					i==0?buttonUT.toString():i==1?buttonAT.toString():"&nbsp;");
+					i==0?buttonUT.toString():i==1?buttonAT.toString():i==2?buttonDT.toString():"&nbsp;");
 			tr.appendValue(td.toString());
 			switch (i) {
 			case 0:
@@ -5039,6 +5073,36 @@ public class UtilBean {
 		return select.toString();
 	}
 	
+	public String getProjectReportingFilterHTML() {
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	Select select = new Select("selectProjectFilter",  "filter");
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetProjectReportingFilterList(?)}");
+   			cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						false);
+					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
+	
 	public Collection<UserJobType> getUserJobTypes(long userId) {
 		ArrayList<UserJobType> ujtList = new ArrayList<UserJobType>();
     	Connection conn = null;
@@ -5319,15 +5383,6 @@ public class UtilBean {
 	
 	public String projectFilterHTML () {
 		return getSelectHTMLWithInitialValue("projectFilter","select","filter",user.getFullname());
-	}
-	
-	public boolean showNew() {
-		boolean allow = false;
-		if ((user.getFullname().equals("Neil2.Gatland")) ||
-				(user.getFullname().equals("Test.Customer"))) {
-			allow = true;
-		}
-		return allow;
 	}
 	
 	public String getSiteCompletionReportListHTML
@@ -6746,4 +6801,84 @@ public class UtilBean {
 		return report;
 	}
 	
+	private boolean getReportingBO(long userId) {
+		boolean hasReporting = false;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call ReportingBO(?)}");
+   			cstmt.setLong(1, userId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					if (rs.getString(1).equals("Y")) {
+						hasReporting = true;
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return hasReporting;
+	}
+
+	
+	public ArrayList<SNRTechnology> getSNRBOTechnologiesToDel(long snrId) {
+		ArrayList<SNRTechnology> al = new ArrayList<SNRTechnology>();
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		try {
+			conn = DriverManager.getConnection(url);
+			cstmt = conn.prepareCall("{call GetSNRBOTechnologiesToDel(?)}");
+			cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					al.add(new SNRTechnology(snrId,
+						rs.getString(2), rs.getString(3),
+						rs.getLong(1)));
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+				if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+		} 
+		
+		return al;
+	}
+	
+	public String getSNRBOTechnologiesToDelHTML(HttpSession session, long snrId) {
+		StringBuilder html = new StringBuilder();
+		Collection<SNRTechnology> snrTL = getSNRBOTechnologiesToDel(snrId);
+		session.setAttribute(ServletConstants.SNR_BO_TECHNOLOGY_DEL_COLLECTION_NAME_IN_SESSION, snrTL);
+		for (Iterator<SNRTechnology> it = snrTL.iterator(); it.hasNext(); ) {
+			SNRTechnology snrT = it.next();
+			HTMLElement div = new HTMLElement("div");
+			div.setAttribute("style", "padding-bottom:10px");
+			HTMLElement check = new HTMLElement("input");
+			check.setAttribute("type", "checkbox");
+			check.setAttribute("name", "checkTech" + snrT.getTechnologyId());
+			check.setAttribute("id", "checkTech" + snrT.getTechnologyId());
+			check.setAttribute("value", String.valueOf(snrT.getTechnologyId()));
+			div.appendValue(check.toString() + " " + snrT.getTechnologyNameDisplay());
+			html.append(div.toString());
+		}
+		return html.toString();
+	}
 }
