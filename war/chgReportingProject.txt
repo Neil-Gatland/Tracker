@@ -1,7 +1,7 @@
 <div id="chgReportingProjectFilter" class="displayPic">
 <table>
 	<tr>
-		<td width="160px"><%=uB.getProjectFilterHTML()%></td>
+		<td width="160px"><%=uB.getProjectReportingFilterHTML()%></td>
 		<td width="10px">
 			&nbsp;
 		</td>

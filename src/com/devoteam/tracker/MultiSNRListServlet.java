@@ -216,6 +216,7 @@ public class MultiSNRListServlet extends HttpServlet  {
 					(buttonPressed.equals("addComBO")) ||
 					(buttonPressed.equals("addCommentarySubmit")) ||
 					(buttonPressed.equals("addBOTechnologiesSubmit")) ||
+					(buttonPressed.equals("delBOTechnologiesSubmit")) ||
 					(buttonPressed.equals("detailP")) || 
 					(buttonPressed.equals("finalP")) || 
 					(buttonPressed.equals("closePI")) || 
@@ -1080,7 +1081,7 @@ public class MultiSNRListServlet extends HttpServlet  {
 							}
 							conn.commit();
 							if (newTechAdded) {
-								req.setAttribute("userMessage", "SNR BO Technology list amended");
+								req.setAttribute("userMessage", "Technology list amended");
 							} else {
 								req.setAttribute("userMessage", "No new technologies added");
 							}
@@ -1090,14 +1091,66 @@ public class MultiSNRListServlet extends HttpServlet  {
 						    } catch (SQLException ex2) {
 						    	ex2.printStackTrace();
 						    } finally {
-						    	req.setAttribute("userMessage", "Error: unable to amend SNR BO Technologies, " + ex.getMessage());
+						    	req.setAttribute("userMessage", "Error: unable to add SNR BO Technologies, " + ex.getMessage());
 						    }
 					    } finally {
 					    	try {
 					    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
 					    		if ((conn != null) && (!conn.isClosed())) conn.close();					    		
 						    } catch (SQLException ex) {
-						    	req.setAttribute("userMessage", "Error: amending SNR BO Technologies, " + ex.getMessage());
+						    	req.setAttribute("userMessage", "Error: adding SNR BO Technologies, " + ex.getMessage());
+						    }
+					    }
+					} else if (buttonPressed.equals("delBOTechnologiesSubmit")) {
+						req.setAttribute("resetAnchor", "techComp");
+						Collection<SNRTechnology> snrTL = 
+								(Collection<SNRTechnology>) session.getAttribute(
+										ServletConstants.SNR_BO_TECHNOLOGY_DEL_COLLECTION_NAME_IN_SESSION);
+				    	conn = null;
+				    	cstmt = null;
+					    try {
+					    	conn = DriverManager.getConnection(url);
+					    	conn.setAutoCommit(false);
+					    	boolean newTechDeleted = false;
+							for (Iterator<SNRTechnology> it = snrTL.iterator(); it.hasNext(); ) {
+								SNRTechnology snrT = it.next();
+								boolean checkedOnScreen = req.getParameter("checkTech" + snrT.getTechnologyId()) != null;
+								if (checkedOnScreen) {
+									newTechDeleted = true;
+							    	cstmt = conn.prepareCall("{call DelSNRBOTechnology(?,?)}");
+									cstmt.setLong(1, Long.parseLong(snrId));
+									cstmt.setLong(2,snrT.getTechnologyId());
+									boolean found = cstmt.execute();
+									if (found) {
+										ResultSet rs = cstmt.getResultSet();
+										if (rs.next()) {
+											if (!rs.getString(1).equalsIgnoreCase("Y")) {
+												throw new Exception("negative return code from DelSNRTechnology()");
+											}
+										}
+									}
+								}
+							}
+							conn.commit();
+							if (newTechDeleted) {
+								req.setAttribute("userMessage", "Technology list amended");
+							} else {
+								req.setAttribute("userMessage", "No technology deleted");
+							}
+					    } catch (Exception ex) {
+					    	try {
+					    		conn.rollback();
+						    } catch (SQLException ex2) {
+						    	ex2.printStackTrace();
+						    } finally {
+						    	req.setAttribute("userMessage", "Error: unable to delete SNR BO Technologies, " + ex.getMessage());
+						    }
+					    } finally {
+					    	try {
+					    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+					    		if ((conn != null) && (!conn.isClosed())) conn.close();					    		
+						    } catch (SQLException ex) {
+						    	req.setAttribute("userMessage", "Error: deleting SNR BO Technologies, " + ex.getMessage());
 						    }
 					    }
 					} else if (buttonPressed.equals("updateI")) {

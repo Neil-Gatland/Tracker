@@ -706,6 +706,8 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <%@ include file="chgRole.txt" %>
 <!-- Add BO Technologies -->
 <%@ include file="addBOTechnologies.txt" %>
+<!-- Delete BO Technologies -->
+<%@ include file="delBOTechnologies.txt" %>
 <!-- PreCheck Items -->
 <%@ include file="preCheckItems.txt" %>
 </form>

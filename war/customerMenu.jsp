@@ -101,8 +101,6 @@
 						<tr>
 					</table>
 				</td>
-				<% if (uB.showNew()) { %> 
-				<% } %> 
 			</tr>	
 			</tbody>		
 			</table>

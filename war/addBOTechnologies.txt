@@ -15,14 +15,20 @@ String botH = snrId==-1?"":uB.getSNRBOTechnologiesToAddHTML(session, snrId);
 function showAddBOTechnologies() {
 <%if (botH.equals("")) {%>
 	alert("No more technologies to add");
-<%} else {%>	
-	var header = document.getElementById("hSD");
-	var position = getPosition(header);
-	var aT = document.getElementById("addBOTechnologies");
-	aT.style.display = "inline";
-	aT.style.left = (position.x-92) + "px";
-	aT.style.top = position.y + "px";
-	aT.style.zIndex = "90";
+<%} else {%>
+		var dT = document.getElementById("delBOTechnologies");	
+		var display = dT.style.display;
+		if (display=="inline") {
+			alert("Cannot add technologies while deleting technologies");
+		} else {
+			var header = document.getElementById("hSD");
+			var position = getPosition(header);
+			var aT = document.getElementById("addBOTechnologies");
+			aT.style.display = "inline";
+			aT.style.left = (position.x-92) + "px";
+			aT.style.top = position.y + "px";
+			aT.style.zIndex = "90";
+		}
 <%}%>	
 }
 
