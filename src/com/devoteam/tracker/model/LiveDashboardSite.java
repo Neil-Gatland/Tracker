@@ -36,6 +36,7 @@ public class LiveDashboardSite {
 	private String todayDDMM;           	//32
 	private String firstYearWeek;  			//33
 	private String currentYearWeek;  		//34
+	private long snrId;						//35			 
 	
 	public LiveDashboardSite(
 			String customer,
@@ -106,6 +107,73 @@ public class LiveDashboardSite {
 		this.todayDDMM = todayDDMM;
 		this.firstYearWeek = firstYearWeek;
 		this.currentYearWeek = currentYearWeek;
+	}			 
+	
+	public LiveDashboardSite(
+			String customer,
+			String partner,
+			String project,
+			String site,
+			String boList,
+			String feList,
+			String overallStatus,
+			String checkedIn,
+			String bookedOn,
+			String siteAccessed,
+			String physicalChecks,
+			String preCallTest,
+			String siteLocked,
+			String hwInstalls,
+			String commissioningFE,
+			String commissioningBO,
+			String txProvisioning,
+			String fieldWork,
+			String siteUnlocked,
+			String postCallTest,
+			String closureCode,
+			String leaveSite,
+			String bookOffSite,
+			String performanceMonitoring,
+			String initialHOP,
+			String devoteamIssue,
+			String customerIssue,
+			String percentage,
+			String scheduledDDMM,
+			String migrationType,
+			String risk,
+			long snrId) {
+		this.customer = customer;
+		this.partner = partner;
+		this.project = project;
+		this.site = site;
+		this.boList = boList;
+		this.feList = feList;
+		this.overallStatus = overallStatus;
+		this.checkedIn = checkedIn;
+		this.bookedOn = bookedOn;
+		this.siteAccessed = siteAccessed;
+		this.physicalChecks = physicalChecks;
+		this.preCallTest = preCallTest;
+		this.siteLocked = siteLocked;
+		this.hwInstalls = hwInstalls;
+		this.commissioningFE = commissioningFE;
+		this.commissioningBO = commissioningBO;
+		this.txProvisioning = txProvisioning;
+		this.fieldWork = fieldWork;
+		this.siteUnlocked = siteUnlocked;
+		this.postCallTest = postCallTest;
+		this.closureCode = closureCode;
+		this.leaveSite = leaveSite;
+		this.bookOffSite = bookOffSite;
+		this.performanceMonitoring = performanceMonitoring;
+		this.initialHOP = initialHOP;
+		this.devoteamIssue = devoteamIssue;
+		this.customerIssue = customerIssue;
+		this.percentage = percentage;
+		this.scheduledDDMM = scheduledDDMM;
+		this.migrationType = migrationType;
+		this.risk = risk;
+		this.snrId = snrId;
 	}
 	
 	public String getCustomer() {
@@ -251,6 +319,10 @@ public class LiveDashboardSite {
 	
 	public String getCurrentYearWeek() {
 		return currentYearWeek;
+	}
+	
+	public long getSnrId() {
+		return snrId;
 	}
 
 }

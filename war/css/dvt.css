@@ -2238,3 +2238,91 @@ td.summaryDet {
 	font-size:xx-small;
 	text-align:left;
 }
+td.ldFEWhite {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#FFFFFF;
+	color:#000000;
+	text-align:center;
+	font-size:xx-small;	
+	font-weight:bold;
+}
+td.ldFEGray {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:gray;
+	color:#000000;
+	text-align:center;
+	font-size:xx-small;	
+	font-weight:bold;
+}
+td.ldFEGreen {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#B8E08C;
+	color:#000000;
+	text-align:center;
+	font-size:xx-small;	
+	font-weight:bold;
+}
+td.ldFERed {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:red;
+	color:#000000;
+	text-align:center;
+	font-size:xx-small;	
+	font-weight:bold;
+}
+td.ldFEAmber {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#FFDE75;
+	color:#000000;
+	text-align:center;
+	font-size:xx-small;	
+	font-weight:bold;
+}
+td.ldFEPurple {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:purple;
+	color:#000000;
+	text-align:center;
+	font-size:xx-small;	
+	font-weight:bold;
+}
+td.ldFEHead {
+	margin:0; 
+	padding:0;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:left;
+	font-size:x-small;
+	font-weight: bold;
+}
+td.ldFEGrid1 {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F3F5D7;
+	color:#000000;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid2 {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#FFFFFF;
+	color:#000000;
+	text-align:left;
+	font-size:x-small;	
+}

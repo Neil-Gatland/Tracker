@@ -1899,7 +1899,17 @@ public class UtilBean {
 						rs.getString(55),rs.getString(56),rs.getString(57),
 						rs.getString(58),rs.getString(59),(history?rs.getTimestamp(60):null),
 						rs.getString(61),rs.getString(62),rs.getString(63),
-						rs.getString(64),rs.getString(65),rs.getString(66));
+						rs.getString(64),rs.getString(65),rs.getString(66),
+						rs.getString(67),rs.getString(68),rs.getTimestamp(69),
+						rs.getString(70),rs.getTimestamp(71),rs.getString(72),rs.getTimestamp(73),
+						rs.getString(74),rs.getTimestamp(75),rs.getString(76),rs.getTimestamp(77),
+						rs.getString(78),rs.getTimestamp(79),rs.getString(80),rs.getTimestamp(81),
+						rs.getString(82),rs.getTimestamp(83),rs.getString(84),rs.getTimestamp(85),
+						rs.getString(86),rs.getTimestamp(87),rs.getString(88),rs.getTimestamp(89),
+						rs.getString(90),rs.getTimestamp(91),rs.getString(92),rs.getTimestamp(93),
+						rs.getString(94),rs.getTimestamp(95),rs.getString(96),rs.getTimestamp(97),
+						rs.getString(98),rs.getTimestamp(99),rs.getString(100),rs.getTimestamp(101),
+						rs.getString(102),rs.getTimestamp(103),	rs.getString(104),rs.getString(105));
 				}
 			}
 	    } catch (Exception ex) {
@@ -1911,8 +1921,7 @@ public class UtilBean {
 		    } catch (SQLException ex) {
 		    	ex.printStackTrace();
 		    }
-	    } 
-	    
+	    } 	    
 	    return snrDetail;
 	}
 	
@@ -2294,7 +2303,7 @@ public class UtilBean {
 			td.setAttribute("colspan", "5");
 			tr.appendValue(td.toString());
 			html.append(tr.toString());
-			for (int i = 1; i < (titleArray.length/*-2*/); i+=3) {
+			for (int i = 2; i < (titleArray.length/*-2*/); i+=3) {
 				tr = new HTMLElement("tr");
 				//row++;
 				oddRow = !oddRow;
@@ -2308,6 +2317,15 @@ public class UtilBean {
 				}
 				html.append(tr.toString());
 			}
+			oddRow = !oddRow;
+			HTMLElement tre = new HTMLElement("tr");
+			HTMLElement tde = new HTMLElement("td", oddRow?"grid1t":"grid2t", 
+					titleArray[1]);
+			tre.appendValue(tde.toString());
+			tde = new HTMLElement("td", oddRow?"grid1i":"grid2i", valueArray[1]);
+			tde.setAttribute("colspan", "4");
+			tre.appendValue(tde.toString());
+			html.append(tre.toString());
 		}
 		return html.toString();
 	}
@@ -2616,29 +2634,57 @@ public class UtilBean {
 		StringBuilder html = new StringBuilder();
 		Collection<JobType> jtList = getJobTypeList();
 		for (Iterator<JobType> it = jtList.iterator(); it.hasNext(); ) {
-			HTMLElement tr = new HTMLElement("tr");
+			HTMLElement trT = new HTMLElement("tr");
+			HTMLElement trB = new HTMLElement("tr");
 			row++;
 			oddRow = !oddRow;
 			JobType jtli = it.next();
-			String[] values = jtli.getListValueArray();
-			for (int i = 0; i < values.length; i ++) {
-				HTMLElement td = new HTMLElement("td", oddRow?"grid1":"grid2", 
-					values[i]);
-				tr.appendValue(td.toString());
-			}
+			// job type
+			HTMLElement tdJT = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getJobType());
+			tdJT.setAttribute("rowspan", "2");
+			trT.appendValue(tdJT.toString());
+			// project requestor
+			HTMLElement tdPR = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getProjectRequestor());
+			trT.appendValue(tdPR.toString());
+			// project requestor email
+			HTMLElement tdPRE = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getProjectRequestorEmail());
+			trB.appendValue(tdPRE.toString());
+			// project manager
+			HTMLElement tdPM = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getProjectManager());
+			trT.appendValue(tdPM.toString());
+			// project requestor email
+			HTMLElement tdPME = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getProjectManagerEmail());
+			trB.appendValue(tdPME.toString());
+			// acting customer
+			HTMLElement tdAC = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getActingCustomer());
+			tdAC.setAttribute("rowspan", "2");
+			trT.appendValue(tdAC.toString());
+			// last updated by
+			HTMLElement tdLUB = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getLastUpdatedBy());
+			trT.appendValue(tdLUB.toString());
+			// last updated date
+			HTMLElement tdLUD = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getLastUpdatedDateString());
+			trB.appendValue(tdLUD.toString());
+			// redundant
+			HTMLElement tdR = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getRedundant());
+			tdR.setAttribute("rowspan", "2");
+			trT.appendValue(tdR.toString());
+			// selected
 			HTMLElement input = new HTMLElement("input", "jobType"+row, "jT",
-				"radio", jtli.getJobType(), 
-				"jobTypeSelect('"+jtli.getJobType()+"','"+
-						jtli.getProjectRequestor()+"','"+
-						jtli.getProjectRequestorEmail()+"','"+
-						jtli.getProjectManager()+"','"+
-						jtli.getProjectManagerEmail()+"','"+
-						jtli.getActingCustomer()+"','"+
-						jtli.getRedundant()+"')");
-			HTMLElement td = new HTMLElement("td", oddRow?"grid1":"grid2", 
-				input.toString());
-			tr.appendValue(td.toString());
-			html.append(tr.toString());
+					"radio", jtli.getJobType(), 
+					"jobTypeSelect('"+jtli.getJobType()+"','"+
+							jtli.getProjectRequestor()+"','"+
+							jtli.getProjectRequestorEmail()+"','"+
+							jtli.getProjectManager()+"','"+
+							jtli.getProjectManagerEmail()+"','"+
+							jtli.getActingCustomer()+"','"+
+							jtli.getRedundant()+"')");
+			HTMLElement tdS = new HTMLElement("td", oddRow?"grid1":"grid2",input.toString());
+			tdS.setAttribute("rowspan", "2");
+			trT.appendValue(tdS.toString());
+			// add both rows to HTML
+			html.append(trT.toString());
+			html.append(trB.toString());
 		}
 		return html.toString();
 	}
@@ -6881,4 +6927,384 @@ public class UtilBean {
 		}
 		return html.toString();
 	}
+	
+	public Collection<LiveDashboardSite> getFELiveDashboardSites() {
+		message = null;
+		ArrayList<LiveDashboardSite> LiveDashboardSite = new ArrayList<LiveDashboardSite>();
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetFELiveDashboardSites(?)}");
+	    	cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					LiveDashboardSite.add(new LiveDashboardSite(
+							rs.getString(1),  rs.getString(2),  rs.getString(3),  rs.getString(4), 
+							rs.getString(5),  rs.getString(6),  rs.getString(7),  rs.getString(8),
+							rs.getString(9),  rs.getString(10), rs.getString(11), rs.getString(12),
+							rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), 
+							rs.getString(17), rs.getString(18), rs.getString(19), rs.getString(20),
+							rs.getString(21), rs.getString(22), rs.getString(23), rs.getString(24),
+							rs.getString(25), rs.getString(26), rs.getString(27), rs.getString(28),
+							rs.getString(29), rs.getString(30), rs.getString(31), rs.getLong(32)));
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getFELiveDashboardSites(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return LiveDashboardSite;
+	}
+	
+	public String getFELiveDashboardSitesHTML() {
+
+		boolean oddRow = false;
+		StringBuilder html = new StringBuilder();
+		Collection<LiveDashboardSite> LiveDashboardSite = getFELiveDashboardSites();
+		if (LiveDashboardSite.isEmpty()) {
+			if (message != null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td = new HTMLElement("td", "grid1",	message);
+				td.setAttribute("colspan", "9");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td = new HTMLElement("td", "grid1","No sites currrently allocated to you");
+				td.setAttribute("colspan", "9");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());	
+			}
+		} else {
+			for (Iterator<LiveDashboardSite> it = LiveDashboardSite.iterator(); it.hasNext(); ) {
+				oddRow = !oddRow;
+				LiveDashboardSite lds = it.next();
+				// set up blank line
+				HTMLElement trBlank = new HTMLElement("tr");
+				HTMLElement tdBlank = new HTMLElement("td", "", "");
+				tdBlank.setAttribute("height", "2px");
+				trBlank.appendValue(tdBlank.toString());
+				HTMLElement tdGap = new HTMLElement("td", "", "");
+				// site details
+				HTMLElement trsa = new HTMLElement("tr");
+				HTMLElement tdsa1 = new HTMLElement("td", "ldFEHead", "Site:");
+				tdsa1.setAttribute("height", "10px");	
+				tdsa1.setAttribute("colspan", "2");			
+				trsa.appendValue(tdsa1.toString());	
+				HTMLElement tdsa2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getSite());
+				tdsa2.setAttribute("colspan", "7");			
+				trsa.appendValue(tdsa2.toString());	
+				html.append(trsa.toString());
+				HTMLElement trsb = new HTMLElement("tr");
+				HTMLElement tdsb1 = new HTMLElement("td", "ldFEHead", "Client:");
+				tdsb1.setAttribute("height", "10px");	
+				tdsb1.setAttribute("colspan", "2");			
+				trsb.appendValue(tdsb1.toString());	
+				HTMLElement tdsb2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getCustomer());
+				tdsb2.setAttribute("colspan", "7");		
+				tdsb2.setAttribute("id", "anchor"+lds.getSnrId());	
+				tdsb2.setAttribute("name", "anchor"+lds.getSnrId());	
+				trsb.appendValue(tdsb2.toString());	
+				html.append(trsb.toString());
+				HTMLElement trsc = new HTMLElement("tr");
+				HTMLElement tdsc1 = new HTMLElement("td", "ldFEHead", "Project:");
+				tdsc1.setAttribute("height", "10px");	
+				tdsc1.setAttribute("colspan", "2");			
+				trsc.appendValue(tdsc1.toString());	
+				HTMLElement tdsc2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getProject());
+				tdsc2.setAttribute("colspan", "7");		
+				trsc.appendValue(tdsc2.toString());	
+				html.append(trsc.toString());
+				HTMLElement trsd = new HTMLElement("tr");
+				HTMLElement tdsd1 = new HTMLElement("td", "ldFEHead", "Work Type:");
+				tdsd1.setAttribute("height", "10px");	
+				tdsd1.setAttribute("colspan", "2");			
+				trsd.appendValue(tdsd1.toString());	
+				HTMLElement tdsd2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getMigrationType());
+				tdsd2.setAttribute("colspan", "7");		
+				trsd.appendValue(tdsd2.toString());	
+				html.append(trsd.toString());
+				HTMLElement trse = new HTMLElement("tr");
+				HTMLElement tdse1 = new HTMLElement("td", "ldFEHead", "BO engineer:");
+				tdse1.setAttribute("height", "10px");	
+				tdse1.setAttribute("colspan", "2");			
+				trse.appendValue(tdse1.toString());	
+				HTMLElement tdse2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getBoList());
+				tdse2.setAttribute("colspan", "7");		
+				trse.appendValue(tdse2.toString());	
+				html.append(trse.toString());
+				HTMLElement trsf = new HTMLElement("tr");
+				HTMLElement tdsf1 = new HTMLElement("td", "ldFEHead", "Overall Status:");
+				tdsf1.setAttribute("height", "10px");	
+				tdsf1.setAttribute("colspan", "2");			
+				trsf.appendValue(tdsf1.toString());	
+				HTMLElement tdsf2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getOverallStatus());
+				tdsf2.setAttribute("colspan", "7");		
+				trsf.appendValue(tdsf2.toString());	
+				html.append(trsf.toString());
+				HTMLElement trsg = new HTMLElement("tr");
+				HTMLElement tdsg1 = new HTMLElement("td", "ldFEHead", "Scheduled On:");
+				tdsg1.setAttribute("height", "10px");	
+				tdsg1.setAttribute("colspan", "2");			
+				trsg.appendValue(tdsg1.toString());	
+				HTMLElement tdsg2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getScheduledDDMM());
+				tdsg2.setAttribute("colspan", "7");		
+				trsg.appendValue(tdsg2.toString());	
+				html.append(trsg.toString());
+				// Blank line between site details and buttons
+				html.append(trBlank.toString());
+				// progress row 1
+				HTMLElement trpra = new HTMLElement("tr");
+				HTMLElement tdpra1 = new HTMLElement("td", "ldFE"+lds.getCheckedIn(), "Checked In");
+				tdpra1.setAttribute("height", "40px");
+				tdpra1.setAttribute("onClick", "updateProgress('checkedIn','"+lds.getSnrId()+"','"+lds.getCheckedIn()+"')");
+				tdpra1.setAttribute("style", "cursor:pointer");
+				trpra.appendValue(tdpra1.toString());				
+				trpra.appendValue(tdGap.toString());
+				HTMLElement tdpra2 = new HTMLElement("td", "ldFE"+lds.getBookedOn(), "Site Booked on");
+				tdpra2.setAttribute("onClick", "updateProgress('bookedOn','"+lds.getSnrId()+"','"+lds.getBookedOn()+"')");
+				tdpra2.setAttribute("style", "cursor:pointer");
+				trpra.appendValue(tdpra2.toString());			
+				trpra.appendValue(tdGap.toString());
+				HTMLElement tdpra3 = new HTMLElement("td", "ldFE"+lds.getSiteAccessed(), "Site Accessed");
+				tdpra3.setAttribute("onClick", "updateProgress('siteAccessed','"+lds.getSnrId()+"','"+lds.getSiteAccessed()+"')");
+				tdpra3.setAttribute("style", "cursor:pointer");
+				trpra.appendValue(tdpra3.toString());			
+				trpra.appendValue(tdGap.toString());
+				HTMLElement tdpra4 = new HTMLElement("td", "ldFE"+lds.getPhysicalChecks(), "Physical Checks");
+				tdpra4.setAttribute("onClick", "updateProgress('physicalChecks','"+lds.getSnrId()+"','"+lds.getPhysicalChecks()+"')");
+				tdpra4.setAttribute("style", "cursor:pointer");
+				trpra.appendValue(tdpra4.toString());			
+				trpra.appendValue(tdGap.toString());
+				HTMLElement tdpra5 = new HTMLElement("td", "ldFE"+lds.getPreCallTest(), "Pre Call Test");
+				tdpra5.setAttribute("onClick", "updateProgress('preCallTest','"+lds.getSnrId()+"','"+lds.getPreCallTest()+"')");
+				tdpra5.setAttribute("style", "cursor:pointer");
+				trpra.appendValue(tdpra5.toString());
+				html.append(trpra.toString());
+				html.append(trBlank.toString());
+				// progress row 2
+				HTMLElement trprb = new HTMLElement("tr");
+				HTMLElement tdprb1 = new HTMLElement("td", "ldFE"+lds.getSiteLocked(), "Site Locked");
+				tdprb1.setAttribute("onClick", "updateProgress('siteLocked','"+lds.getSnrId()+"','"+lds.getSiteLocked()+"')");
+				tdprb1.setAttribute("height", "40px");
+				tdprb1.setAttribute("style", "cursor:pointer");
+				trprb.appendValue(tdprb1.toString());		
+				trprb.appendValue(tdGap.toString());
+				HTMLElement tdprb2 = new HTMLElement("td", "ldFE"+lds.getHwInstalls(), "HW Installed");
+				tdprb2.setAttribute("onClick", "updateProgress('hwInstalls','"+lds.getSnrId()+"','"+lds.getHwInstalls()+"')");
+				tdprb2.setAttribute("style", "cursor:pointer");
+				trprb.appendValue(tdprb2.toString());			
+				trprb.appendValue(tdGap.toString());
+				HTMLElement tdprb3 = new HTMLElement("td", "ldFE"+lds.getCommissioningFE(), "Field Commissioning");
+				tdprb3.setAttribute("onClick", "updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')");
+				tdprb3.setAttribute("style", "cursor:pointer");
+				trprb.appendValue(tdprb3.toString());			
+				trprb.appendValue(tdGap.toString());
+				HTMLElement tdprb4 = new HTMLElement("td", "ldFE"+lds.getCommissioningBO(), "Back Office Commissioning");
+				tdprb4.setAttribute("onClick", "updateProgress('commissioningBO','"+lds.getSnrId()+"','"+lds.getCommissioningBO()+"')");
+				tdprb4.setAttribute("style", "cursor:pointer");
+				trprb.appendValue(tdprb4.toString());			
+				trprb.appendValue(tdGap.toString());
+				HTMLElement tdprb5 = new HTMLElement("td", "ldFE"+lds.getTxProvisioning(), "Tx Provisioning");
+				tdprb5.setAttribute("onClick", "updateProgress('txProvisioning','"+lds.getSnrId()+"','"+lds.getTxProvisioning()+"')");
+				tdprb5.setAttribute("style", "cursor:pointer");
+				trprb.appendValue(tdprb5.toString());			
+				html.append(trprb.toString());
+				html.append(trBlank.toString());
+				// progress row 3
+				HTMLElement trprc = new HTMLElement("tr");
+				HTMLElement tdprc1 = new HTMLElement("td", "ldFE"+lds.getFieldWork(), "Field Work");
+				tdprc1.setAttribute("onClick", "updateProgress('fieldWork','"+lds.getSnrId()+"','"+lds.getFieldWork()+"')");
+				tdprc1.setAttribute("height", "40px");
+				tdprc1.setAttribute("style", "cursor:pointer");
+				trprc.appendValue(tdprc1.toString());		
+				trprc.appendValue(tdGap.toString());
+				HTMLElement tdprc2 = new HTMLElement("td", "ldFE"+lds.getSiteUnlocked(), "Site Unlocked");
+				tdprc2.setAttribute("onClick", "updateProgress('siteUnlocked','"+lds.getSnrId()+"','"+lds.getSiteUnlocked()+"')");
+				tdprc2.setAttribute("style", "cursor:pointer");
+				trprc.appendValue(tdprc2.toString());		
+				trprc.appendValue(tdGap.toString());
+				HTMLElement tdprc3 = new HTMLElement("td", "ldFE"+lds.getPostCallTest(), "Post Call Test");
+				tdprc3.setAttribute("onClick", "updateProgress('postCallTest','"+lds.getSnrId()+"','"+lds.getPostCallTest()+"')");
+				tdprc3.setAttribute("style", "cursor:pointer");
+				trprc.appendValue(tdprc3.toString());			
+				trprc.appendValue(tdGap.toString());
+				HTMLElement tdprc4 = new HTMLElement("td", "ldFE"+lds.getClosureCode(), "Closure Code");
+				tdprc4.setAttribute("onClick", "updateProgress('closureCode','"+lds.getSnrId()+"','"+lds.getClosureCode()+"')");
+				tdprc4.setAttribute("style", "cursor:pointer");
+				trprc.appendValue(tdprc4.toString());			
+				trprc.appendValue(tdGap.toString());
+				HTMLElement tdprc5 = new HTMLElement("td", "ldFE"+lds.getLeaveSite(), "Left Site");
+				tdprc5.setAttribute("onClick", "updateProgress('leaveSite','"+lds.getSnrId()+"','"+lds.getLeaveSite()+"')");
+				tdprc5.setAttribute("style", "cursor:pointer");
+				trprc.appendValue(tdprc5.toString());
+				html.append(trprc.toString());
+				html.append(trBlank.toString());
+				// progress row 4 
+				HTMLElement trprd = new HTMLElement("tr");
+				HTMLElement tdprd1 = new HTMLElement("td", "ldFE"+lds.getBookOffSite(), "Site Booked Off");
+				tdprd1.setAttribute("onClick", "updateProgress('bookOffSite','"+lds.getSnrId()+"','"+lds.getBookOffSite()+"')");
+				tdprd1.setAttribute("height", "40px");
+				tdprd1.setAttribute("style", "cursor:pointer");
+				trprd.appendValue(tdprd1.toString());		
+				trprd.appendValue(tdGap.toString());
+				HTMLElement tdprd2 = new HTMLElement("td", "ldFE"+lds.getPerformanceMonitoring(), "Performance");
+				tdprd2.setAttribute("onClick", "updateProgress('performanceMonitoring','"+lds.getSnrId()+"','"+lds.getPerformanceMonitoring()+"')");
+				tdprd2.setAttribute("style", "cursor:pointer");trprd.appendValue(tdprd2.toString());			
+				trprd.appendValue(tdGap.toString());
+				HTMLElement tdprd3 = new HTMLElement("td", "ldFE"+lds.getInitialHOP(), "Hand Off Pack");
+				tdprd3.setAttribute("onClick", "updateProgress('initialHOP','"+lds.getSnrId()+"','"+lds.getInitialHOP()+"')");
+				tdprd3.setAttribute("style", "cursor:pointer");
+				trprd.appendValue(tdprd3.toString());			
+				trprd.appendValue(tdGap.toString());
+				HTMLElement tdprd4 = new HTMLElement("td", "ldFE"+lds.getDevoteamIssue(), "Devoteam Issue");
+				trprd.appendValue(tdprd4.toString());		
+				trprd.appendValue(tdGap.toString());
+				HTMLElement tdprd5 = new HTMLElement("td", "ldFE"+lds.getCustomerIssue(), "Customer Issue");
+				trprd.appendValue(tdprd5.toString());
+				html.append(trprd.toString());
+				html.append(trBlank.toString());
+				// refresh button
+				HTMLElement trr = new HTMLElement("tr");
+				HTMLElement tdr1 = new HTMLElement("td", "ldFEWhite", "Refresh");
+				tdr1.setAttribute("onClick", "refresh()");
+				tdr1.setAttribute("title", "Press to pick up any changes");
+				tdr1.setAttribute("height", "15px");
+				tdr1.setAttribute("colspan", "9");				
+				tdr1.setAttribute("style", "cursor:pointer");
+				trr.appendValue(tdr1.toString());
+				html.append(trr.toString());
+				/// Space between sites
+				html.append(trBlank.toString());
+				html.append(trBlank.toString());
+				html.append(trBlank.toString());
+				html.append(trBlank.toString());
+			}
+		}
+		return html.toString();
+	}
+	
+	public String getProgressItemStatusHTML(String operation, String snrId) {
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	Select select = new Select("selectProgressItemStatus",  "filter");
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetProgressItemStatusList(?,?)}");
+	    	cstmt.setString(1, operation);
+	    	cstmt.setString(2, snrId);
+	    	if (snrId.equals(""))
+	    		cstmt.setString(2, "-1");
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						false);
+					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
+	
+	public String updateProgressItemStatus(
+			String operation,
+			long snrId,
+			String newStatus,
+			String lastUpdatedBy ) {
+		String updateResult = "Error: Untrapped error with UpdateProgressItemStatus";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateProgressItemStatus(?,?,?,?)}");
+	    	cstmt.setString(1, operation);
+	    	cstmt.setLong(2, snrId);
+	    	cstmt.setString(3, newStatus);
+	    	cstmt.setString(4, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					updateResult = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateProgressItemStatus(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String operationDisp( String operation) {
+		String result = operation;
+		if (operation.equals("checkedIn"))
+			result = "Checked In";
+		else if (operation.equals("bookedOn"))
+			result = "Site Booked On";
+		else if (operation.equals("siteAccessed"))
+			result = "Site Accessed";
+		else if (operation.equals("physicalChecks"))
+			result = "Physical Checks";
+		else if (operation.equals("preCallTest"))
+			result = "Pre Call Test";
+		else if (operation.equals("siteLocked"))
+			result = "Site Locked";
+		else if (operation.equals("hwInstalls"))
+			result = "HW Installed";
+		else if (operation.equals("commissioningFE"))
+			result = "Field Commissioning";
+		else if (operation.equals("commissioningBO"))
+			result = "Back Office Commissioning";
+		else if (operation.equals("commissioningBO"))
+			result = "Back Office Commissioning";
+		else if (operation.equals("txProvisioning"))
+			result = "Tx Provisioning";
+		else if (operation.equals("fieldWork"))
+			result = "Field Work";
+		else if (operation.equals("siteUnlocked"))
+			result = "Site Unlocked";
+		else if (operation.equals("postCallTest"))
+			result = "Post Call Test";
+		else if (operation.equals("closureCode"))
+			result = "Closure Code";
+		else if (operation.equals("leaveSite"))
+			result = "Left Site";
+		else if (operation.equals("bookOffSite"))
+			result = "Site Booked Off";
+		else if (operation.equals("performanceMonitoring"))
+			result = "Performance";
+		else if (operation.equals("initialHOPe"))
+			result = "Hand Off Pack";		
+		return result;
+	}
+	
 }

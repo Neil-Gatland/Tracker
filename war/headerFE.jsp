@@ -82,19 +82,30 @@
 </script>
 <script src="js/datetimepicker_css.js"></script>
 </head>
-<body onLoad="thisScreenLoad()">
+<body onLoad="thisScreenLoad()" bgcolor="#c0c0c0">
 <form id="f1" name="devoTracker" method="post" action="navigation">
 <input type="hidden" name="toScreen" id="toScreen" value=""/>
 <table style="table-layout: fixed; border-style: none;width:100%;">
+<colgroup>
+	<col width="81px"/>
+	<col width="200px"/>
 <tbody>
-<tr>	
+<tr>
 	<td align="left" valign="center">
 		<a href="http://www.devoteam.co.uk/" target="_blank">
-		<img src="images/devo_full.png" height="50px" width="162px"></a>			
+		<img src="images/devo_full.png" height="39px" width="121.5px">
+	</td>
+	<td align="right" valign="center">
+		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="39px" width="94.5px">
+	</td>
+	<td align="right" valign="center">
+		&nbsp;
 	</td>
 </tr>
 <tr>
-	<td colspan="3" class="menu1" width="100%"><%=uB.getMenu1()%></td>
+	<td colspan="3">
+		<%=uB.getMenu1()%>
+	</td>
 </tr>
 </tbody>
 </table>

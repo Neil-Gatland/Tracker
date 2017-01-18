@@ -1,0 +1,42 @@
+<div id="feUpdateProgressStatus" class="displayPic" style="display:none;">
+<table>
+	<tr>
+		<td class="ldFEHead" width="200px">
+			<%=uB.operationDisp(operation)%>
+		</td>
+	</tr>
+	<tr>
+		<td width="160px">
+			<%=uB.getProgressItemStatusHTML(operation,snrId)%>
+		</td>
+		<td width="10px">
+			&nbsp;
+		</td>
+		<td width="20px" title="click to confirm status change">
+			<img src="images/green_tick.png" height="15px" width="15px" 
+				onClick="feUpdateProgressStatusClick('submit')"/>
+		</td>
+		<td width="20px" title="click to cancel">
+			<img src="images/red_cross.png" height="15px" width="15px" 
+				onClick="feUpdateProgressStatusClick('cancel')"/>
+		</td>
+	</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+function feUpdateProgressStatusClick(action) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("feUpdateProgressStatus");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+		if (action=="submit") {
+			document.getElementById("selectedStatus").value = document.getElementById("selectProgressItemStatus").value;
+			document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
+			document.getElementById("f1").action = "homeFE";
+			f1.submit();
+		}
+}	
+-->
+</script>
