@@ -1,4 +1,4 @@
-<div id="addJobType" class="filter" style="width:270px">
+<div id="addJobType" class="filter" style="width:540px">
 	<div class="closeX" title="close" onClick="addJobTypeClick('cancel')">x</div>
 	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Add Job Type</h2></div>
 	<div>Job Type</div>
@@ -15,7 +15,7 @@
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="newActingCustomer" id="newActingCustomer" value="" maxlength="100"></div>
 	<div>Redundant</div>
 	<div>
-		<select id="selectRedundantFilter" style="width:20%;" name="selectRedundantFilter" class="filter">
+		<select id="selectRedundantFilter" style="width:10%;" name="selectRedundantFilter" class="filter">
 			<option value="N">N</option>
 			<option value="Y">Y</option>
 		</select>

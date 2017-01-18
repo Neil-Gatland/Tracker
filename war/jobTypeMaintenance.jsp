@@ -70,34 +70,35 @@ function tbClick(btn) {
 </script>
 <div style="width:1270px;margin:0 auto;margin-top:20px;">
 <div style="
-margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden; border: 1px solid black;"
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 470px; overflow: hidden; border: 1px solid black;"
 >
 <table style="width: 1270px; height: 20px;"
 >
 <colgroup>
-<col width="135px"/>
-<col width="100px"/>
 <col width="205px"/>
-<col width="190px"/>
-<col width="220px"/>
-<col width="95px"/>
-<col width="110px"/>
-<col width="75px"/>
-<col width="20px"/>
+<col width="260px"/>
+<col width="260px"/>
+<col width="155px"/>
+<col width="255px"/>
 <col width="55px"/>
+<col width="70px"/>
 </colgroup>
 <tbody>
 <tr>
-		<th id="hJobType">Job Type</th>
-		<th title="Project Requestor">Proj. Requestor</th>
-		<th>Project Requestor Email</th>
-		<th>Project Manager</th>
-		<th>Project Manager Email</th>
-		<th title="Acting Customer">AC</th>
-		<th title="Last Updated By">LU By</th>
-		<th title="Last Updated Date">LU Date</th>
-		<th title="Redundant">R</th>
-		<th title="Select">&nbsp;</th>
+	<th id="hJobType" rowspan="2">Job Type</th>
+	<th>Project Requestor</th>
+	<th>Project Manager</th>
+	<th rowspan="2">Acting Customer</th>
+	<th>Last Updated By</th>
+	<th title="Redundant">R</th>
+	<th title="Selected">S</th>
+</tr>
+<tr>
+	<th>Project Requestor Email</th>
+	<th>Project Manager Email</th>
+	<th>Last Updated Date</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 </tr>
 </tbody>
 </table>
@@ -106,15 +107,12 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <table style="width: 1250px;"
 >
 <colgroup>
-<col width="170px"/>
-<col width="130px"/>
-<col width="220px"/>
-<col width="120px"/>
-<col width="210px"/>
-<col width="120px"/>
-<col width="140px"/>
-<col width="80px"/>
-<col width="20px"/>
+<col width="200px"/>
+<col width="250px"/>
+<col width="250px"/>
+<col width="150px"/>
+<col width="250px"/>
+<col width="50px"/>
 <col width="50px"/>
 </colgroup>
 <tbody>

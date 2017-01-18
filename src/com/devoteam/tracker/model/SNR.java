@@ -78,13 +78,53 @@ public class SNR {
 	private String hardwareVendor;
 	private String preTestCallsDone;
 	private String postTestCallsDone;
-	private String crqClosureCode ;
+	private String crqClosureCode;
+	private String siteIssues;
+	private String checkedIn;
+	private Timestamp checkedInDT;
+	private String bookedOn;
+	private Timestamp bookedOnDT;
+	private String siteAccessed;
+	private Timestamp siteAccessedDT;
+	private String physicalChecks;
+	private Timestamp physicalChecksDT;
+	private String preCallTest;
+	private Timestamp preCallTestDT;
+	private String siteLocked;
+	private Timestamp siteLockedDT;
+	private String hwInstalls;
+	private Timestamp hwInstallsDT;
+	private String commissioningFE;
+	private Timestamp commissioningFEDT;
+	private String commissioningBO;
+	private Timestamp commissioningBODT;
+	private String txProvisioning;
+	private Timestamp txProvisioningDT;
+	private String fieldWork;
+	private Timestamp fieldWorkDT;
+	private String siteUnlocked;
+	private Timestamp siteUnlockedDT;
+	private String postCallTest;
+	private Timestamp postCallTestDT;
+	private String closureCode;
+	private Timestamp closureCodeDT;
+	private String leaveSite;
+	private Timestamp leaveSiteDT;
+	private String bookOffSite;
+	private Timestamp bookOffSiteDT;
+	private String performanceMonitoring;
+	private Timestamp performanceMonitoringDT;
+	private String initialHOP;
+	private Timestamp initialHOPDT;
+	private String issueOwner;
+	private String riskIndicator;
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.UK);
 	private DecimalFormat numberFormatter = new DecimalFormat("#.##");
 	private String[] titleArray = {
 			"Customer:",
+			"Site Issues:",
 			//repeatable bit follows
 			"Site:", "EF345 Claim Date:", "P1 Site:", 
 			"NR Id:", "EF360 Claim Date:", "OBASS:",  
@@ -105,6 +145,7 @@ public class SNR {
 			"HOP Filename:", "HOP Delivered:", "HOP On Sharepoint:", 
 			"Pre-Test Calls Done:", "NSA NetActs:", "CRQ Closure Code:", 
 			"Post-Test Calls Done:", "", "", 
+			"Site Progress:", "Issue Owner:", "Risk Indicator:",
 			"Last Updated By:", "Last Updated Date:", "History Date:"};
 	//end of repeatable bit 
 
@@ -293,7 +334,6 @@ public class SNR {
 		this.siteAccessInfomation = siteAccessInfomation;
 	}
 
-
 	public SNR (long snrId,	long customerId, String customerName, String site,
 			String nrId, String status, String upgradeType,	
 			String postcode, Date ef345ClaimDT,
@@ -401,6 +441,147 @@ public class SNR {
 		this.oohWeekendInd = oohWeekendInd;
 	}
 	
+	public SNR (long snrId,	long customerId, String customerName, String site,
+			String nrId, String status, String upgradeType,	
+			String postcode, Date ef345ClaimDT,
+			Date ef360ClaimDT, Date ef400ClaimDT, Date ef410ClaimDT, 
+			String p1SiteInd, String obassInd, String ramsInd, String escortInd,
+			String healthSafetyInd, Date scheduledDate, double outagePeriod,
+			String accessConfirmedInd, double accessCost, double consumableCost,
+			String oohWeekendInd, String crInReference, String crInInd, 
+			Timestamp crInStartDT, Timestamp crInEndDT, String crInUsed, String crqStatus,
+			String implementationStatus, Timestamp implementationStartDT,
+			Timestamp implementationEndDT, String abortType, String twoGInd,
+			String threeGInd, String fourGInd, String o2Ind, String healthChecksInd,
+			String activeAlarmsInd, String nsaNetActsInd, String hopDeliveredInd,
+			String hopFilename, String hopOnSharepoint, String efUpdated, 
+			String sfrCompleted, String sfrOnSharepoint, Timestamp lastUpdatedDate, 
+			String lastUpdatedBy, Timestamp implOutageStartDT, Timestamp implOutageEndDT,
+			String completingBOEngineer, Date ef390ClaimDT, String accessStatus,
+			String permitType, String tefOutageRequired, String vfArrangeAccess,
+			String twoManSite, String siteAccessInfomation, String tefOutageNos, 
+			Timestamp historyDate, String completingFEsList, String incTicketNo, 
+			String hardwareVendor, String preTestCallsDone, String postTestCallsDone,
+			String crqClosureCode, String siteIssues, String checkedIn,
+			Timestamp checkedInDT, String bookedOn, Timestamp bookedOnDT,
+			String siteAccessed, Timestamp siteAccessedDT, String physicalChecks,
+			Timestamp physicalChecksDT, String preCallTest, Timestamp preCallTestDT,
+			String siteLocked, Timestamp siteLockedDT, String hwInstalls,
+			Timestamp hwInstallsDT, String commissioningFE, Timestamp commissioningFEDT,
+			String commissioningBO, Timestamp commissioningBODT, String txProvisioning,
+			Timestamp txProvisioningDT, String fieldWork, Timestamp fieldWorkDT,
+			String siteUnlocked, Timestamp siteUnlockedDT, String postCallTest,
+			Timestamp postCallTestDT, String closureCode, Timestamp closureCodeDT,
+			String leaveSite, Timestamp leaveSiteDT, String bookOffSite,
+			Timestamp bookOffSiteDT, String performanceMonitoring, Timestamp performanceMonitoringDT,
+			String initialHOP, Timestamp initialHOPDT, String issueOwner, String riskIndicator ) {
+		this.snrId = snrId;
+		this.customerId = customerId;
+		this.customerName = customerName;
+		this.site = site;
+		this.nrId = nrId;
+		this.status = status;
+		this.upgradeType = upgradeType;
+		this.postcode = postcode;
+		this.ef345ClaimDT = ef345ClaimDT;
+		this.ef360ClaimDT = ef360ClaimDT;
+		this.ef390ClaimDT = ef390ClaimDT;
+		this.ef400ClaimDT = ef400ClaimDT;
+		this.ef410ClaimDT = ef410ClaimDT;
+		this.p1SiteInd = p1SiteInd;
+		this.obassInd = obassInd;
+		this.ramsInd = ramsInd;
+		this.escortInd = escortInd;
+		this.healthSafetyInd = healthSafetyInd;
+		this.scheduledDate = scheduledDate;
+		this.outagePeriod = outagePeriod;
+		this.accessConfirmedInd = accessConfirmedInd;
+		this.accessCost = accessCost;
+		this.consumableCost = consumableCost;
+		this.oohWeekendInd = oohWeekendInd;
+		this.crInReference = crInReference;
+		this.crInInd = crInInd;
+		this.crInStartDT = crInStartDT;
+		this.crInEndDT = crInEndDT;
+		this.crInUsed = crInUsed;
+		this.crqStatus = crqStatus;
+		this.implementationStatus = implementationStatus;
+		this.implementationStartDT = implementationStartDT;
+		this.implementationEndDT = implementationEndDT;
+		this.abortType = abortType;
+		this.twoGInd = twoGInd;
+		this.threeGInd = threeGInd;
+		this.fourGInd = fourGInd;
+		this.o2Ind = o2Ind;
+		this.healthChecksInd = healthChecksInd;
+		this.activeAlarmsInd = activeAlarmsInd;
+		this.nsaNetActsInd = nsaNetActsInd;
+		this.hopDeliveredInd = hopDeliveredInd;
+		this.hopFilename = hopFilename;
+		this.hopOnSharepoint = hopOnSharepoint;
+		this.efUpdated = efUpdated;
+		this.sfrCompleted = sfrCompleted;
+		this.sfrOnSharepoint = sfrOnSharepoint;
+		this.lastUpdatedDate = lastUpdatedDate;
+		this.lastUpdatedBy = lastUpdatedBy;
+		this.historyDate = historyDate; 
+		this.crInInd = crInInd;
+		this.implOutageStartDT = implOutageStartDT;
+		this.implOutageEndDT = implOutageEndDT;
+		this.completingBOEngineer = completingBOEngineer;
+		this.accessStatus = accessStatus;
+		this.permitType = permitType;
+		this.tefOutageRequired = tefOutageRequired;
+		this.tefOutageNos = tefOutageNos;
+		this.vfArrangeAccess = vfArrangeAccess;
+		this.twoManSite = twoManSite;
+		this.siteAccessInfomation = siteAccessInfomation;
+		this.completingFEsList = completingFEsList;
+		this.incTicketNo = incTicketNo;
+		this.hardwareVendor = hardwareVendor;
+		this.preTestCallsDone = preTestCallsDone;
+		this.postTestCallsDone = postTestCallsDone;
+		this.crqClosureCode = crqClosureCode;
+		this.siteIssues = siteIssues;
+		this.checkedIn = checkedIn;
+		this.checkedInDT = checkedInDT;
+		this.bookedOn = bookedOn;
+		this.bookedOnDT = bookedOnDT;
+		this.siteAccessed = siteAccessed;
+		this.siteAccessedDT = siteAccessedDT;
+		this.physicalChecks = physicalChecks;
+		this.physicalChecksDT = physicalChecksDT;
+		this.preCallTest = preCallTest;
+		this.preCallTestDT = preCallTestDT;
+		this.siteLocked = siteLocked;
+		this.siteLockedDT = siteLockedDT;
+		this.hwInstalls = hwInstalls;
+		this.hwInstallsDT = hwInstallsDT;
+		this.commissioningFE = commissioningFE;
+		this.commissioningFEDT = commissioningFEDT;
+		this.commissioningBO = commissioningBO;
+		this.commissioningBODT = commissioningBODT;
+		this.txProvisioning = txProvisioning;
+		this.txProvisioningDT = txProvisioningDT;
+		this.fieldWork = fieldWork;
+		this.fieldWorkDT = fieldWorkDT;
+		this.siteUnlocked = siteUnlocked;
+		this.siteUnlockedDT = siteUnlockedDT;
+		this.postCallTest = postCallTest;
+		this.postCallTestDT = postCallTestDT;
+		this.closureCode = closureCode;
+		this.closureCodeDT = closureCodeDT;
+		this.leaveSite = leaveSite;
+		this.leaveSiteDT = leaveSiteDT;
+		this.bookOffSite = bookOffSite;
+		this.bookOffSiteDT = bookOffSiteDT;
+		this.performanceMonitoring = performanceMonitoring;
+		this.performanceMonitoringDT = performanceMonitoringDT;
+		this.initialHOP = initialHOP;
+		this.initialHOPDT = initialHOPDT;
+		this.issueOwner = issueOwner;
+		this.riskIndicator = riskIndicator;
+	}
 	public long getSNRId() {
 		return snrId;
 	}
@@ -745,13 +926,92 @@ public class SNR {
 		return crqClosureCode==null?"":crqClosureCode;
 	}
 	
+	public String getSiteProgress() {
+		String sp = "<table><tr>";
+		sp = sp + "<td width=\"20px\" title=\"Checked In"+fmtDT(checkedInDT)+"\" "
+				+ "class=\"" + boxClass(checkedIn) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Site Booked On"+fmtDT(checkedInDT)+"\" "
+				+ "class=\"" + boxClass(bookedOn) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Site Accessed"+fmtDT(checkedInDT)+"\" "
+				+ "class=\"" + boxClass(siteAccessed) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Physical Checks"+fmtDT(checkedInDT)+"\" "
+				+ "class=\"" + boxClass(physicalChecks) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Pre Call Test"+fmtDT(checkedInDT)+"\" "
+				+ "class=\"" + boxClass(preCallTest) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Site Locked"+fmtDT(siteLockedDT)+"\" "
+				+ "class=\"" + boxClass(siteLocked) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"HW Installed"+fmtDT(hwInstallsDT)+"\" "
+				+ "class=\"" + boxClass(hwInstalls) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Field Commission (FE)"+fmtDT(commissioningFEDT)+"\" "
+				+ "class=\"" + boxClass(commissioningFE) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Field Commission (BO)"+fmtDT(commissioningBODT)+"\" "
+				+ "class=\"" + boxClass(commissioningBO) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Tx Provisioning"+fmtDT(txProvisioningDT)+"\" "
+				+ "class=\"" + boxClass(txProvisioning) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Field Work"+fmtDT(fieldWorkDT)+"\" "
+				+ "class=\"" + boxClass(fieldWork) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Site Unlocked"+fmtDT(siteUnlockedDT)+"\" "
+				+ "class=\"" + boxClass(siteUnlocked) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Post Call Test"+fmtDT(postCallTestDT)+"\" "
+				+ "class=\"" + boxClass(postCallTest) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Closure Code"+fmtDT(closureCodeDT)+"\" "
+				+ "class=\"" + boxClass(closureCode) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Left Site"+fmtDT(leaveSiteDT)+"\" "
+				+ "class=\"" + boxClass(leaveSite) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Site Booked off"+fmtDT(bookOffSiteDT)+"\" "
+				+ "class=\"" + boxClass(bookOffSite) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Performance"+fmtDT(performanceMonitoringDT)+"\" "
+				+ "class=\"" + boxClass(performanceMonitoring) + "\">&nbsp;"+"</td>";
+		sp = sp + "<td width=\"20px\" title=\"Hand Off Pack"+fmtDT(initialHOPDT)+"\" "
+				+ "class=\"" + boxClass(postCallTest) + "\">&nbsp;"+"</td>";
+		sp = sp + "<tr></table>";		
+		return sp;
+	}
+	
+	private String boxClass(String progressStatus) {
+		String bc = "";
+		if (progressStatus==null)
+			bc = "ldWhite";
+		else if (progressStatus.equals("Not Applicable"))
+			bc = "ldGray";
+		else if (progressStatus.equals("In Progress"))
+			bc = "ldAmber";
+		else if (progressStatus.equals("Completed"))
+			bc = "ldGreen";
+		else if (progressStatus.equals("Issue"))
+			bc = "ldRed";
+		else
+			bc = "ldWhite";
+		return bc;
+	}
+	
+	private String fmtDT(Timestamp progressStatusDT) {
+		String dt = "";
+		if (!(progressStatusDT==null))
+			dt = " ("+timestampFormatter.format(progressStatusDT)+")";
+		return dt;
+	}
+	
+	public String getIssueOwner() {
+		return issueOwner==null?"":issueOwner;
+	}
+	
+	public String getRiskIndicator() {
+		return riskIndicator==null?"":riskIndicator;
+	}
+	
 	public String[] getTitleArray() {
 		return titleArray;
 	}
 	
+	public String getSiteIssues() {
+		return siteIssues==null?"":siteIssues;
+	}
+	
 	public String[] getValueArray() {
 		String[] valueArray = {
-			this.getCustomerName(),
+				this.getCustomerName(),
+				this.getSiteIssues(),
 			//repeatable bit follows
 			this.getSite(), this.getEF345ClaimDTString(), this.getP1SiteInd(), 
 			this.getNRId(), this.getEF360ClaimDTString(), this.getOBASSInd(),  
@@ -771,7 +1031,8 @@ public class SNR {
 			this.getOutagePeriodString(),this.getSFRCompleted(),this.getSFROnSharepoint(),
 			this.getHOPFilename(), this.getHOPDeliveredInd(), this.getHOPOnSharepoint(), 
 			this.getPreTestCallsDone(), this.getNSANetActsInd(), this.getCrqClosureCode(), 
-			this.getPostTestCallsDone(), "", "",  
+			this.getPostTestCallsDone(), "", "", 
+			this.getSiteProgress(), this.getIssueOwner(), this.getRiskIndicator(),
 			this.getLastUpdatedBy(), this.getLastUpdatedDateString(), this.getHistoryDateString()}; 
 			//end of repeatable bit 
 	
