@@ -26,7 +26,7 @@ function chgProjectFilterClick(operation) {
 		aR.style.left = "0px";
 		aR.style.top = "0px";
 	} else {		
-		document.getElementById("selectedAction").value = "update";	
+		document.getElementById("selectedAction").value = "chgFilter";	
 		document.getElementById("selectedFilter").value = document.getElementById("selectProjectFilter").value;
 		document.getElementById("toScreen").value = "<%=ServletConstants.LIVE_DASHBOARD%>";
 		document.getElementById("f1").action = "liveDashboard";

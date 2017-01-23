@@ -8,6 +8,7 @@ String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(Strin
 String userFirstName = request.getAttribute("userFirstName")==null?"":(String)request.getAttribute("userFirstName");
 String userSurname = request.getAttribute("userSurname")==null?"":(String)request.getAttribute("userSurname");
 String userEmail = request.getAttribute("userEmail")==null?"":(String)request.getAttribute("userEmail");
+String userContactNo = request.getAttribute("userContactNo")==null?"":(String)request.getAttribute("userContactNo");
 String userCustomer = request.getAttribute("userCustomer")==null?"":(String)request.getAttribute("userCustomer");
 String selectUserType = request.getAttribute("selectUserType")==null?"":(String)request.getAttribute("selectUserType");
 String[] selectCustomerId = request.getAttribute("selectCustomerId")==null?null:(String[])request.getAttribute("selectCustomerId");
@@ -20,6 +21,7 @@ String jobType = request.getAttribute("jobType")==null?"":(String)request.getAtt
 <input type="hidden" name="userId" id="userId" value="<%=userId%>"/>
 <input type="hidden" name="userStatus" id="userStatus" value="<%=userStatus%>"/>
 <input type="hidden" name="userEmail" id="userEmail" value="<%=userEmail%>"/>
+<input type="hidden" name="userContactNo" id="userContactNo" value="<%=userContactNo%>"/>
 <input type="hidden" name="userName" id="userName" value="<%=userName%>"/>
 <input type="hidden" name="userType" id="userType" value="<%=userType%>"/>
 <input type="hidden" name="jobType" id="jobType" value="<%=jobType%>"/>
@@ -28,6 +30,7 @@ String jobType = request.getAttribute("jobType")==null?"":(String)request.getAtt
 var selectedUserId = <%=userId%>;
 var selectedUserStatus = "<%=userStatus%>";
 var selectedUserEmail = "<%=userEmail%>";
+var selectedUserContactNo = "<%=userContactNo%>";
 var selectedUserName = "<%=userName%>";
 var selectedUserType = "<%=userType%>";
 
@@ -88,7 +91,7 @@ function thisScreenLoad() {
 	}%>
 }	
 		
-function userSelect(userId, userStatus, userName, userType, userEmail) {
+function userSelect(userId, userStatus, userName, userType, userEmail, userContactNo) {
 	if (<%=thisU.getUserId()%> == userId) {
 		document.getElementById("amendStatus").style.display = "none";
 		document.getElementById("amendRoles").style.display = "none";
@@ -109,6 +112,7 @@ function userSelect(userId, userStatus, userName, userType, userEmail) {
 	selectedUserId = userId;
 	selectedUserStatus = userStatus;
 	selectedUserEmail = userEmail;
+	selectedUserContactNo = userContactNo;
 	selectedUserName = userName;
 	selectedUserType = userType;
 }
@@ -123,6 +127,7 @@ function tbClick(btn) {
 	document.getElementById("userId").value = selectedUserId;
 	document.getElementById("userStatus").value = selectedUserStatus;
 	document.getElementById("userEmail").value = selectedUserEmail;
+	document.getElementById("userContactNo").value = selectedUserContactNo;
 	document.getElementById("userName").value = selectedUserName;
 	document.getElementById("userType").value = selectedUserType;
 	document.getElementById("f1").action = "userAdministration";
@@ -139,8 +144,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <table style="width: 1250px; height: 20px;"
 >
 <colgroup>
-<col width="70px"/>
-<col width="300x"/>
+<col width="200x"/>
 <col width="70px"/>
 <col width="70px"/>
 <col width="275px"/>
@@ -153,12 +157,12 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <col width="20px"/>
 <col width="20px"/>
 <col width="255px"/>
+<col width="170px"/>
 <col width="50px"/>
 </colgroup>
 <tbody>
 <tr>
-		<th id="hUserId">User Id</th>
-		<th>User Name</th>
+		<th id="hUserId">User Name</th>
 		<th>Status</th>
 		<th>Type</th>
 		<th>Customer Name (Third Party)</th>
@@ -170,7 +174,8 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 		<th title="Finanace Administrator">FA</th>
 		<th title="PMO">P</th>
 		<th title="Scheduler">Sc</th>
-		<th title="Email">Email</th>
+		<th>Email</th>
+		<th>Contact No.</th>
 		<th>Select</th>
 </tr>
 </tbody>
@@ -180,8 +185,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <table style="width: 1250px;"
 >
 <colgroup>
-<col width="70px"/>
-<col width="300x"/>
+<col width="200x"/>
 <col width="70px"/>
 <col width="70px"/>
 <col width="275px"/>
@@ -194,6 +198,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <col width="20px"/>
 <col width="20px"/>
 <col width="255px"/>
+<col width="170px"/>
 <col width="50px"/>
 </colgroup>
 <tbody>
@@ -210,7 +215,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <div id="amendStatus" onClick="tbClick('amendStatus')" onMouseOut="invertClass('amendStatus')" onMouseOver="invertClass('amendStatus')" style="float:right;display:none" class="menu2Item">Amend Status</div>
 <div id="amendRoles" onClick="tbClick('amendRoles')" onMouseOut="invertClass('amendRoles')" onMouseOver="invertClass('amendRoles')" style="float:right;display:none" class="menu2Item">Amend Roles</div>
 <div id="resetPwd" onClick="tbClick('resetPwd')" onMouseOut="invertClass('resetPwd')" onMouseOver="invertClass('resetPwd')" style="float:right;display:none" class="menu2Item">Reset Password</div>
-<div id="amendEmail" onClick="tbClick('amendEmail')" onMouseOut="invertClass('amendEmail')" onMouseOver="invertClass('amendEmail')" style="float:right;display:none" class="menu2Item">Amend Email</div>
+<div id="amendEmail" onClick="tbClick('amendEmail')" onMouseOut="invertClass('amendEmail')" onMouseOver="invertClass('amendEmail')" style="float:right;display:none" class="menu2Item">Amend Details</div>
 <div id="amendJobTypes" onClick="tbClick('amendJobTypes')" onMouseOut="invertClass('amendJobTypes')" onMouseOver="invertClass('amendJobTypes')" style="float:right;display: none;" class="menu2Item">Amend Job Types</div>
 <div id="tmAnchor" class="menu2">&nbsp;</div>
 </div>

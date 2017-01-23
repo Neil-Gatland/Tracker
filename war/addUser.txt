@@ -14,6 +14,8 @@
 	<div style="padding-bottom:10px"><%=uB.getMultiSelectHTML("CustomerId", "select", "filter", selectCustomerId) %></div>
 	<div>Email</div>
 	<div style="padding-bottom:10px"><input style="width:98%" type="text" id="newEmail" name="newEmail" "></div>
+	<div>Contact No	</div>
+	<div style="padding-bottom:10px"><input style="width:48%" type="text" id="newContactNo" name="newContactNo" "></div>
 	<div style="width:240px;margin:0 auto;">
 		<div style="float:left" title="Add new user"><input style="width:120px" type="button" class="button" onClick="addUserClick('addUserSubmit')" value="Submit" /></div>
 		<div style="float:left"><input style="width:120px" type="button" class="button" onClick="addUserClick('cancel')" value="Cancel" /></div>

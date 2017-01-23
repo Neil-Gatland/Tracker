@@ -2245,10 +2245,20 @@ td.ldFEWhite {
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:center;
-	font-size:xx-small;	
+	font-size:small;	
 	font-weight:bold;
 }
 td.ldFEGray {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:gray;
+	color:#000000;
+	text-align:center;
+	font-size:small;	
+	font-weight:bold;
+}
+td.ldFEThinGray {
 	margin:0; 
 	padding:0;
 	border-radius: 20px;
@@ -2265,7 +2275,7 @@ td.ldFEGreen {
 	background-color:#B8E08C;
 	color:#000000;
 	text-align:center;
-	font-size:xx-small;	
+	font-size:small;	
 	font-weight:bold;
 }
 td.ldFERed {
@@ -2275,7 +2285,7 @@ td.ldFERed {
 	background-color:red;
 	color:#000000;
 	text-align:center;
-	font-size:xx-small;	
+	font-size:small;	
 	font-weight:bold;
 }
 td.ldFEAmber {
@@ -2285,7 +2295,7 @@ td.ldFEAmber {
 	background-color:#FFDE75;
 	color:#000000;
 	text-align:center;
-	font-size:xx-small;	
+	font-size:small;	
 	font-weight:bold;
 }
 td.ldFEPurple {
@@ -2295,17 +2305,27 @@ td.ldFEPurple {
 	background-color:purple;
 	color:#000000;
 	text-align:center;
-	font-size:xx-small;	
+	font-size:small;	
 	font-weight:bold;
 }
 td.ldFEHead {
 	margin:0; 
-	padding:0;
+	padding:5px;
 	border: #C0C0C0 0.5px solid;
 	background-color:#F8485E;
 	color:#FFFFFF;
 	text-align:left;
 	font-size:x-small;
+	font-weight: bold;
+}
+td.ldFEHeadSite {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:small;
 	font-weight: bold;
 }
 td.ldFEGrid1 {
@@ -2317,6 +2337,52 @@ td.ldFEGrid1 {
 	text-align:left;
 	font-size:x-small;	
 }
+td.ldFEGrid1Black {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F3F5D7;
+	color:#000000;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid1Red {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F3F5D7;
+	color:red;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid1Orange {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F3F5D7;
+	color:orange;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid1Green {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F3F5D7;
+	color:green;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid1BlackBold {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F3F5D7;
+	color:#000000;
+	text-align:left;
+	font-size:x-small;	
+	font-weight:bold;
+}
 td.ldFEGrid2 {
 	margin:0; 
 	padding:5px;
@@ -2325,4 +2391,50 @@ td.ldFEGrid2 {
 	color:#000000;
 	text-align:left;
 	font-size:x-small;	
+}
+td.ldFEGrid2Black {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#FFFFFF;
+	color:#000000;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid2Red {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#FFFFFF;
+	color:red;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid2Orange {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#FFFFFF;
+	color:orange;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid2Green {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#FFFFFF;
+	color:green;
+	text-align:left;
+	font-size:x-small;	
+}
+td.ldFEGrid2BlackBold {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#FFFFFF;
+	color:#000000;
+	text-align:left;
+	font-size:x-small;
+	font-weight:bold;
 }

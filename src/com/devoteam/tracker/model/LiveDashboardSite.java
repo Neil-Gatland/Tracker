@@ -36,7 +36,9 @@ public class LiveDashboardSite {
 	private String todayDDMM;           	//32
 	private String firstYearWeek;  			//33
 	private String currentYearWeek;  		//34
-	private long snrId;						//35			 
+	private long snrId;						//35	
+	private String boContactNo;				//36	
+	private String postcode;				//37
 	
 	public LiveDashboardSite(
 			String customer,
@@ -141,7 +143,9 @@ public class LiveDashboardSite {
 			String scheduledDDMM,
 			String migrationType,
 			String risk,
-			long snrId) {
+			long snrId,
+			String boContactNo,
+			String postcode) {
 		this.customer = customer;
 		this.partner = partner;
 		this.project = project;
@@ -174,6 +178,8 @@ public class LiveDashboardSite {
 		this.migrationType = migrationType;
 		this.risk = risk;
 		this.snrId = snrId;
+		this.boContactNo = boContactNo;
+		this.postcode = postcode;
 	}
 	
 	public String getCustomer() {
@@ -323,6 +329,14 @@ public class LiveDashboardSite {
 	
 	public long getSnrId() {
 		return snrId;
+	}
+	
+	public String getBoContactNo() {
+		return boContactNo;
+	}
+	
+	public String getPostcode() {
+		return postcode;
 	}
 
 }

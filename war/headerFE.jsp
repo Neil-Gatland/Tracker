@@ -87,8 +87,8 @@
 <input type="hidden" name="toScreen" id="toScreen" value=""/>
 <table style="table-layout: fixed; border-style: none;width:100%;">
 <colgroup>
-	<col width="81px"/>
-	<col width="200px"/>
+	<col width="121.5px"/>
+	<col width="121.5px"/>
 <tbody>
 <tr>
 	<td align="left" valign="center">
@@ -98,7 +98,7 @@
 	<td align="right" valign="center">
 		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="39px" width="94.5px">
 	</td>
-	<td align="right" valign="center">
+	<td>
 		&nbsp;
 	</td>
 </tr>

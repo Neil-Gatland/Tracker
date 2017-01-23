@@ -32,12 +32,13 @@ public class UserAdminListItem implements Serializable {
 	private Date lastUpdatedDate;
 	private String lastUpdatedBy;
 	private String email;
+	private String contactNo;
 	
 	public UserAdminListItem(long userId, String userType, String surname, String firstname,
 		String usernameSuffix, String status, Date changeDT, String customerName, String thirdPartyName,
 		String administrator, String boEngineer, String scheduler, String accessAdministrator,
 		String crmAdministrator, String fieldEngineer, String financeAdministrator,
-		String pmo, Date lastUpdatedDate, String lastUpdatedBy, String email) {
+		String pmo, Date lastUpdatedDate, String lastUpdatedBy, String email, String contactNo) {
 		this.userId = userId;
 		this.userType = userType;
 		this.surname = surname;
@@ -58,6 +59,7 @@ public class UserAdminListItem implements Serializable {
 		this.lastUpdatedDate = lastUpdatedDate;
 		this.lastUpdatedBy = lastUpdatedBy;
 		this.email = email;
+		this.contactNo = contactNo;
 	}
 		
 	public long getUserId() {
@@ -153,15 +155,22 @@ public class UserAdminListItem implements Serializable {
 	public String getEmail() {
 		return email;
 	}
+	
+	public String getContactNo() {
+		return contactNo;
+	}
 
 	public String[] getListValueArray() {
-		String[] values = {this.getUserIdString(), this.getUsername(),
+		String[] values = {
+			//this.getUserIdString(), this.getUsername(),
+			this.getUsername(),
 			this.getStatus(), this.getUserType(), 
 			this.getCustomerPlusThirdParty(), this.getAccessAdministrator(),
 			this.getAdministrator(), this.getBOEngineer(),
 			this.getCRMAdministrator(), this.getFieldEngineer(),
 			this.getFinanceAdministrator(), this.getPMO(),
-			this.getScheduler(), this.getEmail()};
+			this.getScheduler(), this.getEmail(),
+			this.getContactNo()};
 		return values;
 	}
 	
