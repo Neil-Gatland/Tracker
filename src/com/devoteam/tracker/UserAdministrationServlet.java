@@ -51,6 +51,7 @@ public class UserAdministrationServlet extends HttpServlet  {
 			String userName = req.getParameter("userName");
 			String userType = req.getParameter("userType");
 			String userEmail = req.getParameter("userEmail");
+			String userContactNo = req.getParameter("userContactNo");
 			String jobType = req.getParameter("jobType");
 	    	req.setAttribute("buttonPressed", buttonPressed);
 	    	req.setAttribute("userId", userId);
@@ -58,6 +59,7 @@ public class UserAdministrationServlet extends HttpServlet  {
 	    	req.setAttribute("userName", userName);
 	    	req.setAttribute("userType", userType);
 	    	req.setAttribute("userEmail", userEmail);
+	    	req.setAttribute("userContactNo", userContactNo);
 	    	req.setAttribute("jobType", jobType);
 			if (buttonPressed.equals("amendUserStatusSubmit")) {
 				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
@@ -152,14 +154,15 @@ public class UserAdministrationServlet extends HttpServlet  {
 		    	CallableStatement cstmt = null;
 			    try {
 			    	conn = DriverManager.getConnection(url);
-			    	cstmt = conn.prepareCall("{call UpdateUserEmail(?,?,?)}");
+			    	cstmt = conn.prepareCall("{call UpdateUserEmail(?,?,?,?)}");
 					cstmt.setLong(1, Long.parseLong(userId));
 					cstmt.setString(2, req.getParameter("email"));
 					cstmt.setString(3, thisU.getNameForLastUpdatedBy());
+					cstmt.setString(4, req.getParameter("contactNo"));
 					cstmt.execute();
-		        	req.setAttribute("userMessage", "Email amended for user " + userName);
+		        	req.setAttribute("userMessage", "User details amended for user " + userName);
 			    } catch (Exception ex) {
-		        	req.setAttribute("userMessage", "Error: unable to amend user email, " + ex.getMessage());
+		        	req.setAttribute("userMessage", "Error: unable to amend user details, " + ex.getMessage());
 		        	req.removeAttribute("buttonPressed");
 			    } finally {
 			    	try {
@@ -265,6 +268,7 @@ public class UserAdministrationServlet extends HttpServlet  {
 				String userFirstName = req.getParameter("userFirstName");
 				String userSurname = req.getParameter("userSurname");
 				String newEmail = req.getParameter("newEmail");
+				String newContactNo = req.getParameter("newContactNo");
 				boolean nameExists = false;
 				boolean useSameName = false;
 				if (!buttonPressed.equals("addUserSubmitConfirm")) {
@@ -299,6 +303,7 @@ public class UserAdministrationServlet extends HttpServlet  {
 				req.setAttribute("userFirstName", userFirstName);
 				req.setAttribute("userSurname", userSurname);
 				req.setAttribute("userEmail", newEmail);
+				req.setAttribute("userContactNo", newContactNo);
 				req.setAttribute("selectUserType", selectUserType);
 				req.setAttribute("selectThirdParty", selectThirdParty);
 				req.setAttribute("selectCustomerId", selectCustomerId);
@@ -324,13 +329,14 @@ public class UserAdministrationServlet extends HttpServlet  {
 				    try {
 				    	conn = DriverManager.getConnection(url);
 				    	conn.setAutoCommit(false);
-				    	cstmt = conn.prepareCall("{call AddUser(?,?,?,?,?,?)}");
+				    	cstmt = conn.prepareCall("{call AddUser(?,?,?,?,?,?,?)}");
 						cstmt.setString(1, selectUserType);
 						cstmt.setString(2, userSurname);
 						cstmt.setString(3, userFirstName);
 						cstmt.setString(4, useSameName?"Y":"N");
 						cstmt.setString(5, thisU.getNameForLastUpdatedBy());
 						cstmt.setString(6, newEmail);
+						cstmt.setString(7, newContactNo);
 						boolean found = cstmt.execute();
 						long newUserId = -1;
 						String newPassword = null;

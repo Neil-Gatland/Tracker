@@ -3,15 +3,18 @@
 String snrId = request.getAttribute("snrId")==null?"":(String)request.getAttribute("snrId");
 String operation = request.getAttribute("operation")==null?"":(String)request.getAttribute("operation");
 String userMessage = request.getAttribute("userMessage")==null?"":(String)request.getAttribute("userMessage");
+String site = request.getAttribute("site")==null?"":(String)request.getAttribute("site");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="homeFE.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.HOME_FE%>"/>
 <input type="hidden" name="snrId" id="snrId" value="<%=snrId%>"/>
 <input type="hidden" name="operation" id="operation" value="<%=operation%>"/>
+<input type="hidden" name="site" id="site" value="<%=site%>"/>
 <input type="hidden" name="selectedStatus" id="selectedStatus" value=""/>
 <script language="javascript">
 <!--
 var selectedSnrId = "<%=snrId%>";
+var selectedSite = "<%=site%>";
 var selectedOperation = "<%=operation%>";
 var userMessage = "<%=userMessage%>";
 
@@ -38,13 +41,20 @@ function thisScreenLoad() {
 	}
 }
 
+function toggleExpandCollapse(site) {
+	document.getElementById("operation").value = "toggle";
+	document.getElementById("site").value = site;
+	document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
+	document.getElementById("f1").action = "homeFE";
+	document.getElementById("f1").submit();
+}
+
 function refresh() {
 	document.getElementById("operation").value = "";
 	document.getElementById("snrId").value = "";
 	document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
 	document.getElementById("f1").action = "homeFE";
-	document.getElementById("f1").submit();
-	
+	document.getElementById("f1").submit();	
 }
 
 function updateProgress(operation,snrId,colour) {
@@ -68,32 +78,30 @@ function updateProgress(operation,snrId,colour) {
 
 -->
 </script>
-<table style="table-layout:fixed;border-style:none;width:420px;">
+<table  style="table-layout:fixed;border-style:none;width:100%;">
 <colgroup>
-	<col width="80px"/>
-	<col width="5px"/>
-	<col width="80px"/>
-	<col width="5px"/>
-	<col width="80px"/>
-	<col width="5px"/>
-	<col width="80px"/>
-	<col width="5px"/>
-	<col width="80px"/>
-</colgroup>
+	<col width="61%"/>
+	<col width="39%"/>
 <tbody>
 <tr>
-	<td colspan="9" height="5px" class="ldTitle9"></td>	
+	<td colspan="2" height="5px" class="ldTitle9"></td>
+</tr><tr>
+	<td class="ldTitle9">&nbsp;</td>
+	<td class="ldTitle9">Welcome, <%=thisU.getNameForLastUpdatedBy()%></td>
+</tr><tr>
+	<td colspan="2" height="5px" class="ldTitle9"></td>
+</tr><tr>
+	<td colspan="2" height="15px" class="ldFEWhite" title="Press to pick up any changes"
+		style="cursor:pointer;" onClick="refresh()">
+		Refresh
+	</td>
+</tr><tr>
+	<td colspan="2" height="15px" class="ldTitle9"></td>
 </tr>
-<tr>
-	<td colspan="6" class="ldTitle9">&nbsp;</td>
-	<td colspan="3" class="ldTitle9">Welcome, <%=thisU.getNameForLastUpdatedBy()%></td>
-</tr>
-<tr>
-	<td colspan="9" height="5px" class="ldTitle9"></td>
-</tr>
-<%=uB.getFELiveDashboardSitesHTML()%>
 </tbody>
+</colgroup>
 </table>
+<%=uB.getFELiveDashboardSitesHTML() %>
 <%@ include file="feUpdateProgressStatus.txt" %>
 </form>
 </body>

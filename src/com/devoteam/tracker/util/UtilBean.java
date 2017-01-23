@@ -2457,7 +2457,8 @@ public class UtilBean {
 						rs.getString(9),rs.getString(10),rs.getString(11),
 						rs.getString(12),rs.getString(13),rs.getString(14),
 						rs.getString(15),rs.getString(16),rs.getString(17),
-						rs.getDate(18),rs.getString(19),rs.getString(20)));
+						rs.getDate(18),rs.getString(19),rs.getString(20),
+						rs.getString(21)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -2493,7 +2494,7 @@ public class UtilBean {
 			HTMLElement input = new HTMLElement("input", "userId"+row, "usrId",
 				"radio", uali.getUserIdString(), 
 				"userSelect('"+uali.getUserIdString()+"','"+uali.getStatus()+"','"+
-				uali.getUsername()+"','"+uali.getUserType()+"','"+uali.getEmail()+"')");
+				uali.getUsername()+"','"+uali.getUserType()+"','"+uali.getEmail()+"','"+uali.getContactNo()+"')");
 			if (uali.getUserId() == selectedUserId) {
 				input.setChecked(true);
 			}
@@ -6949,7 +6950,8 @@ public class UtilBean {
 							rs.getString(17), rs.getString(18), rs.getString(19), rs.getString(20),
 							rs.getString(21), rs.getString(22), rs.getString(23), rs.getString(24),
 							rs.getString(25), rs.getString(26), rs.getString(27), rs.getString(28),
-							rs.getString(29), rs.getString(30), rs.getString(31), rs.getLong(32)));
+							rs.getString(29), rs.getString(30), rs.getString(31), rs.getLong(32),
+							rs.getString(33), rs.getString(34)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -6967,231 +6969,476 @@ public class UtilBean {
 	}
 	
 	public String getFELiveDashboardSitesHTML() {
-
-		boolean oddRow = false;
 		StringBuilder html = new StringBuilder();
-		Collection<LiveDashboardSite> LiveDashboardSite = getFELiveDashboardSites();
+		Collection<LiveDashboardSite> LiveDashboardSite = getFELiveDashboardSites();		
 		if (LiveDashboardSite.isEmpty()) {
+			String emptyHTML = 
+					"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"100%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr>" +
+							"<td class=\"ldFEHead\">";	
 			if (message != null) {
-				HTMLElement tr = new HTMLElement("tr");
-				HTMLElement td = new HTMLElement("td", "grid1",	message);
-				td.setAttribute("colspan", "9");
-				tr.appendValue(td.toString());
-				html.append(tr.toString());
+				emptyHTML = emptyHTML + message;
 			} else {
-				HTMLElement tr = new HTMLElement("tr");
-				HTMLElement td = new HTMLElement("td", "grid1","No sites currrently allocated to you");
-				td.setAttribute("colspan", "9");
-				tr.appendValue(td.toString());
-				html.append(tr.toString());	
+				emptyHTML = emptyHTML + "No sites currrently allocated to you";
 			}
+			emptyHTML = emptyHTML +
+					"</td>" +
+					"</tr>" +
+					"</tbody></table>";
+			html.append(emptyHTML);
 		} else {
 			for (Iterator<LiveDashboardSite> it = LiveDashboardSite.iterator(); it.hasNext(); ) {
-				oddRow = !oddRow;
 				LiveDashboardSite lds = it.next();
-				// set up blank line
-				HTMLElement trBlank = new HTMLElement("tr");
-				HTMLElement tdBlank = new HTMLElement("td", "", "");
-				tdBlank.setAttribute("height", "2px");
-				trBlank.appendValue(tdBlank.toString());
-				HTMLElement tdGap = new HTMLElement("td", "", "");
-				// site details
-				HTMLElement trsa = new HTMLElement("tr");
-				HTMLElement tdsa1 = new HTMLElement("td", "ldFEHead", "Site:");
-				tdsa1.setAttribute("height", "10px");	
-				tdsa1.setAttribute("colspan", "2");			
-				trsa.appendValue(tdsa1.toString());	
-				HTMLElement tdsa2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getSite());
-				tdsa2.setAttribute("colspan", "7");			
-				trsa.appendValue(tdsa2.toString());	
-				html.append(trsa.toString());
-				HTMLElement trsb = new HTMLElement("tr");
-				HTMLElement tdsb1 = new HTMLElement("td", "ldFEHead", "Client:");
-				tdsb1.setAttribute("height", "10px");	
-				tdsb1.setAttribute("colspan", "2");			
-				trsb.appendValue(tdsb1.toString());	
-				HTMLElement tdsb2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getCustomer());
-				tdsb2.setAttribute("colspan", "7");		
-				tdsb2.setAttribute("id", "anchor"+lds.getSnrId());	
-				tdsb2.setAttribute("name", "anchor"+lds.getSnrId());	
-				trsb.appendValue(tdsb2.toString());	
-				html.append(trsb.toString());
-				HTMLElement trsc = new HTMLElement("tr");
-				HTMLElement tdsc1 = new HTMLElement("td", "ldFEHead", "Project:");
-				tdsc1.setAttribute("height", "10px");	
-				tdsc1.setAttribute("colspan", "2");			
-				trsc.appendValue(tdsc1.toString());	
-				HTMLElement tdsc2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getProject());
-				tdsc2.setAttribute("colspan", "7");		
-				trsc.appendValue(tdsc2.toString());	
-				html.append(trsc.toString());
-				HTMLElement trsd = new HTMLElement("tr");
-				HTMLElement tdsd1 = new HTMLElement("td", "ldFEHead", "Work Type:");
-				tdsd1.setAttribute("height", "10px");	
-				tdsd1.setAttribute("colspan", "2");			
-				trsd.appendValue(tdsd1.toString());	
-				HTMLElement tdsd2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getMigrationType());
-				tdsd2.setAttribute("colspan", "7");		
-				trsd.appendValue(tdsd2.toString());	
-				html.append(trsd.toString());
-				HTMLElement trse = new HTMLElement("tr");
-				HTMLElement tdse1 = new HTMLElement("td", "ldFEHead", "BO engineer:");
-				tdse1.setAttribute("height", "10px");	
-				tdse1.setAttribute("colspan", "2");			
-				trse.appendValue(tdse1.toString());	
-				HTMLElement tdse2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getBoList());
-				tdse2.setAttribute("colspan", "7");		
-				trse.appendValue(tdse2.toString());	
-				html.append(trse.toString());
-				HTMLElement trsf = new HTMLElement("tr");
-				HTMLElement tdsf1 = new HTMLElement("td", "ldFEHead", "Overall Status:");
-				tdsf1.setAttribute("height", "10px");	
-				tdsf1.setAttribute("colspan", "2");			
-				trsf.appendValue(tdsf1.toString());	
-				HTMLElement tdsf2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getOverallStatus());
-				tdsf2.setAttribute("colspan", "7");		
-				trsf.appendValue(tdsf2.toString());	
-				html.append(trsf.toString());
-				HTMLElement trsg = new HTMLElement("tr");
-				HTMLElement tdsg1 = new HTMLElement("td", "ldFEHead", "Scheduled On:");
-				tdsg1.setAttribute("height", "10px");	
-				tdsg1.setAttribute("colspan", "2");			
-				trsg.appendValue(tdsg1.toString());	
-				HTMLElement tdsg2 = new HTMLElement("td", (oddRow?"ldFEGrid1":"ldFEGrid2"), lds.getScheduledDDMM());
-				tdsg2.setAttribute("colspan", "7");		
-				trsg.appendValue(tdsg2.toString());	
-				html.append(trsg.toString());
-				// Blank line between site details and buttons
-				html.append(trBlank.toString());
-				// progress row 1
-				HTMLElement trpra = new HTMLElement("tr");
-				HTMLElement tdpra1 = new HTMLElement("td", "ldFE"+lds.getCheckedIn(), "Checked In");
-				tdpra1.setAttribute("height", "40px");
-				tdpra1.setAttribute("onClick", "updateProgress('checkedIn','"+lds.getSnrId()+"','"+lds.getCheckedIn()+"')");
-				tdpra1.setAttribute("style", "cursor:pointer");
-				trpra.appendValue(tdpra1.toString());				
-				trpra.appendValue(tdGap.toString());
-				HTMLElement tdpra2 = new HTMLElement("td", "ldFE"+lds.getBookedOn(), "Site Booked on");
-				tdpra2.setAttribute("onClick", "updateProgress('bookedOn','"+lds.getSnrId()+"','"+lds.getBookedOn()+"')");
-				tdpra2.setAttribute("style", "cursor:pointer");
-				trpra.appendValue(tdpra2.toString());			
-				trpra.appendValue(tdGap.toString());
-				HTMLElement tdpra3 = new HTMLElement("td", "ldFE"+lds.getSiteAccessed(), "Site Accessed");
-				tdpra3.setAttribute("onClick", "updateProgress('siteAccessed','"+lds.getSnrId()+"','"+lds.getSiteAccessed()+"')");
-				tdpra3.setAttribute("style", "cursor:pointer");
-				trpra.appendValue(tdpra3.toString());			
-				trpra.appendValue(tdGap.toString());
-				HTMLElement tdpra4 = new HTMLElement("td", "ldFE"+lds.getPhysicalChecks(), "Physical Checks");
-				tdpra4.setAttribute("onClick", "updateProgress('physicalChecks','"+lds.getSnrId()+"','"+lds.getPhysicalChecks()+"')");
-				tdpra4.setAttribute("style", "cursor:pointer");
-				trpra.appendValue(tdpra4.toString());			
-				trpra.appendValue(tdGap.toString());
-				HTMLElement tdpra5 = new HTMLElement("td", "ldFE"+lds.getPreCallTest(), "Pre Call Test");
-				tdpra5.setAttribute("onClick", "updateProgress('preCallTest','"+lds.getSnrId()+"','"+lds.getPreCallTest()+"')");
-				tdpra5.setAttribute("style", "cursor:pointer");
-				trpra.appendValue(tdpra5.toString());
-				html.append(trpra.toString());
-				html.append(trBlank.toString());
-				// progress row 2
-				HTMLElement trprb = new HTMLElement("tr");
-				HTMLElement tdprb1 = new HTMLElement("td", "ldFE"+lds.getSiteLocked(), "Site Locked");
-				tdprb1.setAttribute("onClick", "updateProgress('siteLocked','"+lds.getSnrId()+"','"+lds.getSiteLocked()+"')");
-				tdprb1.setAttribute("height", "40px");
-				tdprb1.setAttribute("style", "cursor:pointer");
-				trprb.appendValue(tdprb1.toString());		
-				trprb.appendValue(tdGap.toString());
-				HTMLElement tdprb2 = new HTMLElement("td", "ldFE"+lds.getHwInstalls(), "HW Installed");
-				tdprb2.setAttribute("onClick", "updateProgress('hwInstalls','"+lds.getSnrId()+"','"+lds.getHwInstalls()+"')");
-				tdprb2.setAttribute("style", "cursor:pointer");
-				trprb.appendValue(tdprb2.toString());			
-				trprb.appendValue(tdGap.toString());
-				HTMLElement tdprb3 = new HTMLElement("td", "ldFE"+lds.getCommissioningFE(), "Field Commissioning");
-				tdprb3.setAttribute("onClick", "updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')");
-				tdprb3.setAttribute("style", "cursor:pointer");
-				trprb.appendValue(tdprb3.toString());			
-				trprb.appendValue(tdGap.toString());
-				HTMLElement tdprb4 = new HTMLElement("td", "ldFE"+lds.getCommissioningBO(), "Back Office Commissioning");
-				tdprb4.setAttribute("onClick", "updateProgress('commissioningBO','"+lds.getSnrId()+"','"+lds.getCommissioningBO()+"')");
-				tdprb4.setAttribute("style", "cursor:pointer");
-				trprb.appendValue(tdprb4.toString());			
-				trprb.appendValue(tdGap.toString());
-				HTMLElement tdprb5 = new HTMLElement("td", "ldFE"+lds.getTxProvisioning(), "Tx Provisioning");
-				tdprb5.setAttribute("onClick", "updateProgress('txProvisioning','"+lds.getSnrId()+"','"+lds.getTxProvisioning()+"')");
-				tdprb5.setAttribute("style", "cursor:pointer");
-				trprb.appendValue(tdprb5.toString());			
-				html.append(trprb.toString());
-				html.append(trBlank.toString());
-				// progress row 3
-				HTMLElement trprc = new HTMLElement("tr");
-				HTMLElement tdprc1 = new HTMLElement("td", "ldFE"+lds.getFieldWork(), "Field Work");
-				tdprc1.setAttribute("onClick", "updateProgress('fieldWork','"+lds.getSnrId()+"','"+lds.getFieldWork()+"')");
-				tdprc1.setAttribute("height", "40px");
-				tdprc1.setAttribute("style", "cursor:pointer");
-				trprc.appendValue(tdprc1.toString());		
-				trprc.appendValue(tdGap.toString());
-				HTMLElement tdprc2 = new HTMLElement("td", "ldFE"+lds.getSiteUnlocked(), "Site Unlocked");
-				tdprc2.setAttribute("onClick", "updateProgress('siteUnlocked','"+lds.getSnrId()+"','"+lds.getSiteUnlocked()+"')");
-				tdprc2.setAttribute("style", "cursor:pointer");
-				trprc.appendValue(tdprc2.toString());		
-				trprc.appendValue(tdGap.toString());
-				HTMLElement tdprc3 = new HTMLElement("td", "ldFE"+lds.getPostCallTest(), "Post Call Test");
-				tdprc3.setAttribute("onClick", "updateProgress('postCallTest','"+lds.getSnrId()+"','"+lds.getPostCallTest()+"')");
-				tdprc3.setAttribute("style", "cursor:pointer");
-				trprc.appendValue(tdprc3.toString());			
-				trprc.appendValue(tdGap.toString());
-				HTMLElement tdprc4 = new HTMLElement("td", "ldFE"+lds.getClosureCode(), "Closure Code");
-				tdprc4.setAttribute("onClick", "updateProgress('closureCode','"+lds.getSnrId()+"','"+lds.getClosureCode()+"')");
-				tdprc4.setAttribute("style", "cursor:pointer");
-				trprc.appendValue(tdprc4.toString());			
-				trprc.appendValue(tdGap.toString());
-				HTMLElement tdprc5 = new HTMLElement("td", "ldFE"+lds.getLeaveSite(), "Left Site");
-				tdprc5.setAttribute("onClick", "updateProgress('leaveSite','"+lds.getSnrId()+"','"+lds.getLeaveSite()+"')");
-				tdprc5.setAttribute("style", "cursor:pointer");
-				trprc.appendValue(tdprc5.toString());
-				html.append(trprc.toString());
-				html.append(trBlank.toString());
-				// progress row 4 
-				HTMLElement trprd = new HTMLElement("tr");
-				HTMLElement tdprd1 = new HTMLElement("td", "ldFE"+lds.getBookOffSite(), "Site Booked Off");
-				tdprd1.setAttribute("onClick", "updateProgress('bookOffSite','"+lds.getSnrId()+"','"+lds.getBookOffSite()+"')");
-				tdprd1.setAttribute("height", "40px");
-				tdprd1.setAttribute("style", "cursor:pointer");
-				trprd.appendValue(tdprd1.toString());		
-				trprd.appendValue(tdGap.toString());
-				HTMLElement tdprd2 = new HTMLElement("td", "ldFE"+lds.getPerformanceMonitoring(), "Performance");
-				tdprd2.setAttribute("onClick", "updateProgress('performanceMonitoring','"+lds.getSnrId()+"','"+lds.getPerformanceMonitoring()+"')");
-				tdprd2.setAttribute("style", "cursor:pointer");trprd.appendValue(tdprd2.toString());			
-				trprd.appendValue(tdGap.toString());
-				HTMLElement tdprd3 = new HTMLElement("td", "ldFE"+lds.getInitialHOP(), "Hand Off Pack");
-				tdprd3.setAttribute("onClick", "updateProgress('initialHOP','"+lds.getSnrId()+"','"+lds.getInitialHOP()+"')");
-				tdprd3.setAttribute("style", "cursor:pointer");
-				trprd.appendValue(tdprd3.toString());			
-				trprd.appendValue(tdGap.toString());
-				HTMLElement tdprd4 = new HTMLElement("td", "ldFE"+lds.getDevoteamIssue(), "Devoteam Issue");
-				trprd.appendValue(tdprd4.toString());		
-				trprd.appendValue(tdGap.toString());
-				HTMLElement tdprd5 = new HTMLElement("td", "ldFE"+lds.getCustomerIssue(), "Customer Issue");
-				trprd.appendValue(tdprd5.toString());
-				html.append(trprd.toString());
-				html.append(trBlank.toString());
-				// refresh button
-				HTMLElement trr = new HTMLElement("tr");
-				HTMLElement tdr1 = new HTMLElement("td", "ldFEWhite", "Refresh");
-				tdr1.setAttribute("onClick", "refresh()");
-				tdr1.setAttribute("title", "Press to pick up any changes");
-				tdr1.setAttribute("height", "15px");
-				tdr1.setAttribute("colspan", "9");				
-				tdr1.setAttribute("style", "cursor:pointer");
-				trr.appendValue(tdr1.toString());
-				html.append(trr.toString());
-				/// Space between sites
-				html.append(trBlank.toString());
-				html.append(trBlank.toString());
-				html.append(trBlank.toString());
-				html.append(trBlank.toString());
+				boolean oddRow = false;
+				String separatorGrayHTML = 
+						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+						"<col width=\"4%\"/>" +
+						"<col width=\"80%\"/>" +
+						"<col width=\"16%\"/>" +
+						"</colgroup>" +
+						"<tbody>" +
+						"<tr><td height=\"1px\"></td></tr>" +
+						"<tr>" +
+						"<td></td>" +
+						"<td height=\"1px\" class=\"ldFEThinGray\"></td>" +
+						"<td></td>" +
+						"</tr>" +
+						"<tr><td height=\"1px\"></td></tr>" +
+						"</tbody></table>";
+				String separatorBlankHTML = 
+						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+						"<col width=\"4%\"/>" +
+						"<col width=\"80%\"/>" +
+						"<col width=\"16%\"/>" +
+						"</colgroup>" +
+						"<tbody>" +
+						"<tr><td height=\"1px\"></td></tr>" +
+						"<tr>" +
+						"<td></td>" +
+						"<td height=\"1px\"></td>" +
+						"<td></td>" +
+						"</tr>" +
+						"<tr><td height=\"1px\"></td></tr>" +
+						"</tbody></table>";
+				String siteHTML = 
+						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+						"<col width=\"4%\"/>" +
+						"<col width=\"40%\"/>" +
+						"<col width=\"0%\"/>" +
+						"<col width=\"40%\"/>" +
+						"<col width=\"8%\"/>" +
+						"<col width=\"8%\"/>" +
+						"</colgroup>" +
+						"<tbody>" +
+						"<tr>" +
+						"<td>"; 
+				String expandCollapse = getFESiteExpandCollapse( user.getFullname(), lds.getSite() );
+				siteHTML = siteHTML +
+						"</td><td class=\"ldFEHeadSite\" id=\"anchor"+lds.getSnrId()+"\">" +
+						lds.getSite() +
+						"</td><td class=\"ldFEHeadSite\">&nbsp;" +
+						"</td><td class=\"ldFEHeadSite\">" +
+						lds.getPostcode() +
+						"</td>" +
+						"</td><td class=\"ldFEHeadSite\" "+
+						"title=\"" +
+						(expandCollapse.equals("C")?"Show site details":"Hide site details") +
+						"\" style=\"cursor:pointer;\" "+
+						"onClick=\"toggleExpandCollapse('"+lds.getSite()+"')\">" +
+						"<img src=\"images/" +
+						(expandCollapse.equals("C")?"show.png":"hide.png") +
+						"\" height=\"20px\" width=\"20px\" />" +
+						"</td>" +
+						"</tr>" +
+						"</tbody></table>";
+				html.append(siteHTML);
+				html.append(separatorBlankHTML);
+				if (expandCollapse.equals("E")) {
+					String siteDetailHTML = 
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"4%\"/>" +
+							"<col width=\"25%\"/>" +
+							"<col width=\"55%\"/>" +
+							"<col width=\"16%\"/>" +
+							"</colgroup>" +
+							"<tbody>";
+					siteDetailHTML = siteDetailHTML +
+							"<tr><td>" + 
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"Client:" +
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							lds.getCustomer() +
+							"</td></tr>";
+					oddRow = !oddRow;
+					siteDetailHTML = siteDetailHTML +
+							"<tr><td>" + 
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"Project:" +
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							lds.getProject() +
+							"</td></tr>";
+					oddRow = !oddRow;
+					siteDetailHTML = siteDetailHTML +
+							"<tr><td>" + 
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"Work Type:" +
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							lds.getMigrationType() +
+							"</td></tr>";
+					oddRow = !oddRow;
+					siteDetailHTML = siteDetailHTML +
+							"<tr><td>" + 
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"BO Engineer:" +
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							lds.getBoList() +
+							"</td></tr>";
+					oddRow = !oddRow;
+					siteDetailHTML = siteDetailHTML +
+							"<tr><td>" + 
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"Contact No.:" +
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							lds.getBoContactNo() +
+							"</td></tr>";
+					oddRow = !oddRow;
+					siteDetailHTML = siteDetailHTML +
+							"<tr><td>" + 
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"Overall Status:" +
+							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+lds.getOverallStatusColour()+"\">" +
+							lds.getOverallStatus() +
+							"</td></tr>";
+					siteDetailHTML = siteDetailHTML + 
+							"</td></tr></tbody></table>";
+					html.append(siteDetailHTML);
+					html.append(separatorBlankHTML);
+					String startingHTML =
+						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+						"<col width=\"4%\"/>" +
+						"<col width=\"15%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"15%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"15%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"15%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"15%\"/>" +
+						"<col width=\"17%\"/>" +
+						"</colgroup>" +
+						"<tbody>" +
+						"<tr>" +
+						"<td></td>" +
+						"<td height=\"40px\" class=\"ldFE"+lds.getCheckedIn()+"\" "+
+						"title=\"Checked In (FE/BO)\" " +
+						"style=\"cursor:pointer;\" " +
+						"onClick=\"updateProgress('checkedIn','"+lds.getSnrId()+"','"+lds.getCheckedIn()+"') \""+
+						"\">" +
+						"CI" +
+						"</td>" +
+						"<td></td>" +
+						"<td height=\"40px\" class=\"ldFE"+lds.getBookedOn()+"\" "+
+						"title=\"Site Booked On (FE/BO)\" " +
+						"style=\"cursor:pointer;\" " +
+						"onClick=\"updateProgress('bookedOn','"+lds.getSnrId()+"','"+lds.getBookedOn()+"') \""+
+						"\">" +
+						"SB" +
+						"</td>" +
+						"<td></td>" +
+						"<td height=\"40px\" class=\"ldFE"+lds.getSiteAccessed()+"\" "+
+						"title=\"Site Accessed (FE)\" " +
+						"style=\"cursor:pointer;\" " +
+						"onClick=\"updateProgress('siteAccessed','"+lds.getSnrId()+"','"+lds.getSiteAccessed()+"') \""+
+						"\">" +
+						"SA" +
+						"</td>" +
+						"<td></td>" +
+						"<td height=\"40px\" class=\"ldFE"+lds.getPhysicalChecks()+"\" "+
+						"title=\"Physical Checks (FE)\" " +
+						"style=\"cursor:pointer;\" " +
+						"onClick=\"updateProgress('physicalChecks','"+lds.getSnrId()+"','"+lds.getPhysicalChecks()+"') \""+
+						"\">" +
+						"PC" +
+						"</td>" +
+						"<td></td>" +
+						"<td height=\"40px\" class=\"ldFE"+lds.getPreCallTest()+"\" "+
+						"title=\"Pre Call Test (FE)\" " +
+						"style=\"cursor:pointer;\" " +
+						"onClick=\"updateProgress('preCallTest','"+lds.getSnrId()+"','"+lds.getPreCallTest()+"') \""+
+						"\">" +
+						"TC" +
+						"</td>" +
+						"</tr>" +
+						"</tbody></table>";
+					html.append(startingHTML);
+					html.append(separatorGrayHTML);
+					String progress1HTML =
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"4%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"17%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getSiteLocked()+"\" "+
+							"title=\"Site Locked (BO/FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('siteLocked','"+lds.getSnrId()+"','"+lds.getSiteLocked()+"') \""+
+							"\">" +
+							"SL" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getHwInstalls()+"\" "+
+							"title=\"HW Installed (FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('hwInstalls','"+lds.getSnrId()+"','"+lds.getHwInstalls()+"') \""+
+							"\">" +
+							"HW" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getCommissioningFE()+"\" "+
+							"title=\"Field Commissioning (FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"') \""+
+							"\">" +
+							"FC" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getCommissioningBO()+"\" "+
+							"title=\"Back Office Commissioning (BO)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('commissioningBO','"+lds.getSnrId()+"','"+lds.getCommissioningBO()+"') \""+
+							"\">" +
+							"BC" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getTxProvisioning()+"\" "+
+							"title=\"Tx Provisioning (Client))\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('txProvisioning','"+lds.getSnrId()+"','"+lds.getTxProvisioning()+"') \""+
+							"\">" +
+							"Tx" +
+							"</td>" +
+							"</tr>" +
+							"</tbody></table>";
+					html.append(progress1HTML);	
+					html.append(separatorGrayHTML);
+					String progress2HTML =
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"15%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"6%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"6%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"28%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr><td height=\"1px\"></td></tr>" +
+							"<tr>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getFieldWork()+"\" "+
+							"title=\"Field Work (FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('fieldWork','"+lds.getSnrId()+"','"+lds.getFieldWork()+"') \""+
+							"\">" +
+							"FW" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getSiteUnlocked()+"\" "+
+							"title=\"Site Unlocked (BO/FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('siteUnlocked','"+lds.getSnrId()+"','"+lds.getSiteUnlocked()+"') \""+
+							"\">" +
+							"SU" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getPostCallTest()+"\" "+
+							"title=\"Post Call test (FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"') \""+
+							"\">" +
+							"TC" +
+							"</td></tr></tbody></table>";
+					html.append(progress2HTML);					
+					html.append(separatorGrayHTML);
+					String completingHTML = 
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"4%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"17%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getClosureCode()+"\" "+
+							"title=\"Closure Code (BO)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('closureCode','"+lds.getSnrId()+"','"+lds.getClosureCode()+"') \""+
+							"\">" +
+							"CC" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getLeaveSite()+"\" "+
+							"title=\"Left Site (BO/FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('leaveSite','"+lds.getSnrId()+"','"+lds.getLeaveSite()+"') \""+
+							"\">" +
+							"SL" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getBookOffSite()+"\" "+
+							"title=\"Booked Off Site (FE)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('bookOffSite','"+lds.getSnrId()+"','"+lds.getBookOffSite()+"') \""+
+							"\">" +
+							"SB" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getPerformanceMonitoring()+"\" "+
+							"title=\"Performance (BO)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('performanceMonitoring','"+lds.getSnrId()+"','"+lds.getPerformanceMonitoring()+"') \""+
+							"\">" +
+							"Prf" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getInitialHOP()+"\" "+
+							"title=\"Hand Over Pack (BO)\" " +
+							"style=\"cursor:pointer;\" " +
+							"onClick=\"updateProgress('initialHOP','"+lds.getSnrId()+"','"+lds.getInitialHOP()+"') \""+
+							"\">" +
+							"HoP" +
+							"</td>" +
+							"</tr>" +
+							"</tbody></table>";				
+					html.append(completingHTML);			
+					html.append(separatorBlankHTML);
+					String refreshHTML = 
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"4%\"/>" +
+							"<col width=\"80%\"/>" +
+							"<col width=\"16%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr>" +
+							"<td></td>" +
+							"<td height=\"15px\" class=\"ldFEWhite\" " +
+							"style=\"cursor:pointer;\" onclick=\"refresh()\" "+
+							"title=\"Press to pick up any changes\">" +
+							"Refresh</td></tr>" +
+							"</tbody></table>";
+					html.append(refreshHTML);			
+					html.append(separatorBlankHTML);
+					String issuesHTML = 
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"20%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"9%\"/>" +
+							"<col width=\"15%\"/>" +
+							"<col width=\"41%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getDevoteamIssue()+"\" "+
+							"title=\"Devoteam\"\">" +
+							"Devo" +
+							"</td>" +
+							"<td></td>" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getCustomerIssue()+"\" "+
+							"title=\"Vodafone\"\">" +
+							"VF" +
+							"</td></tr></tbody></table>";			
+					html.append(issuesHTML);			
+					html.append(separatorBlankHTML);				
+				}	
 			}
 		}
 		return html.toString();
+	}
+	
+	public String getFESiteExpandCollapse( String username, String site) {
+		String expandCollapse = "E";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetFESiteExpandCollapse(?,?)}");
+	    	cstmt.setString(1, username);
+	    	cstmt.setString(2, site);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					expandCollapse = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetFESiteExpandCollapse(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return expandCollapse;
+	}
+	
+	public String toggleFESiteExpandCollapse( String username, String site) {
+		String result = "";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call ToggleFESiteExpandCollapse(?,?)}");
+	    	cstmt.setString(1, username);
+	    	cstmt.setString(2, site);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetFESiteExpandCollapse(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return result;
 	}
 	
 	public String getProgressItemStatusHTML(String operation, String snrId) {

@@ -32,22 +32,35 @@ public class HomeFEServlet extends HttpServlet {
 			String snrId = req.getParameter("snrId");
 	    	req.setAttribute("snrId", snrId); 
 			String operation = req.getParameter("operation");
+			String site = req.getParameter("site");
+	    	req.setAttribute("site", site); 
 	    	req.setAttribute("operation", operation); 
-			String selectedStatus = req.getParameter("selectedStatus");
-			if (!selectedStatus.equals("")) {
+	    	if (operation.equals("toggle")) {
 				User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
 				UtilBean uB = new UtilBean(thisU, destination.substring(1), url);
-				String updateResult = uB.updateProgressItemStatus(
-						operation,
-	    				Long.parseLong(snrId),
-	    				selectedStatus,
-						thisU.getNameForLastUpdatedBy());
-	    		req.setAttribute("userMessage", updateResult);
-				req.setAttribute("snrId", "");
-			} else {
-				session.setAttribute("userMessage", "");
-			}
+				String toggleResult = uB.toggleFESiteExpandCollapse(thisU.getFullname(), site);
+				if (toggleResult.equals("Y")) 
+					req.setAttribute("userMessage", "Toggled OK" );
+				else
+					req.setAttribute("userMessage", "Failed to toggle" );					
+	    	} else {	    		
+				String selectedStatus = req.getParameter("selectedStatus");
+				if (!selectedStatus.equals("")) {
+					User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
+					String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+					UtilBean uB = new UtilBean(thisU, destination.substring(1), url);
+					String updateResult = uB.updateProgressItemStatus(
+							operation,
+		    				Long.parseLong(snrId),
+		    				selectedStatus,
+							thisU.getNameForLastUpdatedBy());
+		    		req.setAttribute("userMessage", updateResult);
+					req.setAttribute("snrId", "");
+				} else {
+					session.setAttribute("userMessage", "");
+				}
+	    	}
 			String ran = "?ran=" + String.valueOf(Math.abs(r.nextLong()));
 	      	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destination+ran);
 	      	dispatcher.forward(req,resp);

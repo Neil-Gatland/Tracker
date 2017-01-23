@@ -207,7 +207,7 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 	<tr>	
 		<td	onClick="siteProgressItemsKeyClick('open')"
 			style="cursor:pointer;"
-			class="ldHead" title="Checked In (BO)">CI</td>
+			class="ldHead" title="Checked In (BO/FE)">CI</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
 			style="cursor:pointer;"
 			class="ldHead" title="Site Booked On (FE)">SB</td>
@@ -248,7 +248,7 @@ overflow-y: auto; overflow-x: hidden; border: none; height: 460x;">
 			class="ldHeadLeftDash" title="Closure Code (BO)">CC</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
 			style="cursor:pointer;"
-			class="ldHead" title="Left Site (BO)">SL</td>
+			class="ldHead" title="Left Site (BO/FE)">SL</td>
 		<td onClick="siteProgressItemsKeyClick('open')"
 			style="cursor:pointer;"
 			class="ldHead" title="Booked Off Site (FE)">SB</td>
