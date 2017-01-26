@@ -87,8 +87,7 @@
 <input type="hidden" name="toScreen" id="toScreen" value=""/>
 <table style="table-layout: fixed; border-style: none;width:100%;">
 <colgroup>
-	<col width="121.5px"/>
-	<col width="121.5px"/>
+	<col width="200px"/>
 <tbody>
 <tr>
 	<td align="left" valign="center">

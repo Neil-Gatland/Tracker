@@ -1,26 +1,91 @@
-<div id="feUpdateProgressStatus" class="displayPic" style="display:none;">
-<table>
+<div id="feUpdateProgressStatus" class="displayPic" style="display:none;width:95%">
+<div class="FeX" title="close" onClick="feUpdateProgressStatusClick('close')">X</div>
+<table style="width:95%;">
 	<tr>
-		<td class="ldFEHead" width="200px">
+		<td width="100% height="50px" class="FEProgressTitle">
 			<%=uB.operationDisp(operation)%>
 		</td>
 	</tr>
 	<tr>
-		<td width="160px">
-			<%=uB.getProgressItemStatusHTML(operation,snrId)%>
-		</td>
-		<td width="10px">
+		<td width="100% height="1px" class="FEName">
 			&nbsp;
 		</td>
-		<td width="20px" title="click to confirm status change">
-			<img src="images/green_tick.png" height="15px" width="15px" 
-				onClick="feUpdateProgressStatusClick('submit')"/>
-		</td>
-		<td width="20px" title="click to cancel">
-			<img src="images/red_cross.png" height="15px" width="15px" 
-				onClick="feUpdateProgressStatusClick('cancel')"/>
+	</tr>
+	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"In Progress").equals("Y")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSAmber" title="Click to set"
+			style="cursor:pointer;"			
+			onClick="feUpdateProgressStatusClick('inProgress')">
+			In Progress
 		</td>
 	</tr>
+	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"In Progress").equals("C")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSAmberC" title="Current value">
+			In Progress
+		</td>
+	</tr>
+	<% } %>
+	<tr>
+		<td width="100% height="1px" class="FEName">
+			&nbsp;
+		</td>
+	</tr>
+	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"Completed").equals("Y")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSGreen" title="Click to set "
+			style="cursor:pointer;"			
+			onClick="feUpdateProgressStatusClick('completed')">
+			Completed
+		</td>
+	</tr>
+	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"Completed").equals("C")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSGreenC" title="Current value">
+			Completed
+		</td>
+	</tr>
+	<% } %>
+	<tr>
+		<td width="100% height="1px" class="FEName">
+			&nbsp;
+		</td>
+	</tr>
+	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"Not Applicable").equals("Y")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSGray" title="Click to set"
+			style="cursor:pointer;"			
+			onClick="feUpdateProgressStatusClick('notApplicable')">
+			Not Applicable
+		</td>
+	</tr>
+	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"Not Applicable").equals("C")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSGrayC" title="Current value">
+			Not Applicable
+		</td>
+	</tr>
+	<% } %>
+	<tr>
+		<td width="100% height="1px" class="FEName">
+			&nbsp;
+		</td>
+	</tr>
+	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"Issue").equals("Y")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSRed" title="click to flag an issue"
+			style="cursor:pointer;"			
+			onClick="feUpdateProgressStatusClick('issue')">
+			Issue
+		</td>
+	</tr>
+	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"Issue").equals("C")) { %>
+	<tr>
+		<td width="100%" height="90px" class="PSRedC">
+			Issue
+		</td>
+	</tr>
+	<% } %>
 </table>
 </div>
 <script language="javascript">
@@ -28,15 +93,30 @@
 function feUpdateProgressStatusClick(action) {
 	var f1 = document.getElementById("f1");	
 	var aR = document.getElementById("feUpdateProgressStatus");
-		aR.style.display = "none";
-		aR.style.left = "0px";
-		aR.style.top = "0px";
-		if (action=="submit") {
-			document.getElementById("selectedStatus").value = document.getElementById("selectProgressItemStatus").value;
-			document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
-			document.getElementById("f1").action = "homeFE";
-			f1.submit();
-		}
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+	if (action=="inProgress") {
+		document.getElementById("selectedStatus").value = "In Progress";
+		document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
+		document.getElementById("f1").action = "homeFE";
+		f1.submit();
+	} else if (action=="completed") {
+		document.getElementById("selectedStatus").value = "Completed";
+		document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
+		document.getElementById("f1").action = "homeFE";
+		f1.submit();
+	} else if (action=="notApplicable") {
+		document.getElementById("selectedStatus").value = "Not Applicable";
+		document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
+		document.getElementById("f1").action = "homeFE";
+		f1.submit();
+	} else if (action=="issue") {
+		document.getElementById("selectedStatus").value = "Issue";
+		document.getElementById("toScreen").value = "<%=ServletConstants.HOME_FE%>";
+		document.getElementById("f1").action = "homeFE";
+		f1.submit();
+	}
 }	
 -->
 </script>

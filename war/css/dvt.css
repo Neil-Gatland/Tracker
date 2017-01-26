@@ -2243,9 +2243,19 @@ td.ldFEWhite {
 	padding:0;
 	border-radius: 20px;
 	background-color:#FFFFFF;
-	color:#000000;
+	color:#53565A;
 	text-align:center;
-	font-size:small;	
+	font-size:medium;	
+	font-weight:bold;
+}
+td.ldFEWhiteBO {
+	margin:0; 
+	padding:0;
+	border-radius: 5px;
+	background-color:#FFFFFF;
+	color:#53565A;
+	text-align:center;
+	font-size:medium;	
 	font-weight:bold;
 }
 td.ldFEGray {
@@ -2253,9 +2263,19 @@ td.ldFEGray {
 	padding:0;
 	border-radius: 20px;
 	background-color:gray;
-	color:#000000;
+	color:#53565A;
 	text-align:center;
-	font-size:small;	
+	font-size:medium;	
+	font-weight:bold;
+}
+td.ldFEGrayBO {
+	margin:0; 
+	padding:0;
+	border-radius: 5px;
+	background-color:gray;
+	color:#53565A;
+	text-align:center;
+	font-size:medium;	
 	font-weight:bold;
 }
 td.ldFEThinGray {
@@ -2273,9 +2293,19 @@ td.ldFEGreen {
 	padding:0;
 	border-radius: 20px;
 	background-color:#B8E08C;
-	color:#000000;
+	color:#53565A;
 	text-align:center;
-	font-size:small;	
+	font-size:medium;	
+	font-weight:bold;
+}
+td.ldFEGreenBO {
+	margin:0; 
+	padding:0;
+	border-radius: 5px;
+	background-color:#B8E08C;
+	color:#53565A;
+	text-align:center;
+	font-size:medium;	
 	font-weight:bold;
 }
 td.ldFERed {
@@ -2283,9 +2313,19 @@ td.ldFERed {
 	padding:0;
 	border-radius: 20px;
 	background-color:red;
-	color:#000000;
+	color:#53565A;
 	text-align:center;
-	font-size:small;	
+	font-size:medium;	
+	font-weight:bold;
+}
+td.ldFERedBO {
+	margin:0; 
+	padding:0;
+	border-radius: 5px;
+	background-color:red;
+	color:#53565A;
+	text-align:center;
+	font-size:medium;	
 	font-weight:bold;
 }
 td.ldFEAmber {
@@ -2293,9 +2333,19 @@ td.ldFEAmber {
 	padding:0;
 	border-radius: 20px;
 	background-color:#FFDE75;
-	color:#000000;
+	color:#53565A;
 	text-align:center;
-	font-size:small;	
+	font-size:medium;	
+	font-weight:bold;
+}
+td.ldFEAmberBO {
+	margin:0; 
+	padding:0;
+	border-radius: 5px;
+	background-color:#FFDE75;
+	color:#53565A;
+	text-align:center;
+	font-size:medium;	
 	font-weight:bold;
 }
 td.ldFEPurple {
@@ -2303,9 +2353,9 @@ td.ldFEPurple {
 	padding:0;
 	border-radius: 20px;
 	background-color:purple;
-	color:#000000;
+	color:#D0D0D0;
 	text-align:center;
-	font-size:small;	
+	font-size:medium;	
 	font-weight:bold;
 }
 td.ldFEHead {
@@ -2315,7 +2365,7 @@ td.ldFEHead {
 	background-color:#F8485E;
 	color:#FFFFFF;
 	text-align:left;
-	font-size:x-small;
+	font-size:medium;
 	font-weight: bold;
 }
 td.ldFEHeadSite {
@@ -2325,7 +2375,7 @@ td.ldFEHeadSite {
 	background-color:#F8485E;
 	color:#FFFFFF;
 	text-align:center;
-	font-size:small;
+	font-size:medium;
 	font-weight: bold;
 }
 td.ldFEGrid1 {
@@ -2333,9 +2383,9 @@ td.ldFEGrid1 {
 	padding:5px;
 	border: #C0C0C0 0.5px solid;
 	background-color:#F3F5D7;
-	color:#000000;
+	color:#53565A;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid1Black {
 	margin:0; 
@@ -2344,7 +2394,7 @@ td.ldFEGrid1Black {
 	background-color:#F3F5D7;
 	color:#000000;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid1Red {
 	margin:0; 
@@ -2353,7 +2403,7 @@ td.ldFEGrid1Red {
 	background-color:#F3F5D7;
 	color:red;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid1Orange {
 	margin:0; 
@@ -2362,7 +2412,7 @@ td.ldFEGrid1Orange {
 	background-color:#F3F5D7;
 	color:orange;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid1Green {
 	margin:0; 
@@ -2371,7 +2421,7 @@ td.ldFEGrid1Green {
 	background-color:#F3F5D7;
 	color:green;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid1BlackBold {
 	margin:0; 
@@ -2380,7 +2430,7 @@ td.ldFEGrid1BlackBold {
 	background-color:#F3F5D7;
 	color:#000000;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 	font-weight:bold;
 }
 td.ldFEGrid2 {
@@ -2388,9 +2438,19 @@ td.ldFEGrid2 {
 	padding:5px;
 	border: #C0C0C0 0.5px solid;
 	background-color:#FFFFFF;
-	color:#000000;
+	color:#53565A;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
+}
+td.ldFEGrid2Bold {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#FFFFFF;
+	color:#53565A;
+	text-align:left;
+	font-size:medium;	
+	font-weight:bold;
 }
 td.ldFEGrid2Black {
 	margin:0; 
@@ -2399,7 +2459,7 @@ td.ldFEGrid2Black {
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid2Red {
 	margin:0; 
@@ -2408,7 +2468,7 @@ td.ldFEGrid2Red {
 	background-color:#FFFFFF;
 	color:red;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid2Orange {
 	margin:0; 
@@ -2417,7 +2477,7 @@ td.ldFEGrid2Orange {
 	background-color:#FFFFFF;
 	color:orange;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid2Green {
 	margin:0; 
@@ -2426,7 +2486,7 @@ td.ldFEGrid2Green {
 	background-color:#FFFFFF;
 	color:green;
 	text-align:left;
-	font-size:x-small;	
+	font-size:medium;	
 }
 td.ldFEGrid2BlackBold {
 	margin:0; 
@@ -2435,6 +2495,127 @@ td.ldFEGrid2BlackBold {
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:left;
-	font-size:x-small;
+	font-size:medium;
+	font-weight:bold;
+}
+td.FEName {
+	color:#53565A;
+	font-size: large;
+	text-align: center;
+	font-weight:bold;
+}
+td.FEProgressTitle {
+	color:#53565A;
+	font-size: xx-large;
+	text-align: center;
+	font-weight:bold;
+}
+td.FEAccessCRQTitle {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#53565A;
+	color:#FFFFFF;
+	text-align:left;
+	font-size:large;
+}
+div.FeX {
+	cursor:pointer;
+	height:40px;
+	border:black 1px solid;
+	margin-top:-10px;
+	margin-right:-5px;
+	float:right;
+	font-size:xx-large;
+	font-weight:bold;
+}
+td.PSAmber {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:orange;
+	color:#53565A;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.PSAmberC {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:orange;
+	color:#C0C0C0;;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.PSGreen {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#B8E08C;
+	color:#53565A;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.PSGreenC {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#B8E08C;
+	color:#C0C0C0;;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.PSRed {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:red;
+	color:#53565A;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.PSRedC {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:red;
+	color:#C0C0C0;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.PSGray {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:gray;
+	color:#53565A;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.PSGrayC {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:gray;
+	color:#C0C0C0;;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.FEAction {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#53565A;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:medium;	
 	font-weight:bold;
 }

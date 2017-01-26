@@ -32,9 +32,13 @@ public class HomeFEServlet extends HttpServlet {
 			String snrId = req.getParameter("snrId");
 	    	req.setAttribute("snrId", snrId); 
 			String operation = req.getParameter("operation");
+	    	req.setAttribute("operation", operation); 
 			String site = req.getParameter("site");
 	    	req.setAttribute("site", site); 
-	    	req.setAttribute("operation", operation); 
+			String showAccess = req.getParameter("showAccess");
+	    	req.setAttribute("showAccess", showAccess);  
+			String showCRQ = req.getParameter("showCRQ");
+	    	req.setAttribute("showCRQ", showCRQ); 
 	    	if (operation.equals("toggle")) {
 				User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
