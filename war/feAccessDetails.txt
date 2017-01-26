@@ -1,0 +1,14 @@
+<div id="feAccessDetails" class="displayPic" style="display:none;width:95%">
+<%=uB.getFEAccessDetails(snrId)%>
+</div>
+<script language="javascript">
+<!--
+function feAccessDetailsClick(action) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("feAccessDetails");
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+}	
+-->
+</script>

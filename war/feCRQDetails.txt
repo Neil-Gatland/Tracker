@@ -1,0 +1,14 @@
+<div id="feCRQDetails" class="displayPic" style="display:none;width:95%">
+<%=uB.getFECRQDetails(snrId)%>
+</div>
+<script language="javascript">
+<!--
+function feCRQDetailsClick(action) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("feCRQDetails");
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+}	
+-->
+</script>

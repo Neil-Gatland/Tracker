@@ -6995,54 +6995,38 @@ public class UtilBean {
 				boolean oddRow = false;
 				String separatorGrayHTML = 
 						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-						"<col width=\"4%\"/>" +
-						"<col width=\"80%\"/>" +
-						"<col width=\"16%\"/>" +
+						"<col width=\"100%\"/>" +
 						"</colgroup>" +
 						"<tbody>" +
 						"<tr><td height=\"1px\"></td></tr>" +
-						"<tr>" +
-						"<td></td>" +
-						"<td height=\"1px\" class=\"ldFEThinGray\"></td>" +
-						"<td></td>" +
-						"</tr>" +
+						"<tr><td height=\"1px\" class=\"ldFEThinGray\"></td></tr>" +
 						"<tr><td height=\"1px\"></td></tr>" +
 						"</tbody></table>";
 				String separatorBlankHTML = 
 						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-						"<col width=\"4%\"/>" +
-						"<col width=\"80%\"/>" +
-						"<col width=\"16%\"/>" +
+						"<col width=\"100%\"/>" +
 						"</colgroup>" +
 						"<tbody>" +
 						"<tr><td height=\"1px\"></td></tr>" +
-						"<tr>" +
-						"<td></td>" +
-						"<td height=\"1px\"></td>" +
-						"<td></td>" +
-						"</tr>" +
+						"<tr><td height=\"1px\"></td></tr>" +
 						"<tr><td height=\"1px\"></td></tr>" +
 						"</tbody></table>";
 				String siteHTML = 
 						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-						"<col width=\"4%\"/>" +
-						"<col width=\"40%\"/>" +
+						"<col width=\"45%\"/>" +
 						"<col width=\"0%\"/>" +
-						"<col width=\"40%\"/>" +
-						"<col width=\"8%\"/>" +
-						"<col width=\"8%\"/>" +
+						"<col width=\"45%\"/>" +
+						"<col width=\"10%\"/>" +
 						"</colgroup>" +
 						"<tbody>" +
-						"<tr>" +
-						"<td>"; 
+						"<tr>"; 
 				String expandCollapse = getFESiteExpandCollapse( user.getFullname(), lds.getSite() );
 				siteHTML = siteHTML +
-						"</td><td class=\"ldFEHeadSite\" id=\"anchor"+lds.getSnrId()+"\">" +
+						"<td class=\"ldFEHeadSite\" id=\"anchor"+lds.getSnrId()+"\">" +
 						lds.getSite() +
 						"</td><td class=\"ldFEHeadSite\">&nbsp;" +
 						"</td><td class=\"ldFEHeadSite\">" +
 						lds.getPostcode() +
-						"</td>" +
 						"</td><td class=\"ldFEHeadSite\" "+
 						"title=\"" +
 						(expandCollapse.equals("C")?"Show site details":"Hide site details") +
@@ -7059,55 +7043,47 @@ public class UtilBean {
 				if (expandCollapse.equals("E")) {
 					String siteDetailHTML = 
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"4%\"/>" +
-							"<col width=\"25%\"/>" +
-							"<col width=\"55%\"/>" +
-							"<col width=\"16%\"/>" +
+							"<col width=\"40%\"/>" +
+							"<col width=\"60%\"/>" +
 							"</colgroup>" +
 							"<tbody>";
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td>" + 
-							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Client:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getCustomer() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td>" + 
-							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Project:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getProject() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td>" + 
-							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Work Type:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getMigrationType() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td>" + 
-							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"BO Engineer:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getBoList() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td>" + 
-							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Contact No.:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getBoContactNo() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td>" + 
-							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Overall Status:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+lds.getOverallStatusColour()+"\">" +
 							lds.getOverallStatus() +
@@ -7118,21 +7094,14 @@ public class UtilBean {
 					html.append(separatorBlankHTML);
 					String startingHTML =
 						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-						"<col width=\"4%\"/>" +
-						"<col width=\"15%\"/>" +
-						"<col width=\"1%\"/>" +
-						"<col width=\"15%\"/>" +
-						"<col width=\"1%\"/>" +
-						"<col width=\"15%\"/>" +
-						"<col width=\"1%\"/>" +
-						"<col width=\"15%\"/>" +
-						"<col width=\"1%\"/>" +
-						"<col width=\"15%\"/>" +
-						"<col width=\"17%\"/>" +
+						"<col width=\"20%\"/>" +
+						"<col width=\"20%\"/>" +
+						"<col width=\"20%\"/>" +
+						"<col width=\"20%\"/>" +
+						"<col width=\"20%\"/>" +
 						"</colgroup>" +
 						"<tbody>" +
 						"<tr>" +
-						"<td></td>" +
 						"<td height=\"40px\" class=\"ldFE"+lds.getCheckedIn()+"\" "+
 						"title=\"Checked In (FE/BO)\" " +
 						"style=\"cursor:pointer;\" " +
@@ -7140,7 +7109,6 @@ public class UtilBean {
 						"\">" +
 						"CI" +
 						"</td>" +
-						"<td></td>" +
 						"<td height=\"40px\" class=\"ldFE"+lds.getBookedOn()+"\" "+
 						"title=\"Site Booked On (FE/BO)\" " +
 						"style=\"cursor:pointer;\" " +
@@ -7148,7 +7116,6 @@ public class UtilBean {
 						"\">" +
 						"SB" +
 						"</td>" +
-						"<td></td>" +
 						"<td height=\"40px\" class=\"ldFE"+lds.getSiteAccessed()+"\" "+
 						"title=\"Site Accessed (FE)\" " +
 						"style=\"cursor:pointer;\" " +
@@ -7156,7 +7123,6 @@ public class UtilBean {
 						"\">" +
 						"SA" +
 						"</td>" +
-						"<td></td>" +
 						"<td height=\"40px\" class=\"ldFE"+lds.getPhysicalChecks()+"\" "+
 						"title=\"Physical Checks (FE)\" " +
 						"style=\"cursor:pointer;\" " +
@@ -7164,7 +7130,6 @@ public class UtilBean {
 						"\">" +
 						"PC" +
 						"</td>" +
-						"<td></td>" +
 						"<td height=\"40px\" class=\"ldFE"+lds.getPreCallTest()+"\" "+
 						"title=\"Pre Call Test (FE)\" " +
 						"style=\"cursor:pointer;\" " +
@@ -7178,21 +7143,14 @@ public class UtilBean {
 					html.append(separatorGrayHTML);
 					String progress1HTML =
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"4%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"17%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr>" +
-							"<td></td>" +
 							"<td height=\"40px\" class=\"ldFE"+lds.getSiteLocked()+"\" "+
 							"title=\"Site Locked (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
@@ -7200,7 +7158,6 @@ public class UtilBean {
 							"\">" +
 							"SL" +
 							"</td>" +
-							"<td></td>" +
 							"<td height=\"40px\" class=\"ldFE"+lds.getHwInstalls()+"\" "+
 							"title=\"HW Installed (FE)\" " +
 							"style=\"cursor:pointer;\" " +
@@ -7208,7 +7165,6 @@ public class UtilBean {
 							"\">" +
 							"HW" +
 							"</td>" +
-							"<td></td>" +
 							"<td height=\"40px\" class=\"ldFE"+lds.getCommissioningFE()+"\" "+
 							"title=\"Field Commissioning (FE)\" " +
 							"style=\"cursor:pointer;\" " +
@@ -7216,35 +7172,26 @@ public class UtilBean {
 							"\">" +
 							"FC" +
 							"</td>" +
-							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getCommissioningBO()+"\" "+
-							"title=\"Back Office Commissioning (BO)\" " +
-							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('commissioningBO','"+lds.getSnrId()+"','"+lds.getCommissioningBO()+"') \""+
-							"\">" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getCommissioningBO()+"BO\" "+
+							"title=\"Back Office Commissioning (BO)\">" +
 							"BC" +
 							"</td>" +
-							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getTxProvisioning()+"\" "+
-							"title=\"Tx Provisioning (Client))\" " +
-							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('txProvisioning','"+lds.getSnrId()+"','"+lds.getTxProvisioning()+"') \""+
-							"\">" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getTxProvisioning()+"BO\" "+
+							"title=\"Tx Provisioning (Client))\">" +
 							"Tx" +
 							"</td>" +
 							"</tr>" +
 							"</tbody></table>";
 					html.append(progress1HTML);	
-					html.append(separatorGrayHTML);
 					String progress2HTML =
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"15%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"6%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"6%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"28%\"/>" +
+							"<col width=\"10%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"10%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"10%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"10%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr><td height=\"1px\"></td></tr>" +
@@ -7269,7 +7216,7 @@ public class UtilBean {
 							"<td height=\"40px\" class=\"ldFE"+lds.getPostCallTest()+"\" "+
 							"title=\"Post Call test (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"') \""+
+							"onClick=\"updateProgress('postCallTest','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"') \""+
 							"\">" +
 							"TC" +
 							"</td></tr></tbody></table>";
@@ -7277,29 +7224,18 @@ public class UtilBean {
 					html.append(separatorGrayHTML);
 					String completingHTML = 
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"4%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"1%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"17%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
+							"<col width=\"20%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr>" +
-							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getClosureCode()+"\" "+
-							"title=\"Closure Code (BO)\" " +
-							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('closureCode','"+lds.getSnrId()+"','"+lds.getClosureCode()+"') \""+
-							"\">" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getClosureCode()+"BO\" "+
+							"title=\"Closure Code (BO)\">" +
 							"CC" +
 							"</td>" +
-							"<td></td>" +
 							"<td height=\"40px\" class=\"ldFE"+lds.getLeaveSite()+"\" "+
 							"title=\"Left Site (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
@@ -7307,7 +7243,6 @@ public class UtilBean {
 							"\">" +
 							"SL" +
 							"</td>" +
-							"<td></td>" +
 							"<td height=\"40px\" class=\"ldFE"+lds.getBookOffSite()+"\" "+
 							"title=\"Booked Off Site (FE)\" " +
 							"style=\"cursor:pointer;\" " +
@@ -7315,20 +7250,12 @@ public class UtilBean {
 							"\">" +
 							"SB" +
 							"</td>" +
-							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getPerformanceMonitoring()+"\" "+
-							"title=\"Performance (BO)\" " +
-							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('performanceMonitoring','"+lds.getSnrId()+"','"+lds.getPerformanceMonitoring()+"') \""+
-							"\">" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getPerformanceMonitoring()+"BO\" "+
+							"title=\"Performance (BO)\">" +
 							"Prf" +
 							"</td>" +
-							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getInitialHOP()+"\" "+
-							"title=\"Hand Over Pack (BO)\" " +
-							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('initialHOP','"+lds.getSnrId()+"','"+lds.getInitialHOP()+"') \""+
-							"\">" +
+							"<td height=\"40px\" class=\"ldFE"+lds.getInitialHOP()+"BO\" "+
+							"title=\"Hand Over Pack (BO)\">" +
 							"HoP" +
 							"</td>" +
 							"</tr>" +
@@ -7337,14 +7264,11 @@ public class UtilBean {
 					html.append(separatorBlankHTML);
 					String refreshHTML = 
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"4%\"/>" +
-							"<col width=\"80%\"/>" +
-							"<col width=\"16%\"/>" +
+							"<col width=\"100%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr>" +
-							"<td></td>" +
-							"<td height=\"15px\" class=\"ldFEWhite\" " +
+							"<td height=\"30px\" class=\"ldFEWhite\" " +
 							"style=\"cursor:pointer;\" onclick=\"refresh()\" "+
 							"title=\"Press to pick up any changes\">" +
 							"Refresh</td></tr>" +
@@ -7353,25 +7277,44 @@ public class UtilBean {
 					html.append(separatorBlankHTML);
 					String issuesHTML = 
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"20%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"9%\"/>" +
-							"<col width=\"15%\"/>" +
-							"<col width=\"41%\"/>" +
+							"<col width=\"50%\"/>" +
+							"<col width=\"50%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr>" +
-							"<td></td>" +
 							"<td height=\"40px\" class=\"ldFE"+lds.getDevoteamIssue()+"\" "+
 							"title=\"Devoteam\"\">" +
 							"Devo" +
 							"</td>" +
-							"<td></td>" +
 							"<td height=\"40px\" class=\"ldFE"+lds.getCustomerIssue()+"\" "+
 							"title=\"Vodafone\"\">" +
 							"VF" +
 							"</td></tr></tbody></table>";			
 					html.append(issuesHTML);			
+					html.append(separatorBlankHTML);
+					String actionsHTML =
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"6%\"/>" +
+							"<col width=\"41%\"/>" +
+							"<col width=\"6%\"/>" +
+							"<col width=\"41%\"/>" +
+							"<col width=\"6%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr><td></td>" +
+							"<td height=\"40px\" class=\"FEAction\" "+
+							"title=\"Click for site access details\" " +
+							"style=\"cursor:pointer;\" " +
+							"onclick=\"accessDetails('"+lds.getSnrId()+"')\">"+
+							"Access Details" +
+							"</td><td></td>" +
+							"<td height=\"40px\" class=\"FEAction\" "+
+							"title=\"Click for site CRQ Details\"\" " +
+							"style=\"cursor:pointer;\" " +
+							"onclick=\"crqDetails('"+lds.getSnrId()+"')\">"+
+							"CRQ Details" +
+							"</td><td></td></tr></tbody></table>";
+					html.append(actionsHTML);
 					html.append(separatorBlankHTML);				
 				}	
 			}
@@ -7441,6 +7384,38 @@ public class UtilBean {
 		return result;
 	}
 	
+	public String getProgressItemStatusAllowed(String operation, String snrId, String status) {
+		String allowed = "X";
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetProgressItemStatusAllowed(?,?,?)}");
+	    	cstmt.setString(1, operation);
+	    	cstmt.setString(2, snrId);
+	    	cstmt.setString(3, status);
+	    	if (snrId.equals(""))
+	    		cstmt.setString(2, "-1");	    	
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					allowed = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return allowed;
+	}
+	
 	public String getProgressItemStatusHTML(String operation, String snrId) {
     	Connection conn = null;
     	CallableStatement cstmt = null;
@@ -7472,6 +7447,180 @@ public class UtilBean {
 		    }
 	    }
 		return select.toString();
+	}
+	
+	public String getFEAccessDetails(String snrId) {
+		StringBuilder html = new StringBuilder();
+		if (!snrId.equals("")) {
+			Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetFEAccessDetails(?)}");
+		    	cstmt.setString(1, snrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String siteAccessInformation = rs.getString(1);
+						String accessStatus = rs.getString(2);
+						String accessConfirmed = rs.getString(3);
+						String vfArrangeAccess = rs.getString(4);
+						String tefOutageRequired = rs.getString(5);
+						String outagePeriod = rs.getString(6);
+						String permitType = rs.getString(7);
+						String site = rs.getString(8);
+						String siteHeader =
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"100%\"/>"+
+								"</colgroup>" +
+								"<tbody>" +
+								"<tr><td class=\"FEAccessCRQTitle\">Site: "+site+
+								"<div class=\"FeX\" title=\"close\" "+
+								"onClick=\"feAccessDetailsClick('close')\">X</div>" +
+								"</td><tr></tbody></table>";
+						html.append(siteHeader);
+						String accessInfo = 
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"100%\"/>"+
+								"</colgroup>" +
+								"<tbody>" +
+								"<tr><td class=\"ldFEGrid1\">Site Access Information</td><tr>" +
+								"<tr><td class=\"ldFEGrid2Bold\">"+siteAccessInformation+"</td><tr>"+
+								"</tbody></table>";
+						html.append(accessInfo);
+						String status = 
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"100%\"/>"+
+								"</colgroup>" +
+								"<tbody>" +
+								"<tr><td class=\"ldFEGrid1\">Access Status</td><tr>" +
+								"<tr><td class=\"ldFEGrid2Bold\">"+accessStatus+"</td><tr>"+
+								"</tbody></table>";
+						html.append(status);
+						String body = 
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"50%\"/>"+
+								"<col width=\"50%\"/>"+
+								"</colgroup>" +
+								"<tbody><tr>"+
+								"<td class=\"ldFEGrid1\">Access Confirmed?</td>"+
+								"<td class=\"ldFEGrid1\">VF Arranged?</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid2Bold\">"+accessConfirmed+"</td>"+
+								"<td class=\"ldFEGrid2Bold\">"+vfArrangeAccess+"</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid1\">TEF Outage Required?</td>"+
+								"<td class=\"ldFEGrid1\">Outage Period</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid2Bold\">"+tefOutageRequired+"</td>"+
+								"<td class=\"ldFEGrid2Bold\">"+outagePeriod+"</td>"+
+								"</tr></tbody></table>";
+						html.append(body);
+						String permit = 
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"100%\"/>"+
+								"</colgroup>" +
+								"<tbody>" +
+								"<tr><td class=\"ldFEGrid1\">Permit Type</td><tr>" +
+								"<tr><td class=\"ldFEGrid2Bold\">"+permitType+"</td><tr>"+
+								"</tbody></table>";
+						html.append(permit);
+					}
+				}
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    }
+		}    	
+		return html.toString();
+	}
+	
+	public String getFECRQDetails(String snrId) {
+		StringBuilder html = new StringBuilder();
+		if (!snrId.equals("")) {
+			Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetFECRQDetails(?)}");
+		    	cstmt.setString(1, snrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String vfCRQ = rs.getString(1);
+						String crqStatus = rs.getString(2);
+						String crqStart = rs.getString(3);
+						String crqEnd = rs.getString(4);
+						String tefOutageRequired = rs.getString(5);
+						String tefCRQ = rs.getString(6);
+						String outagePeriod = rs.getString(7);
+						String technologies = rs.getString(8);
+						String site = rs.getString(9);
+						String siteHeader =
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"100%\"/>"+
+								"</colgroup>" +
+								"<tbody>" +
+								"<tr><td class=\"FEAccessCRQTitle\">Site: "+site+
+								"<div class=\"FeX\" title=\"close\" "+
+								"onClick=\"feCRQDetailsClick('close')\">X</div>" +
+								"</td><tr></tbody></table>";
+						html.append(siteHeader);
+						String crqBody = 
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"50%\"/>"+
+								"<col width=\"50%\"/>"+
+								"</colgroup>" +
+								"<tbody><tr>"+
+								"<td colspan=\"2\" class=\"ldFEGrid1\">CRQ Status</td>"+
+								"</tr><tr>"+
+								"<td colspan=\"2\" class=\"ldFEGrid2Bold\">"+crqStatus+"</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid1\">VF CRQ</td>"+
+								"<td class=\"ldFEGrid1\">TEF CRQ</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid2Bold\">"+vfCRQ+"</td>"+
+								"<td class=\"ldFEGrid2Bold\">"+tefCRQ+"</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid1\">TEF Outage Required?</td>"+
+								"<td class=\"ldFEGrid1\">Outage Period</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid2Bold\">"+tefOutageRequired+"</td>"+
+								"<td class=\"ldFEGrid2Bold\">"+outagePeriod+"</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid1\">VF CRQ Start</td>"+
+								"<td class=\"ldFEGrid1\">VF CRQ End</td>"+
+								"</tr><tr>"+
+								"<td class=\"ldFEGrid2Bold\">"+crqStart+"</td>"+
+								"<td class=\"ldFEGrid2Bold\">"+crqEnd+"</td>"+
+								"</tr><tr>"+
+								"<td colspan=\"2\" class=\"ldFEGrid1\">Technologies</td>"+
+								"</tr><tr>"+
+								"<td colspan=\"2\" class=\"ldFEGrid2Bold\">"+technologies+"</td>"+
+								"</tr></tbody></table>";
+						html.append(crqBody);
+					}
+				}
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    }
+		}    	
+		return html.toString();
 	}
 	
 	public String updateProgressItemStatus(
@@ -7549,8 +7698,8 @@ public class UtilBean {
 			result = "Site Booked Off";
 		else if (operation.equals("performanceMonitoring"))
 			result = "Performance";
-		else if (operation.equals("initialHOPe"))
-			result = "Hand Off Pack";		
+		else if (operation.equals("initialHOP"))
+			result = "Hand Over Pack";		
 		return result;
 	}
 	
