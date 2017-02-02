@@ -1,0 +1,14 @@
+<div id="feWorkDetails" class="displayPic" style="display:none;width:85%">
+<%=uB.getFEWorkDetails(snrId)%>
+</div>
+<script language="javascript">
+<!--
+function feWorkDetailsClick(action) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("feWorkDetails");
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+}	
+-->
+</script>

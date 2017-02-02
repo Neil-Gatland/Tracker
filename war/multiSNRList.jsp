@@ -164,6 +164,7 @@ String prevScreen = request.getAttribute("prevScreen")==null?"":(String)request.
 <input type="hidden" name="preCheckId" id="preCheckId" value="<%=preCheckId%>"/>
 <input type="hidden" name="prevScreen" id="prevScreen" value="<%=prevScreen%>"/>
 <input type="hidden" name="progressCompleted" id="progressCompleted" value="<%=progressCompleted%>"/>
+<input type="hidden" name="implementationStatus" id="implementationStatus" value="<%=implementationStatus%>"/>
 <script language="javascript">
 <!--
 var selectedSNRId = <%=snrId%>;

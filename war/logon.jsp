@@ -41,9 +41,9 @@ function resetPwd(action) {
 <div>
 	<table style="width: 100%; table-layout: fixed; align: left;">
 	<colgroup>
-		<col width="37%"/>
-		<col width="310px"/>
-		<col width="37%x"/>	
+		<col width="32%"/>
+		<col width="36%x"/>
+		<col width="32%x"/>	
 	</colgroup>
 	<tbody>
 		<tr>
@@ -52,7 +52,7 @@ function resetPwd(action) {
 				<img src="images/dev_logo_rvb.png" height="110px" width="264px"></a>
 				</td>
 			<td class="lTitle1" align="left" valign="bottom">
-				<img src="images/smart.png" height="44px" width="176px"></a></td>
+				<img src="images/smart.png" height="66px" width="264px"></a></td>
 			<td >&nbsp;</td>
 		</tr>
 		<tr>
@@ -76,7 +76,7 @@ function resetPwd(action) {
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td class="lTitle4" align="left"><input class="lText" type="text" id="email" name="email"></input></td>
+			<td class="lTitle4" "align="left"><input class="lText" type="text" id="email" name="email"></input></td>
 			<td >&nbsp;</td>
 		</tr>
 		<tr>
@@ -96,7 +96,7 @@ function resetPwd(action) {
 		</tr>		
 		<tr>
 			<td>&nbsp;</td>
-			<td class="lTitle5" align="left" onClick="resetPwd()" title="Click to get new password">
+			<td class="lTitle5" style="cursor:pointer;" "align="left" onClick="resetPwd()" title="Click to get new password">
 				I forgot my password</td>
 			<td >&nbsp;</td>
 		</tr>
