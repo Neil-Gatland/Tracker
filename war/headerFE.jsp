@@ -92,10 +92,10 @@
 <tr>
 	<td align="left" valign="center">
 		<a href="http://www.devoteam.co.uk/" target="_blank">
-		<img src="images/devo_full.png" height="39px" width="121.5px">
+		<img src="images/devo_full.png" height="78px" width="243px">
 	</td>
 	<td align="right" valign="center">
-		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="39px" width="94.5px">
+		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="78px" width="189px">
 	</td>
 	<td>
 		&nbsp;
@@ -103,7 +103,7 @@
 </tr>
 <tr>
 	<td colspan="3">
-		<%=uB.getMenu1()%>
+		<%=uB.getMenu1FE()%>
 	</td>
 </tr>
 </tbody>

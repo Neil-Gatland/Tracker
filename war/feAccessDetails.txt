@@ -1,4 +1,4 @@
-<div id="feAccessDetails" class="displayPic" style="display:none;width:95%">
+<div id="feAccessDetails" class="displayPic" style="display:none;width:85%">
 <%=uB.getFEAccessDetails(snrId)%>
 </div>
 <script language="javascript">

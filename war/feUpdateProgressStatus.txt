@@ -1,91 +1,133 @@
-<div id="feUpdateProgressStatus" class="displayPic" style="display:none;width:95%">
+<div id="feUpdateProgressStatus" class="displayPic" style="display:none;width:80%">
 <div class="FeX" title="close" onClick="feUpdateProgressStatusClick('close')">X</div>
-<table style="width:95%;">
+<table style="table-layout:fixed;border-style:none;width:100%">
+<colgroup>
+	<col width="10%"/>
+	<col width="80%"/>
+	<col width="10%"/>
+</colgroup>
+<tbody>
 	<tr>
-		<td width="100% height="50px" class="FEProgressTitle">
+		<td colspan="3" height="40px" class="FEProgressTitle">
 			<%=uB.operationDisp(operation)%>
 		</td>
 	</tr>
 	<tr>
-		<td width="100% height="1px" class="FEName">
+		<td colspan="3" height="60px" class="FEName">
 			&nbsp;
 		</td>
 	</tr>
 	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"In Progress").equals("Y")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSAmber" title="Click to set"
+		<td height="180px"></td>
+		<td class="PSAmber" 
+			title="Click to set"
+			height="180px"
 			style="cursor:pointer;"			
 			onClick="feUpdateProgressStatusClick('inProgress')">
 			In Progress
 		</td>
+		<td></td>
 	</tr>
 	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"In Progress").equals("C")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSAmberC" title="Current value">
+		<td height="180px"></td>
+		<td class="PSAmberC" 
+			height="180px"
+			title="Current value">
 			In Progress
 		</td>
+		<td></td>
 	</tr>
 	<% } %>
 	<tr>
-		<td width="100% height="1px" class="FEName">
-			&nbsp;
+		<td colspan="3" height="60px" class="FEName">
 		</td>
 	</tr>
 	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"Completed").equals("Y")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSGreen" title="Click to set "
+		<td></td>
+		<td class="PSGreen" 
+			title="Click to set"
+			height="180px"
 			style="cursor:pointer;"			
 			onClick="feUpdateProgressStatusClick('completed')">
 			Completed
 		</td>
+		<td></td>
 	</tr>
 	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"Completed").equals("C")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSGreenC" title="Current value">
+		<td></td>
+		<td class="PSGreenC" 
+			height="180px"
+			title="Current value">
 			Completed
 		</td>
+		<td></td>
 	</tr>
 	<% } %>
 	<tr>
-		<td width="100% height="1px" class="FEName">
-			&nbsp;
+		<td colspan="3" height="60px" class="FEName">
 		</td>
 	</tr>
 	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"Not Applicable").equals("Y")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSGray" title="Click to set"
+		<td height="180px"></td>
+		<td 
+		<td class="PSGray" 
+			title="Click to set"
+			height="180px"
 			style="cursor:pointer;"			
 			onClick="feUpdateProgressStatusClick('notApplicable')">
 			Not Applicable
 		</td>
+		<td></td>
 	</tr>
 	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"Not Applicable").equals("C")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSGrayC" title="Current value">
+		<td height="180px"></td>
+		<td class="PSGrayC" 
+			height="180px"
+			title="Current value">
 			Not Applicable
 		</td>
+		<td></td>
 	</tr>
 	<% } %>
 	<tr>
-		<td width="100% height="1px" class="FEName">
-			&nbsp;
+		<td colspan="3" height="60px" class="FEName">
 		</td>
 	</tr>
 	<% if (uB.getProgressItemStatusAllowed(operation,snrId,"Issue").equals("Y")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSRed" title="click to flag an issue"
+		<td height="180px"></td>
+		<td 
+		<td class="PSRed" 
+			title="Click to set"
+			height="180px"
 			style="cursor:pointer;"			
 			onClick="feUpdateProgressStatusClick('issue')">
 			Issue
 		</td>
+		<td></td>
 	</tr>
 	<% } else if (uB.getProgressItemStatusAllowed(operation,snrId,"Issue").equals("C")) { %>
 	<tr>
-		<td width="100%" height="90px" class="PSRedC">
+		<td height="180px"></td>
+		<td class="PSRedC" 
+			height="180px"
+			title="Current value">
 			Issue
 		</td>
+		<td></td>
 	</tr>
 	<% } %>
+	<tr>
+		<td colspan="3" height="60px" class="FEName">
+		</td>
+	</tr>
+</tbody>
 </table>
 </div>
 <script language="javascript">

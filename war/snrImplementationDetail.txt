@@ -310,12 +310,17 @@ function showHideCompleteNR(operation) {
 	} else if (operation == "show") {
 		var implStatus = document.getElementById("selectImplementationStatus");
 		var abortType = document.getElementById("selectAbortType");
-		var progressCompleted = document.getElementById("progressCompleted");
-		if ((implStatus[implStatus.selectedIndex].value == 'Completed') &&
+		var progressCompleted = document.getElementById("progressCompleted").value;
+		var implementationStatus = document.getElementById("implementationStatus").value;
+		if ((implementationStatus == 'Completed') || (implementationStatus == 'Partial') ||
+				(implementationStatus == 'Aborted') ) {
+			alert("Already " + implementationStatus + "!");
+		} else if ((implStatus[implStatus.selectedIndex].value == 'Completed') &&
 			('<%=nextPreCheck%>' != 'None (Completed)')) {
 			alert("Cannot complete with outstanding pre-checks");
-		} else if ((implStatus[implStatus.selectedIndex].value == 'Completed') &&
-			(progressCompleted == 'N')) {
+		} else if (((implStatus[implStatus.selectedIndex].value == 'Completed') ||
+					(implStatus[implStatus.selectedIndex].value == 'Partial') ) &&
+					(progressCompleted == 'N')) {
 			alert("Cannot complete until all site progress is either completed or not applicable");
 		} else if (isWhitespaceOrEmpty(implStatus[implStatus.selectedIndex].value)) {
 			alert("Implementation Status must be entered for completion");

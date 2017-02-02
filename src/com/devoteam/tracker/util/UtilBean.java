@@ -170,6 +170,34 @@ public class UtilBean {
 		}		
 		return m0.toString();
 	}
+	
+	public String getMenu1FE() {
+		HTMLElement m0 = new HTMLElement("div");
+		HTMLElement m0a = new HTMLElement("div", "float:left;width:2px", 
+			"menu1FE", "&nbsp;");
+		HTMLElement m01  = new HTMLElement("div", "m01", "float:left;",   
+			"menu1FEItem", "menuClick('" + ServletConstants.HOME_FE + "')", 
+			"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_FE);
+		HTMLElement m02 = new HTMLElement("div", "m02", "float:right;", 
+			"menu1FEItem", "menuClick('" + ServletConstants.CHANGE_PASSWORD + "')",
+			"invertClass('m02')", "invertClass('m02')", 
+			ServletConstants.CHANGE_PASSWORD);
+		HTMLElement m03 = new HTMLElement("div", "m03", "float:right;", 
+			"menu1FEItem", "menuClick('" + ServletConstants.LOG_OFF + "')", 
+			"invertClass('m03')", "invertClass('m03')", ServletConstants.LOG_OFF);		
+		HTMLElement m0b = new HTMLElement("div", "float:right;width:2px", "menu1FE", 
+			"&nbsp;");
+		HTMLElement m0c = new HTMLElement("div", "overflow:hidden", "menu1FE", 
+			"&nbsp;");
+		m0.setValue(
+				m0a.toString() + 
+				m01.toString() + 
+				m0b.toString() +				
+				m03.toString() + 
+				(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
+				m0c.toString());
+		return m0.toString();		
+	}
 
 	public String getMenu2() {
 		HTMLElement m1 = new HTMLElement("div");
@@ -6970,6 +6998,32 @@ public class UtilBean {
 	
 	public String getFELiveDashboardSitesHTML() {
 		StringBuilder html = new StringBuilder();
+		String refreshHTML = 
+				"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+				"<col width=\"5%\"/>" +
+				"<col width=\"90%\"/>" +
+				"<col width=\"5%\"/>" +
+				"</colgroup>" +
+				"<tbody>" +
+				"<tr>" +
+				"<td></td>"+
+				"<td height=\"60px\" class=\"FERefresh\" " +
+				"style=\"cursor:pointer;\" onclick=\"refresh()\" "+
+				"title=\"Press to pick up any changes\">" +
+				"Refresh"+
+				"</td>" +
+				"<td></td>"+
+				"</tr>" +
+				"</tbody></table>";
+		String separatorBlankHTML = 
+				"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+				"<col width=\"100%\"/>" +
+				"</colgroup>" +
+				"<tbody>" +
+				"<tr><td height=\"5px\"></td></tr>" +
+				"<tr><td height=\"5px\"></td></tr>" +
+				"<tr><td height=\"5px\"></td></tr>" +
+				"</tbody></table>";
 		Collection<LiveDashboardSite> LiveDashboardSite = getFELiveDashboardSites();		
 		if (LiveDashboardSite.isEmpty()) {
 			String emptyHTML = 
@@ -6998,30 +7052,40 @@ public class UtilBean {
 						"<col width=\"100%\"/>" +
 						"</colgroup>" +
 						"<tbody>" +
-						"<tr><td height=\"1px\"></td></tr>" +
-						"<tr><td height=\"1px\" class=\"ldFEThinGray\"></td></tr>" +
-						"<tr><td height=\"1px\"></td></tr>" +
-						"</tbody></table>";
-				String separatorBlankHTML = 
-						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-						"<col width=\"100%\"/>" +
-						"</colgroup>" +
-						"<tbody>" +
-						"<tr><td height=\"1px\"></td></tr>" +
-						"<tr><td height=\"1px\"></td></tr>" +
-						"<tr><td height=\"1px\"></td></tr>" +
+						"<tr><td height=\"5px\"></td></tr>" +
+						"<tr><td height=\"5px\" class=\"ldFEThinGray\"></td></tr>" +
+						"<tr><td height=\"5px\"></td></tr>" +
 						"</tbody></table>";
 				String siteHTML = 
 						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-						"<col width=\"45%\"/>" +
+						"<col width=\"10%\"/>" +
+						"<col width=\"40%\"/>" +
 						"<col width=\"0%\"/>" +
-						"<col width=\"45%\"/>" +
+						"<col width=\"40%\"/>" +
 						"<col width=\"10%\"/>" +
 						"</colgroup>" +
 						"<tbody>" +
 						"<tr>"; 
 				String expandCollapse = getFESiteExpandCollapse( user.getFullname(), lds.getSite() );
+				String feStatus = "white", feComment = "Not Started";
+				if (	(lds.getOverallStatus().equals("Completed")) || 
+						(lds.getOverallStatus().equals("Partial"))|| 
+						(lds.getOverallStatus().equals("Performance IP")) ) {
+					feStatus = "green";
+					feComment = "Completed";
+				} else if (lds.getOverallStatus().startsWith("In Progress")) {
+					feStatus = "orange";
+					feComment = "In Progress";
+				} else if (	(lds.getOverallStatus().equals("Aborted")) ||
+							(lds.getOverallStatus().equals("Waiting Decision")) ){
+					feStatus = "red";
+					feComment = "Waiting Decision or Aborted";
+				}
 				siteHTML = siteHTML +
+						"<td class=\"ldFEHeadSite\" height=\"60px\" >" +
+						"<img height=\"50px\" width=\"50px\" width src=\"images/"+feStatus+"FE.png\" "+
+						"title=\""+feComment+"\">"+
+						"</td>" +
 						"<td class=\"ldFEHeadSite\" id=\"anchor"+lds.getSnrId()+"\">" +
 						lds.getSite() +
 						"</td><td class=\"ldFEHeadSite\">&nbsp;" +
@@ -7034,13 +7098,45 @@ public class UtilBean {
 						"onClick=\"toggleExpandCollapse('"+lds.getSite()+"')\">" +
 						"<img src=\"images/" +
 						(expandCollapse.equals("C")?"show.png":"hide.png") +
-						"\" height=\"20px\" width=\"20px\" />" +
+						"\" height=\"40px\" width=\"40px\" />" +
 						"</td>" +
 						"</tr>" +
 						"</tbody></table>";
 				html.append(siteHTML);
 				html.append(separatorBlankHTML);
 				if (expandCollapse.equals("E")) {
+					String actionsHTML =
+							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+							"<col width=\"4%\"/>" +
+							"<col width=\"27%\"/>" +
+							"<col width=\"5%\"/>" +
+							"<col width=\"27%\"/>" +
+							"<col width=\"5%\"/>" +
+							"<col width=\"27%\"/>" +
+							"<col width=\"5%\"/>" +
+							"</colgroup>" +
+							"<tbody>" +
+							"<tr><td></td>" +
+							"<td height=\"60px\" class=\"FEAction\" "+
+							"title=\"Click for site work details\" " +
+							"style=\"cursor:pointer;\" " +
+							"onclick=\"workDetails('"+lds.getSnrId()+"')\">"+
+							"Work Details" +
+							"</td><td></td>" +
+							"<td height=\"60px\" class=\"FEAction\" "+
+							"title=\"Click for site access details\" " +
+							"style=\"cursor:pointer;\" " +
+							"onclick=\"accessDetails('"+lds.getSnrId()+"')\">"+
+							"Access Details" +
+							"</td><td></td>" +
+							"<td height=\"60px\" class=\"FEAction\" "+
+							"title=\"Click for site CRQ Details\"\" " +
+							"style=\"cursor:pointer;\" " +
+							"onclick=\"crqDetails('"+lds.getSnrId()+"')\">"+
+							"CRQ Details" +
+							"</td><td></td></tr></tbody></table>";
+					html.append(actionsHTML);
+					html.append(separatorBlankHTML);
 					String siteDetailHTML = 
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
 							"<col width=\"40%\"/>" +
@@ -7048,42 +7144,42 @@ public class UtilBean {
 							"</colgroup>" +
 							"<tbody>";
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td height=\"40px\" class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Client:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getCustomer() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td height=\"40px\" class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Project:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getProject() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td height=\"40px\" class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Work Type:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getMigrationType() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td height=\"40px\" class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"BO Engineer:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getBoList() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td height=\"40px\" class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Contact No.:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							lds.getBoContactNo() +
 							"</td></tr>";
 					oddRow = !oddRow;
 					siteDetailHTML = siteDetailHTML +
-							"<tr><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
+							"<tr><td height=\"40px\" class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+"\">" +
 							"Overall Status:" +
 							"</td><td class=\""+(oddRow?"ldFEGrid1":"ldFEGrid2")+lds.getOverallStatusColour()+"\">" +
 							lds.getOverallStatus() +
@@ -7094,227 +7190,218 @@ public class UtilBean {
 					html.append(separatorBlankHTML);
 					String startingHTML =
 						"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-						"<col width=\"20%\"/>" +
-						"<col width=\"20%\"/>" +
-						"<col width=\"20%\"/>" +
-						"<col width=\"20%\"/>" +
-						"<col width=\"20%\"/>" +
+						"<col width=\"19%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"19%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"19%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"19%\"/>" +
+						"<col width=\"1%\"/>" +
+						"<col width=\"19%\"/>" +
+						"<col width=\"1%\"/>" +
 						"</colgroup>" +
 						"<tbody>" +
 						"<tr>" +
-						"<td height=\"40px\" class=\"ldFE"+lds.getCheckedIn()+"\" "+
+						"<td height=\"140px\" class=\"ldFE"+lds.getCheckedIn()+"\" "+
 						"title=\"Checked In (FE/BO)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('checkedIn','"+lds.getSnrId()+"','"+lds.getCheckedIn()+"') \""+
-						"\">" +
-						"CI" +
+						"onClick=\"updateProgress('checkedIn','"+lds.getSnrId()+"','"+lds.getCheckedIn()+"')\">"+
+						"Checked<br>In" +
 						"</td>" +
-						"<td height=\"40px\" class=\"ldFE"+lds.getBookedOn()+"\" "+
+						"<td></td>" +
+						"<td height=\"140px\" class=\"ldFE"+lds.getBookedOn()+"\" "+
 						"title=\"Site Booked On (FE/BO)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('bookedOn','"+lds.getSnrId()+"','"+lds.getBookedOn()+"') \""+
-						"\">" +
-						"SB" +
+						"onClick=\"updateProgress('bookedOn','"+lds.getSnrId()+"','"+lds.getBookedOn()+"')\">"+
+						"Site<br>Booked<br>On" +
 						"</td>" +
-						"<td height=\"40px\" class=\"ldFE"+lds.getSiteAccessed()+"\" "+
+						"<td></td>" +
+						"<td height=\"140px\" class=\"ldFE"+lds.getSiteAccessed()+"\" "+
 						"title=\"Site Accessed (FE)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('siteAccessed','"+lds.getSnrId()+"','"+lds.getSiteAccessed()+"') \""+
-						"\">" +
-						"SA" +
+						"onClick=\"updateProgress('siteAccessed','"+lds.getSnrId()+"','"+lds.getSiteAccessed()+"')\">"+
+						"Site<br>Accessed" +
 						"</td>" +
-						"<td height=\"40px\" class=\"ldFE"+lds.getPhysicalChecks()+"\" "+
+						"<td></td>" +
+						"<td height=\"140px\" class=\"ldFE"+lds.getPhysicalChecks()+"\" "+
 						"title=\"Physical Checks (FE)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('physicalChecks','"+lds.getSnrId()+"','"+lds.getPhysicalChecks()+"') \""+
-						"\">" +
-						"PC" +
+						"onClick=\"updateProgress('physicalChecks','"+lds.getSnrId()+"','"+lds.getPhysicalChecks()+"')\">"+
+						"Physical<br>Checks" +
 						"</td>" +
-						"<td height=\"40px\" class=\"ldFE"+lds.getPreCallTest()+"\" "+
+						"<td></td>" +
+						"<td height=\"140px\" class=\"ldFE"+lds.getPreCallTest()+"\" "+
 						"title=\"Pre Call Test (FE)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('preCallTest','"+lds.getSnrId()+"','"+lds.getPreCallTest()+"') \""+
-						"\">" +
-						"TC" +
+						"onClick=\"updateProgress('preCallTest','"+lds.getSnrId()+"','"+lds.getPreCallTest()+"')\""+
+						">" +
+						"Pre-Call<br> Test" +
 						"</td>" +
+						"<td></td>" +
 						"</tr>" +
 						"</tbody></table>";
 					html.append(startingHTML);
 					html.append(separatorGrayHTML);
 					String progress1HTML =
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getSiteLocked()+"\" "+
+							"<td height=\"140px\" class=\"ldFE"+lds.getSiteLocked()+"\" "+
 							"title=\"Site Locked (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('siteLocked','"+lds.getSnrId()+"','"+lds.getSiteLocked()+"') \""+
-							"\">" +
-							"SL" +
+							"onClick=\"updateProgress('siteLocked','"+lds.getSnrId()+"','"+lds.getSiteLocked()+"')\">" +
+							"Site<br>Locked" +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getHwInstalls()+"\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getHwInstalls()+"\" "+
 							"title=\"HW Installed (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('hwInstalls','"+lds.getSnrId()+"','"+lds.getHwInstalls()+"') \""+
-							"\">" +
-							"HW" +
+							"onClick=\"updateProgress('hwInstalls','"+lds.getSnrId()+"','"+lds.getHwInstalls()+"')\">" +
+							"HW<br>Installed" +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getCommissioningFE()+"\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getCommissioningFE()+"\" "+
 							"title=\"Field Commissioning (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"') \""+
-							"\">" +
-							"FC" +
+							"onClick=\"updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')\">" +
+							"Field<br>Comm." +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getCommissioningBO()+"BO\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getCommissioningBO()+"BO\" "+
 							"title=\"Back Office Commissioning (BO)\">" +
-							"BC" +
+							"Back<br>Office<br>Comm." +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getTxProvisioning()+"BO\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getTxProvisioning()+"BO\" "+
 							"title=\"Tx Provisioning (Client))\">" +
-							"Tx" +
+							"Tx Prov." +
 							"</td>" +
+							"<td></td>" +
 							"</tr>" +
 							"</tbody></table>";
 					html.append(progress1HTML);	
 					String progress2HTML =
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"10%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"10%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"10%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"10%\"/>" +
+							"<col width=\"10.5%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"10.5%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"10.5%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"11.5%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
-							"<tr><td height=\"1px\"></td></tr>" +
+							"<tr><td height=\"15px\"></td></tr>"+
 							"<tr>" +
 							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getFieldWork()+"\" "+
+							"<td height=\"140px\" class=\"ldFE"+lds.getFieldWork()+"\" "+
 							"title=\"Field Work (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('fieldWork','"+lds.getSnrId()+"','"+lds.getFieldWork()+"') \""+
-							"\">" +
-							"FW" +
+							"onClick=\"updateProgress('fieldWork','"+lds.getSnrId()+"','"+lds.getFieldWork()+"')\">" +
+							"Field<br>Work" +
 							"</td>" +
 							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getSiteUnlocked()+"\" "+
+							"<td height=\"140px\" class=\"ldFE"+lds.getSiteUnlocked()+"\" "+
 							"title=\"Site Unlocked (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('siteUnlocked','"+lds.getSnrId()+"','"+lds.getSiteUnlocked()+"') \""+
-							"\">" +
-							"SU" +
+							"onClick=\"updateProgress('siteUnlocked','"+lds.getSnrId()+"','"+lds.getSiteUnlocked()+"')\">" +
+							"Site<br>Unlocked" +
 							"</td>" +
 							"<td></td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getPostCallTest()+"\" "+
+							"<td height=\"140px\" class=\"ldFE"+lds.getPostCallTest()+"\" "+
 							"title=\"Post Call test (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('postCallTest','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"') \""+
-							"\">" +
-							"TC" +
-							"</td></tr></tbody></table>";
+							"onClick=\"updateProgress('postCallTest','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')\">" +
+							"Post-Call<br>Test" +
+							"</td><td></td></tr></tbody></table>";
 					html.append(progress2HTML);					
 					html.append(separatorGrayHTML);
 					String completingHTML = 
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
-							"<col width=\"20%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
+							"<col width=\"19%\"/>" +
+							"<col width=\"1%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getClosureCode()+"BO\" "+
+							"<td height=\"140px\" class=\"ldFE"+lds.getClosureCode()+"BO\" "+
 							"title=\"Closure Code (BO)\">" +
-							"CC" +
+							"Closure<br>Code" +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getLeaveSite()+"\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getLeaveSite()+"\" "+
 							"title=\"Left Site (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
 							"onClick=\"updateProgress('leaveSite','"+lds.getSnrId()+"','"+lds.getLeaveSite()+"') \""+
 							"\">" +
-							"SL" +
+							"Leave<br>Site" +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getBookOffSite()+"\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getBookOffSite()+"\" "+
 							"title=\"Booked Off Site (FE)\" " +
 							"style=\"cursor:pointer;\" " +
 							"onClick=\"updateProgress('bookOffSite','"+lds.getSnrId()+"','"+lds.getBookOffSite()+"') \""+
 							"\">" +
-							"SB" +
+							"Booked<br>Off<br> Site" +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getPerformanceMonitoring()+"BO\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getPerformanceMonitoring()+"BO\" "+
 							"title=\"Performance (BO)\">" +
 							"Prf" +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getInitialHOP()+"BO\" "+
+							"<td></td>" +
+							"<td height=\"140px\" class=\"ldFE"+lds.getInitialHOP()+"BO\" "+
 							"title=\"Hand Over Pack (BO)\">" +
-							"HoP" +
+							"Hand<br> Over<br>Pack" +
 							"</td>" +
 							"</tr>" +
 							"</tbody></table>";				
 					html.append(completingHTML);			
 					html.append(separatorBlankHTML);
-					String refreshHTML = 
-							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"100%\"/>" +
-							"</colgroup>" +
-							"<tbody>" +
-							"<tr>" +
-							"<td height=\"30px\" class=\"ldFEWhite\" " +
-							"style=\"cursor:pointer;\" onclick=\"refresh()\" "+
-							"title=\"Press to pick up any changes\">" +
-							"Refresh</td></tr>" +
-							"</tbody></table>";
 					html.append(refreshHTML);			
 					html.append(separatorBlankHTML);
 					String issuesHTML = 
 							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"50%\"/>" +
-							"<col width=\"50%\"/>" +
+									"<col width=\"2%\"/>" +
+									"<col width=\"40%\"/>" +
+									"<col width=\"16%\"/>" +
+									"<col width=\"40%\"/>" +
+									"<col width=\"2%\"/>" +
 							"</colgroup>" +
 							"<tbody>" +
 							"<tr>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getDevoteamIssue()+"\" "+
-							"title=\"Devoteam\"\">" +
-							"Devo" +
+							"<td></td>" +
+							"<td height=\"80px\" class=\"ldFE"+lds.getDevoteamIssue()+"\" "+
+							"title=\"Devoteam Issue\"\">" +
+							"Devoteam<br>Issue" +
 							"</td>" +
-							"<td height=\"40px\" class=\"ldFE"+lds.getCustomerIssue()+"\" "+
-							"title=\"Vodafone\"\">" +
-							"VF" +
-							"</td></tr></tbody></table>";			
-					html.append(issuesHTML);			
-					html.append(separatorBlankHTML);
-					String actionsHTML =
-							"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
-							"<col width=\"6%\"/>" +
-							"<col width=\"41%\"/>" +
-							"<col width=\"6%\"/>" +
-							"<col width=\"41%\"/>" +
-							"<col width=\"6%\"/>" +
-							"</colgroup>" +
-							"<tbody>" +
-							"<tr><td></td>" +
-							"<td height=\"40px\" class=\"FEAction\" "+
-							"title=\"Click for site access details\" " +
-							"style=\"cursor:pointer;\" " +
-							"onclick=\"accessDetails('"+lds.getSnrId()+"')\">"+
-							"Access Details" +
-							"</td><td></td>" +
-							"<td height=\"40px\" class=\"FEAction\" "+
-							"title=\"Click for site CRQ Details\"\" " +
-							"style=\"cursor:pointer;\" " +
-							"onclick=\"crqDetails('"+lds.getSnrId()+"')\">"+
-							"CRQ Details" +
-							"</td><td></td></tr></tbody></table>";
-					html.append(actionsHTML);
+							"<td></td>" +
+							"<td height=\"80px\" class=\"ldFE"+lds.getCustomerIssue()+"\" "+
+							"title=\"Vodafone<br>Issue\"\">" +
+							"Vodafone<br> Issue" +
+							"</td>"+
+							"<td></td>" +
+							"</tr></tbody></table>";			
+					html.append(issuesHTML);
 					html.append(separatorBlankHTML);				
 				}	
 			}
@@ -7608,6 +7695,57 @@ public class UtilBean {
 								"</tr></tbody></table>";
 						html.append(crqBody);
 					}
+				}
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    }
+		}    	
+		return html.toString();
+	}
+	
+	public String getFEWorkDetails(String snrId) {
+		StringBuilder html = new StringBuilder();
+		if (!snrId.equals("")) {
+			Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetFEWorkDetails(?)}");
+		    	cstmt.setString(1, snrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String workDetails = rs.getString(1);
+						String site = rs.getString(2);
+						String siteHeader =
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"100%\"/>"+
+								"</colgroup>" +
+								"<tbody>" +
+								"<tr><td class=\"FEAccessCRQTitle\">Site: "+site+
+								"<div class=\"FeX\" title=\"close\" "+
+								"onClick=\"feWorkDetailsClick('close')\">X</div>" +
+								"</td><tr></tbody></table>";
+						html.append(siteHeader);
+						String wdBody = 
+								"<table style=\"table-layout:fixed;border-style:none;width:100%;\">"+
+								"<col width=\"100%\"/>"+
+								"</colgroup>" +
+								"<tbody><tr>"+
+								"<td class=\"ldFEGrid1\">Work Details</td>"+
+								"</tr><tr>"+
+								"<td height=\"380px\"class=\"ldFEGrid2Bold\" valign=\"top\">"+workDetails+"</td>"+
+								"</tr></tbody></table>";
+						html.append(wdBody);
+						}
 				}
 		    } catch (Exception ex) {
 		    	ex.printStackTrace();

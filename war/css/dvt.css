@@ -1432,7 +1432,7 @@ td.lTitle1 {
 }
 td.lTitle2 {
 	color:#53565A;
-	font-size: large;
+	font-size: x-large;
 	text-align: center;
 }
 td.lTitle2b {
@@ -1449,7 +1449,7 @@ td.lTitle2m {
 td.lTitle3 {
 	background-color:#FFFFFF;
 	color:#F8485E;
-	font-size:x-large;
+	font-size:xx-large;
 	padding-left:20px;
 	padding-top:20px;
 	padding-bottom:10px;
@@ -1459,7 +1459,17 @@ td.lTitle4 {
 	background-color:#FFFFFF;
 	color:dimgray;
 	color:#53565A;
-	font-size:small;
+	font-size:xx-large;
+	font-weight: bold;
+	padding-left:20px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+div.lTitle4 {
+	background-color:#FFFFFF;
+	color:dimgray;
+	color:#53565A;
+	font-size:xx-large;
 	font-weight: bold;
 	padding-left:20px;
 	padding-top:5px;
@@ -1468,7 +1478,7 @@ td.lTitle4 {
 td.lTitle5 {
 	background-color:#FFFFFF;
 	color:#0090FF;
-	font-size:small;
+	font-size:x-large;
 	padding-right:10px;
 	padding-top: 10px;
 	padding-left: 20px;
@@ -1502,21 +1512,22 @@ td.lTitle9 {
 }
 td.lMessage {
 	color:#F8485E;
-	font-size:medium;
+	font-size:x-large;
 }
 input.lText {
-	width: 250px;
-	font-size:medium;
+	width: 300px;
+	font-size:x-large;
 	padding: 10px;
 	border-radius: 5px;
 	border-color: #0090FF;
 	border: 0.5px solid;
+	cursor: pointer;
 }
 input.LButton {
 	background-color:#0090FF;
 	color:#ffffff;
 	border-color: #0090FF;
-	font-size:small;
+	font-size:xx-large;
 	font-weight:bold;
 	text-align:center;
 	cursor:pointer;
@@ -2238,45 +2249,57 @@ td.summaryDet {
 	font-size:xx-small;
 	text-align:left;
 }
+td.FERefresh {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#8C5A60;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
 td.ldFEWhite {
+	margin:0; 
+	padding:0;
+	border-radius: 20px;
+	background-color:#FFFFFF;
+	color:#000000;
+	text-align:center;
+	font-size:xx-large;	
+	font-weight:bold;
+}
+td.ldFEWhiteBO {
 	margin:0; 
 	padding:0;
 	border-radius: 20px;
 	background-color:#FFFFFF;
 	color:#53565A;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
-}
-td.ldFEWhiteBO {
-	margin:0; 
-	padding:0;
-	border-radius: 5px;
-	background-color:#FFFFFF;
-	color:#53565A;
-	text-align:center;
-	font-size:medium;	
-	font-weight:bold;
+	font-style:italic;
 }
 td.ldFEGray {
 	margin:0; 
 	padding:0;
 	border-radius: 20px;
 	background-color:gray;
-	color:#53565A;
+	color:#000000;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
 }
 td.ldFEGrayBO {
 	margin:0; 
 	padding:0;
-	border-radius: 5px;
+	border-radius: 20px;
 	background-color:gray;
 	color:#53565A;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
+	font-style:italic;
 }
 td.ldFEThinGray {
 	margin:0; 
@@ -2293,69 +2316,72 @@ td.ldFEGreen {
 	padding:0;
 	border-radius: 20px;
 	background-color:#B8E08C;
-	color:#53565A;
+	color:#000000;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
 }
 td.ldFEGreenBO {
 	margin:0; 
 	padding:0;
-	border-radius: 5px;
+	border-radius: 20px;
 	background-color:#B8E08C;
 	color:#53565A;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
+	font-style:italic;
 }
 td.ldFERed {
 	margin:0; 
 	padding:0;
 	border-radius: 20px;
 	background-color:red;
-	color:#53565A;
+	color:#000000;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
 }
 td.ldFERedBO {
 	margin:0; 
 	padding:0;
-	border-radius: 5px;
+	border-radius: 20px;
 	background-color:red;
 	color:#53565A;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
+	font-style:italic;
 }
 td.ldFEAmber {
 	margin:0; 
 	padding:0;
 	border-radius: 20px;
 	background-color:#FFDE75;
-	color:#53565A;
+	color:#000000;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
 }
 td.ldFEAmberBO {
 	margin:0; 
 	padding:0;
-	border-radius: 5px;
+	border-radius: 20px;
 	background-color:#FFDE75;
 	color:#53565A;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
+	font-style:italic;
 }
 td.ldFEPurple {
 	margin:0; 
 	padding:0;
 	border-radius: 20px;
 	background-color:purple;
-	color:#D0D0D0;
+	color:#000000;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
 }
 td.ldFEHead {
@@ -2365,7 +2391,7 @@ td.ldFEHead {
 	background-color:#F8485E;
 	color:#FFFFFF;
 	text-align:left;
-	font-size:medium;
+	font-size:xx-large;
 	font-weight: bold;
 }
 td.ldFEHeadSite {
@@ -2375,7 +2401,7 @@ td.ldFEHeadSite {
 	background-color:#F8485E;
 	color:#FFFFFF;
 	text-align:center;
-	font-size:medium;
+	font-size:xx-large;
 	font-weight: bold;
 }
 td.ldFEGrid1 {
@@ -2385,7 +2411,7 @@ td.ldFEGrid1 {
 	background-color:#F3F5D7;
 	color:#53565A;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid1Black {
 	margin:0; 
@@ -2394,7 +2420,7 @@ td.ldFEGrid1Black {
 	background-color:#F3F5D7;
 	color:#000000;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid1Red {
 	margin:0; 
@@ -2403,7 +2429,7 @@ td.ldFEGrid1Red {
 	background-color:#F3F5D7;
 	color:red;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid1Orange {
 	margin:0; 
@@ -2412,7 +2438,7 @@ td.ldFEGrid1Orange {
 	background-color:#F3F5D7;
 	color:orange;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid1Green {
 	margin:0; 
@@ -2421,7 +2447,7 @@ td.ldFEGrid1Green {
 	background-color:#F3F5D7;
 	color:green;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid1BlackBold {
 	margin:0; 
@@ -2430,7 +2456,7 @@ td.ldFEGrid1BlackBold {
 	background-color:#F3F5D7;
 	color:#000000;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
 }
 td.ldFEGrid2 {
@@ -2440,7 +2466,7 @@ td.ldFEGrid2 {
 	background-color:#FFFFFF;
 	color:#53565A;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid2Bold {
 	margin:0; 
@@ -2449,7 +2475,7 @@ td.ldFEGrid2Bold {
 	background-color:#FFFFFF;
 	color:#53565A;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
 }
 td.ldFEGrid2Black {
@@ -2459,7 +2485,7 @@ td.ldFEGrid2Black {
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid2Red {
 	margin:0; 
@@ -2468,7 +2494,7 @@ td.ldFEGrid2Red {
 	background-color:#FFFFFF;
 	color:red;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid2Orange {
 	margin:0; 
@@ -2477,7 +2503,7 @@ td.ldFEGrid2Orange {
 	background-color:#FFFFFF;
 	color:orange;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid2Green {
 	margin:0; 
@@ -2486,7 +2512,7 @@ td.ldFEGrid2Green {
 	background-color:#FFFFFF;
 	color:green;
 	text-align:left;
-	font-size:medium;	
+	font-size:xx-large;	
 }
 td.ldFEGrid2BlackBold {
 	margin:0; 
@@ -2495,13 +2521,13 @@ td.ldFEGrid2BlackBold {
 	background-color:#FFFFFF;
 	color:#000000;
 	text-align:left;
-	font-size:medium;
+	font-size:xx-large;
 	font-weight:bold;
 }
 td.FEName {
 	color:#53565A;
-	font-size: large;
-	text-align: center;
+	font-size: xx-large;
+	text-align: right;
 	font-weight:bold;
 }
 td.FEProgressTitle {
@@ -2517,7 +2543,7 @@ td.FEAccessCRQTitle {
 	background-color:#53565A;
 	color:#FFFFFF;
 	text-align:left;
-	font-size:large;
+	font-size:xx-large;
 }
 div.FeX {
 	cursor:pointer;
@@ -2532,7 +2558,7 @@ div.FeX {
 td.PSAmber {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:orange;
 	color:#53565A;
 	text-align:center;
@@ -2542,7 +2568,7 @@ td.PSAmber {
 td.PSAmberC {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:orange;
 	color:#C0C0C0;;
 	text-align:center;
@@ -2552,7 +2578,7 @@ td.PSAmberC {
 td.PSGreen {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:#B8E08C;
 	color:#53565A;
 	text-align:center;
@@ -2562,7 +2588,7 @@ td.PSGreen {
 td.PSGreenC {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:#B8E08C;
 	color:#C0C0C0;;
 	text-align:center;
@@ -2572,7 +2598,7 @@ td.PSGreenC {
 td.PSRed {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:red;
 	color:#53565A;
 	text-align:center;
@@ -2582,7 +2608,7 @@ td.PSRed {
 td.PSRedC {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:red;
 	color:#C0C0C0;
 	text-align:center;
@@ -2592,7 +2618,7 @@ td.PSRedC {
 td.PSGray {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:gray;
 	color:#53565A;
 	text-align:center;
@@ -2602,7 +2628,7 @@ td.PSGray {
 td.PSGrayC {
 	margin:0; 
 	padding:0;
-	border-radius: 20px;
+	border-radius: 40px;
 	background-color:gray;
 	color:#C0C0C0;;
 	text-align:center;
@@ -2616,6 +2642,30 @@ td.FEAction {
 	background-color:#53565A;
 	color:#FFFFFF;
 	text-align:center;
-	font-size:medium;	
+	font-size:xx-large;	
 	font-weight:bold;
+}
+div.menu1FE {
+	background-color:#F8485E;
+	color:#ffffff;
+	font-size:xx-large;
+	font-weight:bold;
+}
+div.menu1FEItem {
+	background-color:#F8485E;
+	color:#ffffff;
+	padding-left:10px;
+	padding-right:10px;
+	font-size:xx-large;
+	font-weight:bold;
+	cursor:pointer;
+}
+div.menu1FEItemNeg {
+	background-color:#ffffff;
+	color:#F8485E;
+	padding-left:10px;
+	padding-right:10px;
+	font-size:xx-large;
+	font-weight:bold;
+	cursor:pointer;
 }
