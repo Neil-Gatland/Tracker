@@ -38,7 +38,8 @@ public class LiveDashboardSite {
 	private String currentYearWeek;  		//34
 	private long snrId;						//35	
 	private String boContactNo;				//36	
-	private String postcode;				//37
+	private String postcode;				//37	
+	private String feNo;					//37
 	
 	public LiveDashboardSite(
 			String customer,
@@ -145,7 +146,8 @@ public class LiveDashboardSite {
 			String risk,
 			long snrId,
 			String boContactNo,
-			String postcode) {
+			String postcode,
+			String feNo ) {
 		this.customer = customer;
 		this.partner = partner;
 		this.project = project;
@@ -180,6 +182,7 @@ public class LiveDashboardSite {
 		this.snrId = snrId;
 		this.boContactNo = boContactNo;
 		this.postcode = postcode;
+		this.feNo = feNo;
 	}
 	
 	public String getCustomer() {
@@ -337,6 +340,10 @@ public class LiveDashboardSite {
 	
 	public String getPostcode() {
 		return postcode;
+	}
+	
+	public String getFeNo() {
+		return feNo;
 	}
 
 }

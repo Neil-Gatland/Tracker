@@ -6979,7 +6979,7 @@ public class UtilBean {
 							rs.getString(21), rs.getString(22), rs.getString(23), rs.getString(24),
 							rs.getString(25), rs.getString(26), rs.getString(27), rs.getString(28),
 							rs.getString(29), rs.getString(30), rs.getString(31), rs.getLong(32),
-							rs.getString(33), rs.getString(34)));
+							rs.getString(33), rs.getString(34),rs.getString(35)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -7082,16 +7082,16 @@ public class UtilBean {
 					feComment = "Waiting Decision or Aborted";
 				}
 				siteHTML = siteHTML +
-						"<td class=\"ldFEHeadSite\" height=\"60px\" >" +
+						"<td class=\"ldFEHeadSite"+(lds.getFeNo().equals("2")?"RO":"")+"\" height=\"60px\" >" +
 						"<img height=\"50px\" width=\"50px\" width src=\"images/"+feStatus+"FE.png\" "+
 						"title=\""+feComment+"\">"+
 						"</td>" +
-						"<td class=\"ldFEHeadSite\" id=\"anchor"+lds.getSnrId()+"\">" +
+						"<td class=\"ldFEHeadSite"+(lds.getFeNo().equals("2")?"RO":"")+"\" id=\"anchor"+lds.getSnrId()+"\">" +
 						lds.getSite() +
-						"</td><td class=\"ldFEHeadSite\">&nbsp;" +
-						"</td><td class=\"ldFEHeadSite\">" +
+						"</td><td class=\"ldFEHeadSite"+(lds.getFeNo().equals("2")?"RO":"")+"\">&nbsp;" +
+						"</td><td class=\"ldFEHeadSite"+(lds.getFeNo().equals("2")?"RO":"")+"\">" +
 						lds.getPostcode() +
-						"</td><td class=\"ldFEHeadSite\" "+
+						"</td><td class=\"ldFEHeadSite"+(lds.getFeNo().equals("2")?"RO":"")+"\" "+
 						"title=\"" +
 						(expandCollapse.equals("C")?"Show site details":"Hide site details") +
 						"\" style=\"cursor:pointer;\" "+
@@ -7206,37 +7206,41 @@ public class UtilBean {
 						"<td height=\"140px\" class=\"ldFE"+lds.getCheckedIn()+"\" "+
 						"title=\"Checked In (FE/BO)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('checkedIn','"+lds.getSnrId()+"','"+lds.getCheckedIn()+"')\">"+
-						"Checked<br>In" +
+						(lds.getFeNo().equals("2")?"":
+						"onClick=\"updateProgress('checkedIn','"+lds.getSnrId()+"','"+lds.getCheckedIn()+"')\"") +
+						">Checked<br>In" +
 						"</td>" +
 						"<td></td>" +
 						"<td height=\"140px\" class=\"ldFE"+lds.getBookedOn()+"\" "+
 						"title=\"Site Booked On (FE/BO)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('bookedOn','"+lds.getSnrId()+"','"+lds.getBookedOn()+"')\">"+
-						"Site<br>Booked<br>On" +
+						(lds.getFeNo().equals("2")?"":
+						"onClick=\"updateProgress('bookedOn','"+lds.getSnrId()+"','"+lds.getBookedOn()+"')\"") +
+						">Site<br>Booked<br>On" +
 						"</td>" +
 						"<td></td>" +
 						"<td height=\"140px\" class=\"ldFE"+lds.getSiteAccessed()+"\" "+
 						"title=\"Site Accessed (FE)\" " +
-						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('siteAccessed','"+lds.getSnrId()+"','"+lds.getSiteAccessed()+"')\">"+
-						"Site<br>Accessed" +
+						"style=\"cursor:pointer;\" " +	
+						(lds.getFeNo().equals("2")?"":					
+						"onClick=\"updateProgress('siteAccessed','"+lds.getSnrId()+"','"+lds.getSiteAccessed()+"')\"") +
+						">Site<br>Accessed" +
 						"</td>" +
 						"<td></td>" +
 						"<td height=\"140px\" class=\"ldFE"+lds.getPhysicalChecks()+"\" "+
 						"title=\"Physical Checks (FE)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('physicalChecks','"+lds.getSnrId()+"','"+lds.getPhysicalChecks()+"')\">"+
+						(lds.getFeNo().equals("2")?"":
+						"onClick=\"updateProgress('physicalChecks','"+lds.getSnrId()+"','"+lds.getPhysicalChecks()+"')\"") +
 						"Physical<br>Checks" +
 						"</td>" +
 						"<td></td>" +
 						"<td height=\"140px\" class=\"ldFE"+lds.getPreCallTest()+"\" "+
 						"title=\"Pre Call Test (FE)\" " +
 						"style=\"cursor:pointer;\" " +
-						"onClick=\"updateProgress('preCallTest','"+lds.getSnrId()+"','"+lds.getPreCallTest()+"')\""+
-						">" +
-						"Pre-Call<br> Test" +
+						(lds.getFeNo().equals("2")?"":
+						"onClick=\"updateProgress('preCallTest','"+lds.getSnrId()+"','"+lds.getPreCallTest()+"')\"") +
+						">Pre-Call<br> Test" +
 						"</td>" +
 						"<td></td>" +
 						"</tr>" +
@@ -7261,21 +7265,24 @@ public class UtilBean {
 							"<td height=\"140px\" class=\"ldFE"+lds.getSiteLocked()+"\" "+
 							"title=\"Site Locked (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('siteLocked','"+lds.getSnrId()+"','"+lds.getSiteLocked()+"')\">" +
-							"Site<br>Locked" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('siteLocked','"+lds.getSnrId()+"','"+lds.getSiteLocked()+"')\"") +
+							">Site<br>Locked" +
 							"</td>" +
 							"<td></td>" +
 							"<td height=\"140px\" class=\"ldFE"+lds.getHwInstalls()+"\" "+
 							"title=\"HW Installed (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('hwInstalls','"+lds.getSnrId()+"','"+lds.getHwInstalls()+"')\">" +
-							"HW<br>Installed" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('hwInstalls','"+lds.getSnrId()+"','"+lds.getHwInstalls()+"')\"") +
+							">HW<br>Installed" +
 							"</td>" +
 							"<td></td>" +
 							"<td height=\"140px\" class=\"ldFE"+lds.getCommissioningFE()+"\" "+
 							"title=\"Field Commissioning (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')\">" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('commissioningFE','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')\"") +
 							"Field<br>Comm." +
 							"</td>" +
 							"<td></td>" +
@@ -7309,22 +7316,25 @@ public class UtilBean {
 							"<td height=\"140px\" class=\"ldFE"+lds.getFieldWork()+"\" "+
 							"title=\"Field Work (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('fieldWork','"+lds.getSnrId()+"','"+lds.getFieldWork()+"')\">" +
-							"Field<br>Work" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('fieldWork','"+lds.getSnrId()+"','"+lds.getFieldWork()+"')\"") +
+							">Field<br>Work" +
 							"</td>" +
 							"<td></td>" +
 							"<td height=\"140px\" class=\"ldFE"+lds.getSiteUnlocked()+"\" "+
 							"title=\"Site Unlocked (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('siteUnlocked','"+lds.getSnrId()+"','"+lds.getSiteUnlocked()+"')\">" +
-							"Site<br>Unlocked" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('siteUnlocked','"+lds.getSnrId()+"','"+lds.getSiteUnlocked()+"')\"") +
+							">Site<br>Unlocked" +
 							"</td>" +
 							"<td></td>" +
 							"<td height=\"140px\" class=\"ldFE"+lds.getPostCallTest()+"\" "+
 							"title=\"Post Call test (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('postCallTest','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')\">" +
-							"Post-Call<br>Test" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('postCallTest','"+lds.getSnrId()+"','"+lds.getCommissioningFE()+"')\"") +
+							">Post-Call<br>Test" +
 							"</td><td></td></tr></tbody></table>";
 					html.append(progress2HTML);					
 					html.append(separatorGrayHTML);
@@ -7351,17 +7361,17 @@ public class UtilBean {
 							"<td height=\"140px\" class=\"ldFE"+lds.getLeaveSite()+"\" "+
 							"title=\"Left Site (BO/FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('leaveSite','"+lds.getSnrId()+"','"+lds.getLeaveSite()+"') \""+
-							"\">" +
-							"Leave<br>Site" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('leaveSite','"+lds.getSnrId()+"','"+lds.getLeaveSite()+"') \"") +
+							">Leave<br>Site" +
 							"</td>" +
 							"<td></td>" +
 							"<td height=\"140px\" class=\"ldFE"+lds.getBookOffSite()+"\" "+
 							"title=\"Booked Off Site (FE)\" " +
 							"style=\"cursor:pointer;\" " +
-							"onClick=\"updateProgress('bookOffSite','"+lds.getSnrId()+"','"+lds.getBookOffSite()+"') \""+
-							"\">" +
-							"Booked<br>Off<br> Site" +
+							(lds.getFeNo().equals("2")?"":
+							"onClick=\"updateProgress('bookOffSite','"+lds.getSnrId()+"','"+lds.getBookOffSite()+"') \")") +
+							">Booked<br>Off<br> Site" +
 							"</td>" +
 							"<td></td>" +
 							"<td height=\"140px\" class=\"ldFE"+lds.getPerformanceMonitoring()+"BO\" "+

@@ -1515,7 +1515,7 @@ td.lMessage {
 	font-size:x-large;
 }
 input.lText {
-	width: 300px;
+	width: 90%;
 	font-size:x-large;
 	padding: 10px;
 	border-radius: 5px;
@@ -2295,7 +2295,17 @@ td.ldFEGrayBO {
 	padding:0;
 	border-radius: 20px;
 	background-color:gray;
-	color:#53565A;
+	color:#
+td.ldFEHeadSite {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:xx-large;
+	font-weight: bold;
+};
 	text-align:center;
 	font-size:xx-large;	
 	font-weight:bold;
@@ -2399,6 +2409,16 @@ td.ldFEHeadSite {
 	padding:5px;
 	border: #C0C0C0 0.5px solid;
 	background-color:#F8485E;
+	color:#FFFFFF;
+	text-align:center;
+	font-size:xx-large;
+	font-weight: bold;
+}
+td.ldFEHeadSiteRO {
+	margin:0; 
+	padding:5px;
+	border: #C0C0C0 0.5px solid;
+	background-color:#D0D0D0;
 	color:#FFFFFF;
 	text-align:center;
 	font-size:xx-large;
