@@ -135,17 +135,21 @@ public class LogonServlet extends HttpServlet {
 									    }
 								}
 								// SendGrid code
-								if (sgActive.equals("Y")) {
+								//if (sgActive.equals("Y")) {
 									Email e = new Email();
 									String sgResult = e.sendResetEmail(email, ret, sgAccount, sgPassword, sender, endMessage);
 									if (sgResult.equals("success")) {
-										req.setAttribute("userMessage", "Password reset email has been sent to "+email);
+										req.setAttribute(
+												"userMessage", 
+												"Password reset email has been sent to "+
+												email +
+												". <br>Please contact support if you don't receive this email.");
 									} else {
 										req.setAttribute("userMessage", sgResult );
 									}
-								} else {
+								/*} else {
 									req.setAttribute("userMessage", "Password for "+email+" reset to "+ret);
-								}	
+								}*/	
 							}
 						    } catch (Exception ex) {
 					        	req.setAttribute("userMessage", "Error: unable to get SendGrid account details, " + ex.getMessage());
