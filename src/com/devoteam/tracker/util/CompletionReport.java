@@ -209,6 +209,8 @@ public class CompletionReport {
 	public String cutdownCompletionReport(
 			long snrId, String completionStatus, String completionDate, Connection conn, String completingBO) {
 		String result = "";
+		boolean emailCopyProduced = false;
+		String messageBody = "", toList = "", ccList = "", bccList = "", subject ="";
 		currentCompletionStatus = completionStatus;
 		String reformattedCompletionDate = 
 				completionDate.substring(6,10)+"-"+
@@ -252,7 +254,7 @@ public class CompletionReport {
 	    } 
 		if (cRD.getSNRId()==snrId) {
 			// format report
-			String subject = subjectPrefix + cRD.getSite();
+			subject = subjectPrefix + cRD.getSite();
 			if (currentCompletionStatus.equals("Completed")) {
 				subject = subject + subjectCompletedSuffix;
 			} else if (currentCompletionStatus.equals("Partial")) {
@@ -260,10 +262,10 @@ public class CompletionReport {
 			} else {
 				subject = subject + subjectAbortedSuffix;
 			}
-			String toList = cRD.getToList();
-			String ccList = cRD.getCcList();
-			String bccList = cRD.getBccList();
-			String messageBody = emailHeader;
+			toList = cRD.getToList();
+			ccList = cRD.getCcList();
+			bccList = cRD.getBccList();
+			messageBody = emailHeader;
 			Random rn = new Random();
 			int colorCode = rn.nextInt(3);
 			switch (colorCode) {
@@ -302,7 +304,7 @@ public class CompletionReport {
 			messageBody = messageBody + blankLine+linksLine+circlesLine;
 			messageBody = messageBody + emailEnd;
 			cstmt = null;
-			try {;
+			try {
 				cstmt = conn.prepareCall("{call AddEmailCopy(?,?,?,?,?,?,?,?,?,?,?)}");
 		    	cstmt.setString(1, completingBO);
 		    	cstmt.setString(2, subject);
@@ -314,67 +316,79 @@ public class CompletionReport {
 		    	cstmt.setString(8, cRD.getSite());
 		    	cstmt.setString(9, cRD.getNRId());
 		    	cstmt.setString(10, cRD.getCompletionStatus());
-		    	cstmt.setDate(11, cRD.getCompletionDate());
-				cstmt.execute();
-			    } catch (Exception ex) {
-			    	result = " - automated completion report failed: AddEmailCopy(): " + ex.getMessage();
-			    	ex.printStackTrace();
-			    } finally {
-			    	try {
-			    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
-				    	} catch (SQLException ex) {
-				    		result = " - automated completion report failed: closing after AddEmailCopy(): " + ex.getMessage();
-				    		ex.printStackTrace();
-				    	} finally {
-				    		Email em = new Email();
-				    		try {
-				    			cstmt = conn.prepareCall("{call GetSendGridAccountDetails()}");
-								boolean found = cstmt.execute();
-								String sgAccount = "unavailable", sgPassword = "", sender = "", 
-										endMessage = "", sgActive = "";
-								if (found) {
-									ResultSet rs = cstmt.getResultSet();
-									if (rs.next()) {
-										sgAccount = rs.getString(1);
-										sgPassword = rs.getString(2);
-										sender = rs.getString(3);
-										endMessage = rs.getString(4);
-										sgActive = rs.getString(5);
-									}
-								}
-								if ((sgAccount.equals("unavailable")) || (sgAccount.equals("failed"))) {
-									result = " - unable to get SendGrid account details";
-								} else {
-									if (sgActive.equals("N")) {
-										result = " - SendGrid switched off so email is not being produced!";
-									} else if (sgActive.equals("R")) {
-										result = em.send(
-												messageBody, 
-												sender, 
-												toList, 
-												ccList, 
-												bccList, 
-												subject);
-									} else {
-										result = em.sendConfirmationEmail(
-														messageBody, 
-														cRD.getEmailSendAddress(), 
-														toList, 
-														ccList, 
-														bccList, 
-														sgAccount, 
-														sgPassword, 
-														subject);										
-									}
-								}								
-				    		}
-				    		catch (SQLException ex) {
-				    			result = " - unable to get SendGrid account details";
-				    			ex.printStackTrace();
-				    		}
-				    	}
-			    } 
-		} 		
+		    	cstmt.setString(11, cRD.getCompletionDateString2());
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					if (rs.next()) {
+						String ok = rs.getString(1);
+						if (ok.equals("Y"))
+							emailCopyProduced = true;
+							
+					}
+				}
+		    } catch (Exception ex) {
+		    	result = " - automated completion report failed: AddEmailCopy(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+			    	} catch (SQLException ex) {
+			    		result = " - automated completion report failed: closing after AddEmailCopy(): " + ex.getMessage();
+			    		ex.printStackTrace();
+			    	} 
+		    } 
+		} 
+		if (emailCopyProduced) {
+			Email em = new Email();
+    		try {
+    			cstmt = conn.prepareCall("{call GetSendGridAccountDetails()}");
+				boolean found = cstmt.execute();
+				String sgAccount = "unavailable", sgPassword = "", sender = "", 
+						endMessage = "", sgActive = "";
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					if (rs.next()) {
+						sgAccount = rs.getString(1);
+						sgPassword = rs.getString(2);
+						sender = rs.getString(3);
+						endMessage = rs.getString(4);
+						sgActive = rs.getString(5);
+					}
+				}
+				if ((sgAccount.equals("unavailable")) || (sgAccount.equals("failed"))) {
+					result = " - unable to get SendGrid account details";
+				} else {
+					if (sgActive.equals("N")) {
+						result = " - SendGrid switched off so email is not being produced!";
+					} else if (sgActive.equals("R")) {
+						result = em.send(
+								messageBody, 
+								sender, 
+								toList, 
+								ccList, 
+								bccList, 
+								subject);
+					} else {
+						result = em.sendConfirmationEmail(
+										messageBody, 
+										cRD.getEmailSendAddress(), 
+										toList, 
+										ccList, 
+										bccList, 
+										sgAccount, 
+										sgPassword, 
+										subject);										
+					}
+				}								
+    		}
+    		catch (SQLException ex) {
+    			result = " - unable to get SendGrid account details";
+    			ex.printStackTrace();
+    		}
+		} else {
+			result = " - unable to create email copy";
+		}
 		return result;
 	}
 	
