@@ -36,6 +36,7 @@ public class CompletionReportDetail {
 	private String emailEndMessage; //30
 	private String emailSendAddress; //30
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+	private SimpleDateFormat dateFormatter2 = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public CompletionReportDetail(	
 			long snrId,
@@ -120,6 +121,10 @@ public class CompletionReportDetail {
 	
 	public String getCompletionDateString() {
 		return completionDate==null?"":dateFormatter.format(completionDate);
+	}
+	
+	public String getCompletionDateString2() {
+		return completionDate==null?"":dateFormatter2.format(completionDate)+" 00:00:00";
 	}
 	
 	public String getCompletionStatus() {
