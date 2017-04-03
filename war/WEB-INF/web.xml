@@ -117,6 +117,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/validatePot</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>ValidateFullPot</servlet-name>
+		<servlet-class>com.devoteam.tracker.ValidateFullPotServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ValidateFullPot</servlet-name>
+		<url-pattern>/validateFullPot</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UploadFullPot</servlet-name>
+		<servlet-class>com.devoteam.tracker.UploadFullPotServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadFullPot</servlet-name>
+		<url-pattern>/uploadFullPot</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>UploadSchedule</servlet-name>
 		<servlet-class>com.devoteam.tracker.UploadScheduleServlet</servlet-class>
 	</servlet>
@@ -219,6 +235,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>HomeFE</servlet-name>
 		<url-pattern>/homeFE</url-pattern>
+	</servlet-mapping>		
+	<servlet>
+		<servlet-name>ScheduleView</servlet-name>
+		<servlet-class>com.devoteam.tracker.ScheduleViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScheduleView</servlet-name>
+		<url-pattern>/scheduleView</url-pattern>
+	</servlet-mapping>			
+	<servlet>
+		<servlet-name>MissingData</servlet-name>
+		<servlet-class>com.devoteam.tracker.MissingDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MissingData</servlet-name>
+		<url-pattern>/missingData</url-pattern>
 	</servlet-mapping>			
 	<servlet>
 		<servlet-name>UrTracker</servlet-name>

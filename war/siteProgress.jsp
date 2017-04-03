@@ -124,6 +124,12 @@ function tbClick(btn) {
 	} 
 }
 
+function refresh() {
+	document.getElementById("toScreen").value = "<%=ServletConstants.SITE_PROGRESS%>";
+	document.getElementById("f1").action = "siteProgress";
+	document.getElementById("f1").submit();
+}
+
 -->
 </script>
 <div style="width:1250px;margin:0 auto;margin-top:10px;">
@@ -155,6 +161,7 @@ overflow: visible; border: 1px solid black;">
 <div style="float:right;width:2px" class="menu2">&nbsp;</div>
 <div id="closed" onClick="tbClick('closed')" onMouseOut="invertClass('closed')" onMouseOver="invertClass('closed')" style="float:right;display:inline" class="menu2Item">Return</div>
 <div id="update" onClick="tbClick('update')" onMouseOut="invertClass('update')" onMouseOver="invertClass('update')" style="float:right;display:inline" class="menu2Item">Update</div>
+<div id="refresh" onClick="refresh()" onMouseOut="invertClass('refresh')" onMouseOver="invertClass('refresh')" style="float:right;display:inline" class="menu2Item">Refresh</div>
 <div id="tmAnchor" class="menu2">&nbsp;</div>
 </div>
 <div class="menu2" style="height:2px"></div>

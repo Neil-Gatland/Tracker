@@ -99,6 +99,13 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.CLIENT_REPORTING)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CLIENT_REPORTING);
 				destination = "/clientReporting.jsp";
+			} else if (toScreen.equals(ServletConstants.SCHEDULE_VIEW)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.SCHEDULE_VIEW);
+				session.setAttribute("potLoadActive", "N");
+				destination = "/scheduleView.jsp";
+			} else if (toScreen.equals(ServletConstants.MISSING_DATA)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.MISSING_DATA);
+				destination = "/missingData.jsp";
 			} else if (toScreen.equals(ServletConstants.EXPANDED)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
 				destination = "/workQueues.jsp";

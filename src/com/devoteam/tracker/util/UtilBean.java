@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.devoteam.tracker.model.LiveDashboardSite;
+import com.devoteam.tracker.model.ScheduleList;
 import com.devoteam.tracker.model.DashboardProject;
 import com.devoteam.tracker.model.EmailCopy;
 import com.devoteam.tracker.model.JobType;
@@ -103,6 +104,9 @@ public class UtilBean {
 		HTMLElement m06 = new HTMLElement("div", "m06", "float:right;", 
 				"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
 				"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);
+		HTMLElement m07 = new HTMLElement("div", "m07", "float:right;", 
+				"menu1Item", "menuClick('" + ServletConstants.SCHEDULE_VIEW + "')", 
+				"invertClass('m07')", "invertClass('m07')", ServletConstants.SCHEDULE_VIEW);
 		HTMLElement m0b = new HTMLElement("div", "float:right;width:2px", "menu1", 
 			"&nbsp;");
 		HTMLElement m0c = new HTMLElement("div", "overflow:hidden", "menu1", 
@@ -122,11 +126,15 @@ public class UtilBean {
 						m03.toString() + 
 						m05.toString() + 
 						m06.toString() + 
+						m07.toString() + 
 						m0c.toString());
 				
 			} else {
 				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-						(screen.equals(ServletConstants.CHANGE_PASSWORD)?"":m03.toString()) + m0c.toString());
+						(screen.equals(ServletConstants.CHANGE_PASSWORD)?"":
+							m03.toString() +
+							m07.toString()) + 
+							m0c.toString());
 			}
 			
 		}
@@ -151,16 +159,27 @@ public class UtilBean {
 								screen.equals(ServletConstants.CHANGE_PASSWORD)?"":
 								new HTMLElement("div", "m06", "float:right;", 
 								"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
-								"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING)) +
+								"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING))+
+						(screen.equals(ServletConstants.SCHEDULE_VIEW)||
+								screen.equals(ServletConstants.SCHEDULE_VIEW)?"":
+								new HTMLElement("div", "m07", "float:right;", 
+								"menu1Item", "menuClick('" + ServletConstants.SCHEDULE_VIEW + "')", 
+								"invertClass('m07')", "invertClass('m07')", ServletConstants.SCHEDULE_VIEW)) +
 						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") +
 						m0c.toString());
 			} else {
 				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
 						m03.toString() + 
 						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
+								(!screen.equals(ServletConstants.SCHEDULE_VIEW))&&
+								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
+										(getReportingBO(user.getUserId())))?m07.toString():"") + 
+						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
+								(!screen.equals(ServletConstants.SITE_SEARCH))&&
 								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
 										(getReportingBO(user.getUserId())))?m05.toString():"") + 
 						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
+								(!screen.equals(ServletConstants.CLIENT_REPORTING))&&
 								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
 										(getReportingBO(user.getUserId())))?m06.toString():"") + 
 						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m04.toString():"") + 
@@ -226,10 +245,10 @@ public class UtilBean {
 						ServletConstants.BO));
 			}
 			if (user.hasUserRole(UserRole.ROLE_SCHEDULER)) {
-				i++;
+				/*i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.SCHEDULING + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.SCHEDULING));
+						"invertClass('m1"+i+"')", ServletConstants.SCHEDULING));*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.RESCHED_REALLOC_CANCEL_SNR + "')", "invertClass('m1"+i+"')", 
@@ -240,10 +259,10 @@ public class UtilBean {
 						ServletConstants.REOPEN_CANCELLED_SNR + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.REOPEN_CANCELLED_SNR_SHORT,
 						ServletConstants.REOPEN_CANCELLED_SNR));
-				i++;
+				/*i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
+						"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
@@ -255,15 +274,15 @@ public class UtilBean {
 						"invertClass('m1"+i+"')", ServletConstants.REPORTING));
 				viewSNR = true;
 				reporting = true;
-				outputSchedule = true;
+				//outputSchedule = true;
 			}
 			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
 				if (!outputSchedule) {
-					i++;
+					/*i++;
 					m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 							ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
 							"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
-					outputSchedule = true;
+					outputSchedule = true;*/
 				}
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
@@ -310,26 +329,26 @@ public class UtilBean {
 						ServletConstants.JOB_TYPE_MAINTENANCE));
 			}
 			if (user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN)) {
-				if (!outputSchedule) {
+				/*if (!outputSchedule) {
 					i++;
 					m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 							ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
 							"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
 					outputSchedule = true;
-				}
+				}*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.UPDATE_ACCESS + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.UPDATE_ACCESS));
 			}
 			if (user.hasUserRole(UserRole.ROLE_CRM_ADMIN)) {
-				if (!outputSchedule) {
+				/*if (!outputSchedule) {
 					i++;
 					m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 							ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
 							"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
 					outputSchedule = true;
-				}
+				}*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.UPDATE_CRM + "')", "invertClass('m1"+i+"')", 
@@ -362,9 +381,9 @@ public class UtilBean {
 					ServletConstants.RESCHED_REALLOC_CANCEL_SNR));
 			
 		}  else if (screen.equals(ServletConstants.RESCHED_REALLOC_CANCEL_SNR)) {
-			m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
+			/*m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.SCHEDULING + "')", "invertClass('m11')", 
-					"invertClass('m11')", ServletConstants.SCHEDULING));
+					"invertClass('m11')", ServletConstants.SCHEDULING));*/
 			
 		}  else if (screen.equals(ServletConstants.VIEW_SNR_HISTORY)) {
 			m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
@@ -391,10 +410,10 @@ public class UtilBean {
 					"invertClass('m11')", ServletConstants.EXPANDED_SHORT,
 					ServletConstants.EXPANDED));
 			if (user.hasUserRole(UserRole.ROLE_SCHEDULER)) {
-				i++;
+				/*i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.SCHEDULING + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.SCHEDULING));
+						"invertClass('m1"+i+"')", ServletConstants.SCHEDULING));*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.RESCHED_REALLOC_CANCEL_SNR + "')", "invertClass('m1"+i+"')", 
@@ -407,7 +426,7 @@ public class UtilBean {
 						ServletConstants.REOPEN_CANCELLED_SNR));				
 				viewSNR = true;
 				reporting = true;
-				outputSchedule = true;
+				//outputSchedule = true;
 			}	
 			i++;
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
@@ -419,10 +438,10 @@ public class UtilBean {
 					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
 					"invertClass('m1"+i+"')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
 					ServletConstants.VIEW_SNR_HISTORY));
-			i++;
+			/*i++;
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
-					"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
+					"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));*/
 			i++;
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.REPORTING + "')", "invertClass('m1"+i+"')", 
@@ -475,13 +494,19 @@ public class UtilBean {
 				canSee = screen.equals(ServletConstants.CUSTOMER_MENU) ||
 					screen.equals(ServletConstants.LIVE_DASHBOARD) ||
 					screen.equals(ServletConstants.SITE_SEARCH) ||
-					screen.equals(ServletConstants.CLIENT_REPORTING);
+					screen.equals(ServletConstants.CLIENT_REPORTING)||
+					screen.equals(ServletConstants.SCHEDULE_VIEW);
 			} else if (user.getUserType().equals(User.USER_TYPE_THIRD_PARTY)) {
-					canSee = screen.equals(ServletConstants.HOME_FE);
-			} else /*if ((user.getUserType().equals(User.USER_TYPE_DEVOTEAM)) ||
-					(user.getUserType().equals(User.USER_TYPE_THIRD_PARTY)))*/ {
+				if (screen.equals(ServletConstants.HOME_FE)) {
+					canSee = user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER);
+				}
+			} else /*if ((user.getUserType().equals(User.USER_TYPE_DEVOTEAM))*/ {
 				if (screen.equals(ServletConstants.WORK_QUEUES)) {
 					canSee = true;
+				} else if (screen.equals(ServletConstants.SCHEDULE_VIEW)) {
+					canSee = true;
+				} else if (screen.equals(ServletConstants.MISSING_DATA)) {
+					canSee = user.hasUserRole(UserRole.ROLE_SCHEDULER);;
 				} else if (screen.equals(ServletConstants.JOB_TYPE_MAINTENANCE)) {
 					canSee = user.hasUserRole(UserRole.ROLE_FINANCE_ADMIN)||user.hasUserRole(UserRole.ROLE_PMO);
 				} else if (screen.equals(ServletConstants.USER_ADMINISTRATION)) {
@@ -3212,37 +3237,46 @@ public class UtilBean {
 	    }
 		return select.toString();
 	}
-		
-	public String getAvailableUsersForRoleHTML2(long snrId, String role) {
-    	Connection conn = null;
-    	CallableStatement cstmt = null;
-    	Select select = new Select("selectAltAvailableUsersForRole",  "filter");
-	    try {
-	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call GetAvailableUsersForRole(?,?)}");
-   			cstmt.setLong(1, snrId);
-   			cstmt.setString(2, role);
-			boolean found = cstmt.execute();
-			if (found) {
-				ResultSet rs = cstmt.getResultSet();
-				while (rs.next()) {
-					Option option = new Option(rs.getString(1), rs.getString(2),
-						false);
-					select.appendValue(option.toString());
-				}
+	
+
+public String getAvailableUsersForRoleHTML(String snrId, String role) {
+	return getAvailableUsersForRoleHTML(Long.parseLong(snrId), role);
+}
+	
+public String getAvailableUsersForRoleHTML2(long snrId, String role) {
+	Connection conn = null;
+	CallableStatement cstmt = null;
+	Select select = new Select("selectAltAvailableUsersForRole",  "filter");
+    try {
+    	conn = DriverManager.getConnection(url);
+    	cstmt = conn.prepareCall("{call GetAvailableUsersForRole(?,?)}");
+			cstmt.setLong(1, snrId);
+			cstmt.setString(2, role);
+		boolean found = cstmt.execute();
+		if (found) {
+			ResultSet rs = cstmt.getResultSet();
+			while (rs.next()) {
+				Option option = new Option(rs.getString(1), rs.getString(2),
+					false);
+				select.appendValue(option.toString());
 			}
-	    } catch (Exception ex) {
+		}
+    } catch (Exception ex) {
+    	ex.printStackTrace();
+    } finally {
+    	try {
+    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+    		if ((conn != null) && (!conn.isClosed())) conn.close();
+	    } catch (SQLException ex) {
 	    	ex.printStackTrace();
-	    } finally {
-	    	try {
-	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
-	    		if ((conn != null) && (!conn.isClosed())) conn.close();
-		    } catch (SQLException ex) {
-		    	ex.printStackTrace();
-		    }
 	    }
-		return select.toString();
-	}
+    }
+	return select.toString();
+}
+
+public String getAvailableUsersForRoleHTML2(String snrId, String role) {
+	return getAvailableUsersForRoleHTML2(Long.parseLong(snrId), role);
+}
 	
 	public Collection<UserRole> getUserRoleList(long userId) {
 		ArrayList<UserRole> urList = new ArrayList<UserRole>();
@@ -5423,15 +5457,15 @@ public class UtilBean {
 		String name = "smart.png";
 		if (screen.equals(ServletConstants.LIVE_DASHBOARD)) {
 			name = "smart_LD.png";
-		}
-		if (screen.equals(ServletConstants.SITE_SEARCH)) {
+		} else if (screen.equals(ServletConstants.SITE_SEARCH)) {
 			name = "smart_SS.png";
-		}
-		if (screen.equals(ServletConstants.CLIENT_REPORTING)) {
+		} else if (screen.equals(ServletConstants.CLIENT_REPORTING)) {
 			name = "smart_CR.png";
-		}
-		if (screen.equals(ServletConstants.HOME_FE)) {
+		} else if (screen.equals(ServletConstants.HOME_FE)) {
 			name = "smart_FE.png";
+		} else if (	(screen.equals(ServletConstants.SCHEDULE_VIEW)) ||
+					(screen.equals(ServletConstants.MISSING_DATA)) ) {
+			name = "smart_S.png";
 		}
 		return name;
 	}
@@ -5446,6 +5480,10 @@ public class UtilBean {
 	
 	public String emailCopyProjectHTML () {
 		return getSelectHTMLWithInitialValue("EmailCopyProject","select","filter",user.getFullname());
+	}
+	
+	public String emailCopyUpgradeTypeHTML () {
+		return getSelectHTMLWithInitialValue("EmailCopyUpgradeType","select","filter",user.getFullname());
 	}
 	
 	public String emailCopyClientHTML () {
@@ -7849,6 +7887,1033 @@ public class UtilBean {
 		else if (operation.equals("initialHOP"))
 			result = "Hand Over Pack";		
 		return result;
+	}
+	
+	public Collection<ScheduleList> getScheduleList(
+			String project,
+			String upgradeType,
+			String site,
+			String nrId,
+			String siteStatus,
+			String fromDate,
+			String toDate,
+			String siteList,
+			String initialEntry ) {
+		message = null;
+		ArrayList<ScheduleList> ScheduleList = new ArrayList<ScheduleList>();
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetScheduleList(?,?,?,?,?,?,?,?,?,?)}");
+	    	cstmt.setString(1, user.getFullname());
+	    	cstmt.setString(2, project);
+	    	cstmt.setString(3, upgradeType);
+	    	cstmt.setString(4, site);
+	    	cstmt.setString(5, nrId);
+	    	cstmt.setString(6, siteStatus);
+	    	cstmt.setString(7, fromDate);
+	    	cstmt.setString(8, toDate);
+	    	cstmt.setString(9, siteList);
+	    	cstmt.setString(10, initialEntry);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					ScheduleList.add(new ScheduleList(
+							rs.getString(1),  rs.getString(2),  rs.getString(3),  rs.getString(4), 
+							rs.getString(5),  rs.getString(6),  rs.getString(7),  rs.getString(8),
+							rs.getString(9),  rs.getString(10), rs.getString(11), rs.getDate(12),
+							rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), 
+							rs.getString(17), rs.getString(18), rs.getString(19), rs.getString(20),
+							rs.getString(21), rs.getString(22), rs.getString(23), rs.getInt(24)));
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getScheduleList(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return ScheduleList;
+	}
+	
+	public String getScheduleListHTML(
+			String project,
+			String upgradeType,
+			String site,
+			String nrId,
+			String siteStatus,
+			String fromDate,
+			String toDate,
+			String siteList,
+			String multiSiteEdit,
+			String initialEntry ) {
+		boolean oddRow = false;
+		StringBuilder html = new StringBuilder();
+		Collection<ScheduleList> ScheduleList = 
+			getScheduleList(project,upgradeType,site,nrId,siteStatus,fromDate,toDate,siteList,initialEntry);
+		if (ScheduleList.isEmpty()) {
+			if (message != null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td = new HTMLElement("td", "grid1s",	message);
+				td.setAttribute("colspan", "21");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td = new HTMLElement("td", "grid1s","No sites to display");
+				td.setAttribute("colspan", "21");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());	
+			}
+		} 
+		else {
+			// determine if user is a scheduler and can update 
+			boolean canUpdate = user.hasUserRole(UserRole.ROLE_SCHEDULER);
+			int row=0;
+			for (Iterator<ScheduleList> it = ScheduleList.iterator(); it.hasNext(); ) {
+				oddRow = !oddRow;
+				row++;				
+				ScheduleList sl = it.next();
+				HTMLElement tr = new HTMLElement("tr");
+				// Schedule Date
+				HTMLElement td1 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getScheduleDate());
+				if ((canUpdate)) {
+					if (multiSiteEdit.equals("Y")) {
+						td1 = new HTMLElement(
+								"td", 
+								(oddRow?"grid1s":"grid2s"),
+								"<input type=\"text\" size=\"7\" "+
+								"class=\""+(oddRow?"updateSite1":"updateSite2")+"\" "+
+								"name=\"newSDate"+row+"\" "+
+								"id=\"newSDate"+row+"\" "+
+								"value=\""+sl.getScheduledDateString()+"\" "+
+								"onClick=\"javascript:NewCssCal('newSDate"+row+"','ddMMyyyy','arrow')\" "+
+								"onChange=\"recordEdit("+sl.getSnrId()+","+row+","+
+											"'scheduledDate','"+sl.getScheduledDateString()+"')\" "+
+								"style=\"cursor:pointer;\" readonly/>");
+					} else if ((sl.getSiteStatus().equals("Scheduled"))||
+								(sl.getSiteStatus().equals("Awaiting Scheduling"))	) {
+						td1.setAttribute("style", "cursor:pointer;");
+						td1.setAttribute("id", "scheduledDate"+row);
+						td1.setAttribute("name", "scheduledDate"+row);
+						td1.setAttribute(
+								"onclick", 
+								"updateSite"+ 
+									"('"+sl.getSnrId()+
+									"','"+
+									sl.getScheduledDateString()+
+									"','scheduledDate','"+
+									row+"')");
+					}										
+				}
+				tr.appendValue(td1.toString());
+				// Site
+				HTMLElement td2 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSite());
+				tr.appendValue(td2.toString());
+				// NR Id
+				HTMLElement td3 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getNrId());
+				tr.appendValue(td3.toString());
+				// Site Status
+				HTMLElement td4 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSiteStatus());
+				tr.appendValue(td4.toString());
+				// Project
+				HTMLElement td5 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getProject());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td5.setAttribute("style", "cursor:pointer;");
+					td5.setAttribute("id", "project"+row);
+					td5.setAttribute("name", "project"+row);
+					td5.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getProject()+"','project','"+row+"')");
+				}
+				tr.appendValue(td5.toString());
+				// Upgrade Type
+				HTMLElement td6 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getUpgradeType());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td6.setAttribute("style", "cursor:pointer;");
+					td6.setAttribute("id", "upgradeType"+row);
+					td6.setAttribute("name", "upgradeType"+row);
+					td6.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getUpgradeType()+"','upgradeType','"+row+"')");
+				}
+				tr.appendValue(td6.toString());
+				// BO
+				HTMLElement td7 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getBo());				
+				if ((canUpdate)) {
+					if (multiSiteEdit.equals("Y")) {
+						td7 = new HTMLElement(
+								"td", 
+								(oddRow?"grid1s":"grid2s"),
+								getAvailableBOEngineers(sl.getBo(),row,oddRow));
+						td7.setAttribute(
+								"onChange", 
+								"recordEdit("+sl.getSnrId()+","+row+","+"'boEngineer','"+sl.getBo()+"')");
+					} else if ((sl.getSiteStatus().equals("Scheduled"))||
+								(sl.getSiteStatus().equals("Awaiting Scheduling"))	) {
+
+						td7.setAttribute("style", "cursor:pointer;");
+						td7.setAttribute("id", "boEngineer"+row);
+						td7.setAttribute("name", "boEngineer"+row);
+						td7.setAttribute(
+								"onclick",  
+								"updateSite"+ 
+										"('"+sl.getSnrId()+"','"+sl.getBo()+"','boEngineer','"+row+"')");
+					}										
+				}
+				td7.setAttribute("title", sl.getBoAll());
+				tr.appendValue(td7.toString());
+				// FE
+				HTMLElement td8 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getFe());
+				if ((canUpdate)) {
+					if (multiSiteEdit.equals("Y")) {
+						td8 = new HTMLElement(
+								"td", 
+								(oddRow?"grid1s":"grid2s"),
+								getAvailableFEEngineers(sl.getFe(),row,oddRow));
+						td8.setAttribute(
+								"onChange", 
+								"recordEdit("+sl.getSnrId()+","+row+","+"'feEngineer','"+sl.getFe()+"')");
+					} else if ((sl.getSiteStatus().equals("Scheduled"))||
+								(sl.getSiteStatus().equals("Awaiting Scheduling"))	) {
+
+						td8.setAttribute("style", "cursor:pointer;");
+						td8.setAttribute("id", "feEngineer"+row);
+						td8.setAttribute("name", "feEngineer"+row);
+						td8.setAttribute(
+								"onclick",  
+								"updateSite"+ 
+										"('"+sl.getSnrId()+"','"+sl.getFe()+"','feEngineer','"+row+"')");
+					}										
+				}
+				td8.setAttribute("title", sl.getFeAll());
+				tr.appendValue(td8.toString());
+				// Hardware Vendor
+				HTMLElement td9 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getHardwareVendor());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td9.setAttribute("style", "cursor:pointer;");
+					td9.setAttribute("id", "hardwareVendor"+row);
+					td9.setAttribute("name", "hardwareVendor"+row);
+					td9.setAttribute(
+							"onclick", 
+					"updateSite"+ 
+					"('"+sl.getSnrId()+"','"+sl.getHardwareVendor()+"','hardwareVendor','"+row+"')");
+				}
+				tr.appendValue(td9.toString());
+				// Vodafone 2G
+				HTMLElement td10 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getVodafone2G());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td10.setAttribute("style", "cursor:pointer;");
+					td10.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getVodafone2G()+"','vodafone2G','"+row+"')");
+				}
+				tr.appendValue(td10.toString());
+				// Vodafone 3G
+				HTMLElement td11 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getVodafone3G());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td11.setAttribute("style", "cursor:pointer;");
+					td11.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getVodafone3G()+"','vodafone3G','"+row+"')");
+				}
+				tr.appendValue(td11.toString());
+				// Vodafone 4G
+				HTMLElement td12 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getVodafone4G());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td12.setAttribute("style", "cursor:pointer;");
+					td12.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getVodafone4G()+"','vodafone4G','"+row+"')");
+				}
+				tr.appendValue(td12.toString());
+				// TEF 2G
+				HTMLElement td13 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getTef2G());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td13.setAttribute("style", "cursor:pointer;");
+					td13.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getTef2G()+"','tef2G','"+row+"')");
+				}
+				tr.appendValue(td13.toString());
+				// TEF 4G
+				HTMLElement td14 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getTef3G());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td14.setAttribute("style", "cursor:pointer;");
+					td14.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getTef3G()+"','tef3G','"+row+"')");
+				}
+				tr.appendValue(td14.toString());
+				// TEF 4G
+				HTMLElement td15 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getTef4G());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td15.setAttribute("style", "cursor:pointer;");
+					td15.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getTef4G()+"','tef4G','"+row+"')");
+				}
+				tr.appendValue(td15.toString());
+				// Paknet and Paging
+				HTMLElement td16 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getPaknetPaging());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td16.setAttribute("style", "cursor:pointer;");
+					td16.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getPaknetPaging()+"','paknetPaging','"+row+"')");
+				}
+				tr.appendValue(td16.toString());
+				// SecGW Change
+				HTMLElement td17 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSecGWChange());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td17.setAttribute("style", "cursor:pointer;");
+					td17.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getSecGWChange()+"','secGWChange','"+row+"')");
+				}
+				tr.appendValue(td17.toString());
+				// Power
+				HTMLElement td18 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getPower());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td18.setAttribute("style", "cursor:pointer;");
+					td18.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getPower()+"','power','"+row+"')");
+				}
+				tr.appendValue(td18.toString());
+				// Survey
+				HTMLElement td19 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSurvey());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td19.setAttribute("style", "cursor:pointer;");
+					td19.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getSurvey()+"','survey','"+row+"')");
+				}
+				tr.appendValue(td19.toString());
+				// Other
+				HTMLElement td20 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getOther());
+				if ( (canUpdate) &&
+						( 	(sl.getSiteStatus().equals("Scheduled")) ||
+							(sl.getSiteStatus().equals("Awaiting Scheduling"))	) ) {
+					td20.setAttribute("style", "cursor:pointer;");
+					td20.setAttribute(
+							"onclick",  
+							"updateSite"+ 
+									"('"+sl.getSnrId()+"','"+sl.getOther()+"','other','"+row+"')");
+				}
+				tr.appendValue(td20.toString());
+				String select = "";
+				if (canUpdate) {
+					HTMLElement input = new HTMLElement("input", "snrId"+row, "snrId",
+							"radio", Long.toString(sl.getSnrId()), 
+							"rescheduleSelect('"+sl.getSnrId()+
+							"','"+sl.getScheduledDateString()+
+							"','"+sl.getSiteStatus()+"')");
+					select = input.toString();
+				}
+				HTMLElement td21 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), select);
+				tr.appendValue(td21.toString());
+				// Complete row
+				html.append(tr.toString());	
+			}
+		}
+		return html.toString();
+	}
+	
+	public String getScheduleHeaderHTML(String snrId) {
+		StringBuilder html = new StringBuilder();
+		if (!snrId.equals("")) {
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetScheduleHeader(?)}");
+		    	cstmt.setLong(1, Long.parseLong(snrId));
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String scheduleDate = rs.getString(1);
+						String site = rs.getString(2);
+						String nrId = rs.getString(3);
+						String siteStatus = rs.getString(4);
+						String project = rs.getString(5);
+						String upgradeType = rs.getString(6);
+						String hardwareVendor = rs.getString(7);
+						String scheduleCommentary = rs.getString(8);
+						HTMLElement trBlank = new HTMLElement("tr");
+						HTMLElement tdBlank = new HTMLElement("td", "", "");
+						tdBlank.setAttribute("height", "5px");
+						tdBlank.setAttribute("colspan", "6");
+						trBlank.appendValue(tdBlank.toString());
+						HTMLElement tr1 = new HTMLElement("tr");
+						// Site
+						HTMLElement td11 = new HTMLElement("td", "grid1s", site);
+						td11.setAttribute("name", "scheduleSite");
+						td11.setAttribute("id", "scheduleSite");
+						tr1.appendValue(td11.toString());
+						// NR Id
+						HTMLElement td12 = new HTMLElement("td", "grid1s", nrId);
+						td12.setAttribute("name", "scheduleNrId");
+						td12.setAttribute("id", "scheduleNrId");
+						tr1.appendValue(td12.toString());
+						// Site Status
+						HTMLElement td13 = new HTMLElement("td", "grid1s", siteStatus);
+						tr1.appendValue(td13.toString());
+						// Project
+						HTMLElement td14 = new HTMLElement("td", "grid1s", project);
+						tr1.appendValue(td14.toString());
+						// Upgrade Type
+						HTMLElement td15 = new HTMLElement("td", "grid1s", upgradeType);
+						tr1.appendValue(td15.toString());
+						// Hardware Vendor
+						HTMLElement td16 = new HTMLElement("td", "grid1s", hardwareVendor);
+						tr1.appendValue(td16.toString());
+						html.append(tr1.toString());
+						html.append(trBlank.toString());
+						// Scheduled date
+						HTMLElement tr2 = new HTMLElement("tr");
+						HTMLElement td21 = new HTMLElement(
+								"td", 
+								"schAltHead", 
+								"Scheduled Date:");						
+						td21.setAttribute("colspan", "2");								
+						tr2.appendValue(td21.toString());
+						String inputBox =
+								"<input id=\"schDate\" name=\"schDate\" class=\"schText\" " +
+								" size=\"10\" value=\""+scheduleDate+"\" " +
+								"onclick=\"javascript:NewCssCal('schDate','ddMMyyyy','arrow')\" " +
+								"readonly=\"\" type=\"text\" " +
+								"style=\"cursor:pointer;\">";
+						String dateBox = 
+								"<img src=\"images/cal.gif\" " +
+								"onclick=\"javascript:NewCssCal('schDate','ddMMyyyy','arrow')\" "+
+								"style=\"cursor:pointer;\">";
+						HTMLElement td22 = new HTMLElement(
+								"td", 
+								"schAltHead", 
+								inputBox+dateBox);						
+						td22.setAttribute("colspan", "`");							
+						tr2.appendValue(td22.toString());
+						// Schedule or Reschedule plus Cancel Scheduling buttons
+						if (siteStatus.equals("Awaiting Scheduling")) {
+							String button1 = 
+								"<input style=\"width=120px\" type=\"button\" "+
+								"onClick=\"rescheduleClick('schedule')\" value=\"Schedule\"/>";
+							HTMLElement td23 = new HTMLElement(
+									"td", 
+									"schAltHead", 
+									button1);						
+							td23.setAttribute("colspan", "3");	
+							tr2.appendValue(td23.toString());
+						} else {
+							String button1 = 
+								"<input style=\"width=120px\" type=\"button\" "+
+								"onClick=\"rescheduleClick('reschedule')\" value=\"Reschedule\"/>";
+							HTMLElement td23 = new HTMLElement(
+									"td", 
+									"schAltHead", 
+									button1);		
+							tr2.appendValue(td23.toString());
+							String button2 =
+									"<input style=\"width=120px\" type=\"button\" "+
+									"onClick=\"rescheduleClick('cancelSchedule')\" value=\"Cancel Schedule\"/>";
+							HTMLElement td24 = new HTMLElement(
+									"td", 
+									"schAltHead", 
+									button2);						
+							td24.setAttribute("colspan", "2");	
+							tr2.appendValue(td24.toString());
+						}										
+						html.append(tr2.toString());
+						html.append(trBlank.toString());
+						// Commentary
+						HTMLElement tr3 = new HTMLElement("tr");
+						HTMLElement td31 = new HTMLElement(
+								"td", 
+								"schAltHead", 
+								"Schedule Commentary:");						
+						td31.setAttribute("colspan", "2");					
+						td31.setAttribute("valign", "top");		
+						tr3.appendValue(td31.toString());
+						String commentaryBox = 
+								"<textarea id=\"commentary\" name=\"commentary\" class=\"schText\" " +
+								"resize=\"none\" maxlength=\"2000\" " +
+								"style=\"width:430px;height:100px;resize:none;\">"+scheduleCommentary+"</textarea>";
+						HTMLElement td32 = new HTMLElement(
+								"td", 
+								"schAltHead", 
+								commentaryBox);						
+						td32.setAttribute("colspan", "4");	
+						tr3.appendValue(td32.toString());									
+						html.append(tr3.toString());						
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in getScheduleHeader(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		}
+		return html.toString();
+	}
+	
+
+	
+	public String getScheduleEngineersHTML(String snrId) {
+		StringBuilder html = new StringBuilder();
+		boolean oddRow = false;
+		if (!snrId.equals("")) {
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetSNRUserRoles(?,?)}");
+		    	cstmt.setLong(1, Long.parseLong(snrId));
+		    	cstmt.setString(2, "All");
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						//long snrId = rs.getLong(1);
+						long userId = rs.getLong(2);	
+						String role = rs.getString(3);	
+						String name = rs.getString(4);
+						long thirdPartyId = rs.getLong(5);
+						String thirdPartyName = rs.getString(6);
+						String rank = rs.getString(7);
+						String roleCount = rs.getString(8);
+						oddRow = !oddRow;
+						HTMLElement tr = new HTMLElement("tr");
+						HTMLElement td0 = new HTMLElement("td", "schAltHead", "" );
+						tr.appendValue(td0.toString());
+						HTMLElement td1 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), name);
+						tr.appendValue(td1.toString());
+						HTMLElement td2 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), role);
+						tr.appendValue(td2.toString());
+						HTMLElement td3 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), rank);
+						tr.appendValue(td3.toString());
+						HTMLElement td4 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), thirdPartyName);
+						tr.appendValue(td4.toString());
+						HTMLElement td5 = new HTMLElement(
+											"td", 
+											(oddRow?"grid1s":"grid2s"), 
+											"<img src=\"/images/edit.png\" height=\"15px\" width=\"15px\" "+
+											"onClick=\"chgEng('"+snrId+"','"+userId+"','"+rank+"','"+
+												(role.startsWith("BO")?"BO":"FE")+"','"+roleCount+"')\" "+
+											"title=\"Change Engineer\">" +
+											"<img src=\"/images/delete.png\" height=\"15px\" width=\"15px\" "+
+											"onClick=\"delEng('"+snrId+"','"+userId+"','"+rank+"','"+
+												(role.startsWith("BO")?"BO":"FE")+"','"+roleCount+"')\" "+
+											"title=\"Delete Engineer\">");
+						tr.appendValue(td5.toString());
+						html.append(tr.toString());
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetSNRUserRoles(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		}
+		return html.toString();
+	}
+		
+	public String canSchedule(String snrId) {
+		String scheduleMessage = "Unable to check for scheduling";
+		if (!snrId.equals("")) {
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call canSchedule(?)}");
+		    	cstmt.setLong(1, Long.parseLong(snrId));
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						scheduleMessage = rs.getString(1);
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in CanSchedule(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		}
+		return scheduleMessage;
+	}
+
+	public String getAvailableFEEngineers(String snrId) {
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		Select select = new Select("selectAvailableFEEngineers",  "filter");
+		if (!snrId.equals("")) {
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetAvailableUsersForRole(?,?)}");
+					cstmt.setLong(1, Long.parseLong(snrId));
+					cstmt.setString(2, "Field Engineer");
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						Option option = new Option(rs.getString(1), rs.getString(2),
+							false);
+						select.appendValue(option.toString());
+					}
+				}
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    }
+		}
+		return select.toString();
+	}
+
+	public String getAvailableFEEngineers(String currentValue, int row, boolean oddRow) {
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		Select select = new Select("selectAvailableFEEngineers"+row, (oddRow?"schFilter1":"schFilter2"));
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetAllUsersForRole(?,?)}");
+			cstmt.setString(1, "Field Engineer");
+			cstmt.setString(2, currentValue);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						false);
+					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
+	
+	public String getAvailableBOEngineers(String snrId) {
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		Select select = new Select("selectAvailableBOEngineers",  "filter");
+		if (!snrId.equals("")) {
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetAvailableUsersForRole(?,?)}");
+					cstmt.setLong(1, Long.parseLong(snrId));
+					cstmt.setString(2, "BO Engineer");
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						Option option = new Option(rs.getString(1), rs.getString(2),
+							false);
+						select.appendValue(option.toString());
+					}
+				}
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    }
+		}
+		return select.toString();
+	}
+	
+	public String getAvailableBOEngineers(String currentValue, int row, boolean oddRow) {
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		Select select = new Select("selectAvailableBOEngineers"+row,  (oddRow?"schFilter1":"schFilter2"));
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetAllUsersForRole(?,?)}");
+			cstmt.setString(1, "BO Engineer");
+			cstmt.setString(2, currentValue);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						false);
+					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
+	
+	public int getMaxScheduleEdits() {
+		int noEdits = -999;
+		Connection conn = null;
+		CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetMaxScheduleEdits()}");
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					noEdits = rs.getInt(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return noEdits;
+	}
+	
+	public String GetScheduleProjectHTML() {
+		return getSelectHTMLWithInitialValue("ScheduleProject","select","filter",user.getFullname());
+	}
+	
+	public Collection<ScheduleList> getMissingData() {
+		message = null;
+		ArrayList<ScheduleList> ScheduleList = new ArrayList<ScheduleList>();
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetMissingData(?)}");
+	    	cstmt.setString(1, user.getFullname());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					ScheduleList.add(new ScheduleList(
+							rs.getString(1),  rs.getString(2),  rs.getString(3),  rs.getString(4), 
+							rs.getString(5),  rs.getString(6),  rs.getString(7),  rs.getString(8),
+							rs.getString(9),  rs.getString(10), rs.getString(11), rs.getDate(12),
+							rs.getString(13), rs.getString(14), rs.getString(15), rs.getString(16), 
+							rs.getString(17), rs.getString(18), rs.getString(19), rs.getString(20),
+							rs.getString(21), rs.getString(22), rs.getString(23), rs.getInt(24)));
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getMissingData(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return ScheduleList;
+	}
+
+	public String getMissingDataHTML() {
+		boolean oddRow = false;
+		StringBuilder html = new StringBuilder();
+		Collection<ScheduleList> ScheduleList = 
+			getMissingData();
+		if (ScheduleList.isEmpty()) {
+			if (message != null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td = new HTMLElement("td", "grid1s", message);
+				td.setAttribute("colspan", "20");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement td = new HTMLElement("td", "grid1s","No sites with missing data to display");
+				td.setAttribute("colspan", "20");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());	
+			}
+		} 
+		else {
+			int row=0;
+			for (Iterator<ScheduleList> it = ScheduleList.iterator(); it.hasNext(); ) {
+				oddRow = !oddRow;
+				row++;				
+				ScheduleList sl = it.next();
+				HTMLElement tr = new HTMLElement("tr");
+				// Schedule Date
+				HTMLElement td1 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getScheduleDate());
+				if (sl.getScheduleDate().equals("")) {
+					td1 = new HTMLElement(
+							"td", 
+							"missing",
+							"<input type=\"text\" size=\"7\" "+
+							"class=\"missing\" "+
+							"name=\"newSDate"+row+"\" "+
+							"id=\"newSDate"+row+"\" "+
+							"value=\""+sl.getScheduledDateString()+"\" "+
+							"onClick=\"javascript:NewCssCal('newSDate"+row+"','ddMMyyyy','arrow')\" "+
+							"onChange=\"populateSiteColumn("+sl.getSnrId()+","+row+","+
+										"'scheduledDate')\" "+
+							"style=\"cursor:pointer;\" readonly/>");
+				}
+				tr.appendValue(td1.toString());
+				// Site
+				HTMLElement td2 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSite());
+				tr.appendValue(td2.toString());
+				// NR Id
+				HTMLElement td3 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getNrId());
+				tr.appendValue(td3.toString());
+				// Site Status
+				HTMLElement td4 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSiteStatus());
+				tr.appendValue(td4.toString());
+				// Project
+				HTMLElement td5 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getProject());
+				tr.appendValue(td5.toString());
+				// Upgrade Type
+				HTMLElement td6 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getUpgradeType());
+				if (sl.getUpgradeType().equals("")) {
+					td6 = new HTMLElement(
+							"td", 
+							"missing",
+							"<input type=\"text\" size=\"7\" "+
+							"class=\"missing\" "+
+							"name=\"newUType"+row+"\" "+
+							"id=\"newUType"+row+"\" "+
+							"onChange=\"populateSiteColumn("+sl.getSnrId()+","+row+","+
+										"'upgradeType')\" "+
+							"style=\"cursor:pointer;\" >");
+				}
+				tr.appendValue(td6.toString());
+				// BO
+				HTMLElement td7 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getBo());	
+				if (sl.getBo().equals("")) {
+					td7 = new HTMLElement(
+							"td", 
+							"missing",
+							getAvailableBOEngineers(sl.getBo(),row,"missing"));
+					td7.setAttribute(
+							"onChange", 
+							"populateSiteColumn("+sl.getSnrId()+","+row+","+"'boEngineer')");
+				}
+				td7.setAttribute("title", sl.getBoAll());
+				tr.appendValue(td7.toString());
+				// FE
+				HTMLElement td8 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getFe());	
+				if (sl.getFe().equals("")) {				
+					td8 = new HTMLElement(
+							"td", 
+							"missing",
+							getAvailableFEEngineers(sl.getFe(),row,"missing"));
+					td8.setAttribute(
+							"onChange", 
+							"populateSiteColumn("+sl.getSnrId()+","+row+","+"'feEngineer')");
+				}
+				td8.setAttribute("title", sl.getFeAll());
+				tr.appendValue(td8.toString());
+				// Hardware Vendor
+				HTMLElement td9 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getHardwareVendor());
+				if (sl.getHardwareVendor().equals("")) {
+					td9 = new HTMLElement(
+							"td", 
+							"missing",
+							"<input type=\"text\" size=\"7\" "+
+							"class=\"missing\" "+
+							"name=\"newHVendor"+row+"\" "+
+							"id=\"newHVendor"+row+"\" "+
+							"onChange=\"populateSiteColumn("+sl.getSnrId()+","+row+","+
+										"'hardwareVendor')\" "+
+							"style=\"cursor:pointer;\" >");
+				}
+				tr.appendValue(td9.toString());
+				// Vodafone 2G
+				HTMLElement td10 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getVodafone2G());
+				tr.appendValue(td10.toString());
+				// Vodafone 3G
+				HTMLElement td11 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getVodafone3G());
+				tr.appendValue(td11.toString());
+				// Vodafone 4G
+				HTMLElement td12 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getVodafone4G());
+				tr.appendValue(td12.toString());
+				// TEF 2G
+				HTMLElement td13 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getTef2G());
+				tr.appendValue(td13.toString());
+				// TEF 4G
+				HTMLElement td14 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getTef3G());
+				tr.appendValue(td14.toString());
+				// TEF 4G
+				HTMLElement td15 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getTef4G());
+				tr.appendValue(td15.toString());
+				// Paknet and Paging
+				HTMLElement td16 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getPaknetPaging());
+				tr.appendValue(td16.toString());
+				// SecGW Change
+				HTMLElement td17 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSecGWChange());
+				tr.appendValue(td17.toString());
+				// Power
+				HTMLElement td18 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getPower());
+				tr.appendValue(td18.toString());
+				// Survey
+				HTMLElement td19 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getSurvey());
+				tr.appendValue(td19.toString());
+				// Other
+				HTMLElement td20 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getOther());
+				tr.appendValue(td20.toString());
+				// Complete row
+				html.append(tr.toString());	
+			}
+		}
+		return html.toString();
+	}
+	
+	public String getAvailableBOEngineers(String currentValue, int row, String selectClass) {
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		Select select = new Select("selectAvailableBOEngineers"+row,  selectClass );
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetAllUsersForRole(?,?)}");
+			cstmt.setString(1, "BO Engineer");
+			cstmt.setString(2, currentValue);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						false);
+					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
+	}
+
+	public String getAvailableFEEngineers(String currentValue, int row, String selectClass) {
+		Connection conn = null;
+		CallableStatement cstmt = null;
+		Select select = new Select("selectAvailableFEEngineers"+row, selectClass);
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetAllUsersForRole(?,?)}");
+			cstmt.setString(1, "Field Engineer");
+			cstmt.setString(2, currentValue);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					Option option = new Option(rs.getString(1), rs.getString(2),
+						false);
+					select.appendValue(option.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    }
+		return select.toString();
 	}
 	
 }

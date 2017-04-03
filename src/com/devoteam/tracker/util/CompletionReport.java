@@ -238,7 +238,7 @@ public class CompletionReport {
 							rs.getString(22),rs.getString(23),rs.getString(24),
 							rs.getString(25),rs.getString(26),rs.getString(27),
 							rs.getString(28),rs.getString(29),rs.getString(30),
-							rs.getString(31));
+							rs.getString(31),rs.getString(32));
 				}
 			}
 	    } catch (Exception ex) {
@@ -252,7 +252,7 @@ public class CompletionReport {
 		    	ex.printStackTrace();
 		    } 
 	    } 
-		if (cRD.getSNRId()==snrId) {
+		if ((cRD.getSNRId()==snrId)&&(cRD.getBypassCompletionReport().equals("N"))) {
 			// format report
 			subject = subjectPrefix + cRD.getSite();
 			if (currentCompletionStatus.equals("Completed")) {
@@ -387,7 +387,12 @@ public class CompletionReport {
     			ex.printStackTrace();
     		}
 		} else {
-			result = " - unable to create email copy";
+			if (cRD.getBypassCompletionReport().equals("N")) {
+				result = " - unable to create email copy";
+			} else {
+				result = " - no completion report produced for project '"+cRD.getProject()+"'";
+			}
+			
 		}
 		return result;
 	}

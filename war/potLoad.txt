@@ -1,0 +1,149 @@
+<div id="potLoad" class="filter" 
+	style="width:1000px;">
+	<div class="closeX" title="close" onClick="potLoadClick('cancel')">x</div>	
+	<div>
+		<input type="file" style="visibility:hidden" name="potXLS" id="potXLS" 
+			onChange="showFileName(this.value)"></div>
+	<table style="table-layout:fixed;border-style:none;width:1000px;display:inline;">
+	<colgroup>
+		<col width="50px"/>
+		<col width="450px"/>
+		<col width="450px"/>
+		<col width="50px"/>
+	<colgroup>
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="plTitle">Pot Load</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td height="10px" colspan="4"></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td align="left">
+				<input id="select" style="width:35%" type="button" class="button" 
+					onClick="selectFile()" value="Select Spreadsheet" />				
+			</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="plName" id="fileNameDisplay">
+				&nbsp;				
+			</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td align="left">				
+				<input id="validate" style="width:25%;display:none;" type="button" class="button" 
+					onClick="potLoadClick('validate')" value="Validate" />				
+				<input id="cancelValidate" style="width:25%;display:none;" type="button" class="button" 
+					onClick="potLoadClick('cancelValidate')" value="Cancel" />				
+			</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<% if ((canConfirmPot.equals("Y"))&&(potLoadActive.equals("Y"))) { %>
+		<tr>
+			<td>&nbsp;</td>
+			<td align="left">				
+				<input id="confirm" style="width:25%;display:inline;" type="button" class="button" 
+					onClick="potLoadClick('confirm')" value="Confirm" />				
+				<input id="cancelConfirm" style="width:25%;display:inline;" type="button" class="button" 
+					onClick="potLoadClick('cancelConfirm')" value="Cancel" />				
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<% } %>
+		<tr>
+			<td>&nbsp;</td>
+			<td id="plErrors" align="left" valign="top">
+				<% if (problemsFound) {%>
+				<div class="plError">Errors:</div>
+				<%	String[] messages = problems.split("\\|"); //Pattern.quote("|")
+					for (int i = 0; i < messages.length; i++) {%>
+					<div class="plErrorMessage"><%=messages[i]%></div>
+				<%	}  } %>	
+			</td>
+			<td id="plWarnings" align="left" valign="top">
+				<% if (warningsFound) {%>
+				<div class="plWarning">Warnings:</div>
+				<%	String[] wmessages = warnings.split("\\|"); //Pattern.quote("|")
+					for (int i = 0; i < wmessages.length; i++) {%>
+					<div class="plWarningMessage"><%=wmessages[i]%></div>
+				<%	} }	%>	
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<input type="hidden" name="potFileName" id="potFileName" value="<%=potFileName%>">
+<script language="javascript">
+<!--
+
+function showFileName(thisValue) {
+	var fND = document.getElementById("fileNameDisplay");
+	fND.innerHTML = thisValue;	
+	var pFN = document.getElementById("potFileName");
+	pFN.value = thisValue;
+	document.getElementById("validate").style.display = "inline";
+	document.getElementById("cancelValidate").style.display = "inline";
+	document.getElementById("select").disabled = true;
+}
+
+function selectFile() {	
+	document.getElementById("plErrors").style.display = "none";
+	document.getElementById("plWarnings").style.display = "none";
+	var pX = document.getElementById("potXLS");
+	pX.click();	
+}
+
+function potLoadClick(operation) {
+	if (operation == "cancel") {
+		var pL = document.getElementById("potLoad");
+		pL.style.display = "none";
+		pL.style.left = "0px";
+		pL.style.top = "0px";	
+		document.getElementById("fileNameDisplay").innerHTML = "";
+		document.getElementById("potFileName").value = "";
+		document.getElementById("validate").style.display = "none";
+		document.getElementById("cancelValidate").style.display = "none";
+		<% 
+			session.removeAttribute("userMessage");
+		%>
+		document.getElementById("hLDMessage").value = "";
+	} else if (operation == "cancelValidate") {		
+		document.getElementById("fileNameDisplay").innerHTML = "";
+		document.getElementById("potFileName").value = "";
+		document.getElementById("select").disabled = false;
+		document.getElementById("validate").style.display = "none";
+		document.getElementById("cancelValidate").style.display = "none";
+	} else if (operation == "validate" ) {
+		document.getElementById("validate").disabled = false;
+		document.getElementById("cancelValidate").disabled = false;	
+		f1.action = "<%=blobstoreService.createUploadUrl("/validateFullPot")%>";
+		f1.enctype="multipart/form-data";
+		f1.submit();
+	} else if (operation == "cancelConfirm" ) {	
+		document.getElementById("select").disabled = false;
+		document.getElementById("confirm").style.display = "none";
+		document.getElementById("cancelConfirm").style.display = "none";
+	} else if (operation == "confirm" ) {
+		document.getElementById("select").disabled = false;
+		document.getElementById("confirm").style.display = "none";
+		document.getElementById("cancelConfirm").style.display = "none";
+		f1.action = "<%=blobstoreService.createUploadUrl("/uploadFullPot")%>";
+		f1.enctype="multipart/form-data";
+		f1.submit();
+	}
+}
+	
+-->
+</script>

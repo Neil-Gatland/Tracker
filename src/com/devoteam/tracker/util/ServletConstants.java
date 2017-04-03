@@ -17,6 +17,7 @@ public interface ServletConstants {
 	final static public String POT_SPREADSHEET_NAME_IN_SESSION = "potSpreadsheet";
 	final static public String POT_SPREADSHEET_COPY_NAME_IN_SESSION = "potSpreadsheetCopy";
 	final static public String PROBLEM_ARRAY_NAME_IN_SESSION = "problems";
+	final static public String WARNING_ARRAY_NAME_IN_SESSION = "warnings";
 	final static public String SCHEDULE_SPREADSHEET_NAME_IN_SESSION = "scheduleSpreadsheet";
 	final static public String SCHEDULE_SPREADSHEET_COPY_NAME_IN_SESSION = "scheduleSpreadsheetCopy";
 	final static public String PRECHECK_ITEM_COLLECTION_NAME_IN_SESSION = "preCheckItems";
@@ -41,7 +42,7 @@ public interface ServletConstants {
 	final static public String JOB_TYPE_MAINTENANCE_SHORT = "Job Type";
 	final static public String USER_ADMINISTRATION = "User Administration";
 	final static public String USER_ADMINISTRATION_SHORT = "User";
-	final static public String SCHEDULING = "Scheduling";
+	final static public String SCHEDULING = "Scheduling (old)";
 	final static public String OUTPUT_SCHEDULE = "Output Schedule";
 	final static public String PRE_CHECK_MAINTENANCE = "Pre-Check Maintenance";
 	final static public String PRE_CHECK_MAINTENANCE_SHORT = "Pre-Check";
@@ -51,8 +52,8 @@ public interface ServletConstants {
 	final static public String CONFIRM_IMPLEMENTATION_SHORT = "Confirm";
 	final static public String LOAD_SITE_CONFIGURATION = "Load Site Configuration";
 	final static public String LOAD_SITE_CONFIGURATION_SHORT = "Load";
-	final static public String RESCHED_REALLOC_CANCEL_SNR = "Reschedule/Reallocate/Cancel/Schedule Manually";
-	final static public String RESCHED_REALLOC_CANCEL_SNR_SHORT = "RRCSM";
+	final static public String RESCHED_REALLOC_CANCEL_SNR = "Cancel";
+	final static public String RESCHED_REALLOC_CANCEL_SNR_SHORT = "Cancel";
 	final static public String WORK_QUEUES = "Work Queues";
 	final static public String LOAD_POT = "Load Pot";
 	final static public String MANUAL_POT_CREATION = "Manual Pot Creation";
@@ -91,5 +92,9 @@ public interface ServletConstants {
 	final static public String SITE_SEARCH = "Site Search";
 	final static public String CLIENT_REPORTING = "Reporting";
 	final static public String HOME_FE = "Home (FE)";
+	final static public String SCHEDULE_VIEW = "Scheduling";
+	final static public String MISSING_DATA = "Missing Data";
+	final static public String POT_HEADER_IN_SESSION = "PotHeader";
+	final static public String POT_DETAIL_ARRAY_IN_SESSION = "PotDetailArray";
 
 }

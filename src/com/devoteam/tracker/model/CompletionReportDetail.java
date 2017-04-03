@@ -35,6 +35,7 @@ public class CompletionReportDetail {
 	private String project; //29
 	private String emailEndMessage; //30
 	private String emailSendAddress; //30
+	private String bypassCompletionReport; //31
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat dateFormatter2 = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -69,7 +70,8 @@ public class CompletionReportDetail {
 			String bccList,
 			String project,
 			String emailEndMessage,
-			String emailSendAddress) {
+			String emailSendAddress,
+			String bypassCompletionReport ) {
 		this.snrId = snrId;
 		this.site = site;
 		this.nrId = nrId;
@@ -101,6 +103,7 @@ public class CompletionReportDetail {
 		this.project = project;
 		this.emailEndMessage = emailEndMessage;
 		this.emailSendAddress = emailSendAddress;
+		this.bypassCompletionReport = bypassCompletionReport;
 	}
 	
 	public long getSNRId() {
@@ -233,6 +236,10 @@ public class CompletionReportDetail {
 	
 	public String getEmailSendAddress() {
 		return emailSendAddress;
+	}
+	
+	public String getBypassCompletionReport() {
+		return bypassCompletionReport;
 	}
 
 }

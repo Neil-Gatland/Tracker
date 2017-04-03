@@ -1,0 +1,37 @@
+<div id="feDetails" class="filter" style="width:250px">
+	<div class="closeX" title="close" onClick="actionClick('cancel')">x</div>	
+	<table style="table-layout:fixed;border-style:none;width:250px;display:inline;">
+	<colgroup>	
+		<col width="250px"/>
+	</colgroup>
+	<tbody>
+	<tr>
+		<td>Select Third Party for Field Engineer</td>
+	</tr>
+	<tr>
+		<td onChange="actionClick('submit')">
+			<% String[] tpParameters = {"Y"}; %>
+			<%=uB.getSelectHTML("ThirdParty", "select", "filter", "-1", tpParameters ) %>
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</div>
+<script language="javascript">
+<!--
+	
+function actionClick(operation) {
+	var feD = document.getElementById("feDetails");
+	feD.style.display = "none";
+	feD.style.left = "0px";
+	feD.style.top = "0px";
+	if (operation == "submit") {
+		document.getElementById("thirdPartyId").value = document.getElementById("selectThirdParty").value;	
+		document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+		document.getElementById("f1").action = "missingData";
+		document.getElementById("f1").submit();	
+	}
+}
+
+-->
+</script>
