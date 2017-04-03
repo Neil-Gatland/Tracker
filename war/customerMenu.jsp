@@ -101,6 +101,24 @@
 						<tr>
 					</table>
 				</td>
+				<td align="center" valign="bottom" height="120px">
+					<table>
+						<tr>
+							<td align="center" valign="top"  title="Press for scheduling"
+								onClick="menuClick('<%=ServletConstants.SCHEDULE_VIEW%>')"
+								style="cursor:pointer;">					
+								<img src="images/dev_pictos_red_circle_rvb-14.png" height="80px" width="80px">
+							</td>
+						</tr>
+						<tr>
+							<td align="center" title="Press for scheduling"
+								onClick="menuClick('<%=ServletConstants.SCHEDULE_VIEW%>')"
+								style="cursor:pointer;">
+								<img src="images/schedule_view_text.png" height="20px" width="138px">
+							</td>
+						<tr>
+					</table>
+				</td>
 			</tr>	
 			</tbody>		
 			</table>

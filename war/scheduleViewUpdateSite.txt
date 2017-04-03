@@ -1,0 +1,116 @@
+<div id="updateSite" class="updateSite" style="display:none;">
+<table>
+	<tr>		
+		<td height="20px">
+			<div id="updHardwareVendor" name = "updHardwareVendor" style="display:none;">
+				<input 
+					id="newHardwareVendor" 
+					name="newHardwareVendor" 
+					class="schedText" 
+					maxLength="50" 
+					type="text"/>
+			</div>
+			<div id="updFeEngineer" name="updFeEngineer" style="display:none;">			
+				<%=uB.getAvailableFEEngineers(snrId)%>
+			</div>
+			<div id="updBoEngineer" name="updBoEngineer" style="display:none;">	
+				<%=uB.getAvailableBOEngineers(snrId)%>
+			</div>
+			<div id="updUpgradeType" name="updUpgradeType" style="display:none;">			
+				<input
+					class="schedText"  
+					maxLength="100" 
+					id="newUpgradeType" 
+					name="newUpgradeType" 
+					type="text"/>
+			</div>
+			<div id="updProject" name="updProject" style="display:none;">
+				<%=uB.GetScheduleProjectHTML()%>
+			</div>
+			<div id="updScheduledDate" name="updScheduledDate" style="display:none;">
+				<input 
+					type="text" 
+					size="10" 
+					id="newScheduledDate" 
+					name="newScheduledDate" 
+					onclick="javascript:NewCssCal 
+							('newScheduledDate','ddMMyyyy','arrow')" 
+					style="cursor:pointer;"
+					readonly/>
+				<img src="images/cal.gif" 
+						onclick="javascript:NewCssCal 
+								('newScheduledDate','ddMMyyyy','arrow')"
+					style="cursor:pointer;"/>
+			</div>
+		</td>
+		<td width="5px">
+		</td>
+		<td width="15px" title="click to confirm change">
+			<img src="images/green_tick.png" height="15px" width="15px" 
+				onClick="updateSiteClick('submit')"/>
+		</td>
+		<td width="15px" title="click to cancel">
+			<img src="images/red_cross.png" height="15px" width="15px" 
+				onClick="updateSiteClick('cancel')"/>
+		</td>
+	</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+
+function updateSiteClick(operation) {
+	document.getElementById("rescheduleAction").value = "";
+	var rJT = document.getElementById("updateSite");
+	rJT.style.display = "none";
+	rJT.style.left = "0px";
+	rJT.style.top = "0px";
+	if (operation == "submit") {
+		var currentValue = document.getElementById("currentValue").value;
+		var updatedValue = "";
+		var column = document.getElementById("column").value;
+		if (column=="hardwareVendor") { 
+			updatedValue = document.getElementById("newHardwareVendor").value;				
+		} else if (column=="boEngineer") { 				
+			updatedValue = document.getElementById("selectAvailableBOEngineers").value;				
+		} else if (column=="feEngineer") { 			
+			updatedValue = document.getElementById("selectAvailableFEEngineers").value;			
+		} else if (column=="upgradeType") { 			
+			updatedValue = document.getElementById("newUpgradeType").value;			
+		} else if (column=="project") { 				
+			updatedValue = document.getElementById("selectScheduleProject").value;		
+		} else if (column=="scheduledDate") {				
+			updatedValue = document.getElementById("newScheduledDate").value;
+		} 
+		if (column=="scheduledDate") {			
+			var isoDT = 
+				updatedValue.substring(6, 10) + "-" + 
+				updatedValue.substring(3, 5) + "-" + 
+				updatedValue.substring(0, 2);
+			var updatedDate = new Date(isoDT);
+			var now = new Date();
+			now.setHours(0,0,0,0);
+			if (updatedDate < now) {
+				if (!confirm("Warning: new scheduled date is in the past. Please confirm this is correct.")) {
+						return;
+					}
+			}
+		}
+		if (!(updatedValue==currentValue)) {
+			if ((column=="boEngineer")||(column=="feEngineer")) {
+				document.getElementById("snrId").value = "<%=snrId%>";
+			}
+			document.getElementById("updatedValue").value = updatedValue;
+			document.getElementById("rescheduleAction").value = "updateSiteConfirm";
+			document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";			
+			document.getElementById("selectedAction").value = "search";
+			document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+			document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+			document.getElementById("f1").action = "scheduleView";
+			document.getElementById("f1").submit();	
+		}
+	}
+}
+	
+-->
+</script>

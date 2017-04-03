@@ -501,10 +501,10 @@ function snrSelect(snrId, status, customerId, site, nrId, efComplete) {
 	if (status == '<%=ServletConstants.STATUS_AWAITING_SCHEDULING%>') {
 		document.getElementById("realloc").style.display = "none";
 		document.getElementById("resched").style.display = "none";
-		document.getElementById("schedM").style.display = "inline";
+		document.getElementById("schedM").style.display = "none";
 	} else {	
-		document.getElementById("realloc").style.display = "inline";
-		document.getElementById("resched").style.display = "inline";
+		document.getElementById("realloc").style.display = "none";
+		document.getElementById("resched").style.display = "none";
 		document.getElementById("schedM").style.display = "none";
 	}
 <%}%>

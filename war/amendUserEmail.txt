@@ -3,6 +3,7 @@
 	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Amend User Details</h2></div>	
 	<div>Email</div>
 	<div style="padding-bottom:10px"><input style="width:98%" type="text" id="email" name="email" value="<%=userEmail%>"></div>
+	<div>Contact No.</div>
 	<div style="padding-bottom:10px"><input style="width:48%" type="text" id="contactNo" name="contactNo" value="<%=userContactNo%>"></div>
 	<div style="width:240px;margin:0 auto;">
 		<div style="float:left" title="Amend details for user <%=userName%>"><input style="width:120px" type="button" class="button" onClick="amendUserEmailClick('amendUserEmailSubmit')" value="Submit" /></div>

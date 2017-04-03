@@ -1,0 +1,366 @@
+<div id="reschedule" class="filter" style="width:665px">
+	<div class="closeX" title="close" onClick="rescheduleClick('cancel')">x</div>
+	<table style="table-layout:fixed;border-style:none;width:635px;display:inline;">
+	<colgroup>	
+		<col width="60px"/>	
+		<col width="130px"/>	
+		<col width="125px"/>	
+		<col width="100px"/>	
+		<col width="110px"/>		
+		<col width="105px"/>	
+	</colgroup>
+	<tbody>
+		<tr>
+			<td class="repHead">Site</td>
+			<td class="repHead">NR Id</td>
+			<td class="repHead">Site Status</td>
+			<td class="repHead">Project</td>
+			<td class="repHead">Upgrade Type</td>
+			<td class="repHead">Hardware Vendor</td>
+		</tr>
+		<%=uB.getScheduleHeaderHTML(snrId)%>
+	</tbody>
+	</table>
+	<table style="width: 670px; height: 20px;">
+	<colgroup>
+	<col width="190px"/>
+	<col width="150px"/>
+	<col width="100px"/>
+	<col width="30px"/>
+	<col width="150px"/>
+	<col width="50px"/>
+	</colgroup>
+	<tbody>
+	<tr>
+		<td height="10px"></td>
+	</tr>
+	<tr>
+			<td class="schAltHead">Engineer Allocation:</td>
+			<td id="engAnchor" name="engAnchor" class="repHead">Name</td>
+			<td class="repHead">Role</td>
+			<td class="repHead">Rank</td>
+			<td class="repHead">Third Party</td>
+			<td class="repHead">Action</td>
+	</tr>
+	<%=uB.getScheduleEngineersHTML(snrId)%>
+	<tr>
+		<td height="5px"></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td colspan="2">
+			<input style="width:100%" type="button" class="button" 
+				onClick="addRole(snrId,'BO')" value="Add BO Engineer">
+		<td colspan="3">
+			<input style="width:100%" type="button" class="button" 
+				onClick="addRole(snrId,'FE')" value="Add Field Engineer">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+			<table id="chgRole" style="display:<%=displayChgRole%>;width:100%;">
+			<tr>
+				<td class="schAltHead">
+					Change <%=role%>
+				</td>
+				<td class="schAltHead">
+					<%if (role.equalsIgnoreCase(UserRole.ROLE_FIELD_ENGINEER)) { %>
+					Third Party
+					<%} else {%>
+					&nbsp;
+					<%}%>
+				</td>
+				<td>
+					Rank
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<%=snrId!=""?uB.getAvailableUsersForRoleHTML2(snrId, role):""%>
+				</td>
+				<td class="schAltHead">
+					<%if (role.equalsIgnoreCase(UserRole.ROLE_FIELD_ENGINEER)) { String[] tpParameters = {"Y"}; %>
+					<%=uB.getSelectHTML("AltThirdParty", "select", "filter", "-1", tpParameters) %>
+					<%} else {%>
+					&nbsp;
+					<%}%>
+				</td>
+				<td>
+					<%=uB.getSelectHTML("AltFENumber", "select", "filter", "1") %>
+				</td>
+				<td>
+					<input style="width:90px" type="button" class="button" 
+						onClick="chgRoleClick('chgRoleSubmit')" value="Submit">
+				</td>
+				<td>
+					<input style="width:90px" type="button" class="button" 
+						onClick="chgRoleClick('cancel')" value="Cancel">
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+			<table id="addRole" style="display:<%=displayAddRole%>;width:100%;">
+			<tr>
+				<td class="schAltHead">
+					Add <%=role%>
+				</td>
+				<td class="schAltHead">
+					<%if (role.equalsIgnoreCase(UserRole.ROLE_FIELD_ENGINEER)) { %>
+					Third Party
+					<%} else {%>
+					&nbsp;
+					<%}%>
+				</td>
+				<td>
+					Rank
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<%=snrId!=""?uB.getAvailableUsersForRoleHTML(snrId, role):""%>
+				</td>
+				<td class="schAltHead">
+					<%if (role.equalsIgnoreCase(UserRole.ROLE_FIELD_ENGINEER)) { String[] tpParameters = {"Y"}; %>
+					<%=uB.getSelectHTML("ThirdParty", "select", "filter", "-1", tpParameters) %>
+					<%} else {%>
+					&nbsp;
+					<%}%>
+				</td>
+				<td>
+					<%=uB.getSelectHTML("FENumber", "select", "filter", "1") %>
+				</td>
+				<td>
+					<input style="width:90px" type="button" class="button" 
+						onClick="addRoleClick('addRoleSubmit')" value="Submit">
+				</td>
+				<td>
+					<input style="width:90px" type="button" class="button" 
+						onClick="addRoleClick('cancel')" value="Cancel">
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="rescheduleMessage" colspan=6><%=rescheduleMessage%>&nbsp;</td>
+	</tr>
+	</tbody>
+	</table>	
+</div>
+<script language="javascript">
+<!--
+
+function chgEng(snrId,userId,rank,role,count) {
+	document.getElementById("rescheduleAction").value = "chgEng";
+	document.getElementById("displayChgRole").value = "inline";
+	document.getElementById("snrId").value = "<%=snrId%>";			
+	document.getElementById("userId").value = userId;					
+	document.getElementById("rank").value = rank;							
+	document.getElementById("storedRank").value = rank;		
+	document.getElementById("role").value = (role=="BO"?"BO Engineer":"Field Engineer");			
+	document.getElementById("selectedAction").value = "search";
+	document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+	document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+	document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+	document.getElementById("f1").action = "scheduleView";
+	document.getElementById("f1").submit();
+}
+
+function chgRoleClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var aR = document.getElementById("chgRole");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else { //if (operation == "chgRoleSubmit") {
+<%if (role.equalsIgnoreCase(UserRole.ROLE_FIELD_ENGINEER)) {%>
+		if (document.getElementById("selectAltThirdParty").selectedIndex < 1) {
+			alert("Please select a third party");
+			return;
+		}  
+<%}%>	
+		var storedRank = document.getElementById("storedRank").value;
+		var selRank = document.getElementById("selectAltFENumber");
+		var newRank = selRank.options[selRank.selectedIndex].value;
+		if ( ("<%=storedRank%>"=="1") && (newRank=="2") ) {
+			alert('Cannot change from rank 1');
+			return;
+		}
+		document.getElementById("rescheduleAction").value = "chgEngSubmit";
+		document.getElementById("displayChgRole").value = "none";
+		document.getElementById("snrId").value = "<%=snrId%>";		
+		document.getElementById("selectedAction").value = "search";
+		document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+		document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+		document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+		document.getElementById("f1").action = "scheduleView";
+		document.getElementById("f1").submit();
+	}
+}
+
+function addRole(snrId,role) {
+	document.getElementById("rescheduleAction").value = "addEng";
+	document.getElementById("displayAddRole").value = "inline";
+	document.getElementById("snrId").value = "<%=snrId%>";	
+	document.getElementById("role").value = (role=="BO"?"BO Engineer":"Field Engineer");			
+	document.getElementById("selectedAction").value = "search";
+	document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+	document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+	document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+	document.getElementById("f1").action = "scheduleView";
+	document.getElementById("f1").submit();
+}
+
+function addRoleClick(operation) {
+	var f1 = document.getElementById("f1");
+	if (operation == "cancel") {
+		var aR = document.getElementById("addRole");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+	} else { //if (operation == "addRoleSubmit") {
+<%if (role.equalsIgnoreCase(UserRole.ROLE_FIELD_ENGINEER)) {%>
+		if (document.getElementById("selectThirdParty").selectedIndex < 1) {
+			alert("Please select a third party");
+			return;
+		}  
+<%}%>	
+		document.getElementById("rescheduleAction").value = "addEngSubmit";
+		document.getElementById("displayAddRole").value = "none";
+		document.getElementById("snrId").value = "<%=snrId%>";			
+		//document.getElementById("userId").value = userId;				
+		//document.getElementById("role").value = (role=="BO"?"BO Engineer":"Field Engineer");			
+		document.getElementById("selectedAction").value = "search";
+		document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+		document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+		document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+		document.getElementById("f1").action = "scheduleView";
+		document.getElementById("f1").submit();
+	}
+}
+
+function delEng(snrId,userId,rank,role,count) {
+	if ((role=="BO")&&(rank=="1")&&(count=="1")) {
+		alert("Cannot delete the only no.1 BO Engineer");
+		return ;
+	}
+	if ((role=="FE")&&(rank=="1")&&(count=="1")) {
+		alert("Cannot delete the only no.1 FE Engineer");
+		return;
+	}
+	if (confirm("Please confirm deletion")) {
+		document.getElementById("rescheduleAction").value = "delEng";
+		document.getElementById("snrId").value = "<%=snrId%>";			
+		document.getElementById("userId").value = userId;				
+		document.getElementById("role").value = (role=="BO"?"BO Engineer":"Field Engineer");			
+		document.getElementById("selectedAction").value = "search";
+		document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+		document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+		document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+		document.getElementById("f1").action = "scheduleView";
+		document.getElementById("f1").submit();
+	}
+}
+
+function rescheduleClick(operation) {
+	if (operation == "cancel") {
+		var rJT = document.getElementById("reschedule");
+		rJT.style.display = "none";
+		rJT.style.left = "0px";
+		rJT.style.top = "0px";
+		document.getElementById("snrId").value = "";
+	} else { 
+		var pastDate = 'N';
+		var schDate = document.getElementById("schDate").value;
+		if ((operation=='schedule')||(operation=='reschedule')) {
+			var isoDT = 
+				schDate.substring(6, 10) + "-" + 
+				schDate.substring(3, 5) + "-" + 
+				schDate.substring(0, 2);
+			var scheduledDate = new Date(isoDT);
+			var now = new Date();
+			now.setHours(0,0,0,0);
+			if (scheduledDate < now) {
+				pastDate = 'Y';
+			}
+		}
+		if (operation=='schedule') {
+			if (schDate=='') {
+				alert('Please enter a date for scheduling');
+				return;
+			} else {					
+				if (pastDate=='Y') {
+					if (!confirm("Warning: scheduled date is in the past. Please confirm this is correct.")) {
+						return;
+					}
+				}	
+				var scheduleMessage = "<%=uB.canSchedule(snrId)%>";		
+				if (scheduleMessage=='Yes') {
+					document.getElementById("rescheduleAction").value = "schedule";
+					document.getElementById("rescheduledDate").value = schDate;
+					document.getElementById("snrId").value = "<%=snrId%>";			
+					document.getElementById("selectedAction").value = "search";
+					document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+					document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+					document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+					document.getElementById("f1").action = "scheduleView";
+					document.getElementById("f1").submit();
+				} else {
+					alert(scheduleMessage);
+				}
+			}
+		} else if (operation=='reschedule') {	
+			var origScheduledDate = document.getElementById("scheduledDate").value;
+			if (origScheduledDate==schDate) {
+				alert('Scheduled date has not been changed');
+				return;
+			}
+			if (pastDate=='Y') {
+				if (!confirm("Warning: scheduled date is in the past. Please confirm this is correct.")) {
+					return;
+				}
+			}
+			document.getElementById("rescheduleAction").value = "reschedule";
+			document.getElementById("rescheduledDate").value = schDate;	
+			document.getElementById("snrId").value = "<%=snrId%>";			
+			document.getElementById("selectedAction").value = "search";
+			document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+			document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+			document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+			document.getElementById("f1").action = "scheduleView";
+			document.getElementById("f1").submit();
+		} else if (operation=='cancelSchedule') {
+			if (!confirm("Please confirm removal from schedule.")) {
+					return;
+			} else {
+			document.getElementById("rescheduleAction").value = "cancelSchedule";
+			document.getElementById("snrId").value = "<%=snrId%>";			
+			document.getElementById("selectedAction").value = "search";
+			document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+			document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+			document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+			document.getElementById("f1").action = "scheduleView";
+			document.getElementById("f1").submit();
+			}
+		}
+	}
+}
+	
+-->
+</script>

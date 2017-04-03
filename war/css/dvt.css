@@ -1905,9 +1905,13 @@ td.ldAmbeFRDash {
 }
 td.infoMsg {
 	color:#53565A;
+	text-align: center;	
+	font-weight:bold;
 }
 td.errorMsg {
 	color:#F8485E;
+	text-align: center;	
+	font-weight:bold;
 }
 td.clientBox {
 	color:#53565A;
@@ -2688,4 +2692,153 @@ div.menu1FEItemNeg {
 	font-size:xx-large;
 	font-weight:bold;
 	cursor:pointer;
+}
+td.grid1s {
+	color:#53565A;
+	background-color:#F3F5D7;
+	font-size:x-small;
+	text-align:center;
+	border-top:0.5px #53565A solid;
+	border-bottom:0.5px #53565A solid;
+	border-left:0.5px #53565A solid;
+	border-right:0.5px #53565A solid;
+}
+td.grid2s {
+	color:#53565A;
+	background-color:#FFFFFF;
+	font-size:x-small;
+	text-align:center;
+	border-top:0.5px #53565A solid;
+	border-bottom:0.5px #53565A solid;
+	border-left:0.5px #53565A solid;
+	border-right:0.5px #53565A solid;
+}
+td.schHead {
+	color:#FFFFFF;
+	background-color:#F8485E;
+	font-size:x-small;
+	text-align:center;
+	font-weight:bold;
+	border: 0.1px #F8485E solid;
+}
+td.schAltHead {
+	color:#FFFFFF;
+	background-color:#5d686e;
+	font-size:small;
+	text-align:left;
+	font-weight:bold;
+}
+td.plTitle {
+	color:#FFFFFF;
+	background-color:#5d686e;
+	font-size:large;
+	text-align:left;
+	font-weight:bold;
+}
+td.plName {
+	color:#FFFFFF;
+	background-color:#5d686e;
+	font-size:small;
+	text-align:left;
+	font-weight:bold;
+}
+td.rescheduleMessage {
+	color:#e3C500;
+	background-color:#5d686e;
+	font-size:medium;
+	text-align:center;
+	font-weight:bold;
+}
+input.schText {
+	font-size:small;
+}
+div.updateSite {
+	background-color:#FFFFFF;
+	color:#000000;
+	border:none;
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+input.schedText {
+	width: 90%;
+	font-size:small;
+	height: 100%;
+	border: 0.5px solid;
+}
+input.updateSite1 {	
+	color:#F8485E;
+	background-color:#F3F5D7;
+	font-size:x-small;
+	text-align:center;
+	border:none;
+}
+input.updateSite2 {	
+	color:#F8485E;
+	background-color:#FFFFFF;
+	font-size:x-small;
+	text-align:center;
+	border:none;
+}
+select.schFilter1 {
+	width:100%;
+	font-size:x-small;	
+	color:#F8485E;
+	background-color:#F3F5D7;	
+}
+select.schFilter2 {
+	width:100%;
+	font-size:x-small;
+	color:#F8485E;
+	background-color:#FFFFFF;
+}
+td.missing {	
+	color:#53565A;
+	background-color:#FFFF00;
+	font-size:x-small;
+	text-align:center;
+	border:0.5px #53565A solid;
+}
+input.missing {	
+	color:#53565A;
+	background-color:#FFFF00;
+	font-size:x-small;
+	text-align:center;
+	border:none;
+}
+select.missing {
+	width:100%;
+	font-size:x-small;	
+	color:#53565A;
+	background-color:#FFFF00;	
+}
+div.plError {
+	font-size: medium;
+	text_align: left;
+	font-weight: bold;
+	color: yellow;
+	padding-bottom:3px;
+}
+div.plErrorMessage {
+	font-size: small;
+	text-align: left;
+	font-weight: bold;
+	color: yellow;
+	padding-left:5px;
+	padding-bottom:1px;
+}
+div.plWarning {
+	font-size: medium;
+	text_align: left;
+	font-weight: bold;
+	color: orange;
+	padding-bottom:3px;
+}
+div.plWarningMessage {
+	font-size: small;
+	text-align: left;
+	font-weight: bold;
+	color: orange;
+	padding-left:5px;
+	padding-bottom:1px;
 }

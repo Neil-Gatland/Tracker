@@ -97,6 +97,20 @@
 	    return { x: xPosition, y: yPosition };
 	}
 
+	function getPositionNoOffset(element) {
+	    var xPosition = 0;
+	    var yPosition = 0; 
+		  
+	    while(element) {
+	    	if (!((element.className=='grid1s')||(element.className=='grid2s')||(element.className=='missing'))) {
+		        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);   			
+	    	}
+			xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+	        element = element.offsetParent;
+	    }
+	    return { x: xPosition, y: yPosition };
+	}
+
 	function isWhitespaceOrEmpty(text) {
 		   return !/[^\s]/.test(text);
 	}
@@ -148,7 +162,7 @@
 	<td>
 </tr>
 <tr>
-	<td colspan="3" class="<%=messageClass%>"><%=message%></td>
+	<td id="hLDMessage" name="hLDMessage" colspan="3" class="<%=messageClass%>"><%=message%></td>
 </tr>
 <tr>
 	<td colspan="3" class="menu1"><%=uB.getMenu1()%></td>
