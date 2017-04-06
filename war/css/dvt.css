@@ -1986,6 +1986,17 @@ td.dateSearchTop {
 	text-align:center;
 	font-weight:bold;
 }
+td.dateSearchTopRight {
+	padding-left:5px;
+	padding-right:25px;
+	padding-top:10px;
+	padding-bottom:5px;
+	color:#53565A;
+	background-color:#F0F0F0;
+	font-size:medium;
+	text-align:right;
+	font-weight:bold;
+}
 td.dateSearchTLCClass {
 	color:#53565A;
 	background-color:#F0F0F0;

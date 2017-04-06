@@ -8916,4 +8916,52 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 		return select.toString();
 	}
 	
+	public String getScheduleListCount(
+			String project,
+			String upgradeType,
+			String site,
+			String nrId,
+			String siteStatus,
+			String fromDate,
+			String toDate,
+			String siteList,
+			String initialEntry ) {
+		String result = "";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetScheduleListCount(?,?,?,?,?,?,?,?,?,?)}");
+	    	cstmt.setString(1, user.getFullname());
+	    	cstmt.setString(2, project);
+	    	cstmt.setString(3, upgradeType);
+	    	cstmt.setString(4, site);
+	    	cstmt.setString(5, nrId);
+	    	cstmt.setString(6, siteStatus);
+	    	cstmt.setString(7, fromDate);
+	    	cstmt.setString(8, toDate);
+	    	cstmt.setString(9, siteList);
+	    	cstmt.setString(10, initialEntry);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1)+" sites found";
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getScheduleListCount(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return result;
+	}
+	
 }

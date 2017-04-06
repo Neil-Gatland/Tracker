@@ -149,6 +149,15 @@ function thisScreenLoad() {
 		var snrId = document.getElementById("snrId").value;
 		var row = document.getElementById("row").value;
 		var header = document.getElementById(column+row);
+		// IE specifc code!
+		var isIE = /*@cc_on!@*/false || !!document.documentMode;
+		if (isIE) {
+			if (rescheduleAction=="updateSiteboEngineer") {
+				header = document.getElementById("boHdr");
+			} else {
+				header = document.getElementById("feHdr");
+			}
+		}
 		var position = getPositionNoOffset(header);
 		var aR = document.getElementById("updateSite");
 		aR.style.display = "inline";
@@ -433,15 +442,6 @@ function updateSite(snrId,currentValue,column,row) {
 		if (column=='power') { columnDesc='Power'}
 		if (column=='survey') { columnDesc='Survey'}
 		if (column=='other') { columnDesc='Other'}
-		/*if (currentValue=='x') {
-			if (!confirm("Confirm removal of technology "+columnDesc)) {
-				return;
-			} 
-		} else {
-			if (!confirm("Confirm add of technology "+columnDesc)) {
-				return;
-			}
-		}*/
 	}
 	document.getElementById("snrId").value = snrId;
 	document.getElementById("column").value = column;
@@ -456,8 +456,16 @@ function updateSite(snrId,currentValue,column,row) {
 		document.getElementById("f1").action = "scheduleView";
 		document.getElementById("f1").submit();	
 	} else {
+		var isIE = /*@cc_on!@*/false || !!document.documentMode;
 		if (!((column=="feEngineer")||(column=="boEngineer"))) {
 			var header = document.getElementById(column+row);
+			// IE specific code!
+			if (isIE) {
+				header = document.getElementById(column+"Hdr");
+				if (column=="scheduledDate") { 
+					header = document.getElementById("schDateHdr");
+				}
+			}
 			var position = getPositionNoOffset(header);
 			var aR = document.getElementById("updateSite");
 			aR.style.display = "inline";
@@ -668,7 +676,7 @@ function recordEdit(snrId,row,column,currentValue) {
 	<tbody>
 		<tr>
 			<td colspan="9" class="dateSearchTop">
-				Set date range by selecting<br>a month or a week or a day
+				Search by month or week or day
 			</td>
 		</tr>
 		<tr>
@@ -717,13 +725,14 @@ function recordEdit(snrId,row,column,currentValue) {
 <td width="455px" valign="top" class="clientBox">
 	<table style="table-layout:fixed;border-style:none;width:455px;">
 	<colgroup>		
-		<col width="100px"/>
+		<col width="50px"/>
 		<col width="120px"/>	
-		<col width="235px"/>
+		<col width="185px"/>	
+		<col width="100px"/>
 	</colgroup>
 	<tbody>
 		<tr>
-			<td colspan="3" class="dateSearchTop">
+			<td colspan="4" class="dateSearchTop">
 				Search by selected criteria
 			</td>
 		</tr>
@@ -738,6 +747,26 @@ function recordEdit(snrId,row,column,currentValue) {
 			<td align="left">
 				<%=uB.emailCopyProjectHTML()%>
 			</td>
+			<td align="right" rowspan="7">				
+				<div id="siteSearch" 
+					title="search by criteria"
+					onClick="search('open')" 
+					onMouseOut="invertClass('search')" 
+					onMouseOver="invertClass('search')" 
+					style="float:left;width:75px;display:inline;cursor:pointer;padding: 10px;">
+					<img src="images/dev_pictos_red_circle_rvb-05.png"
+						height="40px" width="40px" >
+				</div>			
+				<div id="clearSiteSearch" 
+					title="reset to scheduled today only"
+					onClick="clearSearchCriteria()" 
+					onMouseOut="invertClass('clearSearchCriteria')" 
+					onMouseOver="invertClass('clearSearchCriteria')" 
+					style="float:left;width:75px;display:inline;cursor:pointer;padding: 10px;" >
+					<img src="images/clear.png"
+						height="40px" width="40px" >
+				</div>
+			<td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -806,69 +835,40 @@ function recordEdit(snrId,row,column,currentValue) {
 						style="cursor:pointer"/>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="3" height="10px">
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" class="dateSearchTLCClass">
-				&nbsp;
-			</td>
-			<td  valign="bottom" align="left">
-				<div id="siteSearch" 
-					title="search by criteria"
-					onClick="search('open')" 
-					onMouseOut="invertClass('search')" 
-					onMouseOver="invertClass('search')" 
-					style="float:left;width:75px;display:inline;cursor:pointer;">
-					<img src="images/dev_pictos_red_circle_rvb-05.png"
-						height="40px" width="40px" >
-				</div>
-				<div id="siteSearch" 
-					title="reset to scheduled today only"
-					onClick="clearSearchCriteria()" 
-					onMouseOut="invertClass('clearSearchCriteria')" 
-					onMouseOver="invertClass('clearSearchCriteria')" 
-					style="float:left;width:75px;display:inline;cursor:pointer;" >
-					<img src="images/clear.png"
-						height="40px" width="40px" >
-				</div>
-			</td>
-		</tr>
 	</tbody>
 	</table>
 </td>
 <td width="445px" valign="top" class="clientBox">
 <table style="table-layout:fixed;border-style:none;width:445px;display:inline;">
+<colgroup>		
+	<col width="345px"/>
+	<col width="100px"/>
+</colgroup>
+<tbody>
 <tr>
-	<td class="dateSearchTop">
-	Multiple Site Search
+	<td class="dateSearchTop" colspan="2">
+		Multiple Site Search
 	</td>
 </tr>
 <tr>
 	<td height="10px"></td>
 </tr>
 <tr>
-	<td>
+	<td align="center">
 		<textarea 
 			id="siteList" 
 			name="siteList" 
 			maxlength="200" 
 			placeholder="Enter list of sites"
-			style="max-height:150px;resize:none;"><%=selectedSiteList%></textarea>
+			style="max-height:150px;resize:none;width:250px;"><%=selectedSiteList%></textarea>
 	</td>
-</tr>
-<tr>
-	<td height="10px"></td>
-</tr>
-<tr>
-	<td valign="bottom" align="center">
+	<td align="left">
 		<div id="multiSiteSearch" 
 			title="search for entered sites"
 			onClick="multiSearch('open')" 
 			onMouseOut="invertClass('multiSearch')" 
 			onMouseOver="invertClass('multiSearch')" 
-			style="float:left;width:75px;display:inline;cursor:pointer;">
+			style="float:left;width:75px;display:inline;cursor:pointer;padding: 10px;">
 			<img src="images/dev_pictos_red_circle_rvb-05.png"
 				height="40px" width="40px" >
 		</div>
@@ -877,12 +877,13 @@ function recordEdit(snrId,row,column,currentValue) {
 			onClick="clearMultiSearchCriteria()" 
 			onMouseOut="invertClass('clearMultiSearchCriteria')" 
 			onMouseOver="invertClass('clearMultiSearchCriteria')" 
-			style="float:left;width:75px;display:inline;cursor:pointer;" >
+			style="float:left;width:75px;display:inline;cursor:pointer;padding: 10px;" >
 			<img src="images/clear.png"
 				height="40px" width="40px" >
 		</div>
 	</td>
 </tr>
+</tbody>
 </table>
 </td>
 </tr>
@@ -924,8 +925,9 @@ function recordEdit(snrId,row,column,currentValue) {
 				"<img src=\"images/hide.png\" height=\"15\" width=\"15\">":
 				"<img src=\"images/show.png\" height=\"15\" width=\"15\">")%>
 	</td>
-	<td colspan="19" class="dateSearchTop">
-		&nbsp;
+	<td colspan="19" class="dateSearchTopRight">
+		<%=uB.getScheduleListCount(
+				project, upgradeType, site, nrId, siteStatus, startDate, endDate, formattedSiteList,initialEntry)%>
 	</td>
 </tr>
 <tr>
@@ -942,8 +944,8 @@ function recordEdit(snrId,row,column,currentValue) {
 	<td class="schHead">Site</td>
 	<td class="schHead">NR Id</td>
 	<td class="schHead">Site Status</td>
-	<td class="schHead">Project</td>
-	<td class="schHead">Upgrade Type</td>
+	<td id="projectHdr" name="projectHdr" class="schHead">Project</td>
+	<td id="upgradeTypeHdr" name="upgradeTypeHdr" class="schHead">Upgrade Type</td>
 	<td class="schHead" 
 		<% if (thisU.hasUserRole("Scheduler")) { %>
 		id="boHdr"
@@ -964,7 +966,7 @@ function recordEdit(snrId,row,column,currentValue) {
 		<%} %>>
 		FE Eng.
 		</td>
-	<td class="schHead">Hardware Vendor</td>
+	<td id="hardwareVendorHdr" name="hardwareVendorHdr" class="schHead">Hardware Vendor</td>
 	<td class="schHead" title="Vodafone 2G">VF 2G</td>
 	<td class="schHead" title="Vodafone 3G">VF 3G</td>
 	<td class="schHead" title="Vodafone 4G">VF 4G</td>
@@ -986,7 +988,7 @@ function recordEdit(snrId,row,column,currentValue) {
 </tbody>
 </table>
 <div id="siteList" style="margin: 0; padding: 0; overflow-y: scroll; overflow-x: hidden; display; inline; 
-max-width: 100%; height: <%=(showTH.equals("Y")?"255":"530")%>px;">
+max-width: 100%; height: <%=(showTH.equals("Y")?"295":"530")%>px;">
 <table style="table-layout:fixed;border-style:none;width:1250px;display:inline;">
 <colgroup>		
 	<col width="60px"/>	

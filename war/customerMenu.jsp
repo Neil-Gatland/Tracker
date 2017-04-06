@@ -47,7 +47,7 @@
 			<table style="table-layout: fixed; border-style: none; width: 100%;">	
 			<tbody>
 			<tr>
-				<td align="center" valign="top" height="120px">
+				<td align="center" valign="top" height="120px"">
 					<table>
 						<tr>
 							<td align="center" title="Press for live dashboard"
@@ -60,12 +60,12 @@
 							<td align="center" valign="top" title="Press for live dashboard"
 								onClick="menuClick('<%=ServletConstants.LIVE_DASHBOARD%>')"
 								style="cursor:pointer;">
-								<img src="images/live_dashboard_text.png" height="16px" width="138px">
+								<img src="images/live_dashboard_text.png" height="15px" width="94px">
 							</td>
 						<tr>
 					</table>
 				</td>
-				<td align="center" valign="bottom" height="120px">
+				<td align="center" valign="bottom" height="120px"">
 					<table>
 						<tr>
 							<td align="center" valign="top"  title="Press for site search"
@@ -78,12 +78,12 @@
 							<td align="center" title="Press for site search"
 								onClick="menuClick('<%=ServletConstants.SITE_SEARCH%>')"
 								style="cursor:pointer;">
-								<img src="images/site_search_text.png" height="16px" width="138px">
+								<img src="images/site_search_text.png" height="15px" width="76px">
 							</td>
 						<tr>
 					</table>
 				</td>
-				<td align="center" valign="top" height="120px">
+				<td align="center" valign="top" height="120px"">
 					<table>
 						<tr>
 							<td align="center" title="Press for reporting"
@@ -96,12 +96,12 @@
 							<td align="center" valign="top"  title="Press for reporting"
 								onClick="menuClick('<%=ServletConstants.CLIENT_REPORTING%>')"
 								style="cursor:pointer;">
-								<img src="images/client_reporting_text.png" height="16px" width="138px">
+								<img src="images/client_reporting_text.png" height="15px" width="76px">
 							</td>
 						<tr>
 					</table>
 				</td>
-				<td align="center" valign="bottom" height="120px">
+				<td align="center" valign="bottom" height="120px"">
 					<table>
 						<tr>
 							<td align="center" valign="top"  title="Press for scheduling"
@@ -114,7 +114,7 @@
 							<td align="center" title="Press for scheduling"
 								onClick="menuClick('<%=ServletConstants.SCHEDULE_VIEW%>')"
 								style="cursor:pointer;">
-								<img src="images/schedule_view_text.png" height="20px" width="138px">
+								<img src="images/schedule_view_text.png" height="15px" width="76px">
 							</td>
 						<tr>
 					</table>
