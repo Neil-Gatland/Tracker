@@ -217,7 +217,7 @@ function moveMonth(newMonth) {
 						&nbsp;
 					</td>
 					<td colspan="9" class="dateSearchTop">
-						Search by month or week or day:
+						Search by month or week or day
 					</td>
 				</tr>
 				<tr>

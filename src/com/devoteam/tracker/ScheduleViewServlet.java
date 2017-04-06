@@ -681,32 +681,37 @@ public class ScheduleViewServlet extends HttpServlet{
 	}
 	
 	private String[][] decodeEdits ( String editList, int noRows ) {
-		String[][] edits = new String[noRows][4];
-		// initialise table to empty strings
-		for (int row=0; row<noRows; row++) {
-			edits[row][0] = "";
-			edits[row][1] = "";
-			edits[row][2] = "";
-			edits[row][3] = "";
-		}
-		// process edit list and load into array
-		int editCount=0, columnCount=0;
-		String currentColumn = "";
-		for( int i=0; i<editList.length(); i++) {
-			String currentChar = editList.substring(i,i+1);
-			if (currentChar.equals(":")) {
-				edits[editCount][columnCount] = currentColumn;	
-				currentColumn = "";
-				columnCount++;
-			} else if (currentChar.equals("|")) {
-				edits[editCount][columnCount] = currentColumn;	
-				currentColumn = "";
-				columnCount = 0;
-				editCount++;
-			} else {
-				currentColumn = currentColumn + currentChar;
+		if (noRows>0) {
+			String[][] edits = new String[noRows][4];
+			// initialise table to empty strings
+			for (int i=0; i<edits.length; i++) {
+				for (int j=0; j< edits[i].length; j++) {
+					edits[i][j]="";
+				}
 			}
+			// process edit list and load into array
+			int editCount=0, columnCount=0;
+			String currentColumn = "";
+			for( int i=0; i<editList.length(); i++) {
+				String currentChar = editList.substring(i,i+1);
+				if (currentChar.equals(":")) {
+					edits[editCount][columnCount] = currentColumn;	
+					currentColumn = "";
+					columnCount++;
+				} else if (currentChar.equals("|")) {
+					edits[editCount][columnCount] = currentColumn;	
+					currentColumn = "";
+					columnCount = 0;
+					editCount++;
+				} else {
+					currentColumn = currentColumn + currentChar;
+				}
+			}
+			return edits;
+		} else {
+			return new String[20][4];
 		}
-		return edits;
+			
+		
 	}
 }
