@@ -19,6 +19,12 @@
 			<option value="N">N</option>
 			<option value="Y">Y</option>
 		</select>
+	</div><div>Bypass Completion Report</div>
+	<div>
+		<select id="selectBypassCompletionReportFilter" style="width:10%;" name="selectBypassCompletionReportFilter" class="filter">
+			<option value="N">N</option>
+			<option value="Y">Y</option>
+		</select>
 	</div>
 	<div>&nbsp;</div> 
 	<div style="width:240px;margin:0 auto;padding-bottom:10px">

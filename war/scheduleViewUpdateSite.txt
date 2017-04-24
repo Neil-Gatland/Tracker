@@ -1,6 +1,17 @@
 <div id="updateSite" class="updateSite" style="display:none;">
 <table>
-	<tr>		
+	<tr>
+		<td>
+			<div>
+				<input 
+					id="updSiteDets" 
+					name="updSiteDets" 
+					class="siteDets" 
+					type="button"/>
+			</div>
+		</td>
+	</tr>
+	<tr>	
 		<td height="20px">
 			<div id="updHardwareVendor" name = "updHardwareVendor" style="display:none;">
 				<input 
@@ -37,20 +48,18 @@
 							('newScheduledDate','ddMMyyyy','arrow')" 
 					style="cursor:pointer;"
 					readonly/>
-				<img src="images/cal.gif" 
+				<img src="images/cal.gif" height="15px" width="15px"
 						onclick="javascript:NewCssCal 
 								('newScheduledDate','ddMMyyyy','arrow')"
 					style="cursor:pointer;"/>
 			</div>
 		</td>
-		<td width="5px">
-		</td>
-		<td width="15px" title="click to confirm change">
-			<img src="images/green_tick.png" height="15px" width="15px" 
+		<td width="20px" title="click to confirm change">
+			<img src="images/green_tick_bck.png" height="20px" width="20px" 
 				onClick="updateSiteClick('submit')"/>
 		</td>
-		<td width="15px" title="click to cancel">
-			<img src="images/red_cross.png" height="15px" width="15px" 
+		<td width="20px" title="click to cancel">
+			<img src="images/red_cross_bck.png" height="20px" width="20px" 
 				onClick="updateSiteClick('cancel')"/>
 		</td>
 	</tr>

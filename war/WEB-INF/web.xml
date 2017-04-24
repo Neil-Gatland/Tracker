@@ -101,22 +101,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/userAdministration</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>UploadPot</servlet-name>
-		<servlet-class>com.devoteam.tracker.UploadPotServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>UploadPot</servlet-name>
-		<url-pattern>/uploadPot</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>ValidatePot</servlet-name>
-		<servlet-class>com.devoteam.tracker.ValidatePotServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ValidatePot</servlet-name>
-		<url-pattern>/validatePot</url-pattern>
-	</servlet-mapping>
-	<servlet>
 		<servlet-name>ValidateFullPot</servlet-name>
 		<servlet-class>com.devoteam.tracker.ValidateFullPotServlet</servlet-class>
 	</servlet>
@@ -131,30 +115,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>UploadFullPot</servlet-name>
 		<url-pattern>/uploadFullPot</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>UploadSchedule</servlet-name>
-		<servlet-class>com.devoteam.tracker.UploadScheduleServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>UploadSchedule</servlet-name>
-		<url-pattern>/uploadSchedule</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>ValidateSchedule</servlet-name>
-		<servlet-class>com.devoteam.tracker.ValidateScheduleServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ValidateSchedule</servlet-name>
-		<url-pattern>/validateSchedule</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>DownloadSchedule</servlet-name>
-		<servlet-class>com.devoteam.tracker.DownloadScheduleServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DownloadSchedule</servlet-name>
-		<url-pattern>/downloadSchedule</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>JobTypeMaintenance</servlet-name>

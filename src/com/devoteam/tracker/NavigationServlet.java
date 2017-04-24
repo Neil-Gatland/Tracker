@@ -123,16 +123,6 @@ public class NavigationServlet extends HttpServlet {
 					destination = "/viewPMOList.jsp";
 				} else if (toScreen.equals(ServletConstants.USER_ADMINISTRATION)) {
 					destination = "/userAdministration.jsp";
-				} else if (toScreen.equals(ServletConstants.SCHEDULING)) {
-					destination = "/scheduling.jsp";
-			    	session.removeAttribute(ServletConstants.POT_SPREADSHEET_NAME_IN_SESSION);
-			    	session.removeAttribute(ServletConstants.POT_SPREADSHEET_COPY_NAME_IN_SESSION);
-			    	session.removeAttribute(ServletConstants.PROBLEM_ARRAY_NAME_IN_SESSION);
-			    	session.removeAttribute(ServletConstants.SCHEDULE_SPREADSHEET_NAME_IN_SESSION);
-			    	session.removeAttribute(ServletConstants.SCHEDULE_SPREADSHEET_COPY_NAME_IN_SESSION);
-					session.removeAttribute(ServletConstants.SCHEDULED_SNRS_IN_SESSION);
-					session.removeAttribute(ServletConstants.INVALID_SNRS_IN_SESSION);
-					session.removeAttribute(ServletConstants.SCHEDULED_SNR_WARNINGS_IN_SESSION);
 				} else if (toScreen.equals(ServletConstants.PRE_CHECK_MAINTENANCE)) {
 					if (!snrId.equals("-1")) {
 						/*String snrStatus = req.getParameter("snrStatus");

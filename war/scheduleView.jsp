@@ -61,6 +61,7 @@ if (warningsFound) {
 	session.removeAttribute(ServletConstants.WARNING_ARRAY_NAME_IN_SESSION);
 }
 String canConfirmPot = session.getAttribute("canConfirmPot")==null?"N":(String)session.getAttribute("canConfirmPot");
+String nrIdOrSite = request.getAttribute("nrIdOrSite")==null?"":(String)request.getAttribute("nrIdOrSite");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="scheduleView.jsp"/>
 <input type="hidden" name="initialEntry" id="initialEntry" value="<%=initialEntry%>"/>
@@ -94,6 +95,7 @@ String canConfirmPot = session.getAttribute("canConfirmPot")==null?"N":(String)s
 <input type="hidden" name="selectedSiteList" id="selectedSiteList" value="<%=selectedSiteList%>"/>
 <input type="hidden" name="multiSiteEdit" id="multiSiteEdit" value="<%=multiSiteEdit%>"/>
 <input type="hidden" name="editList" id="editList" value=""/>
+<input type="hidden" name="nrIdOrSite" id ="nrIdOrSite" value="<%=nrIdOrSite%>"/>
 <%@ page import="com.devoteam.tracker.util.DateSearch"%>
 <%
 	DateSearch dS = new DateSearch(url);
@@ -172,6 +174,7 @@ function thisScreenLoad() {
 		document.getElementById("updUpgradeType").style.display = "none"; 
 		document.getElementById("updProject").style.display = "none"; 
 		document.getElementById("updScheduledDate").style.display = "none";
+		document.getElementById("updSiteDets").value = "Site: <%=nrIdOrSite%>";		
 		if (column=="feEngineer") {
 			document.getElementById("updFeEngineer").style.display = "inline";
 		} else if (column=="boEngineer") {
@@ -412,8 +415,9 @@ function navigationAction(operation) {
 	document.getElementById("f1").submit();		
 }
 
-function updateSite(snrId,currentValue,column,row) {
+function updateSite(snrId,currentValue,column,row,nrIdOrSite) {	
 	var multiSiteEdit = document.getElementById("multiSiteEdit").value;
+	var siteDets = "Site: "+ nrIdOrSite;
 	if (multiSiteEdit=="Y") {
 		return;
 	}
@@ -450,7 +454,9 @@ function updateSite(snrId,currentValue,column,row) {
 	document.getElementById("rescheduleAction").value = "updateSite"+updateSuffix;			
 	document.getElementById("selectedAction").value = "search";
 	document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
-	document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+	document.getElementById("selectedEndDate").value = document.getElementById("eDate").value; 
+	document.getElementById("updSiteDets").value = siteDets; 
+	document.getElementById("nrIdOrSite").value = nrIdOrSite; 
 	if (updateSuffix=="Technology") {
 		document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
 		document.getElementById("f1").action = "scheduleView";
@@ -490,6 +496,7 @@ function updateSite(snrId,currentValue,column,row) {
 		if (column=='hardwareVendor') {
 			document.getElementById("updHardwareVendor").style.display = "inline"; 
 			document.getElementById("newHardwareVendor").value = currentValue;
+			document.getElementById("hardwareVendor"+row).value ="xxxx";
 		} else if (column=="feEngineer") {
 			document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
 			document.getElementById("f1").action = "scheduleView";
@@ -510,13 +517,17 @@ function updateSite(snrId,currentValue,column,row) {
 	}
 }
 
-function rescheduleSelect(snrId,scheduledDate,siteStatus) {
+function rescheduleSelect(snrId,scheduledDate,siteStatus,nrIdOrSite) {
 	document.getElementById("rescheduleSite").style.display = "inline";
 	document.getElementById("snrId").value = snrId;
 	document.getElementById("column").value = "all";
 	document.getElementById("rescheduleMessage").value = "";
+	document.getElementById("nrIdOrSite").value = nrIdOrSite;
 	if (siteStatus=="Scheduled") {
 		document.getElementById("cancelScheduleSite").style.display = "inline";
+	}
+	if (siteStatus=="Awaiting Scheduling") {
+		document.getElementById("cancelSite").style.display = "inline";
 	}
 }
 
@@ -531,13 +542,33 @@ function openReschedule() {
 	document.getElementById("f1").submit();	
 }
 
+function cancelSite() {
+	// ignore if there is a pending multi-site edit
+	var multiSiteEdit = document.getElementById("multiSiteEdit").value;
+	if (multiSiteEdit=="Y") {
+		return;
+	}
+	var nrIdOrSite = document.getElementById("nrIdOrSite").value;
+	if (!confirm("Please confirm cancellation of site "+nrIdOrSite+".")) {
+		return;
+	}	
+	document.getElementById("rescheduleAction").value = "cancelSite";
+	document.getElementById("selectedAction").value = "search";
+	document.getElementById("selectedStartDate").value = document.getElementById("sDate").value;
+	document.getElementById("selectedEndDate").value = document.getElementById("eDate").value;
+	document.getElementById("toScreen").value = "<%=ServletConstants.SCHEDULE_VIEW%>";
+	document.getElementById("f1").action = "scheduleView";
+	document.getElementById("f1").submit();
+}
+
 function cancelScheduleSite() {
 	// ignore if there is a pending multi-site edit
 	var multiSiteEdit = document.getElementById("multiSiteEdit").value;
 	if (multiSiteEdit=="Y") {
 		return;
 	}
-	if (!confirm("Please confirm removal from schedule.")) {
+	var nrIdOrSite = document.getElementById("nrIdOrSite").value;
+	if (!confirm("Please confirm removal from schedule of site "+nrIdOrSite+".")) {
 		return;
 	}	
 	document.getElementById("rescheduleAction").value = "cancelScheduleDirect";
@@ -1015,7 +1046,8 @@ max-width: 100%; height: <%=(showTH.equals("Y")?"295":"530")%>px;">
 </colgroup>
 <tbody>
 <%=uB.getScheduleListHTML(
-		project, upgradeType, site, nrId, siteStatus, startDate, endDate, formattedSiteList,multiSiteEdit,initialEntry)%>
+		project, upgradeType, site, nrId, siteStatus, startDate, endDate, 
+		formattedSiteList,multiSiteEdit,initialEntry)%>
 </tbody>
 </table>
 </div>
@@ -1025,6 +1057,7 @@ max-width: 100%; height: <%=(showTH.equals("Y")?"295":"530")%>px;">
 <div id="action" style="float:left;display:none;" class="menu2">Action:</div>
 <div style="float:right;width:2px;" class="menu2">&nbsp;</div>
 <div id="cancelScheduleSite" onClick="cancelScheduleSite()"  onMouseOut="invertClass('cancelScheduleSite')" onMouseOver="invertClass('cancelScheduleSite')" style="float:right;display:none" class="menu2Item">Cancel Schedule</div> 
+<div id="cancelSite" onClick="cancelSite()"  onMouseOut="invertClass('cancelSite')" onMouseOver="invertClass('cancelSite')" style="float:right;display:none" class="menu2Item">Cancel Site</div> 
 <div id="rescheduleSite" onClick="openReschedule()" onMouseOut="invertClass('rescheduleSite')" onMouseOver="invertClass('rescheduleSite')" style="float:right;display:none" class="menu2Item">Schedule/Reschedule</div>
 <div id="loadPot" onClick="tbClick('loadPot')" onMouseOut="invertClass('loadPot')" onMouseOver="invertClass('loadPot')" style="float:right;display:none" class="menu2Item">Load Pot</div>
 <div id="missingData" onClick="tbClick('missingData')" onMouseOut="invertClass('missingData')" onMouseOver="invertClass('missingData')" style="float:right;display:none" class="menu2Item">Missing Data</div>

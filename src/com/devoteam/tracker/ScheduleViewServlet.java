@@ -79,6 +79,7 @@ public class ScheduleViewServlet extends HttpServlet{
 		String selectedSiteList = req.getParameter("siteList").trim();
 		String multiSiteEdit = req.getParameter("multiSiteEdit");
 		String editList = req.getParameter("editList");
+		String nrIdOrSite = req.getParameter("nrIdOrSite");
 		req.setAttribute("userMessage","&nbsp;");
 		User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 		String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
@@ -309,7 +310,9 @@ public class ScheduleViewServlet extends HttpServlet{
 							if (rs.getString(1).equals("Y")) {
 								req.setAttribute("userMessage","Scheduled date updated");
 							} else if (rs.getString(1).equals("S")) {
-								req.setAttribute("userMessage"," ");
+								req.setAttribute("userMessage","Scheduled for selected date");
+							} else if (rs.getString(1).equals("U")) {
+								req.setAttribute("userMessage","No update, scheduled date unchanged");
 							} else {
 								req.setAttribute("userMessage","Error: Failed to update scheduled date");
 							}
@@ -426,39 +429,70 @@ public class ScheduleViewServlet extends HttpServlet{
 			    } catch (SQLException ex) {
 			    	ex.printStackTrace();
 			    } 		    }
-		    } else if ((rescheduleAction.equals("cancelSchedule"))||(rescheduleAction.equals("cancelScheduleDirect"))) {
-				try {
-			    	conn = DriverManager.getConnection(url);
-			    	cstmt = conn.prepareCall("{call CancelSchedule_SNR(?,?)}");
-			    	cstmt.setString(1, snrId);
-			    	cstmt.setString(2, thisU.getNameForLastUpdatedBy());
-					boolean found = cstmt.execute();
-					if (found) {
-						ResultSet rs = cstmt.getResultSet();
-						while (rs.next()) {
-							if (rs.getString(1).equals("Y")) {
-								rescheduleMessage = "Site is no longer scheduled";
-								if (rescheduleAction.equals("cancelScheduleDirect")) {
-									snrId = "";
-									req.setAttribute("userMessage","Site is no longer scheduled");
-								}
-							} else {
-								rescheduleMessage = "Failed to cancel scheduling for site";
+	    } else if ((rescheduleAction.equals("cancelSchedule"))||(rescheduleAction.equals("cancelScheduleDirect"))) {
+			try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call CancelSchedule_SNR(?,?)}");
+		    	cstmt.setString(1, snrId);
+		    	cstmt.setString(2, thisU.getNameForLastUpdatedBy());
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						if (rs.getString(1).equals("Y")) {
+							rescheduleMessage = "Site is no longer scheduled";
+							if (rescheduleAction.equals("cancelScheduleDirect")) {
+								snrId = "";
+								req.setAttribute("userMessage","Site is no longer scheduled");
 							}
-							rescheduleAction = "";
+						} else {
+							rescheduleMessage = "Failed to cancel scheduling for site";
 						}
+						rescheduleAction = "";
 					}
-			    } catch (Exception ex) {
-			    	rescheduleMessage = "Error in CancelSchedule_SNR(): " + ex.getMessage();
+				}
+		    } catch (Exception ex) {
+		    	rescheduleMessage = "Error in CancelSchedule_SNR(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
 			    	ex.printStackTrace();
-			    } finally {
-			    	try {
-			    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
-			    		if ((conn != null) && (!conn.isClosed())) conn.close();
-				    } catch (SQLException ex) {
-				    	ex.printStackTrace();
-				    } 
-			    }	
+			    } 
+		    }	
+	    } else if (rescheduleAction.equals("cancelSite")) {
+			try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call Cancel_SNR(?,?)}");
+		    	cstmt.setString(1, snrId);
+		    	cstmt.setString(2, thisU.getNameForLastUpdatedBy());
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						if (rs.getString(1).equals("Y")) {
+							rescheduleMessage = "Site is cancelled";
+							snrId = "";
+							req.setAttribute("userMessage","Site is cancelled");
+						} else {
+							rescheduleMessage = "Failed to cancel site";
+						}
+						rescheduleAction = "";
+					}
+				}
+		    } catch (Exception ex) {
+		    	rescheduleMessage = "Error in Cancel_SNR(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    } 
+		    }	
 		} else if (rescheduleAction.equals("delEng")) {
 			try {
 		    	conn = DriverManager.getConnection(url);
@@ -669,6 +703,7 @@ public class ScheduleViewServlet extends HttpServlet{
 		req.setAttribute("row", row);
 		req.setAttribute("selectedSiteList", selectedSiteList.trim());	
 		req.setAttribute("multiSiteEdit", multiSiteEdit);
+		req.setAttribute("nrIdOrSite", nrIdOrSite);
 		session.setAttribute("potLoadActive", "N");
 		Random r = new Random();
 		String ran = "?ran=" + String.valueOf(Math.abs(r.nextLong()));
