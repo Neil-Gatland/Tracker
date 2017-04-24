@@ -13,13 +13,14 @@ public class JobType {
 	private String projectRequestorEmail;
 	private String projectManagerEmail;
 	private String redundant;
+	private String bypassCompletionReport;
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	
 	public JobType(String jobType, String projectRequestor,
 			Date lastUpdatedDate, String lastUpdatedBy,
 			String projectManager, String actingCustomer,
 			String projectRequestorEmail, String projectManagerEmail,
-			String redundant) {
+			String redundant, String bypassCompletionReport) {
 		this.jobType = jobType;
 		this.projectRequestor = projectRequestor;
 		this.lastUpdatedDate = lastUpdatedDate;
@@ -29,6 +30,7 @@ public class JobType {
 		this.projectRequestorEmail = projectRequestorEmail;
 		this.projectManagerEmail = projectManagerEmail;
 		this.redundant = redundant;
+		this.bypassCompletionReport = bypassCompletionReport;
 	}
 
 	public String getJobType() {
@@ -71,19 +73,16 @@ public class JobType {
 		return redundant;
 	}
 	
-	/*public String[] getListValueArray() {
-		String[] values = {this.getJobType(), this.getProjectRequestor(),
-				this.getProjectManager(), this.getActingCustomer(),	
-			this.getLastUpdatedBy(), this.getLastUpdatedDateString()};
-		return values;
-	}*/
+	public String getBypassCompletionReport() {
+		return bypassCompletionReport;
+	}
 	
 	public String[] getListValueArray() {
 		String[] values = {this.getJobType(), this.getProjectRequestor(),
 				this.getProjectRequestorEmail(), this.getProjectManager(), 
 				this.getProjectManagerEmail(), this.getActingCustomer(),	
 			this.getLastUpdatedBy(), this.getLastUpdatedDateString(),
-			this.getRedundant()};
+			this.getRedundant(), this.bypassCompletionReport};
 		return values;
 	}
 }

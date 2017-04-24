@@ -12,11 +12,17 @@
 	<div>Project Manager Email</div>
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendProjectManagerEmail" id="amendProjectManagerEmail" maxlength="100"></div>
 	<div>Acting Customer</div>
-	<div>Redundant</div>
 	<div style="padding-bottom:10px"><input style="width:95%" type="text" name="amendActingCustomer" id="amendActingCustomer" maxlength="100"></div>
 	<div>Redundant</div>
 	<div>
 		<select id ="selectRedundantFilter2" style="width:10%" name="selectRedundantFilter2" class="filter">
+			<option value="N">N</option>
+			<option value="Y">Y</option>
+		</select>
+	</div>	
+	<div>Bypass Completion Report</div>
+	<div>
+		<select id ="selectBypassCompletionReportFilter2" style="width:10%" name="selectBypassCompletionReportFilter2" class="filter">
 			<option value="N">N</option>
 			<option value="Y">Y</option>
 		</select>

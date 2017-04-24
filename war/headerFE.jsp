@@ -103,7 +103,7 @@
 </tr>
 <tr>
 	<td colspan="3">
-		<%=uB.getMenu1FE()%>
+		<%=uB.getMenu1()%>
 	</td>
 </tr>
 </tbody>

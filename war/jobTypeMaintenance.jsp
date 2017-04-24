@@ -2,12 +2,14 @@
 <%
 String jobType = request.getAttribute("jobType")==null?"none":(String)request.getAttribute("jobType");
 String redundant = request.getAttribute("redundant")==null?"N":(String)request.getAttribute("redundant");
+String bypassCompletionReport = request.getAttribute("bypassCompletionReport")==null?"N":(String)request.getAttribute("bypassCompletionReport");
 String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(String)request.getAttribute("buttonPressed");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="jobTypeMaint.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.JOB_TYPE_MAINTENANCE%>"/>
 <input type="hidden" name="jobType" id="jobType" value="<%=jobType%>"/>
 <input type="hidden" name="redundant" id="redundant" value="<%=redundant%>"/>
+<input type="hidden" name="bypassCompletionReport" id="bypassCompletionReport" value="<%=bypassCompletionReport%>"/>
 <input type="hidden" name="buttonPressed" id="buttonPressed" value="<%=buttonPressed%>"/>
 <script language="javascript">
 <!--
@@ -20,7 +22,7 @@ function thisScreenLoad() {
 
 function jobTypeSelect
 			(	jobType,projectRequestor,projectRequestorEmail,projectManager,
-				projectManagerEmail,actingCustomer,redundant) {
+				projectManagerEmail,actingCustomer,redundant,bypassCompletionReport) {
 	document.getElementById("jobTypeDelete").style.visibility = "visible";
 	document.getElementById("jobTypeAmend").style.visibility = "visible";
 	selectedJobType = jobType;
@@ -30,6 +32,7 @@ function jobTypeSelect
 	selectedProjectManagerEmail = projectManagerEmail;
 	selectedActingCustomer = actingCustomer;
 	selectedRedundant = redundant;
+	selectedBypassCompletionReport = bypassCompletionReport;
 }
 function tbClick(btn) {
 	if (btn == "jobTypeDelete") {
@@ -80,8 +83,9 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 470px; 
 <col width="260px"/>
 <col width="155px"/>
 <col width="255px"/>
-<col width="55px"/>
-<col width="70px"/>
+<col width="30px"/>
+<col width="30px"/>
+<col width="65px"/>
 </colgroup>
 <tbody>
 <tr>
@@ -91,12 +95,14 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 470px; 
 	<th rowspan="2">Acting Customer</th>
 	<th>Last Updated By</th>
 	<th title="Redundant">R</th>
+	<th title="Bypass Completion Report">B</th>
 	<th title="Selected">S</th>
 </tr>
 <tr>
 	<th>Project Requestor Email</th>
 	<th>Project Manager Email</th>
 	<th>Last Updated Date</th>
+	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -112,7 +118,8 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 470px; 
 <col width="250px"/>
 <col width="150px"/>
 <col width="250px"/>
-<col width="50px"/>
+<col width="25px"/>
+<col width="25px"/>
 <col width="50px"/>
 </colgroup>
 <tbody>

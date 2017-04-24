@@ -105,7 +105,8 @@ function osWorkSelect(snrId,snrStatus,site,nrId,hopStatus, sfrStatus, efOS, pcOS
 	document.getElementById("accessDetail").style.display = "none";
 	document.getElementById("snrHist").style.display = "none";
 	if (((efOS=="Y")||(hopStatus!="Y")||(sfrStatus!="Y")||(progressIncomplete=="N"))&&
-			(snrStatus == "<%=ServletConstants.STATUS_COMPLETED%>")) {
+			((snrStatus == "<%=ServletConstants.STATUS_COMPLETED%>"))||
+			 (snrStatus == "<%=ServletConstants.STATUS_PERFORMANCE_IP%>")) {
 		document.getElementById("showImplementationDetail2").style.display = "inline"; 
 		document.getElementById("siteProgress2").style.display = "inline";
 	} else {

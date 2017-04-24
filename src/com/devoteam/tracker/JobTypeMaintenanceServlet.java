@@ -83,9 +83,10 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 					String newProjectManagerEmail = req.getParameter("newProjectManagerEmail");
 					String newActingCustomer = req.getParameter("newActingCustomer");
 					String newRedundant = req.getParameter("selectRedundantFilter");
+					String newBypassCompletionReport = req.getParameter("selectBypassCompletionReportFilter");
 				    try {
 				    	conn = DriverManager.getConnection(url);
-				    	cstmt = conn.prepareCall("{call AddJobTypeScreen(?,?,?,?,?,?,?,?)}");
+				    	cstmt = conn.prepareCall("{call AddJobTypeScreen(?,?,?,?,?,?,?,?,?)}");
 						cstmt.setString(1, newJobType.trim());
 						cstmt.setString(2, newProjectRequestor.trim());
 						cstmt.setString(3, thisU.getNameForLastUpdatedBy());
@@ -94,6 +95,7 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 						cstmt.setString(6, newProjectRequestorEmail.trim());
 						cstmt.setString(7, newProjectManagerEmail.trim());
 						cstmt.setString(8, newRedundant.trim());
+						cstmt.setString(9, newBypassCompletionReport.trim());
 						boolean found = cstmt.execute();
 						String ok = "N";
 						if (found) {
@@ -125,9 +127,10 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 					String amendProjectManagerEmail = req.getParameter("amendProjectManagerEmail");
 					String amendActingCustomer = req.getParameter("amendActingCustomer");
 					String newRedundant = req.getParameter("selectRedundantFilter2");
+					String newBypassCompletionReport = req.getParameter("selectBypassCompletionReportFilter2");
 				    try {
 				    	conn = DriverManager.getConnection(url);
-				    	cstmt = conn.prepareCall("{call AmendJobTypeScreen(?,?,?,?,?,?,?,?)}");
+				    	cstmt = conn.prepareCall("{call AmendJobTypeScreen(?,?,?,?,?,?,?,?,?)}");
 						cstmt.setString(1, currentJobType.trim());
 						cstmt.setString(2, amendProjectRequestor.trim());
 						cstmt.setString(3, thisU.getNameForLastUpdatedBy());
@@ -136,6 +139,7 @@ public class JobTypeMaintenanceServlet extends HttpServlet  {
 						cstmt.setString(6, amendProjectRequestorEmail.trim());
 						cstmt.setString(7, amendProjectManagerEmail.trim());
 						cstmt.setString(8, newRedundant.trim());
+						cstmt.setString(9, newBypassCompletionReport.trim());
 						boolean found = cstmt.execute();
 						String ok = "N";
 						if (found) {

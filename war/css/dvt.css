@@ -2766,7 +2766,7 @@ input.schText {
 div.updateSite {
 	background-color:#FFFFFF;
 	color:#000000;
-	border:none;
+	border:solid 1.0px #53565A;
 	position:absolute;
 	top:0px;
 	left:0px;
@@ -2852,4 +2852,11 @@ div.plWarningMessage {
 	color: orange;
 	padding-left:5px;
 	padding-bottom:1px;
+}
+input.siteDets {
+	background-color:#FFFFFF;
+	color:#53565A;
+	border: none;
+	font-size:small;
+	text-align:left;
 }

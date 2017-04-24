@@ -68,154 +68,75 @@ public class UtilBean {
 	}
 	
 	public String getMenu1() {
+		// Standard menu items
 		HTMLElement m0 = new HTMLElement("div");
-		HTMLElement m0a = new HTMLElement("div", "float:left;width:2px", 
-			"menu1", "&nbsp;");
+		HTMLElement m0a = new HTMLElement("div", "float:left;width:2px","menu1", "&nbsp;");
+		HTMLElement m0b = new HTMLElement("div", "float:right;width:2px", "menu1", 
+			"&nbsp;");
+		HTMLElement m0c = new HTMLElement("div", "overflow:hidden", "menu1", 
+			"&nbsp;");
 		HTMLElement m01 = new HTMLElement("div", "m01", "float:left;", 
 			"menu1Item", "menuClick('" + ServletConstants.HOME + "')", 
 			"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME);
-		if (!screen.equals(ServletConstants.CHANGE_PASSWORD)) {
+		// Determine if BO Home or FE home required (but not for change password screen)
+		if (!userExpired()) {
 			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
 				m01 = new HTMLElement("div", "m01", "float:left;",   
 						"menu1Item", "menuClick('" + ServletConstants.HOME_BO + "')", 
 						"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_BO);
 			}
-		}
-		if (!screen.equals(ServletConstants.CHANGE_PASSWORD)) {
 			if (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) {
 				m01 = new HTMLElement("div", "m01", "float:left;",   
 						"menu1Item", "menuClick('" + ServletConstants.HOME_FE + "')", 
 						"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_FE);
 			}
 		}
+		// All users have change password and log off buttons
 		HTMLElement m02 = new HTMLElement("div", "m02", "float:right;", 
 			"menu1Item", "menuClick('" + ServletConstants.CHANGE_PASSWORD + "')",
 			"invertClass('m02')", "invertClass('m02')", 
 			ServletConstants.CHANGE_PASSWORD);
 		HTMLElement m03 = new HTMLElement("div", "m03", "float:right;", 
-				"menu1Item", "menuClick('" + ServletConstants.LOG_OFF + "')", 
-				"invertClass('m03')", "invertClass('m03')", ServletConstants.LOG_OFF);
+			"menu1Item", "menuClick('" + ServletConstants.LOG_OFF + "')", 
+			"invertClass('m03')", "invertClass('m03')", ServletConstants.LOG_OFF);
+		// Defone optional buttons
 		HTMLElement m04 = new HTMLElement("div", "m04", "float:right;", 
-						"menu1Item", "menuClick('" + ServletConstants.LIVE_DASHBOARD + "')", 
-						"invertClass('m04')", "invertClass('m04')", ServletConstants.LIVE_DASHBOARD);
+			"menu1Item", "menuClick('" + ServletConstants.LIVE_DASHBOARD + "')", 
+			"invertClass('m04')", "invertClass('m04')", ServletConstants.LIVE_DASHBOARD);
 		HTMLElement m05 = new HTMLElement("div", "m05", "float:right;", 
-				"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
-				"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH);
+			"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
+			"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH);
 		HTMLElement m06 = new HTMLElement("div", "m06", "float:right;", 
-				"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
-				"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);
+			"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
+			"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);
 		HTMLElement m07 = new HTMLElement("div", "m07", "float:right;", 
-				"menu1Item", "menuClick('" + ServletConstants.SCHEDULE_VIEW + "')", 
-				"invertClass('m07')", "invertClass('m07')", ServletConstants.SCHEDULE_VIEW);
-		HTMLElement m0b = new HTMLElement("div", "float:right;width:2px", "menu1", 
-			"&nbsp;");
-		HTMLElement m0c = new HTMLElement("div", "overflow:hidden", "menu1", 
-			"&nbsp;");
-		if (screen.equals(ServletConstants.LIVE_DASHBOARD)){
-			if ((user.getUserType().equals(User.USER_TYPE_CUSTOMER))||
-				((user.hasUserRole(UserRole.ROLE_B_O_ENGINEER))&&(getReportingBO(user.getUserId())))) {
-				/*m05 = new HTMLElement("div", "m05", "float:right;", 
-						"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
-						"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH);
-				HTMLElement m06 = new HTMLElement("div", "m06", "float:right;", 
-						"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
-						"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);*/
-				m0.setValue(m0a.toString() + 
-						m01.toString() + 
-						m0b.toString() + 
-						m03.toString() + 
-						m05.toString() + 
-						m06.toString() + 
-						m07.toString() + 
-						m0c.toString());
-				
-			} else {
-				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-						(screen.equals(ServletConstants.CHANGE_PASSWORD)?"":
-							m03.toString() +
-							m07.toString()) + 
-							m0c.toString());
-			}
-			
-		}
-		else
-		{
-			if ((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
-					(user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))) {
-				m0.setValue(m0a.toString() + m0b.toString() + 
-						m03.toString() + 
-						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
-						m0c.toString());
-			} else if (user.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
-				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-						m03.toString() + 
-						(screen.equals(ServletConstants.CHANGE_PASSWORD)?"":m04.toString()) + 
-						(screen.equals(ServletConstants.SITE_SEARCH)||
-							screen.equals(ServletConstants.CHANGE_PASSWORD)?"":
-								new HTMLElement("div", "m05", "float:right;", 
-								"menu1Item", "menuClick('" + ServletConstants.SITE_SEARCH + "')", 
-								"invertClass('m05')", "invertClass('m05')", ServletConstants.SITE_SEARCH)) +
-						(screen.equals(ServletConstants.CLIENT_REPORTING)||
-								screen.equals(ServletConstants.CHANGE_PASSWORD)?"":
-								new HTMLElement("div", "m06", "float:right;", 
-								"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
-								"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING))+
-						(screen.equals(ServletConstants.SCHEDULE_VIEW)||
-								screen.equals(ServletConstants.SCHEDULE_VIEW)?"":
-								new HTMLElement("div", "m07", "float:right;", 
-								"menu1Item", "menuClick('" + ServletConstants.SCHEDULE_VIEW + "')", 
-								"invertClass('m07')", "invertClass('m07')", ServletConstants.SCHEDULE_VIEW)) +
-						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") +
-						m0c.toString());
-			} else {
-				m0.setValue(m0a.toString() + m01.toString() + m0b.toString() + 
-						m03.toString() + 
-						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
-								(!screen.equals(ServletConstants.SCHEDULE_VIEW))&&
-								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
-										(getReportingBO(user.getUserId())))?m07.toString():"") + 
-						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
-								(!screen.equals(ServletConstants.SITE_SEARCH))&&
-								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
-										(getReportingBO(user.getUserId())))?m05.toString():"") + 
-						((!screen.equals(ServletConstants.CHANGE_PASSWORD))&&
-								(!screen.equals(ServletConstants.CLIENT_REPORTING))&&
-								(user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) &&
-										(getReportingBO(user.getUserId())))?m06.toString():"") + 
-						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m04.toString():"") + 
-						(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
-						m0c.toString());
-			}	
-		}		
-		return m0.toString();
-	}
-	
-	public String getMenu1FE() {
-		HTMLElement m0 = new HTMLElement("div");
-		HTMLElement m0a = new HTMLElement("div", "float:left;width:2px", 
-			"menu1FE", "&nbsp;");
-		HTMLElement m01  = new HTMLElement("div", "m01", "float:left;",   
-			"menu1FEItem", "menuClick('" + ServletConstants.HOME_FE + "')", 
-			"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_FE);
-		HTMLElement m02 = new HTMLElement("div", "m02", "float:right;", 
-			"menu1FEItem", "menuClick('" + ServletConstants.CHANGE_PASSWORD + "')",
-			"invertClass('m02')", "invertClass('m02')", 
-			ServletConstants.CHANGE_PASSWORD);
-		HTMLElement m03 = new HTMLElement("div", "m03", "float:right;", 
-			"menu1FEItem", "menuClick('" + ServletConstants.LOG_OFF + "')", 
-			"invertClass('m03')", "invertClass('m03')", ServletConstants.LOG_OFF);		
-		HTMLElement m0b = new HTMLElement("div", "float:right;width:2px", "menu1FE", 
-			"&nbsp;");
-		HTMLElement m0c = new HTMLElement("div", "overflow:hidden", "menu1FE", 
-			"&nbsp;");
+			"menu1Item", "menuClick('" + ServletConstants.SCHEDULE_VIEW + "')", 
+			"invertClass('m07')", "invertClass('m07')", ServletConstants.SCHEDULE_VIEW);
+		// combine buttons
 		m0.setValue(
 				m0a.toString() + 
-				m01.toString() + 
-				m0b.toString() +				
-				m03.toString() + 
-				(!screen.equals(ServletConstants.CHANGE_PASSWORD)?m02.toString():"") + 
+				(userExpired()?"":m01.toString()) + 
+				m0b.toString() + 
+				m03.toString() +  
+				(screen.equals(ServletConstants.CHANGE_PASSWORD)?"":m02.toString()) + 
+				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
+				 (screen.equals(ServletConstants.LIVE_DASHBOARD))
+						?"":m04.toString()) +
+				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
+				 (screen.equals(ServletConstants.SITE_SEARCH))
+						?"":m05.toString()) +
+				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
+				 (screen.equals(ServletConstants.CLIENT_REPORTING))
+						?"":m06.toString()) +
+				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
+				 (screen.equals(ServletConstants.SCHEDULE_VIEW))
+						?"":m07.toString()) +
 				m0c.toString());
-		return m0.toString();		
+		return m0.toString();
 	}
 
 	public String getMenu2() {
@@ -237,7 +158,6 @@ public class UtilBean {
 			boolean confirmImpl = false;
 			boolean viewSNR = false;
 			boolean reporting = false;
-			boolean outputSchedule = false;
 			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.BO + "')", "invertClass('m1"+i+"')", 
@@ -245,10 +165,6 @@ public class UtilBean {
 						ServletConstants.BO));
 			}
 			if (user.hasUserRole(UserRole.ROLE_SCHEDULER)) {
-				/*i++;
-				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-						ServletConstants.SCHEDULING + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.SCHEDULING));*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.RESCHED_REALLOC_CANCEL_SNR + "')", "invertClass('m1"+i+"')", 
@@ -259,10 +175,6 @@ public class UtilBean {
 						ServletConstants.REOPEN_CANCELLED_SNR + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.REOPEN_CANCELLED_SNR_SHORT,
 						ServletConstants.REOPEN_CANCELLED_SNR));
-				/*i++;
-				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-						ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
@@ -274,16 +186,8 @@ public class UtilBean {
 						"invertClass('m1"+i+"')", ServletConstants.REPORTING));
 				viewSNR = true;
 				reporting = true;
-				//outputSchedule = true;
 			}
-			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
-				if (!outputSchedule) {
-					/*i++;
-					m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-							ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
-							"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
-					outputSchedule = true;*/
-				}
+			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {				
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.PRE_CHECK_MAINTENANCE + "')", "invertClass('m1"+i+"')", 
@@ -329,26 +233,12 @@ public class UtilBean {
 						ServletConstants.JOB_TYPE_MAINTENANCE));
 			}
 			if (user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN)) {
-				/*if (!outputSchedule) {
-					i++;
-					m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-							ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
-							"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
-					outputSchedule = true;
-				}*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.UPDATE_ACCESS + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.UPDATE_ACCESS));
 			}
 			if (user.hasUserRole(UserRole.ROLE_CRM_ADMIN)) {
-				/*if (!outputSchedule) {
-					i++;
-					m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-							ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
-							"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));
-					outputSchedule = true;
-				}*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.UPDATE_CRM + "')", "invertClass('m1"+i+"')", 
@@ -370,26 +260,16 @@ public class UtilBean {
 		}  else if (screen.equals(ServletConstants.SCHEDULING)) {
 			m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClickSpec('uploadPot')", "invertClass('m11')", 
 					"invertClass('m11')", ServletConstants.LOAD_POT));
-			/*m1l.add(new HTMLElement("div", "m12", "float:left;", "menu2Item", "menuClick('" +
-					ServletConstants.MANUAL_POT_CREATION + "')", "invertClass('m12')", 
-					"invertClass('m12')", ServletConstants.MANUAL_POT_CREATION));*/
 			m1l.add(new HTMLElement("div", "m13", "float:left;", "menu2Item", "menuClickSpec('uploadSchedule')", "invertClass('m13')", 
 					"invertClass('m13')", ServletConstants.SCHEDULE_SNR));
 			m1l.add(new HTMLElement("div", "m14", "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.RESCHED_REALLOC_CANCEL_SNR + "')", "invertClass('m14')", 
 					"invertClass('m14')", /*ServletConstants.RESCHED_REALLOC_CANCEL_SNR_SHORT,*/ 
-					ServletConstants.RESCHED_REALLOC_CANCEL_SNR));
-			
-		}  else if (screen.equals(ServletConstants.RESCHED_REALLOC_CANCEL_SNR)) {
-			/*m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
-					ServletConstants.SCHEDULING + "')", "invertClass('m11')", 
-					"invertClass('m11')", ServletConstants.SCHEDULING));*/
-			
+					ServletConstants.RESCHED_REALLOC_CANCEL_SNR));			
 		}  else if (screen.equals(ServletConstants.VIEW_SNR_HISTORY)) {
 			m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.REPORTING + "')", "invertClass('m11')", 
-					"invertClass('m11')", ServletConstants.REPORTING));
-			
+					"invertClass('m11')", ServletConstants.REPORTING));			
 		}  else if (screen.equals(ServletConstants.REPORTING)) {
 			m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", 
 					"menuClickSpec('dfReport')", "invertClass('m11')", 
@@ -397,8 +277,7 @@ public class UtilBean {
 			m1l.add(new HTMLElement("div", "m12", "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m12')", 
 					"invertClass('m12')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
-					ServletConstants.VIEW_SNR_HISTORY));
-		
+					ServletConstants.VIEW_SNR_HISTORY));		
 		}  else if (screen.equals(ServletConstants.HOME_BO)) {
 			int i = 2;
 			boolean confirmImpl = false;
@@ -410,10 +289,6 @@ public class UtilBean {
 					"invertClass('m11')", ServletConstants.EXPANDED_SHORT,
 					ServletConstants.EXPANDED));
 			if (user.hasUserRole(UserRole.ROLE_SCHEDULER)) {
-				/*i++;
-				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-						ServletConstants.SCHEDULING + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.SCHEDULING));*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.RESCHED_REALLOC_CANCEL_SNR + "')", "invertClass('m1"+i+"')", 
@@ -426,7 +301,6 @@ public class UtilBean {
 						ServletConstants.REOPEN_CANCELLED_SNR));				
 				viewSNR = true;
 				reporting = true;
-				//outputSchedule = true;
 			}	
 			i++;
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
@@ -438,10 +312,6 @@ public class UtilBean {
 					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
 					"invertClass('m1"+i+"')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
 					ServletConstants.VIEW_SNR_HISTORY));
-			/*i++;
-			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-					ServletConstants.OUTPUT_SCHEDULE + "')", "invertClass('m1"+i+"')", 
-					"invertClass('m1"+i+"')", ServletConstants.OUTPUT_SCHEDULE));*/
 			i++;
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.REPORTING + "')", "invertClass('m1"+i+"')", 
@@ -549,13 +419,10 @@ public class UtilBean {
 				} else if (screen.equals(ServletConstants.LIVE_DASHBOARD)) {
 					canSee = true;
 				} else if (screen.equals(ServletConstants.CLIENT_REPORTING)) {
-					canSee = getReportingBO(user.getUserId()) &&
-						user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
+					canSee = true;
 				} else if (screen.equals(ServletConstants.SITE_SEARCH)) {
-					canSee = getReportingBO(user.getUserId()) &&
-						user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
-				}
-				
+					canSee = true;
+				}				
 			}
 		}
 		return canSee;
@@ -2664,7 +2531,7 @@ public class UtilBean {
 				while (rs.next()) {
 					jobTypeList.add(new JobType(rs.getString(1), rs.getString(2), 
 						rs.getDate(3), rs.getString(4), rs.getString(5), rs.getString(6),
-						rs.getString(7),rs.getString(8),rs.getString(9)));
+						rs.getString(7),rs.getString(8), rs.getString(9), rs.getString(10)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -2723,6 +2590,10 @@ public class UtilBean {
 			HTMLElement tdR = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getRedundant());
 			tdR.setAttribute("rowspan", "2");
 			trT.appendValue(tdR.toString());
+			// bypassCompletionReport
+			HTMLElement tdB = new HTMLElement("td", oddRow?"grid1":"grid2",jtli.getBypassCompletionReport());
+			tdB.setAttribute("rowspan", "2");
+			trT.appendValue(tdB.toString());
 			// selected
 			HTMLElement input = new HTMLElement("input", "jobType"+row, "jT",
 					"radio", jtli.getJobType(), 
@@ -2732,7 +2603,8 @@ public class UtilBean {
 							jtli.getProjectManager()+"','"+
 							jtli.getProjectManagerEmail()+"','"+
 							jtli.getActingCustomer()+"','"+
-							jtli.getRedundant()+"')");
+							jtli.getRedundant()+"','"+
+							jtli.getBypassCompletionReport()+"')");
 			HTMLElement tdS = new HTMLElement("td", oddRow?"grid1":"grid2",input.toString());
 			tdS.setAttribute("rowspan", "2");
 			trT.appendValue(tdS.toString());
@@ -7953,7 +7825,7 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 			String toDate,
 			String siteList,
 			String multiSiteEdit,
-			String initialEntry ) {
+			String initialEntry) {
 		boolean oddRow = false;
 		StringBuilder html = new StringBuilder();
 		Collection<ScheduleList> ScheduleList = 
@@ -7981,6 +7853,7 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 				oddRow = !oddRow;
 				row++;				
 				ScheduleList sl = it.next();
+				String nrIdOrSite = (sl.getNrId().contains("DUMMY")?sl.getSite():sl.getNrId());
 				HTMLElement tr = new HTMLElement("tr");
 				// Schedule Date
 				HTMLElement td1 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), sl.getScheduleDate());
@@ -8010,7 +7883,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 									"','"+
 									sl.getScheduledDateString()+
 									"','scheduledDate','"+
-									row+"')");
+									row+"','"+
+									nrIdOrSite+"')");
+						
 					}										
 				}
 				tr.appendValue(td1.toString());
@@ -8034,7 +7909,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td5.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getProject()+"','project','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getProject()+"','project','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td5.toString());
 				// Upgrade Type
@@ -8048,7 +7925,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td6.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getUpgradeType()+"','upgradeType','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getUpgradeType()+"','upgradeType','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td6.toString());
 				// BO
@@ -8071,7 +7950,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 						td7.setAttribute(
 								"onclick",  
 								"updateSite"+ 
-										"('"+sl.getSnrId()+"','"+sl.getBo()+"','boEngineer','"+row+"')");
+										"('"+sl.getSnrId()+"','"+sl.getBo()+"','boEngineer','"+
+											row+"','"+
+											nrIdOrSite+"')");
 					}										
 				}
 				td7.setAttribute("title", sl.getBoAll());
@@ -8096,7 +7977,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 						td8.setAttribute(
 								"onclick",  
 								"updateSite"+ 
-										"('"+sl.getSnrId()+"','"+sl.getFe()+"','feEngineer','"+row+"')");
+										"('"+sl.getSnrId()+"','"+sl.getFe()+"','feEngineer','"+
+											row+"','"+
+											nrIdOrSite+"')");
 					}										
 				}
 				td8.setAttribute("title", sl.getFeAll());
@@ -8112,7 +7995,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td9.setAttribute(
 							"onclick", 
 					"updateSite"+ 
-					"('"+sl.getSnrId()+"','"+sl.getHardwareVendor()+"','hardwareVendor','"+row+"')");
+						"('"+sl.getSnrId()+"','"+sl.getHardwareVendor()+"','hardwareVendor','"+
+							row+"','"+
+							nrIdOrSite+"')");
 				}
 				tr.appendValue(td9.toString());
 				// Vodafone 2G
@@ -8124,7 +8009,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td10.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getVodafone2G()+"','vodafone2G','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getVodafone2G()+"','vodafone2G','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td10.toString());
 				// Vodafone 3G
@@ -8136,7 +8023,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td11.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getVodafone3G()+"','vodafone3G','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getVodafone3G()+"','vodafone3G','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td11.toString());
 				// Vodafone 4G
@@ -8148,7 +8037,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td12.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getVodafone4G()+"','vodafone4G','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getVodafone4G()+"','vodafone4G','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td12.toString());
 				// TEF 2G
@@ -8160,7 +8051,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td13.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getTef2G()+"','tef2G','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getTef2G()+"','tef2G','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td13.toString());
 				// TEF 4G
@@ -8172,7 +8065,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td14.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getTef3G()+"','tef3G','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getTef3G()+"','tef3G','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td14.toString());
 				// TEF 4G
@@ -8184,7 +8079,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td15.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getTef4G()+"','tef4G','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getTef4G()+"','tef4G','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td15.toString());
 				// Paknet and Paging
@@ -8196,7 +8093,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td16.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getPaknetPaging()+"','paknetPaging','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getPaknetPaging()+"','paknetPaging','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td16.toString());
 				// SecGW Change
@@ -8208,7 +8107,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td17.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getSecGWChange()+"','secGWChange','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getSecGWChange()+"','secGWChange','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td17.toString());
 				// Power
@@ -8220,7 +8121,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td18.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getPower()+"','power','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getPower()+"','power','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td18.toString());
 				// Survey
@@ -8232,7 +8135,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td19.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getSurvey()+"','survey','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getSurvey()+"','survey','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td19.toString());
 				// Other
@@ -8244,7 +8149,9 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 					td20.setAttribute(
 							"onclick",  
 							"updateSite"+ 
-									"('"+sl.getSnrId()+"','"+sl.getOther()+"','other','"+row+"')");
+									"('"+sl.getSnrId()+"','"+sl.getOther()+"','other','"+
+										row+"','"+
+										nrIdOrSite+"')");
 				}
 				tr.appendValue(td20.toString());
 				String select = "";
@@ -8253,7 +8160,8 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 							"radio", Long.toString(sl.getSnrId()), 
 							"rescheduleSelect('"+sl.getSnrId()+
 							"','"+sl.getScheduledDateString()+
-							"','"+sl.getSiteStatus()+"')");
+							"','"+sl.getSiteStatus()+
+							"','"+nrIdOrSite+"')");
 					select = input.toString();
 				}
 				HTMLElement td21 = new HTMLElement("td", (oddRow?"grid1s":"grid2s"), select);
@@ -8961,6 +8869,70 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 		    	ex.printStackTrace();
 		    }
 	    } 	    
+	    return result;
+	}
+	
+	public boolean userExpired() {
+		boolean expired = false;
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call CheckUserExpired(?)}");
+	    	cstmt.setLong(1, user.getUserId());
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					if (rs.getString(1).equals("Y"))
+						expired = true;
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in CheckUserExpired(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return expired;
+	}
+	
+	public String getNrIdOrSite(
+			String snrId ) {
+		String result = "Not found";
+		if (snrId.equals("")) {
+			message = null;
+	    	Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetNrIdOrSite(?)}");
+		    	cstmt.setLong(1, Long.parseLong(snrId));
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						result = rs.getString(1);
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetNrIdOrSite(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 	    
+		}		
 	    return result;
 	}
 	
