@@ -211,7 +211,23 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>MissingData</servlet-name>
 		<url-pattern>/missingData</url-pattern>
-	</servlet-mapping>			
+	</servlet-mapping>				
+	<servlet>
+		<servlet-name>DataAnalytics</servlet-name>
+		<servlet-class>com.devoteam.tracker.DataAnalyticsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DataAnalytics</servlet-name>
+		<url-pattern>/dataAnalytics</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DownloadCSV</servlet-name>
+		<servlet-class>com.devoteam.tracker.DownloadCSVServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadCSV</servlet-name>
+		<url-pattern>/downloadCSV</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>UrTracker</servlet-name>
 		<servlet-class>com.devoteam.UrTrackerServlet</servlet-class>

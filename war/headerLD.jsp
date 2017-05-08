@@ -136,7 +136,7 @@
 		<img src="images/devo_full.png" height="50px" width="162px"></a>			
 	</td>
 	<td align="center" valign="center" onClick="menuClick('home')">
-		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="50px" width="126px"></a>	
+		<img src="images/<%=uB.logoFilename(displayScreen) %>" height="50px" width="126px">
 	</td>
 	<td>
 	<% if (displayScreen.equals(ServletConstants.LIVE_DASHBOARD)) {%>

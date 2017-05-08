@@ -56,6 +56,9 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.HOME_FE)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_FE);
 				destination = "/homeFE.jsp";
+			} else if (toScreen.equals(ServletConstants.DATA_ANALYTICS)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.DATA_ANALYTICS);
+				destination = "/dataAnalytics.jsp";
 			} else if (toScreen.equals(ServletConstants.HOME)) {
 				if (thisU.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CUSTOMER_MENU);

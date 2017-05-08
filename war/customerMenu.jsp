@@ -65,6 +65,7 @@
 						<tr>
 					</table>
 				</td>
+				<td width="10px">&nbsp;</td>
 				<td align="center" valign="bottom" height="120px"">
 					<table>
 						<tr>
@@ -83,6 +84,7 @@
 						<tr>
 					</table>
 				</td>
+				<td width="5px">&nbsp;</td>
 				<td align="center" valign="top" height="120px"">
 					<table>
 						<tr>
@@ -101,6 +103,7 @@
 						<tr>
 					</table>
 				</td>
+				<td width="5px">&nbsp;</td>
 				<td align="center" valign="bottom" height="120px"">
 					<table>
 						<tr>
@@ -119,6 +122,28 @@
 						<tr>
 					</table>
 				</td>
+				<% if ((thisU.getUserId()==1)||(thisU.getUserId()==96)) { %> 
+				<!-- for POC only available for my users  -->
+				<td width="5px">&nbsp;</td>
+				<td align="center" valign="top" height="120px"">
+					<table>
+						<tr>
+							<td align="center" valign="top"  title="Press for analytics"
+								onClick="menuClick('<%=ServletConstants.DATA_ANALYTICS%>')"
+								style="cursor:pointer;">					
+								<img src="images/dev_pictos_red_circle_rvb-46.png" height="80px" width="80px">
+							</td>
+						</tr>
+						<tr>
+							<td align="center" title="Press for analytics"
+								onClick="menuClick('<%=ServletConstants.DATA_ANALYTICS%>')"
+								style="cursor:pointer;">
+								<img src="images/data_analytics_text.png" height="15px" width="76px">
+							</td>
+						<tr>
+					</table>
+				</td>
+				<% } %>
 			</tr>	
 			</tbody>		
 			</table>
