@@ -198,11 +198,12 @@ public class ValidateFullPotServlet extends HttpServlet {
 								Double siteDouble = c.getNumericCellValue();
 								site = 	Double.toString(siteDouble).substring(0, Double.toString(siteDouble).length() -2);
 							} catch( Exception ex) {
-								problems.append("Site on row "+row +" is invalid|");
+								warnings.append("Site on row "+row +" is not numeric|");
+								site = c.getStringCellValue();
 							}
 							if (site.equals("999999")) {
 								trailerFound = true;
-							} else if (site.equals("0")) {
+							} else if ((site.equals("0"))||(site.equals(""))) {
 								problems.append("Site is missing on row "+row+"|");
 							} else if (!validSite(customerName,site)) {
 								problems.append("Site on row "+row+" does not exist on database|");

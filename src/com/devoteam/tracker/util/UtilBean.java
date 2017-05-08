@@ -91,7 +91,7 @@ public class UtilBean {
 						"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_FE);
 			}
 		}
-		// All users have change password and log off buttons
+		// All users have change password, log off and data analytics buttons
 		HTMLElement m02 = new HTMLElement("div", "m02", "float:right;", 
 			"menu1Item", "menuClick('" + ServletConstants.CHANGE_PASSWORD + "')",
 			"invertClass('m02')", "invertClass('m02')", 
@@ -99,7 +99,10 @@ public class UtilBean {
 		HTMLElement m03 = new HTMLElement("div", "m03", "float:right;", 
 			"menu1Item", "menuClick('" + ServletConstants.LOG_OFF + "')", 
 			"invertClass('m03')", "invertClass('m03')", ServletConstants.LOG_OFF);
-		// Defone optional buttons
+		HTMLElement m08 = new HTMLElement("div", "m08", "float:right;", 
+				"menu1Item", "menuClick('" + ServletConstants.DATA_ANALYTICS + "')", 
+				"invertClass('m08')", "invertClass('m08')", ServletConstants.DATA_ANALYTICS);
+		// Define optional buttons
 		HTMLElement m04 = new HTMLElement("div", "m04", "float:right;", 
 			"menu1Item", "menuClick('" + ServletConstants.LIVE_DASHBOARD + "')", 
 			"invertClass('m04')", "invertClass('m04')", ServletConstants.LIVE_DASHBOARD);
@@ -135,6 +138,11 @@ public class UtilBean {
 				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
 				 (screen.equals(ServletConstants.SCHEDULE_VIEW))
 						?"":m07.toString()) +
+				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+				 ((user.getUserId()!=1)&&(user.getUserId()!=96))|| //for POC only available for my users
+				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
+				 (screen.equals(ServletConstants.DATA_ANALYTICS))
+						?"":m08.toString()) +
 				m0c.toString());
 		return m0.toString();
 	}
@@ -354,7 +362,8 @@ public class UtilBean {
 	
 	public boolean canSee() {
 		boolean canSee = false;
-		if (screen.equals(ServletConstants.CHANGE_PASSWORD)) {
+		if ((screen.equals(ServletConstants.CHANGE_PASSWORD)) ||
+			(screen.equals(ServletConstants.DATA_ANALYTICS))) {
 			canSee = true;
 		} else {
 			if (user.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
@@ -5336,8 +5345,10 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 		} else if (screen.equals(ServletConstants.HOME_FE)) {
 			name = "smart_FE.png";
 		} else if (	(screen.equals(ServletConstants.SCHEDULE_VIEW)) ||
-					(screen.equals(ServletConstants.MISSING_DATA)) ) {
+				(screen.equals(ServletConstants.MISSING_DATA)) ) {
 			name = "smart_S.png";
+		} else if (screen.equals(ServletConstants.DATA_ANALYTICS)) {
+			name = "smart_DA.png";
 		}
 		return name;
 	}

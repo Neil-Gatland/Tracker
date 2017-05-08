@@ -2860,3 +2860,17 @@ input.siteDets {
 	font-size:small;
 	text-align:left;
 }
+td.daBoxFilled {
+	background-color:#F3F5D7;
+	border: 2.0px solid #0090FF;
+}
+td.daBoxEmpty {
+	background-color:#FFFFFF;
+	border: 2.0px solid #0090FF;
+}
+td.daTitle {
+	color: #5356%A;
+	font-size: small;
+	text-align: left;
+	font-weight: bold;
+}
