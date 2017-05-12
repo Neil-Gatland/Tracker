@@ -122,8 +122,8 @@
 						<tr>
 					</table>
 				</td>
-				<% if ((thisU.getUserId()==1)||(thisU.getUserId()==96)) { %> 
-				<!-- for POC only available for my users  -->
+				<% if ((thisU.getUserId()==74)||(thisU.getUserId()==96)) { %> 
+				<!-- for internal DVT review only available to our customer users  -->
 				<td width="5px">&nbsp;</td>
 				<td align="center" valign="top" height="120px"">
 					<table>

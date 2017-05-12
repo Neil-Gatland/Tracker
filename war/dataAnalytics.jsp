@@ -50,7 +50,7 @@ function thisScreenLoad() {
 }
 
 // Load the Visualization API and the corechart package.
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['corechart','bar']});
 
 // Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
@@ -59,26 +59,55 @@ google.charts.setOnLoadCallback(drawChart);
 // instantiates the chart, passes in the data and
 // draws it.
 function drawChart() {
+	
+	// find out chart type	
+	var chartType = "<%=dA.GetDataTemplateChartType(dataTemplateName)%>";
 
-  // Create the data table.
-  var data = new google.visualization.DataTable();
-  <%=chartData%>
+	// Create the data table.
+	var data = new google.visualization.DataTable();
+	<%=chartData%>
 
-  // Set chart options
-  var options = {'title':'<%=dataTemplateName%> \n ( <%=parameter0%> <%=parameter1%> <%=parameter2%> <%=parameter3%> )',
+  // Set chart options  
+  var options = {'title':'<%=dataTemplateName%> '+
+		  					'( <%=parameter0%> <%=parameter1%> <%=parameter2%> <%=parameter3%> <%=parameter4%>'+
+		  					' <%=parameter5%> <%=parameter6%> <%=parameter7%> <%=parameter8%> <%=parameter9%>)',
                  'width':790,
-                 'height':520};
+                 'height':520,
+                 'legend':'none'};
+  if (chartType=="Scatter") {
+	  options = {'title':'<%=dataTemplateName%> '+
+							'( <%=parameter0%> <%=parameter1%> <%=parameter2%> <%=parameter3%> <%=parameter4%>'+
+							' <%=parameter5%> <%=parameter6%> <%=parameter7%> <%=parameter8%> <%=parameter9%>)',
+			     'width':790,
+			     'height':520,
+                 'hAxis': {'title':'Day of month', 'minValue': 1, 'maxValue': 31},
+                 'vAxis': {'title':'Time of day', 'minValue': 0, 'maxValue': 24},
+	          	 'legend': 'none'};
+  }
 
   // Instantiate and draw our chart, passing in some options.
-  var chartType = "<%=dA.GetDataTemplateChartType(dataTemplateName)%>";
   if (chartType=="Pie") {
-	  var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 	  if (!("<%=chartData%>"=="")) {
+		  var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 		  chart.draw(data, options);
 		  document.getElementById('png').outerHTML = 
 			  '<a href="' + chart.getImageURI() + '" target="_blank">PNG chart version for copying</a>';
+	  } 
+  } else if (chartType=="Bar") {
+	  if (!("<%=chartData%>"=="")) {
+		  var chart = new google.charts.Bar(document.getElementById('chart_div'));
+		  chart.draw( data, google.charts.Bar.convertOptions(options));
+		  document.getElementById('png').outerHTML = 
+			  '<a href="' + chart.getImageURI() + '" target="_blank">PNG chart version for copying</a>';
 	  }
-  }  
+  } else if (chartType=="Scatter") {
+	  if (!("<%=chartData%>"=="")) {
+		  var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+		  chart.draw( data, google.charts.Bar.convertOptions(options));
+		  document.getElementById('png').outerHTML = 
+			  '<a href="' + chart.getImageURI() + '" target="_blank">PNG chart version for copying</a>';
+	  }
+  } 
 }
 
 function selectionChange(filter) {

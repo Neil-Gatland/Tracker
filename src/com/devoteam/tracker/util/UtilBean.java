@@ -102,6 +102,10 @@ public class UtilBean {
 		HTMLElement m08 = new HTMLElement("div", "m08", "float:right;", 
 				"menu1Item", "menuClick('" + ServletConstants.DATA_ANALYTICS + "')", 
 				"invertClass('m08')", "invertClass('m08')", ServletConstants.DATA_ANALYTICS);
+		// restrict Data Analytics menu item currently to Devoteam users
+		if (!user.getUserType().equals(user.USER_TYPE_DEVOTEAM)) { 
+			m08.setValue("");
+		}	
 		// Define optional buttons
 		HTMLElement m04 = new HTMLElement("div", "m04", "float:right;", 
 			"menu1Item", "menuClick('" + ServletConstants.LIVE_DASHBOARD + "')", 
@@ -139,7 +143,6 @@ public class UtilBean {
 				 (screen.equals(ServletConstants.SCHEDULE_VIEW))
 						?"":m07.toString()) +
 				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
-				 ((user.getUserId()!=1)&&(user.getUserId()!=96))|| //for POC only available for my users
 				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
 				 (screen.equals(ServletConstants.DATA_ANALYTICS))
 						?"":m08.toString()) +
