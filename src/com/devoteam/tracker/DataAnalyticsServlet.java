@@ -64,6 +64,10 @@ public class DataAnalyticsServlet extends HttpServlet {
 		    	selectSQL = "SELECT ";
 		    	groupBySQL = "GROUP BY ";
 		    	orderBySQL = "ORDER BY ";
+		    	Boolean isBar = false;
+		    	Boolean isScatter = false;
+		    	int barColumns = 0;
+		    	int scatterColumns = 0;
 		    	try {
 			    	conn = DriverManager.getConnection(url);
 			    	cstmt = conn.prepareCall("{call GetDataTemplateTotals(?)}");
@@ -75,12 +79,44 @@ public class DataAnalyticsServlet extends HttpServlet {
 							String columnDBName = rs.getString(1);
 							String totalType = rs.getString(2);
 							String columnDisplayName = rs.getString(3);
-							selectSQL = selectSQL+totalType+"("+columnDBName+") AS "+
-							(totalType.equals("COUNT")?"No":"Total")+
-							", "+columnDBName+" ";
-							groupBySQL = groupBySQL+" "+columnDBName+" ";
-							orderBySQL = orderBySQL+" "+columnDBName+" ";
-							chartDataNames = chartDataNames+"data.addColumn('string', '"+columnDisplayName+"'); ";
+							String chartType = rs.getString(4);
+							if (chartType.equals("Pie")) {
+								selectSQL = selectSQL+totalType+"("+columnDBName+") AS "+
+										(totalType.equals("COUNT")?"No":"Total")+
+										", "+columnDBName+" ";
+								groupBySQL = groupBySQL+columnDBName+" ";
+								orderBySQL = orderBySQL+" "+columnDBName+" ";
+								chartDataNames = 
+										chartDataNames+"data.addColumn('string', '"+columnDisplayName+"'); ";
+							} else if (chartType.equals("Bar")) {
+								isBar = true;
+								barColumns++;
+								if (totalType.equals("Group")) {
+									groupBySQL = groupBySQL+columnDBName+" ";
+									selectSQL = selectSQL+columnDBName+", ";
+								} else {
+									selectSQL = selectSQL+totalType+"("+columnDBName+")"+" AS "+columnDBName+", ";
+								}
+								chartDataNames=
+									chartDataNames=chartDataNames+"'"+columnDisplayName+"', ";
+							} else if (chartType.equals("Scatter")) {
+								isScatter = true;
+								scatterColumns++;
+								if (totalType.equals("Group")) {
+									groupBySQL = groupBySQL+columnDBName+" ";
+									selectSQL = selectSQL+columnDBName+" AS "+columnDisplayName+", ";
+								} else {
+									selectSQL = 
+										selectSQL+
+										(totalType.equals("AvgTime")?"DECIMALTIME(SEC_TO_TIME(AVG(TIME_TO_SEC":totalType)+
+										"("+columnDBName+
+										(totalType.equals("AvgTime")?"))))":")")+
+										" AS "+
+										columnDBName+", ";
+								}
+								chartDataNames=
+									chartDataNames=chartDataNames+"'"+columnDisplayName+"', ";
+							}
 						}
 					}
 			    } catch (Exception ex) {
@@ -94,6 +130,36 @@ public class DataAnalyticsServlet extends HttpServlet {
 				    	ex.printStackTrace();
 				    }
 			    } 
+		    	// Build ORDER BY SQL for Bar charts and remove trailing comma on SELECT SQL
+		    	if ((isBar)||(isScatter)) {
+		    		try {
+    			    	conn = DriverManager.getConnection(url);
+    			    	cstmt = conn.prepareCall("{call GetDataTemplateSorts(?)}");
+    			    	cstmt.setString(1, dataTemplateName);
+    					boolean found = cstmt.execute();
+    					if (found) {
+    						ResultSet rs = cstmt.getResultSet();
+    						boolean whereUsed = false;
+    						while (rs.next()) {
+    							String columnDBName = rs.getString(1);
+    							String sortType = rs.getString(2);
+    							orderBySQL = orderBySQL+columnDBName+" "+sortType+", ";    						}
+    					}
+    			    } catch (Exception ex) {
+    			    	message = "Error in GetDataTemplateParameterControls(): " + ex.getMessage();
+    			    	ex.printStackTrace();
+    			    } finally {
+    			    	try {
+    			    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+    			    		if ((conn != null) && (!conn.isClosed())) conn.close();
+    				    } catch (SQLException ex) {
+    				    	ex.printStackTrace();
+    				    }
+    			    }
+    				orderBySQL = orderBySQL.substring(0,orderBySQL.length()-2);
+    				selectSQL = selectSQL.substring(0,selectSQL.length()-2)+" ";
+		    	}
+		    	
 		    	// Build FROM SQL
 		    	fromSQL = "FROM "+dA.GetDataSourceView(dataSourceName)+" ";
 				// Get control names for parameters and build WHERE SQL
@@ -149,9 +215,15 @@ public class DataAnalyticsServlet extends HttpServlet {
 			    } 
 				String finalSQL = selectSQL+fromSQL+whereSQL+groupBySQL+orderBySQL;
 				// Use SQL to build chart data
-				chartData = chartDataNames +
-						"data.addColumn('number', 'No.'); "+
-						"data.addRows([ ";
+				if ((isBar)||(isScatter)) {
+					chartData = "([["+chartDataNames.substring(0,chartDataNames.length()-2)+"], ";
+				} else {
+					chartData = chartDataNames +
+							"data.addColumn('number', 'No.'); "+
+							"data.addRows([ ";
+				}
+		    	Boolean barIsEmpty = true;
+		    	Boolean scatterIsEmpty = true;
 				PreparedStatement pstmt = null;	
 				try {
 			    	conn = DriverManager.getConnection(url);
@@ -160,7 +232,45 @@ public class DataAnalyticsServlet extends HttpServlet {
 					if (found) {
 						ResultSet rs = pstmt.getResultSet();
 						while (rs.next()) {
-							chartData=chartData+"['"+rs.getString(2)+"', "+rs.getString(1)+"], ";
+							if (isBar) {
+								barIsEmpty = false;
+								chartData=chartData+"[";
+								if (barColumns>=1) {
+									chartData=chartData+"'"+rs.getString(1)+"', ";
+								}
+								if (barColumns>=2) {
+									chartData=chartData+""+rs.getString(2)+", ";
+								}
+								if (barColumns>=3) {
+									chartData=chartData+""+rs.getString(3)+", ";
+								}
+								if (barColumns>=4) {
+									chartData=chartData+""+rs.getString(4)+", ";
+								}
+								if (barColumns>=5) {
+									chartData=chartData+""+rs.getString(5)+", ";
+								}
+								chartData=chartData.substring(0, chartData.length()-2)+"], ";
+							} else if (isScatter) {
+								scatterIsEmpty = false;
+								chartData=chartData+"[";
+									chartData=chartData+""+rs.getString(1)+", ";
+								if (scatterColumns>=2) {
+									chartData=chartData+""+rs.getString(2)+", ";
+								}
+								if (scatterColumns>=3) {
+									chartData=chartData+""+rs.getString(3)+", ";
+								}
+								if (scatterColumns>=4) {
+									chartData=chartData+""+rs.getString(4)+", ";
+								}
+								if (scatterColumns>=5) {
+									chartData=chartData+""+rs.getString(5)+", ";
+								}
+								chartData=chartData.substring(0, chartData.length()-2)+"], ";
+							} else {
+								chartData=chartData+"['"+rs.getString(2)+"', "+rs.getString(1)+"], ";
+							}
 						}
 					}
 			    } catch (Exception ex) {
@@ -173,8 +283,52 @@ public class DataAnalyticsServlet extends HttpServlet {
 				    } catch (SQLException ex) {
 				    	ex.printStackTrace();
 				    }
-			    } 
-    			chartData = chartData+"]);";
+			    }
+				if (isBar) {
+					if (barIsEmpty) {
+						chartData=
+							"data = google.visualization.arrayToDataTable([["+
+							chartDataNames.substring(0,chartDataNames.length()-2)+
+							"], ";
+						String emptyRow = "[";
+						for (int i=0;i<barColumns;i++) {
+							if (i==0) {
+								emptyRow=emptyRow+"'No data', ";
+							} else
+								emptyRow=emptyRow+"0, ";
+						}
+						chartData=chartData+emptyRow.substring(0, emptyRow.length()-2)+"]";
+						chartData=chartData+"])";
+					} else {
+						chartData = 
+							"data = google.visualization.arrayToDataTable"+
+							chartData.substring(0, chartData.length()-2)+
+							"]);";
+					}	
+				} else if (isScatter) {
+					if (scatterIsEmpty) {
+						chartData=
+							"data = google.visualization.arrayToDataTable([["+
+							chartDataNames.substring(0,chartDataNames.length()-2)+
+							"], ";
+						String emptyRow = "[";
+						for (int i=0;i<scatterColumns;i++) {
+							if (i==0) {
+								emptyRow=emptyRow+"0, ";
+							} else
+								emptyRow=emptyRow+"0, ";
+						}
+						chartData=chartData+emptyRow.substring(0, emptyRow.length()-2)+"]";
+						chartData=chartData+"])";
+					} else {
+						chartData = 
+							"data = google.visualization.arrayToDataTable"+
+							chartData.substring(0, chartData.length()-2)+
+							"]);";
+					}	
+				}  else {
+					chartData = chartData+"]);";
+				}
     			// amend SELECT and ORDER BY SQL to create report SQL for raw data CSV
     			if ((action.equals("downloadRawData"))) {
     				selectSQL = "SELECT * ";
