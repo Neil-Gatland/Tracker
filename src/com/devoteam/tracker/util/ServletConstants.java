@@ -97,5 +97,6 @@ public interface ServletConstants {
 	final static public String POT_HEADER_IN_SESSION = "PotHeader";
 	final static public String POT_DETAIL_ARRAY_IN_SESSION = "PotDetailArray";
 	final static public String DATA_ANALYTICS ="Analytics";
+	final static public String BACK_OFFICE = "Back Office";
 
 }

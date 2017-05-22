@@ -17,6 +17,7 @@ String parameter8 = request.getAttribute("parameter8")==null?"":(String)request.
 String parameter9 = request.getAttribute("parameter9")==null?"":(String)request.getAttribute("parameter9");
 String reportSQL = request.getAttribute("reportSQL")==null?"":(String)request.getAttribute("reportSQL");
 String reportName = request.getAttribute("reportName")==null?"":(String)request.getAttribute("reportName");
+String chartDateLiteral = request.getAttribute("chartDateLiteral")==null?"":(String)request.getAttribute("chartDateLiteral");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="scheduleView.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.DATA_ANALYTICS%>"/>
@@ -80,8 +81,8 @@ function drawChart() {
 							' <%=parameter5%> <%=parameter6%> <%=parameter7%> <%=parameter8%> <%=parameter9%>)',
 			     'width':790,
 			     'height':520,
-                 'hAxis': {'title':'Day of month', 'minValue': 1, 'maxValue': 31},
-                 'vAxis': {'title':'Time of day', 'minValue': 0, 'maxValue': 24},
+                 'hAxis': {'title':'<%=chartDateLiteral%>'},
+                 'vAxis': {'title':'Time'},
 	          	 'legend': 'none'};
   }
 
