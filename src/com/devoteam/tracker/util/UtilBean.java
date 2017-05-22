@@ -117,8 +117,11 @@ public class UtilBean {
 			"menu1Item", "menuClick('" + ServletConstants.CLIENT_REPORTING + "')", 
 			"invertClass('m06')", "invertClass('m06')", ServletConstants.CLIENT_REPORTING);
 		HTMLElement m07 = new HTMLElement("div", "m07", "float:right;", 
-			"menu1Item", "menuClick('" + ServletConstants.SCHEDULE_VIEW + "')", 
-			"invertClass('m07')", "invertClass('m07')", ServletConstants.SCHEDULE_VIEW);
+				"menu1Item", "menuClick('" + ServletConstants.SCHEDULE_VIEW + "')", 
+				"invertClass('m07')", "invertClass('m07')", ServletConstants.SCHEDULE_VIEW);
+		HTMLElement m09 = new HTMLElement("div", "m09", "float:right;", 
+				"menu1Item", "menuClick('" + ServletConstants.BACK_OFFICE + "')", 
+				"invertClass('m09')", "invertClass('m09')", ServletConstants.BACK_OFFICE);
 		// combine buttons
 		m0.setValue(
 				m0a.toString() + 
@@ -146,6 +149,10 @@ public class UtilBean {
 				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
 				 (screen.equals(ServletConstants.DATA_ANALYTICS))
 						?"":m08.toString()) +
+				/*((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+				 (!user.hasUserRole(UserRole.ROLE_B_O_ENGINEER))||
+				 (screen.equals(ServletConstants.BACK_OFFICE))
+						?"":m09.toString()) +*/
 				m0c.toString());
 		return m0.toString();
 	}
@@ -433,6 +440,8 @@ public class UtilBean {
 				} else if (screen.equals(ServletConstants.CLIENT_REPORTING)) {
 					canSee = true;
 				} else if (screen.equals(ServletConstants.SITE_SEARCH)) {
+					canSee = true;
+				} else if (screen.equals(ServletConstants.BACK_OFFICE)) {
 					canSee = true;
 				}				
 			}
@@ -5352,6 +5361,8 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 			name = "smart_S.png";
 		} else if (screen.equals(ServletConstants.DATA_ANALYTICS)) {
 			name = "smart_DA.png";
+		} else if (screen.equals(ServletConstants.BACK_OFFICE)) {
+			name = "smart_BO.png";
 		}
 		return name;
 	}

@@ -231,7 +231,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
 		<servlet-name>UrTracker</servlet-name>
 		<servlet-class>com.devoteam.UrTrackerServlet</servlet-class>
+	</servlet>				
+	<servlet>
+		<servlet-name>BackOffice</servlet-name>
+		<servlet-class>com.devoteam.tracker.BackOfficeServlet</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>BackOffice</servlet-name>
+		<url-pattern>/backOffice</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>UrTracker</servlet-name>
 		<url-pattern>/urtracker</url-pattern>

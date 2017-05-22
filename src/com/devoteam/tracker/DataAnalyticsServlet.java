@@ -47,6 +47,7 @@ public class DataAnalyticsServlet extends HttpServlet {
 			String reportSQL = "";
 			String reportName = "";
 			String [] parameterArray = { "", "", "", "", "", "", "", "", "", "" };
+	    	String chartDateLiteral ="";
 			int parameterPos = 0;
 			if ((action.equals("createChart"))||
 				(action.equals("downloadRawData"))||
@@ -66,12 +67,13 @@ public class DataAnalyticsServlet extends HttpServlet {
 		    	orderBySQL = "ORDER BY ";
 		    	Boolean isBar = false;
 		    	Boolean isScatter = false;
+		    	Boolean isGrouped = false;
 		    	int barColumns = 0;
 		    	int scatterColumns = 0;
 		    	try {
 			    	conn = DriverManager.getConnection(url);
 			    	cstmt = conn.prepareCall("{call GetDataTemplateTotals(?)}");
-			    	cstmt.setString(1, dataTemplateName);
+			    	cstmt.setString(1, dataTemplateName);			    	
 					boolean found = cstmt.execute();
 					if (found) {
 						ResultSet rs = cstmt.getResultSet();
@@ -80,7 +82,9 @@ public class DataAnalyticsServlet extends HttpServlet {
 							String totalType = rs.getString(2);
 							String columnDisplayName = rs.getString(3);
 							String chartType = rs.getString(4);
+							chartDateLiteral = rs.getString(6);
 							if (chartType.equals("Pie")) {
+								isGrouped = true;
 								selectSQL = selectSQL+totalType+"("+columnDBName+") AS "+
 										(totalType.equals("COUNT")?"No":"Total")+
 										", "+columnDBName+" ";
@@ -91,6 +95,7 @@ public class DataAnalyticsServlet extends HttpServlet {
 							} else if (chartType.equals("Bar")) {
 								isBar = true;
 								barColumns++;
+								isGrouped = true;
 								if (totalType.equals("Group")) {
 									groupBySQL = groupBySQL+columnDBName+" ";
 									selectSQL = selectSQL+columnDBName+", ";
@@ -105,14 +110,54 @@ public class DataAnalyticsServlet extends HttpServlet {
 								if (totalType.equals("Group")) {
 									groupBySQL = groupBySQL+columnDBName+" ";
 									selectSQL = selectSQL+columnDBName+" AS "+columnDisplayName+", ";
+									isGrouped = true;
 								} else {
-									selectSQL = 
-										selectSQL+
-										(totalType.equals("AvgTime")?"DECIMALTIME(SEC_TO_TIME(AVG(TIME_TO_SEC":totalType)+
-										"("+columnDBName+
-										(totalType.equals("AvgTime")?"))))":")")+
-										" AS "+
-										columnDBName+", ";
+									if (totalType.equals("AvgTime")) {
+										selectSQL = 
+											selectSQL+
+											"FORMATCHARTTIME(SEC_TO_TIME(AVG(TIME_TO_SEC("+
+											columnDBName+
+											")))) AS "+
+											columnDBName+", ";
+									} else if (totalType.equals("Time")) {
+										selectSQL = 
+											selectSQL+
+											"FORMATCHARTTIME(TIME("+
+											columnDBName+
+											")) AS "+
+											columnDBName+", ";
+									} else if (totalType.equals("Day")) {
+										selectSQL = 
+											selectSQL+
+											" DAY("+
+											columnDBName+
+											") AS "+
+											columnDBName+", ";
+									} else if (totalType.equals("Month")) {
+										selectSQL = 
+											selectSQL+
+											" MONTHNAME("+
+											columnDBName+
+											") AS "+
+											columnDBName+", ";
+									} else if (totalType.equals("WeekDay")) {
+										selectSQL = 
+											selectSQL+
+											" DAYNAME("+
+											columnDBName+
+											") AS "+
+											columnDBName+", ";
+									} else {
+										selectSQL = 
+											selectSQL+
+											totalType+
+											"("+
+											columnDBName+
+											")"+
+											" AS "+
+											columnDBName+", ";
+									}
+										
 								}
 								chartDataNames=
 									chartDataNames=chartDataNames+"'"+columnDisplayName+"', ";
@@ -130,6 +175,9 @@ public class DataAnalyticsServlet extends HttpServlet {
 				    	ex.printStackTrace();
 				    }
 			    } 
+		    	if ((isScatter)&&(!isGrouped)) {
+		    		groupBySQL = "";
+		    	}
 		    	// Build ORDER BY SQL for Bar charts and remove trailing comma on SELECT SQL
 		    	if ((isBar)||(isScatter)) {
 		    		try {
@@ -146,7 +194,7 @@ public class DataAnalyticsServlet extends HttpServlet {
     							orderBySQL = orderBySQL+columnDBName+" "+sortType+", ";    						}
     					}
     			    } catch (Exception ex) {
-    			    	message = "Error in GetDataTemplateParameterControls(): " + ex.getMessage();
+    			    	message = "Error in GetDataTemplateSorts(): " + ex.getMessage();
     			    	ex.printStackTrace();
     			    } finally {
     			    	try {
@@ -214,6 +262,7 @@ public class DataAnalyticsServlet extends HttpServlet {
 				    }
 			    } 
 				String finalSQL = selectSQL+fromSQL+whereSQL+groupBySQL+orderBySQL;
+				//System.out.println(finalSQL);
 				// Use SQL to build chart data
 				if ((isBar)||(isScatter)) {
 					chartData = "([["+chartDataNames.substring(0,chartDataNames.length()-2)+"], ";
@@ -254,7 +303,7 @@ public class DataAnalyticsServlet extends HttpServlet {
 							} else if (isScatter) {
 								scatterIsEmpty = false;
 								chartData=chartData+"[";
-									chartData=chartData+""+rs.getString(1)+", ";
+									chartData=chartData+"'"+rs.getString(1)+"', ";
 								if (scatterColumns>=2) {
 									chartData=chartData+""+rs.getString(2)+", ";
 								}
@@ -439,6 +488,7 @@ public class DataAnalyticsServlet extends HttpServlet {
 			req.setAttribute("reportName", reportName);
 			session.setAttribute("reportSQL", reportSQL);
 			session.setAttribute("reportName", reportName);
+			req.setAttribute("chartDateLiteral",chartDateLiteral);
 		}
 		  	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destination+ran);
 		  	dispatcher.forward(req,resp);

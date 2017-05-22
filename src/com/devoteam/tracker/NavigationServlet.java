@@ -102,6 +102,9 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.CLIENT_REPORTING)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CLIENT_REPORTING);
 				destination = "/clientReporting.jsp";
+			} else if (toScreen.equals(ServletConstants.BACK_OFFICE)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.BACK_OFFICE);
+				destination = "/backOffice.jsp";
 			} else if (toScreen.equals(ServletConstants.SCHEDULE_VIEW)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.SCHEDULE_VIEW);
 				session.setAttribute("potLoadActive", "N");

@@ -523,6 +523,7 @@ function rescheduleSelect(snrId,scheduledDate,siteStatus,nrIdOrSite) {
 	document.getElementById("column").value = "all";
 	document.getElementById("rescheduleMessage").value = "";
 	document.getElementById("nrIdOrSite").value = nrIdOrSite;
+	document.getElementById("selectedAction").value = "search";
 	if (siteStatus=="Scheduled") {
 		document.getElementById("cancelScheduleSite").style.display = "inline";
 	}
