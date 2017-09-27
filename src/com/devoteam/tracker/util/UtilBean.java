@@ -42,6 +42,9 @@ import com.devoteam.tracker.model.User;
 import com.devoteam.tracker.model.UserAdminListItem;
 import com.devoteam.tracker.model.UserJobType;
 import com.devoteam.tracker.model.UserRole;
+import com.devoteam.tracker.model.crqAccessHeader;
+import com.devoteam.tracker.model.PreCheckList;
+
 
 public class UtilBean {
 	
@@ -80,11 +83,11 @@ public class UtilBean {
 			"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME);
 		// Determine if BO Home or FE home required (but not for change password screen)
 		if (!userExpired()) {
-			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
+			/*if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
 				m01 = new HTMLElement("div", "m01", "float:left;",   
 						"menu1Item", "menuClick('" + ServletConstants.HOME_BO + "')", 
 						"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_BO);
-			}
+			}*/
 			if (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) {
 				m01 = new HTMLElement("div", "m01", "float:left;",   
 						"menu1Item", "menuClick('" + ServletConstants.HOME_FE + "')", 
@@ -122,6 +125,9 @@ public class UtilBean {
 		HTMLElement m09 = new HTMLElement("div", "m09", "float:right;", 
 				"menu1Item", "menuClick('" + ServletConstants.BACK_OFFICE + "')", 
 				"invertClass('m09')", "invertClass('m09')", ServletConstants.BACK_OFFICE);
+		HTMLElement m10 = new HTMLElement("div", "m09", "float:right;", 
+				"menu1Item", "menuClick('" + ServletConstants.CRQ_ACCESS + "')", 
+				"invertClass('m10')", "invertClass('m10')", ServletConstants.CRQ_ACCESS);
 		// combine buttons
 		m0.setValue(
 				m0a.toString() + 
@@ -149,10 +155,17 @@ public class UtilBean {
 				 (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))||
 				 (screen.equals(ServletConstants.DATA_ANALYTICS))
 						?"":m08.toString()) +
-				/*((screen.equals(ServletConstants.CHANGE_PASSWORD))||
-				 (!user.hasUserRole(UserRole.ROLE_B_O_ENGINEER))||
-				 (screen.equals(ServletConstants.BACK_OFFICE))
-						?"":m09.toString()) +*/
+				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+						 (!user.hasUserRole(UserRole.ROLE_B_O_ENGINEER))||
+						 (screen.equals(ServletConstants.BACK_OFFICE))||
+						 (screen.equals(ServletConstants.BACK_OFFICE_DETAIL))
+								?"":m09.toString()) +
+				((screen.equals(ServletConstants.CHANGE_PASSWORD))||
+						 ((!user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN))&&
+							 (!user.hasUserRole(UserRole.ROLE_CRM_ADMIN)))||
+						 (screen.equals(ServletConstants.CRQ_ACCESS))||
+						 (screen.equals(ServletConstants.CRQ_ACCESS_DETAIL))
+								?"":m10.toString()) +
 				m0c.toString());
 		return m0.toString();
 	}
@@ -370,6 +383,129 @@ public class UtilBean {
 		return m1.toString();
 	}
 	
+	public String getMenu2New() {
+		HTMLElement m1 = new HTMLElement("div");
+		//if (((screen.equals(ServletConstants.BACK_OFFICE))||(screen.equals(ServletConstants.SCHEDULE_VIEW))) &&
+		//		user.getUserType().equals(user.USER_TYPE_DEVOTEAM) ) {
+		if ((user.getUserType().equals(user.USER_TYPE_DEVOTEAM)) && 
+				(!screen.equals(ServletConstants.BACK_OFFICE_DETAIL)) &&
+				(!screen.equals(ServletConstants.LIVE_DASHBOARD)) &&
+				(!screen.equals(ServletConstants.CHANGE_PASSWORD)))  {
+			HTMLElement m1a = new HTMLElement("div", "float:left;width:2px", "menu2", "&nbsp;");
+			HTMLElement m1b = new HTMLElement("div", "float:right;width:2px", "menu2", "&nbsp;");
+			HTMLElement m1c = new HTMLElement("div", "overflow:hidden", "menu2", "&nbsp;");
+			ArrayList<HTMLElement> m1l = new ArrayList<HTMLElement>();
+			int i = 0;
+			if (user.hasUserRole(UserRole.ROLE_ADMINISTRATOR)) {
+				i++;
+				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+						ServletConstants.USER_ADMINISTRATION + "')", "invertClass('m1"+i+"')", 
+						"invertClass('m1"+i+"')", ServletConstants.USER_ADMINISTRATION_SHORT,
+						ServletConstants.USER_ADMINISTRATION));
+			}
+			if (user.hasUserRole(UserRole.ROLE_FINANCE_ADMIN)||(user.hasUserRole(UserRole.ROLE_PMO))) {
+				i++;
+				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+						ServletConstants.JOB_TYPE_MAINTENANCE + "')", "invertClass('m1"+i+"')", 
+						"invertClass('m1"+i+"')", ServletConstants.JOB_TYPE_MAINTENANCE_SHORT, 
+						ServletConstants.JOB_TYPE_MAINTENANCE));
+			}
+			if (user.hasUserRole(UserRole.ROLE_PMO)) {
+				i++;
+				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+						ServletConstants.PMO + "')", "invertClass('m1"+i+"')", 
+						"invertClass('m1"+i+"')", ServletConstants.PMO));
+			}			
+			if (user.hasUserRole(UserRole.ROLE_SCHEDULER)) {
+				i++;
+				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+						ServletConstants.RESCHED_REALLOC_CANCEL_SNR + "')", "invertClass('m1"+i+"')", 
+						"invertClass('m1"+i+"')", ServletConstants.RESCHED_REALLOC_CANCEL_SNR_SHORT, 
+						ServletConstants.RESCHED_REALLOC_CANCEL_SNR));
+				i++;
+				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+						ServletConstants.REOPEN_CANCELLED_SNR + "')", "invertClass('m1"+i+"')", 
+						"invertClass('m1"+i+"')", ServletConstants.REOPEN_CANCELLED_SNR_SHORT,
+						ServletConstants.REOPEN_CANCELLED_SNR));
+			}
+			i++;
+			/*if (user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN)) {
+				i++;
+				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+						ServletConstants.UPDATE_ACCESS + "')", "invertClass('m1"+i+"')", 
+						"invertClass('m1"+i+"')", ServletConstants.UPDATE_ACCESS));
+			}
+			if (user.hasUserRole(UserRole.ROLE_CRM_ADMIN)) {
+				i++;
+				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+						ServletConstants.UPDATE_CRM + "')", "invertClass('m1"+i+"')", 
+						"invertClass('m1"+i+"')", ServletConstants.UPDATE_CRM));
+			}*/
+			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
+					"invertClass('m1"+i+"')", 
+					ServletConstants.VIEW_SNR_HISTORY));
+			i++;
+			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
+					ServletConstants.REPORTING + "')", "invertClass('m1"+i+"')", 
+					"invertClass('m1"+i+"')", ServletConstants.REPORTING));
+			if (screen.equals(ServletConstants.VIEW_SNR_HISTORY)) {
+				i++;
+				m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
+					ServletConstants.REPORTING + "')", "invertClass('m11')", 
+					"invertClass('m11')", ServletConstants.REPORTING));		
+			}	
+			if (screen.equals(ServletConstants.REPORTING)) {
+				i++;
+				m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", 
+					"menuClickSpec('dfReport')", "invertClass('m11')", 
+					"invertClass('m11')", ServletConstants.CHOOSE_REPORT));
+				i++;
+				m1l.add(new HTMLElement("div", "m12", "float:left;", "menu2Item", "menuClick('" +
+					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m12')", 
+					"invertClass('m12')", ServletConstants.VIEW_SNR_HISTORY_SHORT,
+					ServletConstants.VIEW_SNR_HISTORY));	
+			}
+			StringBuilder mSB = new StringBuilder(m1a.toString());
+			for (Iterator<HTMLElement> it = m1l.iterator(); it.hasNext(); ) {
+				mSB.append(it.next().toString());
+			}
+			mSB.append(m1b.toString());
+			mSB.append(m1c.toString());
+			m1.setValue(mSB.toString());
+		}
+		if ((screen.equals(ServletConstants.REPORTING))||(screen.equals(ServletConstants.VIEW_SNR_HISTORY))) {
+			HTMLElement m1a = new HTMLElement("div", "float:left;width:2px", "menu2", "&nbsp;");
+			HTMLElement m1b = new HTMLElement("div", "float:right;width:2px", "menu2", "&nbsp;");
+			HTMLElement m1c = new HTMLElement("div", "overflow:hidden", "menu2", "&nbsp;");
+			ArrayList<HTMLElement> m1l = new ArrayList<HTMLElement>();
+			int i = 0;
+			if (screen.equals(ServletConstants.VIEW_SNR_HISTORY)) {
+				m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
+					ServletConstants.REPORTING + "')", "invertClass('m11')", 
+					"invertClass('m11')", ServletConstants.REPORTING));	
+			}
+			if (screen.equals(ServletConstants.REPORTING)) {
+				m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", 
+					"menuClickSpec('dfReport')", "invertClass('m11')", 
+					"invertClass('m11')", ServletConstants.CHOOSE_REPORT));
+				i++;
+				m1l.add(new HTMLElement("div", "m12", "float:left;", "menu2Item", "menuClick('" +
+					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m12')", 
+					"invertClass('m12')", ServletConstants.VIEW_SNR_HISTORY_SHORT,
+					ServletConstants.VIEW_SNR_HISTORY));	
+			}
+			StringBuilder mSB = new StringBuilder(m1a.toString());
+			for (Iterator<HTMLElement> it = m1l.iterator(); it.hasNext(); ) {
+				mSB.append(it.next().toString());
+			}
+			mSB.append(m1b.toString());
+			mSB.append(m1c.toString());
+			m1.setValue(mSB.toString());
+		}
+		return m1.toString();
+	}
+	
 	public boolean canSee() {
 		boolean canSee = false;
 		if ((screen.equals(ServletConstants.CHANGE_PASSWORD)) ||
@@ -443,7 +579,15 @@ public class UtilBean {
 					canSee = true;
 				} else if (screen.equals(ServletConstants.BACK_OFFICE)) {
 					canSee = true;
-				}				
+				} else if (screen.equals(ServletConstants.BACK_OFFICE_DETAIL)) {
+					canSee = true;
+				} else if (screen.equals(ServletConstants.CRQ_ACCESS))	{
+					canSee = user.hasUserRole(UserRole.ROLE_CRM_ADMIN) ||
+						user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN);
+				} else if (screen.equals(ServletConstants.CRQ_ACCESS_DETAIL))	{
+					canSee = user.hasUserRole(UserRole.ROLE_CRM_ADMIN) ||
+							user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN);
+				}
 			}
 		}
 		return canSee;
@@ -1060,7 +1204,8 @@ public class UtilBean {
 
 	public Collection<SNRListItem> getPMOList(String filterSite, 
 			String filterNRId, String filterStatus, 
-			String filterScheduledStart, String filterScheduledEnd) {
+			String filterScheduledStart, String filterScheduledEnd,
+			String filterCanBeClosed) {
 		ArrayList<SNRListItem> snrList = new ArrayList<SNRListItem>();
     	Connection conn = null;
     	CallableStatement cstmt = null;
@@ -1086,12 +1231,13 @@ public class UtilBean {
 				}
 			}
 	    	conn = DriverManager.getConnection(url);
-	    	cstmt = conn.prepareCall("{call GetPMOList(?,?,?,?,?)}");
+	    	cstmt = conn.prepareCall("{call GetPMOList(?,?,?,?,?,?)}");
 	    	cstmt.setString(1, filterSite);
 	    	cstmt.setString(2, filterNRId);
 	    	cstmt.setString(3, filterStatus);
 	    	cstmt.setTimestamp(4, scheduledStartTS);
 	    	cstmt.setTimestamp(5, scheduledEndTS);
+	    	cstmt.setString(6, filterCanBeClosed);
 			boolean found = cstmt.execute();
 			if (found) {
 				ResultSet rs = cstmt.getResultSet();
@@ -1099,7 +1245,7 @@ public class UtilBean {
 					snrList.add(new SNRListItem(rs.getLong(1),
 						rs.getString(2), rs.getString(3), rs.getDate(4), 
 						rs.getTimestamp(5), rs.getTimestamp(6), 
-						rs.getString(7)));
+						rs.getString(7),rs.getString(12)));
 				}
 			}
 	    } catch (Exception ex) {
@@ -1117,12 +1263,14 @@ public class UtilBean {
 	}
 	
 	public String getPMOListHTML(String filterSite, String filterNRId, String filterStatus, 
-			String filterScheduledStart, String filterScheduledEnd, long selectedSNRId) {
+			String filterScheduledStart, String filterScheduledEnd, long selectedSNRId,
+			String filterCanBeClosed) {
 		boolean oddRow = false;
 		int row = 0;
 		StringBuilder html = new StringBuilder();
 		Collection<SNRListItem> snrList = getPMOList(filterSite, 
-			filterNRId, filterStatus, filterScheduledStart, filterScheduledEnd);
+			filterNRId, filterStatus, filterScheduledStart, filterScheduledEnd,
+			filterCanBeClosed);
 		for (Iterator<SNRListItem> it = snrList.iterator(); it.hasNext(); ) {
 			HTMLElement tr = new HTMLElement("tr");
 			row++;
@@ -1140,7 +1288,7 @@ public class UtilBean {
 			}
 			HTMLElement input = new HTMLElement("input", "snrId"+row, "snrId",
 				"radio", Long.toString(sli.getSNRId()), 
-				"snrSelect('"+sli.getSNRId()+"','"+sli.getSite()+"','"+sli.getNRId()+"')");
+				"snrSelect('"+sli.getSNRId()+"','"+sli.getSite()+"','"+sli.getNRId()+"','"+sli.getCanBeClosed()+"')");
 			if ((sli.getSNRId() == selectedSNRId)) {
 				input.setChecked(true);
 			}
@@ -3444,6 +3592,109 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 	    return snrList;
 	}
 	
+	public String getDailySiteScheduleHTML(String filterBOEngineer, String currentDate) {
+		boolean oddRow = false;
+		int row = 0;
+		StringBuilder html = new StringBuilder();
+		Collection<SNRListItem> snrList = getDailySiteSchedule(	filterBOEngineer, currentDate);
+		if (snrList.isEmpty()) {
+			if (message != null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1",	message);
+				td.setAttribute("colspan", "11");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1","No sites scheduled today");
+				td.setAttribute("colspan", "11");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());	
+			}				
+		} else {
+			for (Iterator<SNRListItem> it = snrList.iterator(); it.hasNext(); ) {
+				HTMLElement tr = new HTMLElement("tr");
+				row++;
+				oddRow = !oddRow;
+				SNRListItem sli = it.next();
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				String site = sli.getSite(), nrId = sli.getNRId();				
+				HTMLElement tdSite = 
+					new HTMLElement("td", (oddRow?"grid1u":"grid2u"), (nrId.contains("DUMMY")?site:nrId));
+				tdSite.setAttribute(
+						"onClick", 
+						"snrDetail("+sli.getSNRId()+",'"+filterBOEngineer+"')");
+				tdSite.setAttribute("style","cursor:pointer;");
+				tdSite.setAttribute("title","click to go to site detail");	
+				tr.appendValue(tdSite.toString());			
+				HTMLElement tdStatus = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getStatus());
+				tr.appendValue(tdStatus.toString());				
+				HTMLElement tdJobType = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getJobType());
+				tr.appendValue(tdJobType.toString());				
+				HTMLElement tdUpgradeType = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getUpgradeType());
+				tr.appendValue(tdUpgradeType.toString());	
+				String techs = sli.getTechnologies();
+				String techsDisplay = sli.getTechnologiesDisplay();
+				if (techsDisplay.equals(sli.TECH_SHORT)) {
+					techs = sli.getTechnologiesShort();
+				}
+				HTMLElement tdTechs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), techs);				
+				if (techsDisplay.equals(sli.TECH_SHORT)) {
+					tdTechs.setAttribute("title", sli.getTechnologies());
+				}
+				tr.appendValue(tdTechs.toString());				
+				HTMLElement tdHWVendor = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getHardwareVendor());
+				tr.appendValue(tdHWVendor.toString());
+				String feList = sli.getFeListDisplay();
+				if (feList.equals(sli.FE_SHORT)) {
+					feList = sli.getFeListShort();
+				}				
+				HTMLElement tdFeEngs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), feList);
+				if (feList.equals(sli.FE_SHORT)) {
+					tdFeEngs.setAttribute("title", sli.getFeList());
+				}
+				tr.appendValue(tdFeEngs.toString());	
+				HTMLElement tdVfCRQ =
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getCRQ());
+				tr.appendValue(tdVfCRQ.toString());	
+				HTMLElement tdTEFCRQ =
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getTEF());
+				tr.appendValue(tdTEFCRQ.toString());
+				HTMLElement tdAccessStatus = 
+						new HTMLElement("td", (oddRow?"grid1u":"grid2u"), sli.getAccessStatus());
+				tdAccessStatus.setAttribute(
+						"onClick", 
+						"accessDetail("+sli.getSNRId()+",'"+sli.getSite()+"','"+sli.getNRId()+"')");
+				tdAccessStatus.setAttribute("style","cursor:pointer;");
+				tdAccessStatus.setAttribute("title","click to go to access detail");	
+				tr.appendValue(tdAccessStatus.toString());
+				String boList = sli.getBOEngineersDisplay();
+				if (boList.equals(sli.BOE_SHORT)) {
+					boList = sli.getBOEngineersShort();
+				}				
+				HTMLElement tdBoEngs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), boList);
+				if (boList.equals(sli.BOE_SHORT)) {
+					tdBoEngs.setAttribute("title", sli.getBOEngineers());
+				}
+				tr.appendValue(tdBoEngs.toString());	
+				html.append(tr.toString());
+			}			
+		}
+		return html.toString();
+	}
+	
 	public String getDailySiteScheduleHTML(long selectedSNRId, String filterBOEngineer, String currentDate) {
 		boolean oddRow = false;
 		int row = 0;
@@ -3536,6 +3787,34 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 	    return snrAD;
 	}
 	
+	public String getOutstandingWorksCount(String filterBOEngineer) {
+		String count = "0";
+    	Connection conn = null;
+    	CallableStatement cstmt = null;	    try {
+			conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call getOutstandingWorksCount(?)}");
+	    	cstmt.setString(1, filterBOEngineer);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					count = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getOutstandingWork(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return count;
+	}
+	
 	public Collection<SNRListItem> getOutstandingWorks(String filterBOEngineer) {
 		message = null;
 		ArrayList<SNRListItem> snrList = new ArrayList<SNRListItem>();
@@ -3576,6 +3855,123 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 	}
 	
 	public String getOutstandingWorksHTML(String filterBOEngineer) {
+		boolean oddRow = false;
+		int row = 0;
+		StringBuilder html = new StringBuilder();
+		Collection<SNRListItem> snrList = getOutstandingWorks(filterBOEngineer);
+		if (snrList.isEmpty()) {
+			if (message != null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1",	message);
+				td.setAttribute("colspan", "16");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1","No outstanding works");
+				td.setAttribute("colspan", "16");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());	
+			}				
+		} else {
+			for (Iterator<SNRListItem> it = snrList.iterator(); it.hasNext(); ) {
+				HTMLElement tr = new HTMLElement("tr");
+				row++;
+				oddRow = !oddRow;
+				SNRListItem sli = it.next();
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				String site = sli.getSite(), nrId = sli.getNRId();				
+				HTMLElement tdSite = 
+					new HTMLElement("td", (oddRow?"grid1u":"grid2u"), (nrId.contains("DUMMY")?site:nrId));
+				tdSite.setAttribute(
+						"onClick", 
+						"snrDetail("+sli.getSNRId()+",'"+filterBOEngineer+"')");
+				tdSite.setAttribute("style","cursor:pointer;");
+				tdSite.setAttribute("title","click to go to site detail");	
+				tr.appendValue(tdSite.toString());			
+				HTMLElement tdStatus = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getStatus());
+				tr.appendValue(tdStatus.toString());				
+				HTMLElement tdJobType = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getJobType());
+				tr.appendValue(tdJobType.toString());	
+				HTMLElement tdSchDate =
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getScheduledDateString());
+				tr.appendValue(tdSchDate.toString());
+				String techs = sli.getTechnologies();
+				String techsDisplay = sli.getTechnologiesDisplay();
+				if (techsDisplay.equals(sli.TECH_SHORT)) {
+					techs = sli.getTechnologiesShort();
+				}
+				HTMLElement tdTechs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), techs);				
+				if (techsDisplay.equals(sli.TECH_SHORT)) {
+					tdTechs.setAttribute("title", sli.getTechnologies());
+				}
+				tr.appendValue(tdTechs.toString());				
+				HTMLElement tdHWVendor = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getHardwareVendor());
+				tr.appendValue(tdHWVendor.toString());				
+				String boList = sli.getBOEngineersDisplay();
+				if (boList.equals(sli.BOE_SHORT)) {
+					boList = sli.getBOEngineersShort();
+				}				
+				HTMLElement tdBoEngs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), boList);
+				if (boList.equals(sli.BOE_SHORT)) {
+					tdBoEngs.setAttribute("title", sli.getBOEngineers());
+				}
+				tr.appendValue(tdBoEngs.toString());	
+				HTMLElement tdEF345 =
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), 
+										(sli.getEF345ClaimDTSet().startsWith(sli.EF_DATE_SET)?"*":""));
+				tdEF345.setAttribute("title", sli.getEF345ClaimDTTitle());
+				tr.appendValue(tdEF345.toString());
+				HTMLElement tdEF360 =
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), 
+								(sli.getEF360ClaimDTSet().startsWith(sli.EF_DATE_SET)?"*":""));
+				tdEF360.setAttribute("title", sli.getEF360ClaimDTTitle());
+				tr.appendValue(tdEF360.toString());
+				HTMLElement tdEF390 =
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), 
+								(sli.getEF390ClaimDTSet().startsWith(sli.EF_DATE_SET)?"*":""));
+				tdEF390.setAttribute("title", sli.getEF360ClaimDTTitle());
+				tr.appendValue(tdEF390.toString());
+				HTMLElement tdEF400 =
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), 
+								(sli.getEF400ClaimDTSet().startsWith(sli.EF_DATE_SET)?"*":""));
+				tdEF400.setAttribute("title", sli.getEF400ClaimDTTitle());
+				tr.appendValue(tdEF400.toString());
+				HTMLElement tdEF410 =
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), 
+								(sli.getEF410ClaimDTSet().startsWith(sli.EF_DATE_SET)?"*":""));
+				tdEF410.setAttribute("title", sli.getEF410ClaimDTTitle());
+				tr.appendValue(tdEF410.toString());
+				HTMLElement tdHOP = 
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), sli.getHopStatus());
+				tr.appendValue(tdHOP.toString());
+				HTMLElement tdSFR = 
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), sli.getSfrStatus());
+				tr.appendValue(tdSFR.toString());
+				HTMLElement tdNPC = 
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), sli.getNextPrecheckDisplay());
+				tr.appendValue(tdNPC.toString());
+				HTMLElement tdPC = 
+						new HTMLElement("td",(oddRow?"grid1":"grid2"), sli.getProgressComplete());
+				tr.appendValue(tdPC.toString());
+				html.append(tr.toString());
+			}			
+			
+		}
+		return html.toString();
+	}
+	
+	public String getOutstandingWorksOldHTML(String filterBOEngineer) {
 		boolean oddRow = false;
 		int row = 0;
 		StringBuilder html = new StringBuilder();
@@ -3680,6 +4076,149 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 		    }
 	    } 	    
 	    return snrList;
+	}
+		
+	public Collection<SNRListItem> getWeekSchedule(String filterBOEngineer, String week ) {
+		message = null;
+		ArrayList<SNRListItem> snrList = new ArrayList<SNRListItem>();
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call getWeekSchedule(?,?)}");
+	    	cstmt.setString(1, filterBOEngineer);
+	    	cstmt.setString(2, week);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					snrList.add(new SNRListItem(rs.getLong(1), rs.getDate(2),
+							rs.getString(3), rs.getString(4), rs.getString(5),
+							rs.getString(6), rs.getString(7),rs.getString(8),
+							rs.getString(9),rs.getString(10),rs.getString(11),
+							rs.getString(12),rs.getString(13), rs.getString(14), 
+							rs.getString(15),rs.getInt(16), rs.getString(17),
+							rs.getString(18)));
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getWeekSchedule(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return snrList;
+	}
+	
+	public String getWeekScheduleHTML(String filterBOEngineer, String week ) {
+		boolean oddRow = false;
+		int row = 0;
+		StringBuilder html = new StringBuilder();
+		Collection<SNRListItem> snrList = getWeekSchedule(filterBOEngineer, week);
+		if (snrList.isEmpty()) {
+			if (message != null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1",	message);
+				td.setAttribute("colspan", "12");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1","No sites scheduled for this week");
+				td.setAttribute("colspan", "12");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());	
+			}				
+		} else {
+			for (Iterator<SNRListItem> it = snrList.iterator(); it.hasNext(); ) {
+				HTMLElement tr = new HTMLElement("tr");
+				row++;
+				oddRow = !oddRow;
+				SNRListItem sli = it.next();
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				String site = sli.getSite(), nrId = sli.getNRId();				
+				HTMLElement tdSite = 
+					new HTMLElement("td", (oddRow?"grid1u":"grid2u"), (nrId.contains("DUMMY")?site:nrId));
+				tdSite.setAttribute(
+						"onClick", 
+						"snrDetail("+sli.getSNRId()+",'"+filterBOEngineer+"')");
+				tdSite.setAttribute("style","cursor:pointer;");
+				tdSite.setAttribute("title","click to go to site detail");	
+				tr.appendValue(tdSite.toString());			
+				HTMLElement tdStatus = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getStatus());
+				tr.appendValue(tdStatus.toString());				
+				HTMLElement tdJobType = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getJobType());
+				tr.appendValue(tdJobType.toString());	
+				HTMLElement tdSchDate =
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getScheduledDateString());
+				tr.appendValue(tdSchDate.toString());
+				HTMLElement tdUpgradeType =
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getUpgradeType());
+				tr.appendValue(tdUpgradeType.toString());
+				String techs = sli.getTechnologies();
+				String techsDisplay = sli.getTechnologiesDisplay();
+				if (techsDisplay.equals(sli.TECH_SHORT)) {
+					techs = sli.getTechnologiesShort();
+				}
+				HTMLElement tdTechs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), techs);				
+				if (techsDisplay.equals(sli.TECH_SHORT)) {
+					tdTechs.setAttribute("title", sli.getTechnologies());
+				}
+				tr.appendValue(tdTechs.toString());				
+				HTMLElement tdHWVendor = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getHardwareVendor());
+				tr.appendValue(tdHWVendor.toString());
+				String feList = sli.getFeListDisplay();
+				if (feList.equals(sli.FE_SHORT)) {
+					feList = sli.getFeListShort();
+				}				
+				HTMLElement tdFeEngs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), feList);
+				if (feList.equals(sli.FE_SHORT)) {
+					tdFeEngs.setAttribute("title", sli.getFeList());
+				}
+				tr.appendValue(tdFeEngs.toString());	
+				HTMLElement tdVfCRQ =
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getCRQ());
+				tr.appendValue(tdVfCRQ.toString());	
+				HTMLElement tdTEFCRQ =
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), sli.getTEF());
+				tr.appendValue(tdTEFCRQ.toString());
+				HTMLElement tdAccessStatus = 
+						new HTMLElement("td", (oddRow?"grid1u":"grid2u"), sli.getAccessStatus());
+				tdAccessStatus.setAttribute(
+						"onClick", 
+						"accessDetail("+sli.getSNRId()+",'"+sli.getSite()+"','"+sli.getNRId()+"')");
+				tdAccessStatus.setAttribute("style","cursor:pointer;");
+				tdAccessStatus.setAttribute("title","click to go to access detail");	
+				tr.appendValue(tdAccessStatus.toString());
+				String boList = sli.getBOEngineersDisplay();
+				if (boList.equals(sli.BOE_SHORT)) {
+					boList = sli.getBOEngineersShort();
+				}				
+				HTMLElement tdBoEngs = 
+						new HTMLElement("td", (oddRow?"grid1":"grid2"), boList);
+				if (boList.equals(sli.BOE_SHORT)) {
+					tdBoEngs.setAttribute("title", sli.getBOEngineers());
+				}
+				tr.appendValue(tdBoEngs.toString());
+				html.append(tr.toString());
+			}
+		}
+		return html.toString();
 	}
 	
 	public String getWeeklyScheduleHTML(String filterBOEngineer,  
@@ -4320,7 +4859,8 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 							rs.getString(29), rs.getTimestamp(30), rs.getString(31),rs.getTimestamp(32),
 							rs.getString(33), rs.getTimestamp(34),rs.getString(35),rs.getTimestamp(36),
 							rs.getString(37), rs.getTimestamp(38), rs.getString(39),rs.getTimestamp(40),
-							rs.getString(41), rs.getString(42), rs.getString(43), rs.getString(44));
+							rs.getString(41), rs.getString(42), rs.getString(43), rs.getString(44),
+							rs.getString(45),rs.getString(46));
 				}
 			}
 	    } catch (Exception ex) {
@@ -5363,6 +5903,32 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 			name = "smart_DA.png";
 		} else if (screen.equals(ServletConstants.BACK_OFFICE)) {
 			name = "smart_BO.png";
+		} else if (screen.equals(ServletConstants.BACK_OFFICE_DETAIL)) {
+			name = "smart_BO.png";
+		} else if (screen.equals(ServletConstants.JOB_TYPE_MAINTENANCE)) {
+			name = "smart_JT.png";
+		} else if (screen.equals(ServletConstants.USER_ADMINISTRATION)) {
+			name = "smart_UA.png";
+		} else if (screen.equals(ServletConstants.PMO)) {
+			name = "smart_PMO.png";
+		} else if (screen.equals(ServletConstants.RESCHED_REALLOC_CANCEL_SNR)) {
+			name = "smart_CAN.png";
+		} else if (screen.equals(ServletConstants.REOPEN_CANCELLED_SNR)) {
+			name = "smart_ROP.png";
+		} else if (screen.equals(ServletConstants.VIEW_SNR_HISTORY)) {
+			name = "smart_NRH.png";
+		} else if (screen.equals(ServletConstants.REPORTING)) {
+			name = "smart_REP.png";
+		} else if (screen.equals(ServletConstants.UPDATE_CRM)) {
+			name = "smart_CRQ.png";
+		} else if (screen.equals(ServletConstants.UPDATE_ACCESS)) {
+			name = "smart_ACC.png";
+		} else if (screen.equals(ServletConstants.CHANGE_PASSWORD)) {
+			name = "smart_PC.png";
+		} else if (screen.equals(ServletConstants.CRQ_ACCESS)) {
+			name = "smart_CQA.png";
+		} else if (screen.equals(ServletConstants.CRQ_ACCESS_DETAIL)) {
+			name = "smart_CQA.png";
 		}
 		return name;
 	}
@@ -8439,6 +9005,10 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 		}
 		return scheduleMessage;
 	}
+	
+	public String getAvailableFEEngineers(Long snrId) {
+		return getAvailableFEEngineers(Long.toString(snrId));
+	}	 
 
 	public String getAvailableFEEngineers(String snrId) {
 		Connection conn = null;
@@ -8928,8 +9498,7 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 	    return expired;
 	}
 	
-	public String getNrIdOrSite(
-			String snrId ) {
+	public String getNrIdOrSite(String snrId ) {
 		String result = "Not found";
 		if (snrId.equals("")) {
 			message = null;
@@ -8959,6 +9528,4092 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 		    } 	    
 		}		
 	    return result;
+	}
+	
+	public String getSiteOrNRId(Long snrId ) {
+		String result = "Not found";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetNrIdOrSite(?)}");
+	    	cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetNrIdOrSite(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String getProjectName(Long snrId ) {
+		String result = "Not found";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetSNRProjectName(?)}");
+	    	cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetSNRProjectName(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String getNextScheduledWeek(
+			String currentWeek,
+			String weekAction ) {
+		String nextWeek = "";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetNextScheduleWeek(?,?)}");
+	    	cstmt.setString(1, currentWeek);
+	    	cstmt.setString(2, weekAction);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					nextWeek = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetNextScheduleWeek(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	
+		return nextWeek;
+	}
+	
+	public String getSelectedTab(long snrId, String currentTab) {
+		String selectedTab = "Not found";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetBackOfficeDetailTab(?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, currentTab);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					selectedTab = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetBackOfficeDetailTab(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	
+		return selectedTab;
+	}
+
+	public String getBackOfficeDetailTabHTML(long snrId, String filterBOEngineer, String currentTab) {
+		StringBuilder html = new StringBuilder();
+		// Get selected tab value
+		String selectedTab = getSelectedTab(snrId,currentTab);
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;	    	
+	    // Get tab counts
+	    conn = null;
+	    cstmt = null;
+	    long dpcCount = 0, pasCount = 0, fpcCount = 0, iaciCount = 0, pmCount = 0, soahCount = 0;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetBackOfficeDetailCounts(?)}");
+	    	cstmt.setString(1, filterBOEngineer);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					dpcCount = rs.getLong(1);
+					pasCount = rs.getLong(2);
+					fpcCount = rs.getLong(3);
+					iaciCount = rs.getLong(4);
+					pmCount = rs.getLong(5);
+					soahCount = rs.getLong(6);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetBackOfficeDetailTab(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	
+	    // build top row
+		HTMLElement tr1 = new HTMLElement("tr");
+		HTMLElement tdDummy = new HTMLElement( "td", "whiteMenu1","");
+		tr1.appendValue(tdDummy.toString());
+		String onClickValue = "setCurrentTab('"+ServletConstants.DETAILED_PRECHECK+"')";
+		HTMLElement td1a = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.DETAILED_PRECHECK)?"boDefTLFire":"boDefTLGray"),
+						"Detailed");
+		td1a.setAttribute("onClick", onClickValue);
+		td1a.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1a.toString());
+		HTMLElement td1b = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.DETAILED_PRECHECK)?"boDefTRFire":"boDefTRGray"),
+						Long.toString(dpcCount));
+		td1b.setAttribute("onClick", onClickValue);
+		td1b.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1b.toString());
+		String imageName = "double_chevron_light.png";
+		if (selectedTab.equals(ServletConstants.DETAILED_PRECHECK))
+			imageName = "double_chevron_bright.png";
+		HTMLElement td1c = 
+				new HTMLElement(
+						"td", 
+						"",
+						"<img src=\"images/"+imageName+"\" height=\"50px\" width=\"38px\">");
+		td1c.setAttribute("rowspan", "2");
+		td1c.setAttribute("onClick", onClickValue);
+		td1c.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1c.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.PLANNING_AND_SCRIPTING+"')";
+		HTMLElement td1d = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PLANNING_AND_SCRIPTING)?"boDefTLFire":"boDefTLGray"),
+						"Planning &#38;");
+		td1d.setAttribute("onClick", onClickValue);
+		td1d.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1d.toString());
+		HTMLElement td1e = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PLANNING_AND_SCRIPTING)?"boDefTRFire":"boDefTRGray"),
+						Long.toString(pasCount));
+		td1e.setAttribute("onClick", onClickValue);
+		td1e.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1e.toString());
+		if (selectedTab.equals(ServletConstants.PLANNING_AND_SCRIPTING))
+			imageName = "double_chevron_bright.png";
+		else
+			imageName = "double_chevron_light.png";
+		HTMLElement td1f = 
+				new HTMLElement(
+						"td", 
+						"",
+						"<img src=\"images/"+imageName+"\" height=\"50px\" width=\"38px\">");
+		td1f.setAttribute("rowspan", "2");
+		td1f.setAttribute("onClick", onClickValue);
+		td1f.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1f.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.FINAL_PRECHECK+"')";
+		HTMLElement td1g = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.FINAL_PRECHECK)?"boDefTLFire":"boDefTLGray"),
+						"Final");
+		td1g.setAttribute("onClick", onClickValue);
+		td1g.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1g.toString());
+		HTMLElement td1h = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.FINAL_PRECHECK)?"boDefTRFire":"boDefTRGray"),
+						Long.toString(fpcCount));
+		td1h.setAttribute("onClick", onClickValue);
+		td1h.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1h.toString());
+		if (selectedTab.equals(ServletConstants.FINAL_PRECHECK))
+			imageName = "double_chevron_bright.png";
+		else
+			imageName = "double_chevron_light.png";
+		HTMLElement td1i = 
+				new HTMLElement(
+						"td", 
+						"",
+						"<img src=\"images/"+imageName+"\" height=\"50px\" width=\"38px\">");
+		td1i.setAttribute("rowspan", "2");
+		td1i.setAttribute("onClick", onClickValue);
+		td1i.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1i.toString());		
+		onClickValue = "setCurrentTab('"+ServletConstants.I_AND_C_INTEGRATION+"')";
+		HTMLElement td1j = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.I_AND_C_INTEGRATION)?"boDefTLFire":"boDefTLGray"),
+						"I &#38; C");
+		td1j.setAttribute("onClick", onClickValue);
+		td1j.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1j.toString());
+		HTMLElement td1k = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.I_AND_C_INTEGRATION)?"boDefTRFire":"boDefTRGray"),
+						Long.toString(iaciCount));
+		td1k.setAttribute("onClick", onClickValue);
+		td1k.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1k.toString());
+		if (selectedTab.equals(ServletConstants.I_AND_C_INTEGRATION))
+			imageName = "double_chevron_bright.png";
+		else
+			imageName = "double_chevron_light.png";
+		HTMLElement td1l = 
+				new HTMLElement(
+						"td", 
+						"",
+						"<img src=\"images/"+imageName+"\" height=\"50px\" width=\"38px\">");
+		td1l.setAttribute("rowspan", "2");
+		td1l.setAttribute("onClick", onClickValue);
+		td1l.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1l.toString());		
+		onClickValue = "setCurrentTab('"+ServletConstants.PERFORMANCE_MONITORING+"')";
+		HTMLElement td1m = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PERFORMANCE_MONITORING)?"boDefTLFire":"boDefTLGray"),
+						"Performance");
+		td1m.setAttribute("onClick", onClickValue);
+		td1m.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1m.toString());
+		HTMLElement td1n = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PERFORMANCE_MONITORING)?"boDefTRFire":"boDefTRGray"),
+						Long.toString(pmCount));
+		td1n.setAttribute("onClick", onClickValue);
+		td1n.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1n.toString());
+		if (selectedTab.equals(ServletConstants.PERFORMANCE_MONITORING))
+			imageName = "double_chevron_bright.png";
+		else
+			imageName = "double_chevron_light.png";
+		HTMLElement td1o = 
+				new HTMLElement(
+						"td", 
+						"",
+						"<img src=\"images/"+imageName+"\" height=\"50px\" width=\"38px\">");
+		td1o.setAttribute("rowspan", "2");
+		td1o.setAttribute("onClick", onClickValue);
+		td1o.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1o.toString());		
+		onClickValue = "setCurrentTab('"+ServletConstants.SIGN_OFF_AND_HOP+"')";
+		HTMLElement td1p = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.SIGN_OFF_AND_HOP)?"boDefTLFire":"boDefTLGray"),
+						"Sign Off");
+		td1p.setAttribute("onClick", onClickValue);
+		td1p.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1p.toString());
+		HTMLElement td1q = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.SIGN_OFF_AND_HOP)?"boDefTRFire":"boDefTRGray"),
+						Long.toString(pmCount));
+		td1q.setAttribute("onClick", onClickValue);
+		td1q.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1q.toString());
+		if (selectedTab.equals(ServletConstants.SIGN_OFF_AND_HOP))
+			imageName = "double_chevron_bright.png";
+		else
+			imageName = "double_chevron_light.png";
+		HTMLElement td1r = 
+				new HTMLElement(
+						"td", 
+						"",
+						"<img src=\"images/"+imageName+"\" height=\"50px\" width=\"38px\">");
+		td1r.setAttribute("rowspan", "2");
+		td1r.setAttribute("onClick", onClickValue);
+		td1r.setAttribute("style", "cursor:pointer");
+		tr1.appendValue(td1r.toString());
+		html.append(tr1.toString());		
+		// build bottom row
+		HTMLElement tr2 = new HTMLElement("tr");
+		tr2.appendValue(tdDummy.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.DETAILED_PRECHECK+"')";
+		HTMLElement td2a = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.DETAILED_PRECHECK)?"boDefBLFire":"boDefBLGray"),
+						"Pre-Check");
+		td2a.setAttribute("onClick", onClickValue);
+		td2a.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2a.toString());
+		HTMLElement td2b = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.DETAILED_PRECHECK)?"boDefBRFire":"boDefBRGray"),
+						"&nbsp;");
+		td2b.setAttribute("onClick", onClickValue);
+		td2b.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2b.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.PLANNING_AND_SCRIPTING+"')";
+		HTMLElement td2c = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PLANNING_AND_SCRIPTING)?"boDefBLFire":"boDefBLGray"),
+						"Scripting");
+		td2c.setAttribute("onClick", onClickValue);
+		td2c.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2c.toString());
+		HTMLElement td2d = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PLANNING_AND_SCRIPTING)?"boDefBRFire":"boDefBRGray"),
+						"&nbsp;");
+		td2d.setAttribute("onClick", onClickValue);
+		td2d.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2d.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.FINAL_PRECHECK+"')";
+		HTMLElement td2e = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.FINAL_PRECHECK)?"boDefBLFire":"boDefBLGray"),
+						"Pre-Check");
+		td2e.setAttribute("onClick", onClickValue);
+		td2e.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2e.toString());
+		HTMLElement td2f = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.FINAL_PRECHECK)?"boDefBRFire":"boDefBRGray"),
+						"&nbsp;");
+		td2f.setAttribute("onClick", onClickValue);
+		td2f.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2f.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.I_AND_C_INTEGRATION+"')";
+		HTMLElement td2g = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.I_AND_C_INTEGRATION)?"boDefBLFire":"boDefBLGray"),
+						"Integration");
+		td2g.setAttribute("onClick", onClickValue);
+		td2g.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2g.toString());
+		HTMLElement td2h = iciIssuePicture(filterBOEngineer,selectedTab);
+				/*new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.I_AND_C_INTEGRATION)?"boDefBRFire":"boDefBRGray"),
+						"&nbsp;");
+				//iciIssuePicture(filterBOEngineer));*/
+		td2h.setAttribute("onClick", onClickValue);
+		td2h.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2h.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.PERFORMANCE_MONITORING+"')";
+		HTMLElement td2i = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PERFORMANCE_MONITORING)?"boDefBLFire":"boDefBLGray"),
+						"Monitoring");
+		td2i.setAttribute("onClick", onClickValue);
+		td2i.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2i.toString());
+		HTMLElement td2j = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.PERFORMANCE_MONITORING)?"boDefBRFire":"boDefBRGray"),
+						"&nbsp;");
+		td2j.setAttribute("onClick", onClickValue);
+		td2j.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2j.toString());
+		onClickValue = "setCurrentTab('"+ServletConstants.SIGN_OFF_AND_HOP+"')";
+		HTMLElement td2k = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.SIGN_OFF_AND_HOP)?"boDefBLFire":"boDefBLGray"),
+						"&#38; HOP");
+		td2k.setAttribute("onClick", onClickValue);
+		td2k.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2k.toString());
+		HTMLElement td2l = 
+				new HTMLElement(
+						"td", 
+						(selectedTab.equals(ServletConstants.SIGN_OFF_AND_HOP)?"boDefBRFire":"boDefBRGray"),
+						"&nbsp;");
+		td2l.setAttribute("onClick", onClickValue);
+		td2l.setAttribute("style", "cursor:pointer");
+		tr2.appendValue(td2l.toString());
+		html.append(tr2.toString());
+		return html.toString();
+	}
+
+	
+	public String getBOSiteProgressHTML(long snrId) {
+		StringBuilder html = new StringBuilder();
+		SiteProgress sp = getSiteProgress(snrId);
+		if (sp.getSite().equals("")) {
+			HTMLElement tr0 = new HTMLElement("tr");
+			HTMLElement td1 = new HTMLElement("td", "?????", "Error getting Site Progress");
+			td1.setAttribute("align", "center");
+			tr0.appendValue(td1.toString());
+			html.append(tr0.toString());
+		} else {
+			HTMLElement trDummy = new HTMLElement("tr");
+			HTMLElement tdDummy = new HTMLElement("td", "", "");
+			tdDummy.setAttribute("height", "2px");
+			trDummy.appendValue(tdDummy.toString());
+			html.append(trDummy.toString());
+			HTMLElement tdEmpty = new HTMLElement("td", "", "&nbsp;");
+			HTMLElement tr0 = new HTMLElement("tr");
+			String completionPercentage = sp.getCompletionPercentage(), 
+					completionStatus = sp.getCompletionStatus();
+			String progressHeader = "Scheduled ("+completionPercentage+"%)";;
+			if ((!completionStatus.equals("Scheduled"))&&(!completionStatus.equals("Performance IP")))
+				progressHeader = completionStatus;
+			HTMLElement tdHeader = new HTMLElement("td","boHeader",progressHeader);
+			tdHeader.setAttribute("colspan", "4");
+			tr0.appendValue(tdHeader.toString());
+			html.append(tr0.toString());
+			HTMLElement tra = new HTMLElement("tr");
+			tra.appendValue(tdEmpty.toString());
+			HTMLElement tda1 = new HTMLElement("td", "bo"+getSPColour(sp.getCheckedIn()), "CI : Checked In");
+			tda1.setAttribute("id", "checkedInAnchor");
+			tda1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tda1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'checkedIn','"+sp.getCheckedIn()+"','"+sp.getIssueOwner()+"')");
+				tda1.setAttribute("style", "cursor:pointer");
+			}
+			tra.appendValue(tda1.toString());
+			html.append(tra.toString());	
+			HTMLElement trb = new HTMLElement("tr");
+			trb.appendValue(tdEmpty.toString());
+			HTMLElement tdb1 = new HTMLElement("td", "bo"+getSPColour(sp.getBookedOn()), "SB : Site Booked On");
+			tdb1.setAttribute("id", "bookedOnAnchor");
+			tdb1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdb1.setAttribute("style", "cursor:pointer");
+				tdb1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'bookedOn','"+sp.getBookedOn()+"','"+sp.getIssueOwner()+"')");
+			}
+			trb.appendValue(tdb1.toString());
+			html.append(trb.toString());		
+			HTMLElement trc = new HTMLElement("tr");
+			trc.appendValue(tdEmpty.toString());
+			HTMLElement tdc1 = new HTMLElement("td", "bo"+getSPColour(sp.getSiteAccessed()), "SA : Site Accessed");
+			tdc1.setAttribute("id", "siteAccessedAnchor");
+			tdc1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdc1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'siteAccessed','"+sp.getSiteAccessed()+"','"+sp.getIssueOwner()+"')");
+				tdc1.setAttribute("style", "cursor:pointer");
+			}
+			trc.appendValue(tdc1.toString());
+			html.append(trc.toString());			
+			HTMLElement trd = new HTMLElement("tr");
+			trd.appendValue(tdEmpty.toString());
+			HTMLElement tdd1 = new HTMLElement("td", "bo"+getSPColour(sp.getPhysicalChecks()), "PC : Physical Checks");
+			tdd1.setAttribute("id", "physicalChecksAnchor");
+			tdd1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdd1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'physicalChecks','"+sp.getPhysicalChecks()+"','"+sp.getIssueOwner()+"')");
+					tdd1.setAttribute("style", "cursor:pointer");
+			}
+			trd.appendValue(tdd1.toString());
+			html.append(trd.toString());				
+			HTMLElement tre = new HTMLElement("tr");
+			tre.appendValue(tdEmpty.toString());
+			HTMLElement tde1 = new HTMLElement("td", "bo"+getSPColour(sp.getPreCallTest()), "TC : Pre Call Test");
+			tde1.setAttribute("id", "preCallTestAnchor");
+			tde1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tde1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'preCallTest','"+sp.getPreCallTest()+"','"+sp.getIssueOwner()+"')");
+				tde1.setAttribute("style", "cursor:pointer");
+			}
+			tre.appendValue(tde1.toString());
+			html.append(tre.toString());				
+			HTMLElement trf = new HTMLElement("tr");
+			trf.appendValue(tdEmpty.toString());
+			HTMLElement tdf1 = new HTMLElement("td", "bo"+getSPColour(sp.getSiteLocked()), "SL : Site Locked");
+			tdf1.setAttribute("id", "siteLockedAnchor");
+			tdf1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdf1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'siteLocked','"+sp.getSiteLocked()+"','"+sp.getIssueOwner()+"')");
+				tdf1.setAttribute("style", "cursor:pointer");
+			}
+			trf.appendValue(tdf1.toString());
+			html.append(trf.toString());					
+			HTMLElement trg = new HTMLElement("tr");
+			trg.appendValue(tdEmpty.toString());
+			HTMLElement tdg1 = new HTMLElement("td", "bo"+getSPColour(sp.getHWInstalls()), "HW : HW Installs");
+			tdg1.setAttribute("id", "hwInstallsAnchor");
+			tdg1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdg1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'hwInstalls','"+sp.getHWInstalls()+"','"+sp.getIssueOwner()+"')");
+				tdg1.setAttribute("style", "cursor:pointer");
+			}
+			trg.appendValue(tdg1.toString());
+			html.append(trg.toString());					
+			HTMLElement trh = new HTMLElement("tr");	
+			trh.appendValue(tdEmpty.toString());
+			HTMLElement tdh1 = new HTMLElement("td", "bo"+getSPColour(sp.getCommissioningFE()), "FC : Field Commissioning");
+			tdh1.setAttribute("id", "commissioningFEAnchor");
+			tdh1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdh1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'commissioningFE','"+sp.getCommissioningFE()+"','"+sp.getIssueOwner()+"')");
+				tdh1.setAttribute("style", "cursor:pointer");
+			}
+			trh.appendValue(tdh1.toString());
+			html.append(trh.toString());					
+			HTMLElement tri = new HTMLElement("tr");	
+			tri.appendValue(tdEmpty.toString());
+			HTMLElement tdi1 = new HTMLElement("td", "bo"+getSPColour(sp.getCommissioningBO()), "FC : Back Office Commissioning");
+			tdi1.setAttribute("style", "cursor:pointer");
+			tdi1.setAttribute("id", "commissioningBOAnchor");
+			tdi1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdi1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'commissioningBO','"+sp.getCommissioningBO()+"','"+sp.getIssueOwner()+"')");
+				tdi1.setAttribute("style", "cursor:pointer");				
+			}
+			tri.appendValue(tdi1.toString());
+			html.append(tri.toString());			
+			HTMLElement trj = new HTMLElement("tr");	
+			trj.appendValue(tdEmpty.toString());
+			HTMLElement tdj1 = new HTMLElement("td", "bo"+getSPColour(sp.getTXProvisioning()), "Tx : Tx Provisioning");
+			tdj1.setAttribute("id", "txProvisioningAnchor");
+			tdj1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdj1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'txProvisioning','"+sp.getTXProvisioning()+"','"+sp.getIssueOwner()+"')");
+				tdj1.setAttribute("style", "cursor:pointer");
+			}
+			trj.appendValue(tdj1.toString());
+			html.append(trj.toString());				
+			HTMLElement trk = new HTMLElement("tr");	
+			trk.appendValue(tdEmpty.toString());
+			HTMLElement tdk1 = new HTMLElement("td", "bo"+getSPColour(sp.getFieldWork()), "Tx : Field Work");
+			tdk1.setAttribute("id", "fieldWorkAnchor");
+			tdk1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdk1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'fieldWork','"+sp.getFieldWork()+"','"+sp.getIssueOwner()+"')");
+				tdk1.setAttribute("style", "cursor:pointer");
+			}
+			trk.appendValue(tdk1.toString());
+			html.append(trk.toString());			
+			HTMLElement trl = new HTMLElement("tr");	
+			trl.appendValue(tdEmpty.toString());
+			HTMLElement tdl1 = new HTMLElement("td", "bo"+getSPColour(sp.getSiteUnlocked()), "Tx : Site Unlocked");
+			tdl1.setAttribute("id", "siteUnlockedAnchor");
+			tdl1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdl1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'siteUnlocked','"+sp.getSiteUnlocked()+"','"+sp.getIssueOwner()+"')");
+				tdl1.setAttribute("style", "cursor:pointer");
+			}
+			trl.appendValue(tdl1.toString());
+			html.append(trl.toString());				
+			HTMLElement trm = new HTMLElement("tr");	
+			trm.appendValue(tdEmpty.toString());
+			HTMLElement tdm1 = new HTMLElement("td", "bo"+getSPColour(sp.getPostCallTest()), "PC : Post Call Test");
+			tdm1.setAttribute("id", "postCallTestAnchor");
+			tdm1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdm1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'postCallTest','"+sp.getPostCallTest()+"','"+sp.getIssueOwner()+"')");
+				tdm1.setAttribute("style", "cursor:pointer");
+			}
+			trm.appendValue(tdm1.toString());
+			html.append(trm.toString());
+			HTMLElement trn = new HTMLElement("tr");	
+			trn.appendValue(tdEmpty.toString());
+			HTMLElement tdn1 = new HTMLElement("td", "bo"+getSPColour(sp.getClosureCode()), "CC : Closure Code");
+			tdn1.setAttribute("id", "closureCodeAnchor");
+			tdn1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdn1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'closureCode','"+sp.getClosureCode()+"','"+sp.getIssueOwner()+
+											"','"+sp.getCrqClosureCode()+"')");
+				tdn1.setAttribute("style", "cursor:pointer");
+			}
+			trn.appendValue(tdn1.toString());
+			html.append(trn.toString());	
+			HTMLElement tro = new HTMLElement("tr");	
+			tro.appendValue(tdEmpty.toString());
+			HTMLElement tdo1 = new HTMLElement("td", "bo"+getSPColour(sp.getLeaveSite()), "SL : Left Site");
+			tdo1.setAttribute("id", "leaveSiteAnchor");
+			tdo1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdo1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'leaveSite','"+sp.getLeaveSite()+"','"+sp.getIssueOwner()+"')");
+				tdo1.setAttribute("style", "cursor:pointer");
+			}
+			tro.appendValue(tdo1.toString());
+			html.append(tro.toString());	
+			HTMLElement trp = new HTMLElement("tr");	
+			trp.appendValue(tdEmpty.toString());
+			HTMLElement tdp1 = new HTMLElement("td", "bo"+getSPColour(sp.getBookOffSite()), "SB : Site Booked Off");
+			tdp1.setAttribute("id", "bookOffSiteAnchor");
+			tdp1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdp1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'bookOffSite','"+sp.getBookOffSite()+"','"+sp.getIssueOwner()+"')");
+				tdp1.setAttribute("style", "cursor:pointer");
+			}
+			trp.appendValue(tdp1.toString());
+			html.append(trp.toString());	
+			HTMLElement trq = new HTMLElement("tr");	
+			trq.appendValue(tdEmpty.toString());
+			HTMLElement tdq1 = new HTMLElement("td", "bo"+getSPColour(sp.getPerformanceMonitoring()), "Prf : Performance");
+			tdq1.setAttribute("id", "performanceMonitoringAnchor");
+			tdq1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdq1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'performanceMonitoring','"+sp.getPerformanceMonitoring()+"','"+sp.getIssueOwner()+"')");
+				tdq1.setAttribute("style", "cursor:pointer");
+			}
+			trq.appendValue(tdq1.toString());
+			html.append(trq.toString());	
+			HTMLElement trr = new HTMLElement("tr");	
+			trr.appendValue(tdEmpty.toString());
+			HTMLElement tdr1 = new HTMLElement("td", "bo"+getSPColour(sp.getInitialHOP()), "HoP : Hand Off Pack");
+			tdr1.setAttribute("id", "initialHOPAnchor");
+			tdr1.setAttribute("colspan", "3");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdr1.setAttribute(
+					"onClick", 
+					"updateSiteProgress("+snrId+",'initialHOP','"+sp.getInitialHOP()+"','"+sp.getIssueOwner()+"')");
+				tdr1.setAttribute("style", "cursor:pointer");
+			}
+			trr.appendValue(tdr1.toString());
+			html.append(trr.toString());	
+			html.append(trDummy.toString());	
+			HTMLElement trs = new HTMLElement("tr");	
+			trs.appendValue(tdEmpty.toString());
+			HTMLElement tds1 = new HTMLElement("td", "boTitle", "Issue Owner:");
+			boolean isIssue = 
+					(	(sp.getIssueOwner().equals("Both"))||
+						(sp.getIssueOwner().equals("Customer"))||
+						(sp.getIssueOwner().equals("Devoteam"))?true:false);
+			if (((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP")))&isIssue) {
+				tds1.setAttribute("onClick", "updateIssueOwner("+snrId+",'"+sp.getIssueOwner()+"')");
+				tds1.setAttribute("style", "cursor:pointer");
+			}
+			trs.appendValue(tds1.toString());
+			HTMLElement tds2 = new HTMLElement("td", "", "&nbsp;");
+			if (((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP")))&isIssue) {
+				tds2.setAttribute("onClick", "updateIssueOwner("+snrId+",'"+sp.getIssueOwner()+"')");
+				tds2.setAttribute("style", "cursor:pointer");
+			}
+			trs.appendValue(tds2.toString());
+			HTMLElement tds3 = new HTMLElement("td", "boText", (sp.getIssueOwner().equals("")?"None":sp.getIssueOwner()));
+			tds3.setAttribute("id", "IssueOwnerAnchor");
+			if (((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP")))&isIssue) {
+				tds3.setAttribute("onClick", "updateIssueOwner("+snrId+",'"+sp.getIssueOwner()+"')");
+				tds3.setAttribute("style", "cursor:pointer");
+			}
+			trs.appendValue(tds3.toString());			
+			html.append(trs.toString());		
+			HTMLElement trt = new HTMLElement("tr");	
+			trt.appendValue(tdEmpty.toString());
+			String riskImage = "Empty_Risk.png", riskTitle = "None";
+			String riskIndicator = sp.getRiskIndicator();
+			HTMLElement tdt1 = new HTMLElement("td", "boTitle", "Risk Indicator:");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdt1.setAttribute("onClick", "updateRiskIndicator("+snrId+",'"+riskIndicator+"')");
+				tdt1.setAttribute("style", "cursor:pointer");
+			}
+			trt.appendValue(tdt1.toString());
+			HTMLElement tdt2 = new HTMLElement("td", "", "&nbsp;");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdt2.setAttribute("onClick", "updateRiskIndicator("+snrId+",'"+riskIndicator+"')");
+				tdt2.setAttribute("style", "cursor:pointer");
+			}
+			trt.appendValue(tdt2.toString());
+			if (riskIndicator.equals("Medium")) {
+				riskImage = "Half_Risk.png";
+				riskTitle = "Medium";
+			} else if (riskIndicator.equals("High")) {
+				riskImage = "Full_Risk.png";
+				riskTitle = "High";
+			}
+			HTMLElement tdt3 = new HTMLElement("td", "", "<img src=\"images/"+riskImage+"\" height=\"15px\" width=\"15px\" >");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdt3.setAttribute("onClick", "updateRiskIndicator("+snrId+",'"+riskIndicator+"')");
+				tdt3.setAttribute("style", "cursor:pointer");
+				tdt3.setAttribute("id", "RiskIndicatorAnchor");
+			}
+			tdt3.setAttribute("title", riskTitle);
+			trt.appendValue(tdt3.toString());			
+			html.append(trt.toString());	
+			HTMLElement tru = new HTMLElement("tr");
+			tru.appendValue(tdEmpty.toString());
+			HTMLElement tdu1 = new HTMLElement("td", "boTitle", "Progress Issue:");
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdu1.setAttribute("onClick", "updateProgressIssue("+snrId+",'"+sp.getProgressIssue()+"')");
+				tdu1.setAttribute("style", "cursor:pointer");
+				tdu1.setAttribute("id", "ProgressIssueAnchor");
+			}
+			tru.appendValue(tdu1.toString());
+			html.append(tru.toString());
+			HTMLElement trv = new HTMLElement("tr");
+			trv.appendValue(tdEmpty.toString());
+			tru.appendValue(tdEmpty.toString());
+			HTMLElement tdv1 = new HTMLElement("td", "boTextTop", sp.getProgressIssue());
+			if ((completionStatus.equals("Scheduled"))||(completionStatus.equals("Performance IP"))) {
+				tdv1.setAttribute("onClick", "updateProgressIssue("+snrId+",'"+sp.getProgressIssue()+"')");
+				tdv1.setAttribute("style", "cursor:pointer");				
+			}
+			tdv1.setAttribute("height", "40px");
+			tdv1.setAttribute("colspan", "3");
+			trv.appendValue(tdv1.toString());
+			html.append(trv.toString());
+		}		
+		return html.toString();
+	}
+	
+	private String getSPColour(String status) {
+		String colour = "White";
+		if (status.equals("In Progress")) 
+			colour = "Amber";
+		else if (status.equals("Not Applicable"))
+			colour = "Gray";
+		else if (status.equals("Completed"))
+			colour = "Green";
+		else if (status.equals("Issue"))
+			colour = "Red";
+		return colour;
+	}
+	
+	public String updateIssueOwner(
+			long snrId,
+			String issueOwner,
+			String lastUpdatedBy ) {
+		String updateResult = "Error: Untrapped error with UpdateIssueOwner";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateIssueOwner(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, issueOwner);
+	    	cstmt.setString(3, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					updateResult = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateIssueOwner(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String updateRiskIndicator(
+			long snrId,
+			String riskIndicator,
+			String lastUpdatedBy ) {
+		String updateResult = "Error: Untrapped error with UpdateRiskIndicator";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateRiskIndicator(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, riskIndicator);
+	    	cstmt.setString(3, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					updateResult = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateRiskIndicator(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String updateProgressIssue(
+			long snrId,
+			String progressIssue,
+			String lastUpdatedBy ) {
+		String updateResult = "Error: Untrapped error with UpdateProgressIssue";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateProgressIssue(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, progressIssue);
+	    	cstmt.setString(3, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					updateResult = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateProgressIssue(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String updateCRQClosureCode(
+			long snrId,
+			String crqClosureCode,
+			String lastUpdatedBy ) {
+		String updateResult = "Error: Untrapped error with UpdateCRQClosureCode";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateCRQClosureCode(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, crqClosureCode);
+	    	cstmt.setString(3, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					updateResult = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateCRQClosureCode(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public Collection<PreCheckList> getPrecheckItemList(long snrId, String precheckType) {
+		message = null;
+		ArrayList<PreCheckList> PrecheckList = new ArrayList<PreCheckList>();
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetPrecheckItemListByType(?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, precheckType);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					PrecheckList.add(new PreCheckList(
+							rs.getLong(1),  rs.getString(2),  rs.getString(3),  rs.getString(4), 
+							rs.getString(5),  rs.getInt(6),  rs.getInt(7),  rs.getString(8),
+							rs.getString(9),  rs.getDate(10), rs.getDouble(11), rs.getDate(12),
+							rs.getString(13), rs.getInt(14), rs.getString(15), rs.getDate(16), 
+							rs.getDouble(17), rs.getString(18), rs.getString(19)));
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetPrecheckItemListByType(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return PrecheckList;
+	}
+	
+	private String getTechnologyDetailHTML(long snrId) {
+		StringBuilder html = new StringBuilder();
+		String tableStart = 
+				"<table style=\"table-layout:fixed;border-style:0.5px dotted none none none;width:680px\">"+
+				"<col width=\"68px\"/><col width=\"68px\"/><col width=\"68px\"/><col width=\"68px\"/>"+
+				"<col width=\"68px\"/><col width=\"68px\"/><col width=\"68px\"/><col width=\"68px\"/>"+
+				"<col width=\"68px\"/><col width=\"68px\"/>"+
+				"</colgroup><tbody>";
+		html.append(tableStart);
+		ArrayList<SNRTechnology> al = getSNRBOTechnologies(snrId);
+		HTMLElement tr = new HTMLElement("tr"); 
+		int techPos = 1;
+		boolean altRow = false;
+		for (int i=0; i < al.size(); i++) {
+			SNRTechnology st = al.get(i);
+			String techDisplayName = st.getTechnologyNameDisplay();
+			String implemented = st.getImplemented();
+			HTMLElement tdName = new HTMLElement("td", (altRow?"boLabelAlt":"boLabel"), techDisplayName.replace("/", " / ")+":");
+			tr.appendValue(tdName.toString());
+			String implementedValue =
+					"<select "+
+					"id =\""+st.getTechnologyColumn()+"\" "+
+					"class=\""+(altRow?"boInputAlt":"boInput")+"\" "+
+					"onChange=\"toggleTechnology("+st.getTechnologyId()+")\">";
+			implementedValue = implementedValue +
+					"<option value=\""+implemented+"\">"+implemented+"</option>";
+			if (implemented.equals("Y"))
+				implementedValue = implementedValue + "<option value=\"N\">N</option>";
+			else
+				implementedValue = implementedValue + "<option value=\"Y\">Y</option>";
+			HTMLElement tdValue = new HTMLElement("td", (altRow?"boInputAlt":"boInput"), implementedValue);
+			tr.appendValue(tdValue.toString());
+			techPos++;
+			if (techPos==6) {
+				html.append(tr.toString());
+				tr = new HTMLElement("tr");
+				techPos=1;
+				altRow=!altRow;
+			}
+		}
+		String addButtonValue = 
+				"<input type=\"button\" class=\"boButton\" "+
+				"value=\"Add\" "+
+				"title=\"Click to add new technologies\" "+
+				"onClick=\"showAddBOTechnologies()\" />";
+		HTMLElement tdAddButton = new HTMLElement("td", "boButton", addButtonValue);
+		tr.appendValue(tdAddButton.toString());
+		String deleteButtonValue = 
+				"<input type=\"button\" class=\"boButton\" "+
+				"value=\"Delete\" "+
+				"title=\"Click to delete existing technologies\" "+
+				"onClick=\"showDelBOTechnologies()\" />";
+		HTMLElement tdDeleteButton = new HTMLElement("td", "boButton", deleteButtonValue);
+		tr.appendValue(tdDeleteButton.toString());
+		html.append(tr.toString());
+		String tableEnd = "</tbody></table>";
+		html.append(tableEnd);
+		return html.toString();
+	}
+	
+	public String getBackOfficeDetailHTML(long snrId, String currentTab) {
+		StringBuilder html = new StringBuilder();
+		String tableStart = 
+				"<table style=\"table-layout:fixed;border-style:none;width:680px\">"+
+				"<col width=\"170px\"/><col width=\"170px\"/><col width=\"170px\"/><col width=\"170px\"/>"+
+				"</colgroup><tbody>";
+		String tableEnd = "</tbody></table>";
+		if ((currentTab.equals("Detailed PreCheck"))||(currentTab.equals("Final PreCheck"))) {	
+			// Display precheck details
+			String precheckType = (currentTab.equals("Detailed PreCheck")?"Detailed":"Final");
+			html.append(tableStart);
+			Collection<PreCheckList> PrecheckList = getPrecheckItemList(snrId,precheckType);
+			if (PrecheckList.isEmpty()) {
+				if (message != null) {
+					HTMLElement trBlank = new HTMLElement("tr");
+					HTMLElement tdBlank = new HTMLElement("td", "", "");
+					tdBlank.setAttribute("height", "10px");
+					trBlank.appendValue(tdBlank.toString());
+					html.append(trBlank.toString());
+					HTMLElement tr = new HTMLElement("tr");
+					HTMLElement td = new HTMLElement("td", "boLabel", message);
+					td.setAttribute("colspan", "4");
+					tr.appendValue(td.toString());
+					html.append(tr.toString());
+				} else {
+					HTMLElement trBlank = new HTMLElement("tr");
+					HTMLElement tdBlank = new HTMLElement("td", "", "");
+					tdBlank.setAttribute("height", "10px");
+					trBlank.appendValue(tdBlank.toString());
+					html.append(trBlank.toString());
+					HTMLElement tr = new HTMLElement("tr");
+					HTMLElement td = new HTMLElement("td", "boLabel",currentTab+" not relevant");
+					td.setAttribute("colspan", "4");
+					tr.appendValue(td.toString());
+					html.append(tr.toString());	
+				}
+			} else {
+				Boolean left = true;
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdBlank = new HTMLElement("td", "", "");
+				tdBlank.setAttribute("colspan", "4");
+				tdBlank.setAttribute("height", "5px");
+				String storedItemName = "";
+				String storedItemDescription = "";
+				String storedValue = "";
+				String storedStorageType = "";
+				String[] storedValues = new String[] {"","","","","","","","","","","","","","",""};
+				boolean hasFixedValues = false;
+				boolean altRow = false;
+				int storedValuePos = 0;
+				long storedPreCheckId = 0;
+				String storedPreCheckStatus = "";
+				for (Iterator<PreCheckList> it = PrecheckList.iterator(); it.hasNext(); ) {
+					PreCheckList pcl = it.next();
+					String itemName = pcl.getItemName();
+					storedPreCheckStatus = pcl.getPreCheckStatus();
+					String itemDescription = pcl.getItemDescription();
+					if (storedItemName.equals("")) {
+						storedItemName = itemName;
+						storedItemDescription = itemDescription;
+						storedValue = pcl.getStringValue();
+						storedStorageType = pcl.getStorageType();
+						storedPreCheckId = pcl.getPreCheckId();
+						tr.appendValue(tdBlank.toString());
+						html.append(tr.toString());
+						HTMLElement trStatus = new HTMLElement("tr");
+						HTMLElement tdStatus = new HTMLElement
+													("td", "boStatus", "<b>Status:</b> "+storedPreCheckStatus);
+						trStatus.appendValue(tdStatus.toString());
+						html.append(trStatus.toString());
+						tr.appendValue(tdBlank.toString());
+						html.append(tr.toString());
+					}
+					if (storedItemName.equals(itemName)) {
+						if (pcl.getFixedValuesInd().equals("Y")) {
+							storedValues[storedValuePos] = pcl.getStringValueOption();
+							storedValuePos++;
+							hasFixedValues = true;
+						}
+					} else {
+						String itemValue =
+								"<input type=\"text\" "+
+								"id =\""+storedItemName.replace(" ", "")+"\" "+
+								"onChange=\"recordPreCheckUpdate("+storedPreCheckId+
+								",'"+storedItemName.replace(" ", "") +
+								"','"+
+								storedItemName.replace(" ", "_") +
+								"','"+
+								storedStorageType +
+								"')\" "+
+								"value=\""+storedValue+"\" "+
+								"class=\""+(altRow?"boInputAlt":"boInput")+"\" "+
+								"style=\"cursor:pointer;width:88%;\" />";
+						if (hasFixedValues) {
+							itemValue = 
+								"<select "+
+								"id =\""+storedItemName.replace(" ", "")+"\" "+
+								"class=\""+(altRow?"boInputAlt":"boInput")+"\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"recordPreCheckUpdate("+storedPreCheckId+
+								",'"+storedItemName.replace(" ", "") +
+								"','"+
+								storedItemName.replace(" ", "_") +
+								"','"+
+								storedStorageType +
+								"')\" "+
+								">";
+							itemValue= itemValue+
+									"<option value=\""+storedValue+"\">"+storedValue+"</option>";
+							if (storedStorageType.startsWith("YNString")) {
+								if (storedValue.startsWith("Y")) {
+									itemValue= itemValue+
+												"<option value=\"N\">N</option>";
+								} else {
+									itemValue= itemValue+
+											"<option value=\"Y\">Y</option>";
+									
+								}
+							}
+							for (int i=0; i<storedValues.length; i++) {
+								String nextVal = storedValues[i];
+								if ((!nextVal.equals(""))&&(!nextVal.equals(storedValue))) {
+									itemValue= itemValue+
+												"<option value=\""+nextVal+"\">"+nextVal+"</option>";
+								}
+							}
+							itemValue = itemValue +
+										"</select>";
+						}
+						if (left) {
+							tr = new HTMLElement("tr");
+							HTMLElement tdld = new HTMLElement
+													("td", (altRow?"boLabelAlt":"boLabel"), storedItemDescription+":");
+							tr.appendValue(tdld.toString());
+							HTMLElement tdlv = new HTMLElement("td", (altRow?"boInputAlt":"boInput"), itemValue);
+							tr.appendValue(tdlv.toString());
+						}
+						if (!left) {
+							HTMLElement tdrd = new HTMLElement("td", 
+													(altRow?"boLabelAlt":"boLabel"), storedItemDescription+":");
+							tr.appendValue(tdrd.toString());
+							HTMLElement tdrv = new HTMLElement("td", (altRow?"boInputAlt":"boInput"), itemValue);
+							tr.appendValue(tdrv.toString());
+							html.append(tr.toString());
+							altRow = !altRow;
+						}
+						left = !left;
+						storedItemName = itemName;
+						storedItemDescription = itemDescription;
+						storedValue = pcl.getStringValue();
+						storedStorageType = pcl.getStorageType();
+						storedPreCheckId = pcl.getPreCheckId();
+						storedValuePos = 0;
+						storedValues = new String[] {"","","","","","","","","","","","","","",""};
+						hasFixedValues = false;
+						if (pcl.getFixedValuesInd().equals("Y")) {
+							storedValues[storedValuePos] = pcl.getStringValueOption();
+							storedValuePos++;
+							hasFixedValues = true;
+						}
+					} 				
+				}
+				String itemValue =
+						"<input type=\"text\" "+
+						"id =\""+storedItemName.replace(" ", "")+"\" "+
+						"onChange=\"recordPreCheckUpdate("+storedPreCheckId+
+						",'"+storedItemName.replace(" ", "") +
+						"','"+
+						storedItemName.replace(" ", "_") +
+						"','"+
+						storedStorageType +
+						"')\" "+
+						"value=\""+storedValue+"\" "+
+						"class=\""+(altRow?"boInputAlt":"boInput")+"\" "+
+						"style=\"cursor:pointer;width:88%;\" />";
+				if (hasFixedValues) {
+					itemValue = 
+						"<select "+
+						"id =\""+storedItemName.replace(" ", "")+"\" "+
+						"class=\""+(altRow?"boInputAlt":"boInput")+"\" "+	
+						"style=\"width:95%;\" "+					
+						"onChange=\"recordPreCheckUpdate("+storedPreCheckId+
+						",'"+storedItemName.replace(" ", "") +
+						"','"+
+						storedItemName.replace(" ", "_") +
+						"','"+
+						storedStorageType +
+						"')\" "+
+						">";
+					itemValue= itemValue+
+							"<option value=\""+storedValue+"\">"+storedValue+"</option>";
+					if (storedStorageType.startsWith("YNString")) {
+						if (storedValue.startsWith("Y")) {
+							itemValue= itemValue+
+										"<option value=\"N\">N</option>";
+						} else {
+							itemValue= itemValue+
+									"<option value=\"Y\">Y</option>";
+							
+						}
+					}
+					for (int i=0; i<storedValues.length; i++) {
+						String nextVal = storedValues[i];
+						if ((!nextVal.equals(""))&&(!nextVal.equals(storedValue))) {
+							itemValue= itemValue+
+										"<option value=\""+nextVal+"\">"+nextVal+"</option>";
+						}
+					}
+					itemValue = itemValue +
+								"</select>";
+				}
+				if (left) {
+					tr = new HTMLElement("tr");
+					HTMLElement tdld = new HTMLElement("td", (altRow?"boLabelAlt":"boLabel"), storedItemDescription+":");
+					tr.appendValue(tdld.toString());
+					HTMLElement tdlv = new HTMLElement("td", (altRow?"boInputAlt":"boInput"), itemValue);
+					tr.appendValue(tdlv.toString());
+					html.append(tr.toString());
+				}
+				if (!left) {
+					HTMLElement tdrd = new HTMLElement("td", (altRow?"boLabelAlt":"boLabel"), storedItemDescription+":");
+					tr.appendValue(tdrd.toString());
+					HTMLElement tdrv = new HTMLElement("td", (altRow?"boInputAlt":"boInput"), itemValue);
+					tr.appendValue(tdrv.toString());
+					html.append(tr.toString());
+				}
+				tr = new HTMLElement("tr");
+				tr.appendValue(tdBlank.toString());
+				html.append(tr.toString());
+				HTMLElement trButtons = new HTMLElement("tr");
+				HTMLElement tdButtons = new HTMLElement(
+						"td", 
+						"boButton", 
+						"<input type=\"button\" class=\"boButtonRed\" "+
+						"value=\"Update\" "+
+						"style=\"width:20%;\" "+
+						"title=\"Click to apply updates to precheck\" "+
+						"onClick=\"updatePreCheck()\" />"+
+						"&nbsp;"+
+						"<input type=\"button\" class=\"boButton\" "+
+						"style=\"width:20%;\" "+
+						"value=\"Add Commentary\" "+
+						"title=\"Click to add precheck commentary\" "+
+						"onClick=\"addPreCheckCommentary("+storedPreCheckId+")\" />"+
+						"&nbsp;"+
+						"<input type=\"button\" class=\"boButton\" "+
+						"style=\"width:20%;\" "+
+						"value=\"View Commentary\" "+
+						"title=\"Click to view commentary\" "+
+						"onClick=\"viewCommentary()\" />");
+					tdButtons.setAttribute("align", "center");
+					tdButtons.setAttribute("colspan", "3");
+					trButtons.appendValue(tdButtons.toString());
+					HTMLElement tdCompleteButton = new HTMLElement(
+							"td", 
+							"boButton", 
+							"<input type=\"button\" class=\"boButtonFire\" "+
+							(storedPreCheckStatus.startsWith("Completed")?"Disabled ":"") +
+							"value=\"Complete\" "+
+							"style=\"width:60%;\" "+
+							"title=\"Click to complete precheck"+
+							(storedPreCheckStatus.startsWith("Completed")?"(disabled)":"")+
+							"\" "+
+							"onClick=\"completePreCheck("+storedPreCheckId+")\" />");
+					tdCompleteButton.setAttribute("align", "center");
+					trButtons.appendValue(tdCompleteButton.toString());
+				html.append(trButtons.toString());
+			}
+			html.append(tableEnd);
+		} else if ((currentTab.equals("Planning and Scripting"))) {
+			Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetPlanningScriptingTab(?)}");
+		    	cstmt.setLong(1, snrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String ef345Date = rs.getString(1);
+						String siteDataRequested = rs.getString(2);
+						String idfRequested = rs.getString(3);
+						String cellsPlanned2G = rs.getString(4);
+						String cellsPlanned3G = rs.getString(5);
+						String cellsPlanned4G = rs.getString(6);
+						String plannedDate = rs.getString(7);
+						String workDetails = rs.getString(8);
+						html.append(tableStart);
+						HTMLElement trBlank = new HTMLElement("tr");
+						HTMLElement tdBlank = new HTMLElement("td", "", "");
+						tdBlank.setAttribute("colspan", "4");
+						tdBlank.setAttribute("height", "5px");
+						trBlank.appendValue(tdBlank.toString());
+						html.append(trBlank.toString());
+						HTMLElement trEF345 = new HTMLElement("tr");
+						HTMLElement tdEF345Literal = new HTMLElement("td", "boLabel", "EF345 Sign Off Date:");
+						trEF345.appendValue(tdEF345Literal.toString());
+						HTMLElement tdEF345Value = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:50%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"ef345ClaimDT\" name=\"ef345ClaimDT\" "+
+								"value=\""+ef345Date+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('ef345ClaimDT','ddMMyyyy','arrow',undefined,undefined,undefined,undefined,true)\" style=\"cursor:pointer\"/>");
+						trEF345.appendValue(tdEF345Value.toString());
+						html.append(trEF345.toString());
+						html.append(trBlank.toString());
+						HTMLElement trSiteDataRequested = new HTMLElement("tr");
+						HTMLElement tdSiteDataRequestedLiteral = new HTMLElement("td", "boLabelAlt", "Site Data Requested:");
+						trSiteDataRequested.appendValue(tdSiteDataRequestedLiteral.toString());
+						String siteDataRequestedValue =
+								"<select "+
+								"id =\"siteDataRequestedSelect\" "+
+								"class=\"boInputAlt\" "+
+								"style=\"width:56%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+siteDataRequested+"\">"+siteDataRequested+"</option>";
+						if (!siteDataRequested.equals("Y"))
+							siteDataRequestedValue = siteDataRequestedValue +
+								"<option value=\"Y\">Y</option>";
+						if (!siteDataRequested.equals("N"))
+							siteDataRequestedValue = siteDataRequestedValue +
+								"<option value=\"N\">N</option>";
+						if (!siteDataRequestedValue.equals("N/A"))
+							siteDataRequestedValue = siteDataRequestedValue +
+								"<option value=\"N/A\">N/A</option>";
+						siteDataRequestedValue = siteDataRequestedValue + "</select>";
+						HTMLElement tdSiteDataRequestedValue = new HTMLElement("td", "boInput", siteDataRequestedValue);
+						trSiteDataRequested.appendValue(tdSiteDataRequestedValue.toString());
+						html.append(trSiteDataRequested.toString());
+						html.append(trBlank.toString());
+						HTMLElement trIDF = new HTMLElement("tr");
+						HTMLElement tdIDFLiteral = new HTMLElement("td", "boLabel", "IDF Requested:");
+						trIDF.appendValue(tdIDFLiteral.toString());
+						String idfValue =
+								"<select "+
+								"id =\"idfRequestedSelect\" "+
+								"class=\"boInput\" "+
+								"style=\"width:56%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+idfRequested+"\">"+idfRequested+"</option>";
+						if (!idfRequested.equals("Y"))
+							idfValue = idfValue +
+								"<option value=\"Y\">Y</option>";
+						if (!idfRequested.equals("N"))
+							idfValue = idfValue +
+								"<option value=\"N\">N</option>";
+						if (!idfRequested.equals("N/A"))
+							idfValue = idfValue +
+								"<option value=\"N/A\">N/A</option>";
+						idfValue = idfValue + "</select>";
+						HTMLElement tdIDFValue = new HTMLElement("td", "boInput", idfValue);
+						trIDF.appendValue(tdIDFValue.toString());
+						html.append(trIDF.toString());
+						html.append(trBlank.toString());
+						HTMLElement trCellsPlanned = new HTMLElement("tr");
+						HTMLElement tdCellsPlannedLiteral = new HTMLElement("td", "boLabelAlt", "Cells Planned:");
+						trCellsPlanned.appendValue(tdCellsPlannedLiteral.toString());
+						String cellsPlanned2GValue =
+								"2G&nbsp;&nbsp;&nbsp;<select "+
+								"id =\"cellsPlanned2GSelect\" "+
+								"class=\"boInputAlt\" "+
+								"style=\"width:60%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+cellsPlanned2G+"\">"+cellsPlanned2G+"</option>";
+						if (!cellsPlanned2G.equals("Y"))
+							cellsPlanned2GValue = cellsPlanned2GValue +
+								"<option value=\"Y\">Y</option>";
+						if (!cellsPlanned2G.equals("N"))
+							cellsPlanned2GValue = cellsPlanned2GValue +
+								"<option value=\"N\">N</option>";
+						if (!cellsPlanned2G.equals("N/A"))
+							cellsPlanned2GValue = cellsPlanned2GValue +
+								"<option value=\"N/A\">N/A</option>";
+						cellsPlanned2G = cellsPlanned2G + "</select>";
+						HTMLElement tdCellsPlanned2GValue = new HTMLElement("td", "boInputAlt", cellsPlanned2GValue);
+						trCellsPlanned.appendValue(tdCellsPlanned2GValue.toString());
+						String cellsPlanned3GValue =
+								"3G&nbsp;&nbsp;&nbsp;<select "+
+								"id =\"cellsPlanned3GSelect\" "+
+								"class=\"boInputAlt\" "+
+								"style=\"width:60%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+cellsPlanned3G+"\">"+cellsPlanned3G+"</option>";
+						if (!cellsPlanned3G.equals("Y"))
+							cellsPlanned3GValue = cellsPlanned3GValue +
+								"<option value=\"Y\">Y</option>";
+						if (!cellsPlanned3G.equals("N"))
+							cellsPlanned3GValue = cellsPlanned3GValue +
+								"<option value=\"N\">N</option>";
+						if (!cellsPlanned3G.equals("N/A"))
+							cellsPlanned3GValue = cellsPlanned3GValue +
+								"<option value=\"N/A\">N/A</option>";
+						cellsPlanned3G = cellsPlanned3G + "</select>";
+						HTMLElement tdCellsPlanned3GValue = new HTMLElement("td", "boInputAlt", cellsPlanned3GValue);
+						trCellsPlanned.appendValue(tdCellsPlanned3GValue.toString());
+						String cellsPlanned4GValue =
+								"4G&nbsp;&nbsp;&nbsp;<select "+
+								"id =\"cellsPlanned4GSelect\" "+
+								"class=\"boInputAlt\" "+
+								"style=\"width:60%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+cellsPlanned4G+"\">"+cellsPlanned4G+"</option>";
+						if (!cellsPlanned4G.equals("Y"))
+							cellsPlanned4GValue = cellsPlanned4GValue +
+								"<option value=\"Y\">Y</option>";
+						if (!cellsPlanned4G.equals("N"))
+							cellsPlanned4GValue = cellsPlanned4GValue +
+								"<option value=\"N\">N</option>";
+						if (!cellsPlanned4G.equals("N/A"))
+							cellsPlanned4GValue = cellsPlanned4GValue +
+								"<option value=\"N/A\">N/A</option>";
+						cellsPlanned4G = cellsPlanned4G + "</select>";
+						HTMLElement tdCellsPlanned4GValue = new HTMLElement("td", "boInputAlt", cellsPlanned4GValue);
+						trCellsPlanned.appendValue(tdCellsPlanned4GValue.toString());
+						html.append(trCellsPlanned);
+						html.append(trBlank.toString());
+						HTMLElement trPlannedDate = new HTMLElement("tr");
+						HTMLElement tdPlannedDateLiteral = new HTMLElement("td", "boLabel", "Planned Date:");
+						trPlannedDate.appendValue(tdPlannedDateLiteral.toString());
+						HTMLElement tdPlannedDateValue = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:50%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"plannedDate\" name=\"plannedDate\" "+
+								"value=\""+plannedDate+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('plannedDate','ddMMyyyy','arrow',undefined,undefined,undefined,undefined,true)\" style=\"cursor:pointer\"/>");
+						trPlannedDate.appendValue(tdPlannedDateValue.toString());
+						html.append(trPlannedDate.toString());
+						html.append(trBlank.toString());
+						HTMLElement trWorkDetails = new HTMLElement("tr");
+						HTMLElement tdWorkDetailsLiteral = new HTMLElement("td", "boLabelAlt", "Work Details:");
+						trWorkDetails.appendValue(tdWorkDetailsLiteral.toString());
+						HTMLElement tdWorkDetailsValue = new HTMLElement(
+								"td",
+								"boInputAlt",
+								"<textarea "+
+								"class=\"boInputAlt\" "+
+								"style=\"resize:none;;\" "+
+								"placeholder=\"Enter work details for the Field Engineer\" "+
+								"rows=\"4\" cols=\"60\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"workDetails\" name=\"workDetails\" >"+
+								workDetails+
+								"</textarea>" );
+						tdWorkDetailsValue.setAttribute("colspan", "3");
+						trWorkDetails.appendValue(tdWorkDetailsValue.toString());
+						html.append(trWorkDetails.toString());
+						html.append(trBlank.toString());						
+						HTMLElement trButtons = new HTMLElement("tr");
+						HTMLElement tdButtons = new HTMLElement(
+								"td", 
+								"boButton", 
+								"<input type=\"button\" class=\"boButtonRed\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Update\" "+
+								"title=\"Click to apply updates\" "+
+								"onClick=\"updateImplementation()\" />"+
+								"&nbsp:"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Add Commentary\" "+
+								"title=\"Click to add commentary\" "+
+								"onClick=\"addImplementationCommentary()\" />"+
+								"&nbsp:"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"View Commentary\" "+
+								"title=\"Click to view commentary\" "+
+								"onClick=\"viewCommentary()\" />"+
+								"&nbsp;"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Additional Details\" "+
+								"title=\"Click to view additional details\" "+
+								"onClick=\"additionalDetails()\" />");
+						tdButtons.setAttribute("align", "center");
+						tdButtons.setAttribute("colspan", "4");
+						trButtons.appendValue(tdButtons.toString());
+						html.append(trButtons.toString());
+						html.append(tableEnd);
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetPlanningScriptingTab(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    	html.append(message);
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		} else if ((currentTab.equals("I and C Integration"))) {
+			Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetICIntegrationTab(?)}");
+		    	cstmt.setLong(1, snrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String implementationStartDT = rs.getString(1);
+						String implementationEndDT = rs.getString(2);
+						String impOutageStartDT = rs.getString(3);
+						String impOutageEndDT = rs.getString(4);
+						String activeAlarmsInd = rs.getString(5);
+						String healthChecksInd = rs.getString(6);
+						String HOPCompleted = rs.getString(7);
+						String hopFilename = rs.getString(8);
+						String SFRCompleted = rs.getString(9);
+						String ef360Date = rs.getString(10);
+						String ef390Date = rs.getString(11);
+						String implementationStatus = rs.getString(12);
+						String abortType = rs.getString(13);
+						String incTicketNo = rs.getString(14);
+						String siteIssues = rs.getString(15);
+						html.append(tableStart);
+						HTMLElement trBlank = new HTMLElement("tr");
+						HTMLElement tdBlank = new HTMLElement("td", "", "");
+						tdBlank.setAttribute("colspan", "4");
+						tdBlank.setAttribute("height", "5px");
+						trBlank.appendValue(tdBlank.toString());
+						HTMLElement trSiteIssues = new HTMLElement("tr");
+						HTMLElement tdSiteIssuesLiteral = new HTMLElement("td", "boLabelAlt", "Site Issues:");
+						trSiteIssues.appendValue(tdSiteIssuesLiteral.toString());
+						String siteIssuesValue = 
+								"<textarea "+
+								"class=\"boInputAlt\" "+
+								"style=\"resize:none;;\" "+
+								"placeholder=\"Enter issues for the site (mandatory)\" "+
+								"rows=\"2\" cols=\"65\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"siteIssues\" name=\"siteIssues\" >"+
+								siteIssues+
+								"</textarea>";
+						HTMLElement tdSiteIssuesValue = new HTMLElement("td","boLabelAlt",siteIssuesValue);
+						tdSiteIssuesValue.setAttribute("colspan", "3");
+						trSiteIssues.appendValue(tdSiteIssuesValue.toString());
+						html.append(trSiteIssues.toString());
+						HTMLElement trImpDTs = new HTMLElement("tr");
+						HTMLElement tdImpStartDTLiteral = new HTMLElement("td", "boLabel", "Implementation Start:");
+						trImpDTs.appendValue(tdImpStartDTLiteral.toString());
+						HTMLElement tdImpStartDTValue = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"impStartDT\" name=\"impStartDT\" "+
+								"value=\""+implementationStartDT+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('impStartDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>");
+						trImpDTs.appendValue(tdImpStartDTValue.toString());
+						HTMLElement tdImpEndDTLiteral = new HTMLElement("td", "boLabel", "Implementation End:");
+						trImpDTs.appendValue(tdImpEndDTLiteral.toString());
+						HTMLElement tdimpEndDTValue = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"impEndDT\" name=\"impEndDT\" "+
+								"value=\""+implementationEndDT+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('impEndDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>");
+						trImpDTs.appendValue(tdimpEndDTValue.toString());
+						html.append(trImpDTs.toString());	
+						HTMLElement trOutageDTs = new HTMLElement("tr");
+						HTMLElement tdOutageStartDTLiteral = new HTMLElement("td", "boLabelAlt", "Outage Start:");
+						trOutageDTs.appendValue(tdOutageStartDTLiteral.toString());
+						HTMLElement tdOutageStartDTValue = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInputAlt\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"outageStartDT\" name=\"outageStartDT\" "+
+								"value=\""+impOutageStartDT+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('outageStartDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>");
+						trOutageDTs.appendValue(tdOutageStartDTValue.toString());
+						HTMLElement tdOutageEndDTLiteral = new HTMLElement("td", "boLabelAlt", "Outage End:");
+						trOutageDTs.appendValue(tdOutageEndDTLiteral.toString());
+						HTMLElement tdOutageEndDTValue = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInputAlt\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"outageEndDT\" name=\"outageEndDT\" "+
+								"value=\""+impOutageEndDT+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('outageEndDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>");
+						trOutageDTs.appendValue(tdOutageEndDTValue.toString());
+						html.append(trOutageDTs.toString());
+						HTMLElement trInds = new HTMLElement("tr");
+						HTMLElement tdNewAlarmsLiteral = new HTMLElement("td", "boLabel", "New Alarms:");
+						trInds.appendValue(tdNewAlarmsLiteral.toString());						
+						String newAlarmsValue =
+								"<select "+
+								"id =\"newAlarmsSelect\" "+
+								"style=\"width:95%;\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+activeAlarmsInd+"\">"+activeAlarmsInd+"</option>";
+						if (!activeAlarmsInd.equals("OK"))
+							newAlarmsValue = newAlarmsValue +
+								"<option value=\"OK\">OK</option>";
+						if (!activeAlarmsInd.equals("Not OK"))
+							newAlarmsValue = newAlarmsValue +
+								"<option value=\"Not OK\">Not OK</option>";
+						if (!activeAlarmsInd.equals("N/A"))
+							newAlarmsValue = newAlarmsValue +
+								"<option value=\"N/A\">N/A</option>";
+						newAlarmsValue = newAlarmsValue + "</select>";
+						HTMLElement tdNewAlarmsValue = new HTMLElement("td", "boInput", newAlarmsValue);
+						trInds.appendValue(tdNewAlarmsValue.toString());						
+						HTMLElement tdHealthChecksLiteral = new HTMLElement("td", "boLabel", "Health Checks:");
+						trInds.appendValue(tdHealthChecksLiteral.toString());						
+						String healthChecksValue =
+								"<select "+
+								"id =\"healthChecksSelect\" "+
+								"class=\"boInput\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+healthChecksInd+"\">"+healthChecksInd+"</option>";
+						if (!healthChecksInd.equals("OK"))
+							healthChecksValue = healthChecksValue +
+								"<option value=\"OK\">OK</option>";
+						if (!healthChecksInd.equals("Not OK"))
+							healthChecksValue = healthChecksValue +
+								"<option value=\"Not OK\">Not OK</option>";
+						if (!healthChecksInd.equals("N/A"))
+							healthChecksValue = healthChecksValue +
+								"<option value=\"N/A\">N/A</option>";
+						healthChecksValue = healthChecksValue + "</select>";
+						HTMLElement tdHealthChecksValue = new HTMLElement("td", "boInput", healthChecksValue);
+						trInds.appendValue(tdHealthChecksValue.toString());							
+						html.append(trInds.toString());
+						HTMLElement trHOP = new HTMLElement("tr");
+						HTMLElement tdHOPCompletedLiteral = new HTMLElement("td", "boLabelAlt", "HOP Completed:");
+						trHOP.appendValue(tdHOPCompletedLiteral.toString());						
+						String HOPCompletedValue =
+								"<select "+
+								"id =\"HOPCompletedSelect\" "+
+								"class=\"boInput\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+HOPCompleted+"\">"+HOPCompleted+"</option>";
+						if (!HOPCompleted.equals("Y"))
+							HOPCompletedValue = HOPCompletedValue +
+								"<option value=\"Y\">Y</option>";
+						if (!HOPCompleted.equals("N"))
+							HOPCompletedValue = HOPCompletedValue +
+								"<option value=\"N\">N</option>";
+						if (!HOPCompleted.equals("N/A"))
+							HOPCompletedValue = HOPCompletedValue +
+								"<option value=\"N/A\">N/A</option>";
+						HOPCompletedValue = HOPCompletedValue + "</select>";
+						HTMLElement tdHOPCompletedValue = new HTMLElement("td", "boInputAlt", HOPCompletedValue);
+						trHOP.appendValue(tdHOPCompletedValue.toString());						
+						HTMLElement tdHOPFilenameLiteral = new HTMLElement("td", "boLabelAlt", "HOP Filename:");
+						trHOP.appendValue(tdHOPFilenameLiteral.toString());						
+						String HOPFilenameValue =
+								"<input style=\"width:88%\" type=\"text\" "+
+										"class=\"boInput\" "+
+										"onChange=\"flagPendingUpdates()\" "+
+										"id=\"hopFilename\" name=\"hopFilename\" "+
+										"value=\""+hopFilename+"\" >";
+						HTMLElement tdHOPFilenameValue = new HTMLElement("td", "boInputAlt", HOPFilenameValue);
+						trHOP.appendValue(tdHOPFilenameValue.toString());							
+						html.append(trHOP.toString());							
+						HTMLElement trSFR = new HTMLElement("tr");
+						HTMLElement tdSFRCompletedLiteral = new HTMLElement("td", "boLabel", "SFR Completed:");
+						trSFR.appendValue(tdSFRCompletedLiteral.toString());						
+						String SFRCompletedValue =
+								"<select "+
+								"id =\"SFRCompletedSelect\" "+
+								"class=\"boInput\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+SFRCompleted+"\">"+SFRCompleted+"</option>";
+						if (!SFRCompleted.equals("Y"))
+							SFRCompletedValue = SFRCompletedValue +
+								"<option value=\"Y\">Y</option>";
+						if (!SFRCompleted.equals("N"))
+							SFRCompletedValue = SFRCompletedValue +
+								"<option value=\"N\">N</option>";
+						if (!SFRCompleted.equals("N/A"))
+							SFRCompletedValue = SFRCompletedValue +
+								"<option value=\"N/A\">N/A</option>";
+						SFRCompletedValue = SFRCompletedValue + "</select>";
+						HTMLElement tdSFRCompletedValue = new HTMLElement("td", "boInput", SFRCompletedValue);
+						trSFR.appendValue(tdSFRCompletedValue.toString());						
+						HTMLElement tdINCTicketNoLiteral = new HTMLElement("td", "boLabel", "INC Ticket Number:");
+						trSFR.appendValue(tdINCTicketNoLiteral.toString());						
+						String INCTicketNoValue =
+								"<input style=\"width:88%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"incTicketNo\" name=\"incTicketNo\" "+
+								"value=\""+incTicketNo+"\" >";
+						HTMLElement tdINCTicketNoValue = new HTMLElement("td", "boInput", INCTicketNoValue);
+						trSFR.appendValue(tdINCTicketNoValue.toString());							
+						html.append(trSFR.toString());						
+						HTMLElement trEFDates = new HTMLElement("tr");
+						HTMLElement tdEF360Literal = new HTMLElement("td", "boLabelAlt", "EF360 Sign Off Date:");
+						trEFDates.appendValue(tdEF360Literal.toString());
+						HTMLElement tdEF360Value = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInputAlt\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"ef360Date\" name=\"ef360Date\" "+
+								"value=\""+ef360Date+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('ef360Date','ddMMyyyy','arrow',undefined,undefined,undefined,undefined,true)\" style=\"cursor:pointer\"/>");
+						trEFDates.appendValue(tdEF360Value.toString());
+						HTMLElement tdEF390Literal = new HTMLElement("td", "boLabelAlt", "EF390 Sign Off Date:");
+						trEFDates.appendValue(tdEF390Literal.toString());
+						HTMLElement tdEF390Value = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInputAlt\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"ef390Date\" name=\"ef390Date\" "+
+								"value=\""+ef390Date+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('ef390Date','ddMMyyyy','arrow',undefined,undefined,undefined,undefined,true)\" style=\"cursor:pointer\"/>");
+						trEFDates.appendValue(tdEF390Value.toString());
+						html.append(trEFDates.toString());					
+						html.append(trBlank.toString());
+						HTMLElement trButtons = new HTMLElement("tr");
+						HTMLElement tdButtons = new HTMLElement(
+								"td", 
+								"boButton", 
+								"<input type=\"button\" class=\"boButtonRed\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Update\" "+
+								"title=\"Click to apply updates\" "+
+								"onClick=\"updateImplementation()\" />"+
+								"&nbsp;"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Add Commentary\" "+
+								"title=\"Click to add commentary\" "+
+								"onClick=\"addImplementationCommentary()\" />"+
+								"&nbsp;"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"View Commentary\" "+
+								"title=\"Click to view commentary\" "+
+								"onClick=\"viewCommentary()\" />"+
+								"&nbsp;"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Additional Details\" "+
+								"title=\"Click to view additional details\" "+
+								"onClick=\"additionalDetails()\" />");
+						tdButtons.setAttribute("align", "center");
+						tdButtons.setAttribute("colspan", "4");
+						trButtons.appendValue(tdButtons.toString());
+						html.append(trButtons.toString());
+						html.append(trBlank.toString());
+						HTMLElement trComplete = new HTMLElement("tr");
+						HTMLElement tdImplementationStatusLiteral = new HTMLElement("td", "boLabelAlt", "Implementation Status:");
+						trComplete.appendValue(tdImplementationStatusLiteral.toString());
+						String implementationStatusValue =
+								"<select "+
+								"id =\"implementationStatusSelect\" "+
+								"style=\"width:95%;\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingCompletion()\" "+
+								">"+
+								"<option value=\""+implementationStatus+"\">"+implementationStatus+"</option>";
+						if (!implementationStatus.equals("Completed"))
+							implementationStatusValue = implementationStatusValue +
+								"<option value=\"Completed\">Completed</option>";
+						if (!implementationStatus.equals("Partial"))
+							implementationStatusValue = implementationStatusValue +
+								"<option value=\"Partial\">Partial</option>";
+						if (!implementationStatus.equals("Aborted"))
+							implementationStatusValue = implementationStatusValue +
+								"<option value=\"Aborted\">Aborted</option>";
+						if (!implementationStatus.equals("Performance IP"))
+							implementationStatusValue = implementationStatusValue +
+								"<option value=\"Performance IP\">Performance IP</option>";
+						implementationStatusValue = implementationStatusValue + "</select>";
+						HTMLElement tdImplementationStatusValue = new HTMLElement("td", "boInputAlt", implementationStatusValue);
+						trComplete.appendValue(tdImplementationStatusValue.toString());	
+						HTMLElement tdAbortTypeLiteral = new HTMLElement("td", "boLabelAlt", "Abort Type:");
+						trComplete.appendValue(tdAbortTypeLiteral.toString());						
+						String abortTypeValue =
+								"<select "+
+								"id =\"abortTypeSelect\" "+
+								"class=\"boInput\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"flagPendingCompletion()\" "+
+								">"+
+								"<option value=\""+abortType+"\">"+abortType+"</option>";
+						if (!abortType.equals("Customer"))
+							abortTypeValue = abortTypeValue +
+								"<option value=\"Customer\">Customer</option>";
+						if (!abortType.equals("Devoteam"))
+							abortTypeValue = abortTypeValue +
+								"<option value=\"Devoteam\">Devoteam</option>";
+						if (!abortType.equals("Third Party"))
+							abortTypeValue = abortTypeValue +
+								"<option value=\"Third Party\">Third Party</option>";
+						if (!abortType.equals("No Fault"))
+							abortTypeValue = abortTypeValue +
+								"<option value=\"No Fault\">No Fault</option>";
+						abortTypeValue = abortTypeValue + "</select>";
+						HTMLElement tdAbortTypeValue = new HTMLElement("td", "boInputAlt", abortTypeValue);
+						trComplete.appendValue(tdAbortTypeValue.toString());							
+						html.append(trComplete.toString());
+						HTMLElement trCompleteButton = new HTMLElement("tr");
+						HTMLElement tdCompleteButtonSpacer = new HTMLElement( "td", "boButton", "");
+						tdCompleteButtonSpacer.setAttribute("colspan", "3");
+						trCompleteButton.setValue(tdCompleteButtonSpacer.toString());
+						HTMLElement tdCompleteButton = new HTMLElement(
+								"td", 
+								"boButton", 
+								"<input type=\"button\" class=\"boButtonFire\" "+
+								"style=\"width:48%;\" "+
+								"value=\"Complete\" "+
+								"title=\"Click to complete implementation\" "+
+								"onClick=\"completeImplementation()\" />");
+						tdCompleteButton.setAttribute("align", "center");
+						trCompleteButton.appendValue(tdCompleteButton.toString());
+						html.append(trCompleteButton.toString());
+						html.append(trBlank.toString());
+						html.append(tableEnd);
+						html.append(getTechnologyDetailHTML(snrId));
+					}
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetICIntegrationTab(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    	html.append(message);
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		} else if (currentTab.equals("Performance Monitoring")) {
+			Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetPerformanceMonitoringTab(?)}");
+		    	cstmt.setLong(1, snrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String performanceMonitoringStart = rs.getString(1);
+						String performanceMonitoringEnd = rs.getString(2);
+						String performanceChecks = rs.getString(3);
+						String ef400Date = rs.getString(4);
+						String ef410Date = rs.getString(5);
+						html.append(tableStart);
+						HTMLElement trBlank = new HTMLElement("tr");
+						HTMLElement tdBlank = new HTMLElement("td", "", "");
+						tdBlank.setAttribute("colspan", "4");
+						tdBlank.setAttribute("height", "5px");
+						trBlank.appendValue(tdBlank.toString());
+						html.append(trBlank.toString());
+						HTMLElement trPMTimes = new HTMLElement("tr");
+						HTMLElement tdPMStartLiteral = new HTMLElement("td","boLabel","Monitoring Start:");
+						trPMTimes.appendValue(tdPMStartLiteral.toString());
+						String pmStartValue = 
+								"<input style=\"width:88%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"value=\""+performanceMonitoringStart+"\" readonly>";
+						HTMLElement tdPMStart = new HTMLElement("td","boLabel",pmStartValue);
+						trPMTimes.appendValue(tdPMStart.toString());
+						HTMLElement tdPMEndLiteral = new HTMLElement("td","boLabel","Monitoring End:");
+						trPMTimes.appendValue(tdPMEndLiteral.toString());
+						String pmEndValue = 
+								"<input style=\"width:88%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"value=\""+performanceMonitoringEnd+"\" readonly>";
+						HTMLElement tdPMEnd = new HTMLElement("td","boLabel",pmEndValue);
+						trPMTimes.appendValue(tdPMEnd.toString());
+						html.append(trPMTimes.toString());
+						html.append(trBlank.toString());
+						HTMLElement trPerformanceChecks = new HTMLElement("tr");
+						HTMLElement tdPerformanceChecksLiteral = new HTMLElement("td", "boLabelAlt", "Performance Checks:");
+						trPerformanceChecks.appendValue(tdPerformanceChecksLiteral.toString());
+						String performanceChecksValue =
+								"<select "+
+								"id =\"performanceChecksSelect\" "+
+								"class=\"boInputAlt\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+performanceChecks+"\">"+performanceChecks+"</option>";
+						if (!performanceChecks.equals("Passed"))
+							performanceChecksValue = performanceChecksValue +
+								"<option value=\"Passed\">Passed</option>";
+						if (!performanceChecks.equals("Issues Found"))
+							performanceChecksValue = performanceChecksValue +
+								"<option value=\"Issues Found\">Issues Found</option>";
+						performanceChecksValue = performanceChecksValue + "</select>";
+						HTMLElement tdPerformanceChecksValue = new HTMLElement("td", "boInputAlt", performanceChecksValue);
+						trPerformanceChecks.appendValue(tdPerformanceChecksValue.toString());
+						html.append(trPerformanceChecks.toString());						
+						HTMLElement trEF400 = new HTMLElement("tr");
+						HTMLElement tdEF400Literal = new HTMLElement("td", "boLabel", "EF400 Sign Off Date:");
+						trEF400.appendValue(tdEF400Literal.toString());
+						HTMLElement tdEF400Value = new HTMLElement(
+								"td", 
+								"boInput", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInput\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"ef400ClaimDT\" name=\"ef400ClaimDT\" "+
+								"value=\""+ef400Date+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('ef400ClaimDT','ddMMyyyy','arrow',undefined,undefined,undefined,undefined,true)\" style=\"cursor:pointer\"/>");
+						trEF400.appendValue(tdEF400Value.toString());
+						html.append(trEF400.toString());
+						html.append(trBlank.toString());
+						HTMLElement trEF410 = new HTMLElement("tr");
+						HTMLElement tdEF410Literal = new HTMLElement("td", "boLabelAlt", "EF410 Sign Off Date:");
+						trEF410.appendValue(tdEF410Literal.toString());
+						HTMLElement tdEF410Value = new HTMLElement(
+								"td", 
+								"boInputAlt", 
+								"<input style=\"width:75%\" type=\"text\" "+
+								"class=\"boInputAlt\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								"id=\"ef410ClaimDT\" name=\"ef410ClaimDT\" "+
+								"value=\""+ef410Date+"\" readonly>" +
+								"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal ('ef410ClaimDT','ddMMyyyy','arrow',undefined,undefined,undefined,undefined,true)\" style=\"cursor:pointer\"/>");
+						trEF410.appendValue(tdEF410Value.toString());
+						html.append(trEF410.toString());
+						html.append(trBlank.toString());						
+						HTMLElement trButtons = new HTMLElement("tr");
+						HTMLElement tdButtons = new HTMLElement(
+								"td", 
+								"boButton", 
+								"<input type=\"button\" class=\"boButtonRed\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Update\" "+
+								"title=\"Click to apply updates\" "+
+								"onClick=\"updateImplementation()\" />"+
+								"&nbsp;"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Add Commentary\" "+
+								"title=\"Click to add commentary\" "+
+								"onClick=\"addImplementationCommentary()\" />"+
+								"&nbsp;"+ 
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"View Commentary\" "+
+								"title=\"Click to view commentary\" "+
+								"onClick=\"viewCommentary()\" />"+
+								"&nbsp;"+
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Additional Details\" "+
+								"title=\"Click to view additional details\" "+
+								"onClick=\"additionalDetails()\" />");
+						tdButtons.setAttribute("align", "center");
+						tdButtons.setAttribute("colspan", "4");
+						trButtons.appendValue(tdButtons.toString());
+						html.append(trButtons.toString());
+						html.append(tableEnd);
+					}					
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetPerformanceMonitoringTab(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    	html.append(message);
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		} else if (currentTab.equals("Sign Off and HOP")) {
+			Connection conn = null;
+	    	CallableStatement cstmt = null;
+		    try {
+		    	conn = DriverManager.getConnection(url);
+		    	cstmt = conn.prepareCall("{call GetSignOffHOPTab(?)}");
+		    	cstmt.setLong(1, snrId);
+				boolean found = cstmt.execute();
+				if (found) {
+					ResultSet rs = cstmt.getResultSet();
+					while (rs.next()) {
+						String hopUploaded = rs.getString(1);
+						String sfrUploaded = rs.getString(2);
+						html.append(tableStart);
+						HTMLElement trBlank = new HTMLElement("tr");
+						HTMLElement tdBlank = new HTMLElement("td", "", "");
+						tdBlank.setAttribute("colspan", "4");
+						tdBlank.setAttribute("height", "5px");
+						trBlank.appendValue(tdBlank.toString());
+						html.append(trBlank.toString());
+						HTMLElement trHOPUploaded = new HTMLElement("tr");
+						HTMLElement tdHOPUploadedLiteral = new HTMLElement("td", "boLabel", "HOP Uploaded:");
+						trHOPUploaded.appendValue(tdHOPUploadedLiteral.toString());
+						String hopUploadedValue =
+								"<select "+
+								"id =\"HOPUploadedSelect\" "+
+								"class=\"boInput\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+hopUploaded+"\">"+hopUploaded+"</option>";
+						if (!hopUploaded.equals("Y"))
+							hopUploadedValue = hopUploadedValue +
+								"<option value=\"Y\">Y</option>";
+						if (!hopUploaded.equals("N"))
+							hopUploadedValue = hopUploadedValue +
+								"<option value=\"N\">N</option>";
+						if (!hopUploaded.equals("N/A"))
+							hopUploadedValue = hopUploadedValue +
+								"<option value=\"N/A\">N/A</option>";
+						hopUploadedValue = hopUploadedValue + "</select>";
+						HTMLElement tdHOPUploadedValue = new HTMLElement("td", "boInput", hopUploadedValue);
+						trHOPUploaded.appendValue(tdHOPUploadedValue.toString());
+						html.append(trHOPUploaded.toString());	
+						html.append(trBlank.toString());
+						HTMLElement trSFRUploaded = new HTMLElement("tr");
+						HTMLElement tdSFRUploadedLiteral = new HTMLElement("td", "boLabelAlt", "SFR Uploaded:");
+						trSFRUploaded.appendValue(tdSFRUploadedLiteral.toString());
+						String sfrUploadedValue =
+								"<select "+
+								"id =\"SFRUploadedSelect\" "+
+								"class=\"boInputAlt\" "+
+								"style=\"width:95%;\" "+
+								"onChange=\"flagPendingUpdates()\" "+
+								">"+
+								"<option value=\""+sfrUploaded+"\">"+sfrUploaded+"</option>";
+						if (!sfrUploaded.equals("Y"))
+							sfrUploadedValue = sfrUploadedValue +
+								"<option value=\"Y\">Y</option>";
+						if (!sfrUploaded.equals("N"))
+							sfrUploadedValue = sfrUploadedValue +
+								"<option value=\"N\">N</option>";
+						if (!sfrUploaded.equals("N/A"))
+							sfrUploadedValue = sfrUploadedValue +
+								"<option value=\"N/A\">N/A</option>";
+						sfrUploadedValue = sfrUploadedValue + "</select>";
+						HTMLElement tdSFRUploadedValue = new HTMLElement("td", "boInputAlt", sfrUploadedValue);
+						trSFRUploaded.appendValue(tdSFRUploadedValue.toString());
+						html.append(trSFRUploaded.toString());	
+						html.append(trBlank.toString());						
+						HTMLElement trButtons = new HTMLElement("tr");
+						HTMLElement tdButtons = new HTMLElement(
+								"td", 
+								"boButton", 
+								"<input type=\"button\" class=\"boButtonRed\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Update\" "+
+								"title=\"Click to apply updates\" "+
+								"onClick=\"updateImplementation()\" />"+
+								"&nbsp;"+ 
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Add Commentary\" "+
+								"title=\"Click to add commentary\" "+
+								"onClick=\"addImplementationCommentary()\" />"+
+								"&nbsp;"+ 
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"View Commentary\" "+
+								"title=\"Click to view commentary\" "+
+								"onClick=\"viewCommentary()\" />"+
+								"&nbsp;"+ 
+								"<input type=\"button\" class=\"boButton\" "+
+								"style=\"width:15%;\" "+
+								"value=\"Additional Details\" "+
+								"title=\"Click to view additional details\" "+
+								"onClick=\"additionalDetails()\" />");
+						tdButtons.setAttribute("align", "center");
+						tdButtons.setAttribute("colspan", "4");
+						trButtons.appendValue(tdButtons.toString());
+						html.append(trButtons.toString());
+						html.append(tableEnd);
+					}					
+				}
+		    } catch (Exception ex) {
+		    	message = "Error in GetSignOffHOPTab(): " + ex.getMessage();
+		    	ex.printStackTrace();
+		    	html.append(message);
+		    } finally {
+		    	try {
+		    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+		    		if ((conn != null) && (!conn.isClosed())) conn.close();
+			    } catch (SQLException ex) {
+			    	ex.printStackTrace();
+			    }
+		    } 
+		} else {
+			html.append("#### Unexpected Tab ####");
+		}		
+		return html.toString();
+	}
+	
+	public String completePreCheck(
+			long snrId,
+			String precheckType,
+			String completionStatus,
+			String commentary,
+			String lastUpdatedBy) {
+		String updateResult = "Error: Untrapped error with CompletePreCheck";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call CompletePreCheck(?,?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, precheckType);
+	    	cstmt.setString(3, completionStatus);
+	    	cstmt.setString(4, commentary);
+	    	cstmt.setString(5, lastUpdatedBy );
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					updateResult = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in CompletePreCheck(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String addSNRCommentary(
+			long snrId,
+			long preCheckId,
+			String commentaryType,
+			String commentary,
+			String lastUpdatedBy) {
+		String updateResult = "Error: Untrapped error with addSNRCommentary";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call AddSNRCommentary(?,?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setLong(2, preCheckId);
+	    	cstmt.setString(3, commentaryType);
+	    	cstmt.setString(4, commentary);
+	    	cstmt.setString(5, lastUpdatedBy );
+			cstmt.execute();
+			updateResult = "Commentary Added";
+	    } catch (Exception ex) {
+	    	message = "Error in AddSNRCommentary(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String getCompletionStatus(Long snrId ) {
+		String result = "Not found";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetCompletionStatus(?)}");
+	    	cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetCompletionStatus(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String getScheduledDate(Long snrId ) {
+		String result = "Not found";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetScheduledDate(?)}");
+	    	cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetScheduledDAte(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String updateScriptingAndPlanning(
+			long snrId,
+			String ef345Date,
+			String siteDataRequested,
+			String idfRequested,
+			String cellsPlanned2G,
+			String cellsPlanned3G,
+			String cellsPlanned4G,
+			String plannedDate,
+			String workDetails,
+			String lastUpdatedBy) {
+		String updateResult = "Error: Untrapped error with  UpdateScriptingAndPlanning";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateScriptingAndPlanning(?,?,?,?,?,?,?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, ef345Date);
+	    	cstmt.setString(3, siteDataRequested);
+	    	cstmt.setString(4, idfRequested);
+	    	cstmt.setString(5, cellsPlanned2G );
+	    	cstmt.setString(6, cellsPlanned3G );
+	    	cstmt.setString(7, cellsPlanned4G );
+	    	cstmt.setString(8, plannedDate );
+	    	cstmt.setString(9, workDetails );
+	    	cstmt.setString(10, lastUpdatedBy );
+			cstmt.execute();
+			updateResult = "Scripting & Planning updated";
+	    } catch (Exception ex) {
+	    	message = "Error in  UpdateScriptingAndPlanning(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String updateIAndCIntegration(
+			long snrId,
+			String impStartDate,
+			String impEndDate,
+			String outageStartDate,
+			String outageEndDate,
+			String newAlarms,
+			String healthChecks,
+			String hopCompleted,
+			String hopFilename,
+			String sfrCompleted,
+			String incTicketNo,
+			String ef360Date,
+			String ef390Date,
+			String siteIssues,
+			String lastUpdatedBy) {
+		String updateResult = "Error: Untrapped error with UpdateIAndCIntergration";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateIAndCIntegration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, impStartDate );
+	    	cstmt.setString(3, impEndDate );
+	    	cstmt.setString(4, outageStartDate );
+	    	cstmt.setString(5, outageEndDate );
+	    	cstmt.setString(6, newAlarms );
+	    	cstmt.setString(7, healthChecks );
+	    	cstmt.setString(8, hopCompleted );
+	    	cstmt.setString(9, hopFilename );
+	    	cstmt.setString(10, sfrCompleted );
+	    	cstmt.setString(11, incTicketNo );
+	    	cstmt.setString(12, ef360Date );
+	    	cstmt.setString(13, ef390Date );
+	    	cstmt.setString(14, siteIssues );
+	    	cstmt.setString(15, lastUpdatedBy );
+			cstmt.execute();
+			updateResult = "I & C Integration updated";
+	    } catch (Exception ex) {
+	    	message = "Error in  UpdateIAndCIntegration(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String getCompletionValidationMessage(
+			Long snrId,
+			String implementationStatus,
+			String abortType ) {
+		String result = "Not validated";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call ValidateSiteCompletion(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, implementationStatus);
+	    	cstmt.setString(3, abortType);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in ValidateSiteCompletion(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String performanceIPSNRScreen(
+			Long snrId,
+			String lastUpdatedBy) {
+		String result = "Error: Failed to set Implementation Status to 'Performance IP' ";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call PerformanceIP_SNR_Screen(?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					if (rs.getString(1).equalsIgnoreCase("Y")) 
+						result = "Implementation Status set to 'Performance IP'";
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in PerformanceIP_SNR_Screen(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String completeSNRScreen(
+			Long snrId,
+			String implementationStatus,
+			String abortType,
+			String implementationEndDT,
+			String lastUpdatedBy) {
+		String result = "Error: Failed to complete the site";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call Complete_SNR_Screen(?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, implementationStatus);
+	    	cstmt.setString(3, StringUtil.hasNoValue(abortType)?null:abortType);
+			cstmt.setString(4, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					if (rs.getString(1).equalsIgnoreCase("Y")) {
+						// create completion report email
+						CompletionReport cr = new CompletionReport();
+						String emailResult = cr.cutdownCompletionReport(
+											snrId, 
+											implementationStatus, 
+											implementationEndDT, 
+											conn,
+											lastUpdatedBy );
+						result = "Site completed" + emailResult;
+						}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in Complete_SNR_Screen(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String toggleTechnology(
+			Long snrId,
+			Long technologyId,
+			String lastUpdatedBy) {
+		String result = "Technology updated";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call ToggleTechnology(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setLong(2, technologyId);
+			cstmt.setString(3, lastUpdatedBy);
+			cstmt.execute();
+	    } catch (Exception ex) {
+	    	message = "Error in ToggleTechnology(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    	result = "Error: "+ex.getMessage();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String getAdditionalDetailsHTML(long snrId) {
+		StringBuilder html = new StringBuilder();
+		String tableStart = 
+				"<table style=\"table-layout:fixed;border-style:none;width:1000px\">"+
+				"<col width=\"2%\"/><col width=\"14%\"/><col width=\"14%\"/><col width=\"14%\"/>"+
+				"<col width=\"14%\"/><col width=\"14%\"/><col width=\"14%\"/><col width=\"14%\"/>"+
+				"</colgroup><tbody>";
+		html.append(tableStart);
+		String tableEnd = "</tbody></table>";
+		HTMLElement trHeadTitles = new HTMLElement("tr");
+		HTMLElement tdHT0 = new HTMLElement("td","boLabelAlt","");
+		trHeadTitles.appendValue(tdHT0.toString());
+		HTMLElement tdHT1 = new HTMLElement("td","boLabelAlt","Site");
+		trHeadTitles.appendValue(tdHT1.toString());
+		HTMLElement tdHT2 = new HTMLElement("td","boLabelAlt","NR Id");
+		trHeadTitles.appendValue(tdHT2.toString());
+		HTMLElement tdHT3 = new HTMLElement("td","boLabelAlt","Sch. Date");
+		tdHT3.setAttribute("title", "Scheduled Date");
+		trHeadTitles.appendValue(tdHT3.toString());
+		HTMLElement tdHT4 = new HTMLElement("td","boLabelAlt","Status");
+		trHeadTitles.appendValue(tdHT4.toString());
+		HTMLElement tdHT5 = new HTMLElement("td","boLabelAlt","Impl.Status");
+		tdHT5.setAttribute("title", "Implementation Status");
+		trHeadTitles.appendValue(tdHT5.toString());
+		HTMLElement tdHT6 = new HTMLElement("td","boLabelAlt","NPC");
+		tdHT6.setAttribute("title", "Next PreCheck");
+		trHeadTitles.appendValue(tdHT6.toString());
+		HTMLElement tdHT7 = new HTMLElement("td","boLabelAlt","HOP Status");
+		trHeadTitles.appendValue(tdHT7.toString());
+		html.append(trHeadTitles.toString());
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetAdditionalDetails(?)}");
+	    	cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					String site = rs.getString(1);
+					String nrId = rs.getString(2);
+					String schDate = rs.getString(3);
+					String status = rs.getString(4);
+					String implStatus = rs.getString(5);
+					String nextPrecheck = rs.getString(6);
+					String hopStatus = rs.getString(7);	
+					String boEngineers = rs.getString(8);
+					String feEngineers = rs.getString(9);	
+					String crqReference = rs.getString(10);	
+					String crqStartDT = rs.getString(11);	
+					String crqEndDT = rs.getString(12);		
+					String tefReference = rs.getString(13);		
+					String crqClosureCode = rs.getString(14);	
+					String hardwareVendor = rs.getString(15);	
+					String preTestCallsDone = rs.getString(16);		
+					String postTestCallsDone = rs.getString(17);	
+					HTMLElement trHeadValues = new HTMLElement("tr");
+					HTMLElement tdHV0 = new HTMLElement("td", "boLabel", "");
+					trHeadValues.appendValue(tdHV0.toString());
+					HTMLElement tdHV1 = new HTMLElement("td", "boLabel", site);
+					trHeadValues.appendValue(tdHV1.toString());
+					HTMLElement tdHV2 = new HTMLElement("td", "boLabel", nrId);
+					trHeadValues.appendValue(tdHV2.toString());
+					HTMLElement tdHV3 = new HTMLElement("td", "boLabel", schDate);
+					trHeadValues.appendValue(tdHV3.toString());
+					HTMLElement tdHV4 = new HTMLElement("td", "boLabel", status);
+					trHeadValues.appendValue(tdHV4.toString());
+					HTMLElement tdHV5 = new HTMLElement("td", "boLabel", implStatus);
+					trHeadValues.appendValue(tdHV5.toString());
+					HTMLElement tdHV6 = new HTMLElement("td", "boLabel", nextPrecheck);
+					trHeadValues.appendValue(tdHV6.toString()); 
+					HTMLElement tdHV7 = new HTMLElement("td", "boLabel", hopStatus);
+					trHeadValues.appendValue(tdHV7.toString());					
+					html.append(trHeadValues.toString());
+					HTMLElement trBlank = new HTMLElement("tr");
+					HTMLElement tdBlank = new HTMLElement("td", "", "");
+					trBlank.appendValue(tdBlank.toString());
+					html.append(trBlank.toString());
+					HTMLElement trBO = new HTMLElement("tr");
+					HTMLElement tdBOPad = new HTMLElement("td", "", "");
+					trBO.appendValue(tdBOPad.toString());
+					HTMLElement tdBOLiteral = new HTMLElement("td", "boLabelAlt", "BO Engineer(s):");
+					trBO.appendValue(tdBOLiteral.toString());
+					String boValue = 
+							"<input style=\"width:95%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"id=\"boEngineers\" name=\"boEngineers\" "+
+							"value=\""+boEngineers+"\" readonly >";
+					HTMLElement tdBOValue = new HTMLElement("td", "boInput", boValue);
+					tdBOValue.setAttribute("colspan", "4");
+					trBO.appendValue(tdBOValue.toString());
+					html.append(trBO.toString());
+					HTMLElement trFE = new HTMLElement("tr");
+					HTMLElement tdFEPad = new HTMLElement("td", "", "");
+					trFE.appendValue(tdFEPad.toString());
+					HTMLElement tdFELiteral = new HTMLElement("td", "boLabelAlt", "FE Engineer(s):");
+					trFE.appendValue(tdFELiteral.toString());
+					String feValue = 
+							"<input style=\"width:95%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"id=\"feEngineers\" name=\"feEngineers\" "+
+							"value=\""+feEngineers+"\" readonly >";
+					HTMLElement tdFEValue = new HTMLElement("td", "boInput", feValue);
+					tdFEValue.setAttribute("colspan", "4");
+					trFE.appendValue(tdFEValue.toString());
+					String feButton =
+							"<input type=\"button\" class=\"boButton\" "+
+							"style=\"width:20%;\""+
+							"value=\"LF\" "+
+							"title=\"Click to update lead FE\" "+
+							"onClick=\"changeFE()\" />";
+					HTMLElement tdFEButton = new HTMLElement("td", "boInput", feButton);
+					trFE.appendValue(tdFEButton.toString());
+					html.append(trFE.toString());
+					HTMLElement trCRQ = new HTMLElement("tr");
+					HTMLElement tdCRQPad = new HTMLElement("td", "", "");
+					trCRQ.appendValue(tdCRQPad.toString());
+					HTMLElement tdCRQLiteral = new HTMLElement("td", "boLabelAlt", "VF CRQ:");
+					trCRQ.appendValue(tdCRQLiteral.toString());
+					HTMLElement tdCRQValue = new HTMLElement("td", "boLabel", crqReference);
+					trCRQ.appendValue(tdCRQValue.toString());
+					HTMLElement tdTEFLiteral = new HTMLElement("td", "boLabelAlt", "TEF CRQ:");
+					trCRQ.appendValue(tdTEFLiteral.toString());
+					HTMLElement tdTEFValue = new HTMLElement("td", "boLabel", tefReference);
+					trCRQ.appendValue(tdTEFValue.toString());
+					HTMLElement tdCRQClosureCodeLiteral = new HTMLElement("td", "boLabelAlt", "CRQ Closure Code:");
+					trCRQ.appendValue(tdCRQClosureCodeLiteral.toString());
+					String closureCodeValue = 
+							"<input style=\"width:95%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"id=\"crqCode\" name=\"crqCode\" "+
+							"value=\""+crqClosureCode+"\" >";
+					HTMLElement tdCRQClosureCodeValue = new HTMLElement("td", "boLabel", closureCodeValue);
+					trCRQ.appendValue(tdCRQClosureCodeValue.toString());
+					html.append(trCRQ.toString());
+					HTMLElement trCRQDT = new HTMLElement("tr");
+					HTMLElement tdCRQDTPad = new HTMLElement("td", "", "");
+					trCRQDT.appendValue(tdCRQDTPad.toString());
+					HTMLElement tdCRQStartDTLiteral = new HTMLElement("td", "boLabelAlt", "CRQ Start:");
+					trCRQDT.appendValue(tdCRQStartDTLiteral.toString());
+					HTMLElement tdCRQStartDTValue = new HTMLElement("td", "boLabel", crqStartDT);
+					trCRQDT.appendValue(tdCRQStartDTValue.toString());					
+					HTMLElement tdCRQEndDTLiteral = new HTMLElement("td", "boLabelAlt", "CRQ End:");
+					trCRQDT.appendValue(tdCRQEndDTLiteral.toString());
+					HTMLElement tdCRQEndDTValue = new HTMLElement("td", "boLabel", crqEndDT);
+					trCRQDT.appendValue(tdCRQEndDTValue.toString());
+					trCRQDT.appendValue(tdCRQDTPad.toString());
+					String closureCodeButton =
+							"<input type=\"button\" class=\"boButton\" "+
+							"style=\"width:20%;\""+
+							"value=\"CC\" "+
+							"title=\"Click to update CRQ closure code\" "+
+							"onClick=\"updateCRQClosureCode()\" />";
+					HTMLElement tdClosureCodeButton = new HTMLElement("td", "boInput", closureCodeButton);
+					trCRQDT.appendValue(tdClosureCodeButton.toString());	
+					html.append(trCRQDT.toString());
+					HTMLElement trHardwareVendor = new HTMLElement("tr");
+					HTMLElement tdHardwareVendorPad = new HTMLElement("td", "", "");
+					trHardwareVendor.appendValue(tdHardwareVendorPad.toString());
+					HTMLElement tdHardwareVendorLiteral = new HTMLElement("td", "boLabelAlt", "Hardware Vendor:");
+					trHardwareVendor.appendValue(tdHardwareVendorLiteral.toString());
+					String hardwareVendorValue = 
+							"<input style=\"width:95%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"id=\"hardwareVendor\" name=\"hardwareVendor\" "+
+							"value=\""+hardwareVendor+"\" >";
+					HTMLElement tdHardwareVendorValue = new HTMLElement("td", "boInput", hardwareVendorValue);
+					tdHardwareVendorValue.setAttribute("colspan", "4");
+					trHardwareVendor.appendValue(tdHardwareVendorValue.toString());
+					String hardwareVendorButton =
+							"<input type=\"button\" class=\"boButton\" "+
+							"style=\"width:20%;\""+
+							"value=\"HV\" "+
+							"title=\"Click to update hardware vendor\" "+
+							"onClick=\"updateHardwareVendor()\" />";
+					HTMLElement tdHardwareVendorButton = new HTMLElement("td", "boInput", hardwareVendorButton);
+					trHardwareVendor.appendValue(tdHardwareVendorButton.toString());
+					html.append(trHardwareVendor.toString());
+					HTMLElement trTest = new HTMLElement("tr");
+					HTMLElement tdTestPad = new HTMLElement("td", "", "");
+					trTest.appendValue(tdTestPad.toString());
+					HTMLElement tdPreCallTestsLiteral = new HTMLElement("td", "boLabelAlt", "Pre-Test Calls:");
+					trTest.appendValue(tdPreCallTestsLiteral.toString());
+					String preCallTestsValue =
+							"<select "+
+							"id =\"preCallTestsSelect\" "+
+							"class=\"boInput\" "+
+							">"+
+							"<option value=\""+preTestCallsDone+"\">"+preTestCallsDone+"</option>";
+					if (!preTestCallsDone.equals("Y"))
+						preCallTestsValue = preCallTestsValue + "<option value=\"Y\">Y</option>";
+					if (!preTestCallsDone.equals("N"))
+						preCallTestsValue = preCallTestsValue + "<option value=\"N\">N</option>";
+					preCallTestsValue = preCallTestsValue + "</select>";
+					HTMLElement tdPreCallTestsValue = new HTMLElement("td", "boInputAlt", preCallTestsValue);
+					trTest.appendValue(tdPreCallTestsValue.toString());	
+					HTMLElement tdPostCallTestsLiteral = new HTMLElement("td", "boLabelAlt", "Post-Test Calls:");
+					trTest.appendValue(tdPostCallTestsLiteral.toString());
+					String postCallTestsValue =
+							"<select "+
+							"id =\"postCallTestsSelect\" "+
+							"class=\"boInput\" "+
+							">"+
+							"<option value=\""+postTestCallsDone+"\">"+postTestCallsDone+"</option>";
+					if (!postTestCallsDone.equals("Y"))
+						postCallTestsValue = postCallTestsValue + "<option value=\"Y\">Y</option>";
+					if (!postTestCallsDone.equals("N"))
+						postCallTestsValue = postCallTestsValue + "<option value=\"N\">N</option>";
+					postCallTestsValue = postCallTestsValue + "</select>";
+					HTMLElement tdPostCallTestsValue = new HTMLElement("td", "boInputAlt", postCallTestsValue);
+					trTest.appendValue(tdPostCallTestsValue.toString());
+					trTest.appendValue(tdTestPad.toString());
+					String testButton =
+							"<input type=\"button\" class=\"boButton\" "+
+							"style=\"width:20%;\""+
+							"value=\"TC\" "+
+							"title=\"Click to update pre and post call tests\" "+
+							"onClick=\"updateTests()\" />";
+					HTMLElement tdTestButton = new HTMLElement("td", "boInput", testButton);
+					trTest.appendValue(tdTestButton.toString());	
+					html.append(trTest.toString());
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetAdditionalDetails(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		html.append(tableEnd);
+		return html.toString();
+	}
+	
+	public String updateHardwareVendor(
+			Long snrId,
+			String hardwareVendor,
+			String lastUpdatedBy) {
+		String result = "Error: Failed to update hardware vendor";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+			cstmt = conn.prepareCall("{call UpdateHardwareVendor(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, hardwareVendor);
+			cstmt.setString(3, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					if (rs.getString(1).equalsIgnoreCase("Y")) {
+						result = "Hardware Vendor updated";
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateHardwareVendor(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String updateClosureCode(
+			Long snrId,
+			String crqClosureCode,
+			String lastUpdatedBy) {
+		String result = "Error: Failed to update CRQ Closure code";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+			cstmt = conn.prepareCall("{call UpdateCRQClosureCode(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, crqClosureCode);
+			cstmt.setString(3, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					if (rs.getString(1).equalsIgnoreCase("Y")) {
+						result = "CRQ Closure Code updated";
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateCRQClosureCode(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}	
+	
+	public String updateTestCallsDone(
+			Long snrId,
+			String preTestCallsDone,
+			String postTestCallsDone,
+			String lastUpdatedBy) {
+		String result = "Error: Failed to update test calls flags";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+			cstmt = conn.prepareCall("{call UpdateTestCallsDone(?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, preTestCallsDone);
+	    	cstmt.setString(3, postTestCallsDone);
+			cstmt.setString(4, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					if (rs.getString(1).equalsIgnoreCase("Y")) {
+						result = "Test calls flags updated";
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateTestCallsDone(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String updateLeadFE(
+			Long snrId,
+			Long feUserId,
+			String lastUpdatedBy) {
+		String result = "Error: Failed to update lead FE";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+			cstmt = conn.prepareCall("{call UpdateLeadFE(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setLong(2, feUserId);
+			cstmt.setString(3, lastUpdatedBy);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					String returnValue = rs.getString(1);
+					if (returnValue.equals("Y")) {
+						result = "Lead FE updated";
+					} else if (returnValue.equals("M")) {
+						result = "Cannot update Lead Fe as there is more than one";
+					} else if (returnValue.equals("Z")) {
+						result = "Cannot update Lead Fe as there is not one";
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in UpdateLeadFE(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String updatePerformanceMonitoring(
+			long snrId,
+			String performanceChecks,
+			String ef400Date,
+			String ef410Date,
+			String lastUpdatedBy) {
+		String updateResult = "Error: Untrapped error with UpdatePerformanceMonitoring";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdatePerformanceMonitoring(?,?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, performanceChecks);
+	    	cstmt.setString(3, ef400Date);
+	    	cstmt.setString(4, ef410Date);
+	    	cstmt.setString(5, lastUpdatedBy );
+			cstmt.execute();
+			updateResult = "Performance Monitoring updated";
+	    } catch (Exception ex) {
+	    	message = "Error in  UpdatePerformanceMonitoring(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String updateSignOffHOP(
+			long snrId,
+			String hopUploaded,
+			String sfrUploaded,
+			String lastUpdatedBy) {
+		String updateResult = "Error: Untrapped error with UpdateSignOffHOP";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call UpdateSignOffHOP(?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, hopUploaded);
+	    	cstmt.setString(3, sfrUploaded);
+	    	cstmt.setString(4, lastUpdatedBy );
+			cstmt.execute();
+			updateResult = "Sign off and HOP updated";
+	    } catch (Exception ex) {
+	    	message = "Error in  UpdateSignOffHOP(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String listOtherSitesHTML(
+			long snrId,
+			String currentTab,
+			String filterBOEngineer ) {
+		StringBuilder html = new StringBuilder();
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetOtherSitesList(?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, currentTab);
+	    	cstmt.setString(3, filterBOEngineer);
+			cstmt.execute();
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					String site = rs.getString(1);
+					String project = rs.getString(2);
+					String scheduledDate = rs.getString(3);
+					long SNRId = rs.getLong(4);
+					String state = rs.getString(5);
+					String onClick = "moveToSite("+SNRId+",'"+currentTab+"')";
+					HTMLElement tr = new HTMLElement("tr");
+					HTMLElement tdSite = new HTMLElement("td",(state.equals("Today")?"otherSiteToday":"otherSiteOverdue"),site);
+					tdSite.setAttribute("style", "cursor:pointer;");
+					tdSite.setAttribute("onClick", onClick);
+					tr.appendValue(tdSite.toString());
+					HTMLElement tdProject = new HTMLElement("td","otherSite",project);
+					tdProject.setAttribute("style", "cursor:pointer;");
+					tdProject.setAttribute("onClick", onClick);
+					tr.appendValue(tdProject.toString());
+					HTMLElement tdScheduledDate = new HTMLElement("td","otherSite",scheduledDate);
+					tdScheduledDate.setAttribute("style", "cursor:pointer;");
+					tdScheduledDate.setAttribute("onClick", onClick);
+					tr.appendValue(tdScheduledDate.toString());
+					html.append(tr.toString());
+				}
+			} 
+	    } catch (Exception ex) {
+	    	message = "Error in  UpdateSignOffHOP(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return html.toString();
+	}
+	
+	public String getHomeScreen(String username ) {
+		String result = "Back Office";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetHomeScreen(?)}");
+	    	cstmt.setString(1, username);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetHomeScreen(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+
+	public String getCRQAccessCount(String selectMode) {
+		String count = "0";
+    	Connection conn = null;
+    	CallableStatement cstmt = null;	    try {
+			conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call getCRQAccessCount(?)}");
+	    	cstmt.setString(1, selectMode);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					count = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getCRQAccessCount(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return count;
+	}
+	
+	public Collection<crqAccessHeader> getCRQAccessHeader(String selectMode) {
+		message = null;
+		ArrayList<crqAccessHeader> crqAccessHeaderList = new ArrayList<crqAccessHeader>();
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+			conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call getCRQAccessHeader(?)}");
+	    	cstmt.setString(1, selectMode);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					crqAccessHeaderList.add(new crqAccessHeader(
+							rs.getLong(1), rs.getString(2),rs.getString(3), rs.getString(4), 
+							rs.getString(5),rs.getString(6), rs.getString(7),rs.getString(8),
+							rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12)));
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in getCRQAccessHeader(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	    
+	    return crqAccessHeaderList;
+	}
+	
+	public String getCRQAccessHeaderHTML(String selectMode) {
+		boolean oddRow = false;
+		int row = 0;
+		StringBuilder html = new StringBuilder();
+		Collection<crqAccessHeader> crqAccessHeaderList = getCRQAccessHeader(selectMode);
+		if (crqAccessHeaderList.isEmpty()) {
+			if (message !=null) {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1",	message);
+				td.setAttribute("colspan", "11");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			} else {
+				HTMLElement tr = new HTMLElement("tr");
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				HTMLElement td = new HTMLElement("td", "grid1",	"!No CRQs to display");
+				td.setAttribute("colspan", "11");
+				tr.appendValue(td.toString());
+				html.append(tr.toString());
+			}			
+		} else {
+			for (Iterator<crqAccessHeader> it = crqAccessHeaderList.iterator(); it.hasNext(); ) {
+				HTMLElement tr = new HTMLElement("tr");
+				row++;
+				oddRow = !oddRow;
+				crqAccessHeader cah = it.next();
+				HTMLElement tdDummy = new HTMLElement("td","","");
+				tr.appendValue(tdDummy.toString());
+				String site = cah.getSite();				
+				HTMLElement tdSite = new HTMLElement("td", (oddRow?"grid1u":"grid2u"), site);
+				tdSite.setAttribute(
+						"onClick", 
+						"snrCRQAccessDetail("+cah.getSNRId()+")");
+				tdSite.setAttribute("style","cursor:pointer;");
+				tdSite.setAttribute("title","click to go to site CRQ / Access detail");	
+				tr.appendValue(tdSite.toString());	
+				String status = cah.getAccessStatus();
+				HTMLElement tdStatus = new HTMLElement("td", (oddRow?"grid1":"grid2"), status);
+				tr.appendValue(tdStatus.toString());
+				String vfCRQ = cah.getVfCRQ();
+				HTMLElement tdVfCRQ = new HTMLElement("td", (oddRow?"grid1":"grid2"), vfCRQ);
+				tr.appendValue(tdVfCRQ.toString());
+				String jobType = cah.getJobType();
+				HTMLElement tdJobType = new HTMLElement("td", (oddRow?"grid1":"grid2"), jobType);
+				tr.appendValue(tdJobType.toString());
+				String crqStatus = cah.getCRQStatus();
+				HTMLElement tdCrqStatus = new HTMLElement("td", (oddRow?"grid1":"grid2"), crqStatus);
+				tr.appendValue(tdCrqStatus.toString());
+				String tefCRQ = cah.getTefCRQ();
+				HTMLElement tdTefCRQ = new HTMLElement("td", (oddRow?"grid1":"grid2"), tefCRQ);
+				tr.appendValue(tdTefCRQ.toString());
+				String techList = cah.getTechnologiesDisplay();
+				String techListTitle = "";
+				if (techList.equals(cah.TECH_SHORT)) {
+					techList = cah.getTechnologiesShort();
+					techListTitle = cah.getTechnologies();
+				}
+				HTMLElement tdTechList = new HTMLElement("td", (oddRow?"grid1":"grid2"), techList);
+				if (!techListTitle.equals("")) 
+					tdTechList.setAttribute("title", techListTitle);
+				tr.appendValue(tdTechList.toString());
+				String scheduledDate = cah.getScheduledDate();
+				HTMLElement tdScheduledDate = new HTMLElement("td", (oddRow?"grid1":"grid2"), scheduledDate);
+				tr.appendValue(tdScheduledDate.toString());
+				String accessStatus = cah.getAccessStatus();
+				HTMLElement tdAccessStatus = new HTMLElement("td", (oddRow?"grid1":"grid2"), accessStatus);
+				tr.appendValue(tdAccessStatus.toString());
+				String npc = cah.getNextPreCheckDisplay();
+				HTMLElement tdNPC = new HTMLElement("td", (oddRow?"grid1":"grid2"), npc);
+				if (!npc.equals(""))
+					tdNPC.setAttribute("title", cah.getNextPreCheck());
+				tr.appendValue(tdNPC.toString());
+				String feList = cah.getFeListDisplay();
+				String feListTitle = "";
+				if (feList.equals(cah.FE_SHORT)) {
+					feList = cah.getFeListShort();
+					feListTitle = cah.getFeList();
+				}
+				HTMLElement tdFeList = new HTMLElement("td", (oddRow?"grid1":"grid2"), feList);
+				if (!feListTitle.equals("")) 
+					tdFeList.setAttribute("title", feListTitle);
+				tr.appendValue(tdFeList.toString());				
+				html.append(tr.toString());
+			}
+		}
+		return html.toString();
+	}
+	
+	public String getCrqAccessDetailHTML(long snrId) {
+		StringBuilder html = new StringBuilder();
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+    	try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetCRQAccessDetail(?)}");
+	    	cstmt.setLong(1, snrId);
+			cstmt.execute();
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					String site = rs.getString(1);
+					String status = rs.getString(2);
+					String jobType = rs.getString(3);
+					String scheduledDate = rs.getString(4);
+					String techList = rs.getString(5);
+					String npc = rs.getString(6);
+					String feList = rs.getString(7);
+					String redPlus = "<font color=\"red\"><b>+</b></font>";
+					String tableStartHeader = 
+							"<table style=\"table-layout:fixed;border-style:none;width:1250px\">"+
+							"<colgroup>"+
+							"<col width=\"100px\"/>"+
+							"<col width=\"100px\"/>"+
+							"<col width=\"250px\"/>"+
+							"<col width=\"100px\"/>"+
+							"<col width=\"350px\"/>"+
+							"<col width=\"50px\"/>"+
+							"<col width=\"300px\"/>"+
+							"</colgroup><tbody>";
+					html.append(tableStartHeader);
+					HTMLElement trHeaderTitles = new HTMLElement("tr");
+					HTMLElement tdHeaderSiteTitle = new HTMLElement("td","menuAlt","Site");
+					trHeaderTitles.appendValue(tdHeaderSiteTitle.toString());
+					HTMLElement tdHeaderStatusTitle = new HTMLElement("td","menuAlt","Status");
+					trHeaderTitles.appendValue(tdHeaderStatusTitle.toString());
+					HTMLElement tdHeaderJobTypeTitle = new HTMLElement("td","menuAlt","Job Type");
+					trHeaderTitles.appendValue(tdHeaderJobTypeTitle.toString());
+					HTMLElement tdHeaderScheduledDateTitle = new HTMLElement("td","menuAlt","Sch. Date");
+					tdHeaderScheduledDateTitle.setAttribute("title", "Scheduled Date");
+					trHeaderTitles.appendValue(tdHeaderScheduledDateTitle.toString());
+					HTMLElement tdHeaderTechListTitle = new HTMLElement("td","menuAlt","Tech(s)");
+					tdHeaderTechListTitle.setAttribute("title", "Techologies");
+					trHeaderTitles.appendValue(tdHeaderTechListTitle.toString());
+					HTMLElement tdHeaderNPCTitle = new HTMLElement("td","menuAlt","NPC");
+					tdHeaderNPCTitle.setAttribute("title", "Next PreCheck");
+					trHeaderTitles.appendValue(tdHeaderNPCTitle.toString());
+					HTMLElement tdHeaderFEListTitle = new HTMLElement("td","menuAlt","FE(s)");
+					tdHeaderFEListTitle.setAttribute("title", "Field Engineers");
+					trHeaderTitles.appendValue(tdHeaderFEListTitle.toString());
+					html.append(trHeaderTitles.toString());					
+					HTMLElement trHeaderData = new HTMLElement("tr");
+					HTMLElement tdHeaderSite = new HTMLElement("td","grid1",site);
+					trHeaderData.appendValue(tdHeaderSite.toString());
+					HTMLElement tdHeaderStatus = new HTMLElement("td","grid1",status);
+					trHeaderData.appendValue(tdHeaderStatus.toString());
+					HTMLElement tdHeaderJobType = new HTMLElement("td","grid1",jobType);
+					trHeaderData.appendValue(tdHeaderJobType.toString());
+					HTMLElement tdHeaderScheduledDate = new HTMLElement("td","grid1",scheduledDate);
+					trHeaderData.appendValue(tdHeaderScheduledDate.toString());
+					HTMLElement tdHeaderTechList = new HTMLElement("td","grid1",techList);
+					if (techList.length()>50) {
+						tdHeaderTechList = new HTMLElement("td","grid1",techList.substring(0,49)+redPlus);
+						tdHeaderTechList.setAttribute("title", techList);
+					}
+					trHeaderData.appendValue(tdHeaderTechList.toString());
+					HTMLElement tdHeaderNPC = new HTMLElement("td","grid1",npc.substring(0, 1));
+					tdHeaderNPC.setAttribute("title", npc);
+					trHeaderData.appendValue(tdHeaderNPC.toString());
+					HTMLElement tdHeaderFEList = new HTMLElement("td","grid1",feList);
+					if (feList.length()>50) {
+						tdHeaderFEList = new HTMLElement("td","grid1",feList.substring(0,49)+redPlus);
+						tdHeaderFEList.setAttribute("title", feList);
+					}
+					trHeaderData.appendValue(tdHeaderFEList.toString());
+					html.append(trHeaderData.toString());	
+					HTMLElement trBlank = new HTMLElement("tr");
+					HTMLElement tdBlank = new HTMLElement("td","","");
+					trBlank.appendValue(tdBlank.toString());
+					html.append(trBlank.toString());
+					String tableEnd = "</tbody></table>";
+					html.append(tableEnd);
+					String vfCRQ = rs.getString(8);
+					String crqStatus = rs.getString(9);
+					String tefOutageRequired = rs.getString(10);
+					String tefCRQ = rs.getString(11);
+					String crIn = rs.getString(12);
+					String crUsed = rs.getString(13);
+					String crStart = rs.getString(14);
+					String crEnd = rs.getString(15);
+					String outageStart = rs.getString(16);
+					String outageEnd = rs.getString(17);
+					Double outagePeriod = rs.getDouble(18);
+					String p1Site = rs.getString(19);
+					String twoManSite = rs.getString(20);
+					String oohWeekend = rs.getString(21);
+					String tableCRQ = 
+							"<table style=\"table-layout:fixed;border:1.0px silver solid;width:1250px\">"+
+							"<colgroup>"+
+							"<col width=\"20px\"/>"+
+							"<col width=\"120px\"/>"+
+							"<col width=\"160px\"/>"+
+							"<col width=\"20px\"/>"+
+							"<col width=\"120px\"/>"+
+							"<col width=\"160px\"/>"+
+							"<col width=\"50px\"/>"+
+							"<col width=\"120px\"/>"+
+							"<col width=\"160px\"/>"+
+							"<col width=\"20px\"/>"+
+							"<col width=\"120px\"/>"+
+							"<col width=\"160px\"/>"+
+							"<col width=\"20px\"/>"+
+							"</colgroup><tbody>";
+					html.append(tableCRQ);
+					HTMLElement trCRQ1 = new HTMLElement("tr");
+					trCRQ1.appendValue(tdBlank.toString());
+					HTMLElement tdVFCRQLiteral = new HTMLElement("td","boLabel","VF CRQ");
+					trCRQ1.appendValue(tdVFCRQLiteral.toString());
+					String vfCRQValue =
+							"<input style=\"width:55%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"vfCRQ\" name=\"vfCRQ\" "+
+							"value=\""+vfCRQ+"\" />";
+					HTMLElement tdVFCRQ = new HTMLElement("td","boLabel",vfCRQValue);
+					trCRQ1.appendValue(tdVFCRQ.toString());
+					trCRQ1.appendValue(tdBlank.toString());
+					HTMLElement tdCRQStartLiteral = new HTMLElement("td","boLabel","CRQ Start");
+					trCRQ1.appendValue(tdCRQStartLiteral.toString());
+					String crStartValue =
+							"<input style=\"width:70%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"crStartDT\" name=\"crStartDT\" "+
+							"value=\""+crStart+"\" readonly>" +
+							"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal"+
+							"('crStartDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>";
+					HTMLElement tdCRStart = new HTMLElement("td","boLabel",crStartValue);
+					trCRQ1.appendValue(tdCRStart.toString());
+					trCRQ1.appendValue(tdBlank.toString());
+					HTMLElement tdTEFOutageRequiredLiteral = new HTMLElement("td","boLabel","TEF Outage?");
+					trCRQ1.appendValue(tdTEFOutageRequiredLiteral.toString());
+					String tefOutageRequiredValue =
+							"<select "+
+							"id =\"tefOutageRequiredSelect\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+tefOutageRequired+"\">"+tefOutageRequired+"</option>";
+					if (!tefOutageRequired.equals("Y"))
+						tefOutageRequiredValue = tefOutageRequiredValue +
+							"<option value=\"Y\">Y</option>";
+					if (!tefOutageRequired.equals("N"))
+						tefOutageRequiredValue = tefOutageRequiredValue +
+							"<option value=\"N\">N</option>";
+					tefOutageRequiredValue = tefOutageRequiredValue + "</select>"; 
+					HTMLElement tdTEFOutageRequired = new HTMLElement("td","boLabel",tefOutageRequiredValue);
+					trCRQ1.appendValue(tdTEFOutageRequired.toString());
+					trCRQ1.appendValue(tdBlank.toString());
+					HTMLElement tdTEFCRQLiteral = new HTMLElement("td","boLabel","TEF CRQ");
+					trCRQ1.appendValue(tdTEFCRQLiteral.toString());
+					String tefCRQValue =
+							"<input style=\"width:55%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"tefCRQ\" name=\"tefCRQ\" "+
+							"value=\""+tefCRQ+"\" />";
+					HTMLElement tdTEFCRQ = new HTMLElement("td","boLabel",tefCRQValue);
+					trCRQ1.appendValue(tdTEFCRQ.toString());
+					html.append(trCRQ1.toString());
+					HTMLElement trCRQ2 = new HTMLElement("tr");
+					trCRQ2.appendValue(tdBlank.toString());
+					HTMLElement tdCRQStatusLiteral = new HTMLElement("td","boLabelAlt","CRQ Status");
+					trCRQ2.appendValue(tdCRQStatusLiteral.toString());
+					String crqStatusValue = 
+							"<select "+
+							"id =\"crqStatusSelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+crqStatus+"\">"+crqStatus+"</option>";
+					if (!crqStatus.equals("Planning in Progress"))
+						crqStatusValue = crqStatusValue +
+							"<option value=\"Planning in Progress\">Planning in Progress</option>";
+					if (!crqStatus.equals("Scheduled for Review"))
+						crqStatusValue = crqStatusValue +
+							"<option value=\"Scheduled for Review\">Scheduled for Review</option>";
+					if (!crqStatus.equals("Scheduled for Approval"))
+						crqStatusValue = crqStatusValue +
+							"<option value=\"Scheduled for Approval\">Scheduled for Approval</option>";
+					if (!crqStatus.equals("Scheduled"))
+						crqStatusValue = crqStatusValue +
+							"<option value=\"Scheduled\">Scheduled</option>";
+					if (!crqStatus.equals("Closed"))
+						crqStatusValue = crqStatusValue +
+							"<option value=\"Closed\">Closed</option>";
+					crqStatusValue = crqStatusValue + "</select>"; 
+					HTMLElement tdCRQStatus = new HTMLElement("td","boLabelAlt",crqStatusValue);
+					trCRQ2.appendValue(tdCRQStatus.toString());
+					trCRQ2.appendValue(tdBlank.toString());
+					HTMLElement tdCRQEndLiteral = new HTMLElement("td","boLabelAlt","CRQ End");
+					trCRQ2.appendValue(tdCRQEndLiteral.toString());
+					String crEndValue =
+							"<input style=\"width:70%\" type=\"text\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"crEndDT\" name=\"crEndDT\" "+
+							"value=\""+crEnd+"\" readonly>" +
+							"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal"+
+							"('crEndDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>";
+					HTMLElement tdCREnd = new HTMLElement("td","boLabelAlt",crEndValue);
+					trCRQ2.appendValue(tdCREnd.toString());
+					trCRQ2.appendValue(tdBlank.toString());	
+					HTMLElement tdP1SiteLiteral = new HTMLElement("td","boLabelAlt","P1 Site");
+					trCRQ2.appendValue(tdP1SiteLiteral.toString());
+					String p1SiteValue =
+							"<select "+
+							"id =\"p1SiteSelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+p1Site+"\">"+p1Site+"</option>";
+					if (!p1Site.equals("Y"))
+						p1SiteValue = p1SiteValue +
+							"<option value=\"Y\">Y</option>";
+					if (!p1Site.equals("N"))
+						p1SiteValue = p1SiteValue +
+							"<option value=\"N\">N</option>";
+					p1SiteValue = p1SiteValue + "</select>"; 
+					HTMLElement tdP1Site = new HTMLElement("td","boLabelAlt",p1SiteValue);
+					trCRQ2.appendValue(tdP1Site.toString()); 
+					trCRQ2.appendValue(tdBlank.toString());	
+					HTMLElement tdCRINLiteral = new HTMLElement("td","boLabelAlt","CR/IN");
+					trCRQ2.appendValue(tdCRINLiteral.toString());
+					String crINValue =
+							"<select "+
+							"id =\"crINSelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+crIn+"\">"+crIn+"</option>";
+					if (!crIn.equals("CR"))
+						crINValue = crINValue +
+							"<option value=\"CR\">CR</option>";
+					if (!crIn.equals("IN"))
+						crINValue = crINValue +
+							"<option value=\"IN\">IN</option>";
+					crINValue = crINValue + "</select>"; 
+					HTMLElement tdCRIN = new HTMLElement("td","boLabelAlt",crINValue);
+					trCRQ2.appendValue(tdCRIN.toString());  
+					html.append(trCRQ2.toString());
+					HTMLElement trCRQ3 = new HTMLElement("tr");
+					trCRQ3.appendValue(tdBlank.toString());	
+					HTMLElement tdOutagePeriodLiteral = new HTMLElement("td","boLabel","Outage Period");
+					trCRQ3.appendValue(tdOutagePeriodLiteral.toString());
+					String outagePeriodValue =
+							"<input style=\"width:20%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"outagePeriod\" name=\"outagePeriod\" "+
+							"value=\""+Double.toString(outagePeriod)+"\" />";
+					HTMLElement tdOutagePeriod = new HTMLElement("td","boInput",outagePeriodValue);
+					trCRQ3.appendValue(tdOutagePeriod.toString());					
+					trCRQ3.appendValue(tdBlank.toString());	
+					HTMLElement tdOutageStartLiteral = new HTMLElement("td","boLabel","Outage Start");
+					trCRQ3.appendValue(tdOutageStartLiteral.toString());
+					String outageStartValue =
+							"<input style=\"width:70%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"outageStartDT\" name=\"outageStartDT\" "+
+							"value=\""+outageStart+"\" readonly>" +
+							"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal"+
+							"('outageStartDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>";
+					HTMLElement tdOutageStart = new HTMLElement("td","boLabel",outageStartValue);
+					trCRQ3.appendValue(tdOutageStart.toString());
+					trCRQ3.appendValue(tdBlank.toString());	
+					HTMLElement tdTwoManSiteLiteral = new HTMLElement("td","boLabel","Two Man Site");
+					trCRQ3.appendValue(tdTwoManSiteLiteral.toString());
+					String twoManSiteValue =
+							"<select "+
+							"id =\"twoManSiteSelect\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+twoManSite+"\">"+twoManSite+"</option>";
+					if (!twoManSite.equals("Y"))
+						twoManSiteValue = twoManSiteValue +
+							"<option value=\"Y\">Y</option>";
+					if (!twoManSite.equals("N"))
+						twoManSiteValue = twoManSiteValue +
+							"<option value=\"N\">N</option>";
+					twoManSiteValue = twoManSiteValue + "</select>"; 
+					HTMLElement tdTwoManSite = new HTMLElement("td","boLabel",twoManSiteValue);
+					trCRQ3.appendValue(tdTwoManSite.toString()); 
+					trCRQ3.appendValue(tdBlank.toString());	
+					HTMLElement tdCRUsedLiteral = new HTMLElement("td","boLabel","CR Used?");
+					trCRQ3.appendValue(tdCRUsedLiteral.toString());
+					String crUsedValue =
+							"<select "+
+							"id =\"crUsedSelect\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+crUsed+"\">"+crUsed+"</option>";
+					if (!crUsed.equals("Y"))
+						crUsedValue = crUsedValue +
+							"<option value=\"Y\">Y</option>";
+					if (!crUsed.equals("N"))
+						crUsedValue = crUsedValue +
+							"<option value=\"N\">N</option>";
+					crUsedValue = crUsedValue + "</select>"; 
+					HTMLElement tdCRUsed = new HTMLElement("td","boLabel",crUsedValue);
+					trCRQ3.appendValue(tdCRUsed.toString());
+					html.append(trCRQ3.toString());
+					HTMLElement trCRQ4 = new HTMLElement("tr");	
+					trCRQ4.appendValue(tdBlank.toString());		
+					trCRQ4.appendValue(tdBlank.toString());		
+					trCRQ4.appendValue(tdBlank.toString());		
+					trCRQ4.appendValue(tdBlank.toString());	
+					HTMLElement tdOutageEndLiteral = new HTMLElement("td","boLabelAlt","Outage End");
+					trCRQ4.appendValue(tdOutageEndLiteral.toString());
+					String outageEndValue =
+							"<input style=\"width:70%\" type=\"text\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"outageEndDT\" name=\"outageEndDT\" "+
+							"value=\""+outageEnd+"\" readonly>" +
+							"<img src=\"images/cal.gif\" onclick=\"javascript:NewCssCal"+
+							"('outageEndDT','ddMMyyyy','arrow',true,'24')\" style=\"cursor:pointer\"/>";
+					HTMLElement tdOutageEnd = new HTMLElement("td","boLabelAlt",outageEndValue);
+					trCRQ4.appendValue(tdOutageEnd.toString());
+					trCRQ4.appendValue(tdBlank.toString());	
+					HTMLElement tdOOHWeekendLiteral = new HTMLElement("td","boLabelAlt","OOH Weekend?");
+					trCRQ4.appendValue(tdOOHWeekendLiteral.toString());
+					String oohWeekendValue =
+							"<select "+
+							"id =\"oohWeekendSelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+oohWeekend+"\">"+oohWeekend+"</option>";
+					if (!oohWeekend.equals("Y"))
+						oohWeekendValue = oohWeekendValue +
+							"<option value=\"Y\">Y</option>";
+					if (!oohWeekend.equals("N"))
+						oohWeekendValue = oohWeekendValue +
+							"<option value=\"N\">N</option>";
+					oohWeekendValue = oohWeekendValue + "</select>"; 
+					HTMLElement tdOOHWeekend = new HTMLElement("td","boLabelAlt",oohWeekendValue);
+					trCRQ4.appendValue(tdOOHWeekend.toString());
+					trCRQ4.appendValue(tdBlank.toString());	
+					html.append(trCRQ4.toString());
+					String accessStatus = rs.getString(22);
+					String accessConfirmed = rs.getString(23);
+					String obass= rs.getString(24);
+					String rams = rs.getString(25);
+					String escort = rs.getString(26);
+					String healthAndSafety = rs.getString(27);
+					String permitType = rs.getString(28);
+					String vfArrangeAccess = rs.getString(29);
+					Double accessCost = rs.getDouble(30);
+					Double consumableCost = rs.getDouble(31);
+					String siteAccessInformation = rs.getString(32);
+					String siteName = rs.getString(33);
+					HTMLElement trAccess1 = new HTMLElement("tr");
+					trAccess1.appendValue(tdBlank.toString());	
+					HTMLElement tdAccessStatusLiteral = new HTMLElement("td","boLabel","Access Status");
+					trAccess1.appendValue(tdAccessStatusLiteral.toString());
+					String accessStatusValue =
+							"<select "+
+							"id =\"accessStatusSelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+accessStatus+"\">"+accessStatus+"</option>";
+					if (!accessStatus.equals("To be Done"))
+						accessStatusValue = accessStatusValue +
+							"<option value=\"To be Done\">To be Done</option>";
+					if (!accessStatus.equals("In Progress"))
+						accessStatusValue = accessStatusValue +
+							"<option value=\"In Progress\">In Progress</option>";
+					if (!accessStatus.equals("Arranged"))
+						accessStatusValue = accessStatusValue +
+							"<option value=\"Arranged\">Arranged</option>";
+					if (!accessStatus.equals("Denied"))
+						accessStatusValue = accessStatusValue +
+							"<option value=\"Denied\">Denied</option>";
+					accessStatusValue = accessStatusValue + "</select>"; 
+					HTMLElement tdAccessStatus = new HTMLElement("td","boLabel",accessStatusValue);
+					trAccess1.appendValue(tdAccessStatus.toString());
+					trAccess1.appendValue(tdBlank.toString());	
+					HTMLElement tdOBASSLiteral = new HTMLElement("td","boLabel","OBASS");
+					trAccess1.appendValue(tdOBASSLiteral.toString());
+					String obassValue =
+							"<select "+
+							"id =\"obassSelect\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+obass+"\">"+obass+"</option>";
+					if (!obass.equals("Y"))
+						obassValue = obassValue +
+							"<option value=\"Y\">Y</option>";
+					if (!obass.equals("N"))
+						obassValue = obassValue +
+							"<option value=\"N\">N</option>";
+					obassValue = obassValue + "</select>"; 
+					HTMLElement tdOBASS = new HTMLElement("td","boLabel",obassValue);
+					trAccess1.appendValue(tdOBASS.toString());
+					trAccess1.appendValue(tdBlank.toString());	
+					HTMLElement tdRAMSLiteral = new HTMLElement("td","boLabel","RAMS");
+					trAccess1.appendValue(tdRAMSLiteral.toString());
+					String ramsValue =
+							"<select "+
+							"id =\"ramsSelect\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+rams+"\">"+rams+"</option>";
+					if (!rams.equals("Y"))
+						ramsValue = ramsValue +
+							"<option value=\"Y\">Y</option>";
+					if (!rams.equals("N"))
+						ramsValue = ramsValue +
+							"<option value=\"N\">N</option>";
+					ramsValue = ramsValue + "</select>"; 
+					HTMLElement tdRAMS = new HTMLElement("td","boLabel",ramsValue);
+					trAccess1.appendValue(tdRAMS.toString());
+					trAccess1.appendValue(tdBlank.toString());	
+					HTMLElement tdVfArrangeAccessLiteral = new HTMLElement("td","boLabel","VF Arrange?");
+					trAccess1.appendValue(tdVfArrangeAccessLiteral.toString());
+					String vfArrangeAccessValue =
+							"<select "+
+							"id =\"vfArrangeAccessSelect\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+vfArrangeAccess+"\">"+vfArrangeAccess+"</option>";
+					if (!vfArrangeAccess.equals("Y"))
+						vfArrangeAccessValue = vfArrangeAccessValue +
+							"<option value=\"Y\">Y</option>";
+					if (!vfArrangeAccess.equals("N"))
+						vfArrangeAccessValue = vfArrangeAccessValue +
+							"<option value=\"N\">N</option>";
+					vfArrangeAccessValue = vfArrangeAccessValue + "</select>"; 
+					HTMLElement tdVfArrangeAccess = new HTMLElement("td","boLabel",vfArrangeAccessValue);
+					trAccess1.appendValue(tdVfArrangeAccess.toString());
+					trAccess1.appendValue(tdBlank.toString());	
+					html.append(trAccess1.toString());
+					HTMLElement trAccess2 = new HTMLElement("tr");	
+					trAccess2.appendValue(tdBlank.toString());	
+					HTMLElement tdPermitTypeLiteral = new HTMLElement("td","boLabelAlt","Permit Type");
+					trAccess2.appendValue(tdPermitTypeLiteral.toString());
+					String permitTypeValue =
+							"<input style=\"width:95%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"permitType\" name=\"permitType\" "+
+							"value=\""+permitType+"\" />";
+					HTMLElement tdPermitType = new HTMLElement("td","boLabelAlt",permitTypeValue);
+					trAccess2.appendValue(tdPermitType.toString());
+					trAccess2.appendValue(tdBlank.toString());
+					HTMLElement tdAccessConfirmedLiteral = new HTMLElement("td","boLabelAlt","Access Confirmed");
+					trAccess2.appendValue(tdAccessConfirmedLiteral.toString());
+					String accessConfirmedValue =
+							"<select "+
+							"id =\"accessConfirmedSelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+accessConfirmed+"\">"+accessConfirmed+"</option>";
+					if (!accessConfirmed.equals("Y"))
+						accessConfirmedValue = accessConfirmedValue +
+							"<option value=\"Y\">Y</option>";
+					if (!accessConfirmed.equals("N"))
+						accessConfirmedValue = accessConfirmedValue +
+							"<option value=\"N\">N</option>";
+					accessConfirmed = accessConfirmed + "</select>"; 
+					HTMLElement tdAccessConfirmed = new HTMLElement("td","boLabelAlt",accessConfirmedValue);
+					trAccess2.appendValue(tdAccessConfirmed.toString());
+					trAccess2.appendValue(tdBlank.toString());					
+					HTMLElement tdEscortLiteral = new HTMLElement("td","boLabelAlt","Escort");
+					trAccess2.appendValue(tdEscortLiteral.toString());
+					String escortValue =
+							"<select "+
+							"id =\"escortSelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+escort+"\">"+escort+"</option>";
+					if (!escort.equals("Y"))
+						escortValue = escortValue +
+							"<option value=\"Y\">Y</option>";
+					if (!escort.equals("N"))
+						escortValue = escortValue +
+							"<option value=\"N\">N</option>";
+					escort = escort + "</select>"; 
+					HTMLElement tdEscort = new HTMLElement("td","boLabelAlt",escortValue);
+					trAccess2.appendValue(tdEscort.toString());
+					trAccess2.appendValue(tdBlank.toString());					
+					HTMLElement tdHealthAndSafetyLiteral = new HTMLElement("td","boLabelAlt","Health & Safety");
+					trAccess2.appendValue(tdHealthAndSafetyLiteral.toString());
+					String healthAndSafetyValue =
+							"<select "+
+							"id =\"healthAndSafetySelect\" "+
+							"class=\"boInputAlt\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							">"+
+							"<option value=\""+healthAndSafety+"\">"+healthAndSafety+"</option>";
+					if (!healthAndSafety.equals("Y"))
+						healthAndSafetyValue = healthAndSafetyValue +
+							"<option value=\"Y\">Y</option>";
+					if (!healthAndSafety.equals("N"))
+						healthAndSafetyValue = healthAndSafetyValue +
+							"<option value=\"N\">N</option>";
+					healthAndSafety = healthAndSafety + "</select>"; 
+					HTMLElement tdHealthAndSafety = new HTMLElement("td","boLabelAlt",healthAndSafetyValue);
+					trAccess2.appendValue(tdHealthAndSafety.toString());
+					trAccess2.appendValue(tdBlank.toString());
+					html.append(trAccess2.toString());
+					HTMLElement trAccess3 = new HTMLElement("tr");
+					trAccess3.appendValue(tdBlank.toString());					
+					HTMLElement tdSiteAccessInformationLiteral = new HTMLElement("td","boLabel","Site Access Information");
+					trAccess3.appendValue(tdSiteAccessInformationLiteral.toString());
+					String siteAccessInformationValue = 
+							"<textarea "+
+							"class=\"boInput\" "+
+							"style=\"resize:none;;\" "+
+							"placeholder=\"Enter site access information\" "+
+							"rows=\"3\" cols=\"140\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"siteAccessInformation\" name=\"siteAccessInformation\" >"+
+							siteAccessInformation+
+							"</textarea>" ;
+					HTMLElement tdSiteAccessInformation = new HTMLElement("td","boLabel",siteAccessInformationValue);
+					tdSiteAccessInformation.setAttribute("colspan", "10");
+					trAccess3.appendValue(tdSiteAccessInformation.toString());
+					html.append(trAccess3.toString());
+					HTMLElement trAccess4 = new HTMLElement("tr");
+					trAccess4.appendValue(tdBlank.toString());					
+					HTMLElement tdAccessCostLiteral = new HTMLElement("td","boLabelAlt","Access Cost");
+					trAccess4.appendValue(tdAccessCostLiteral.toString());
+					String accessCostValue =
+							"<input style=\"width:30%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"accessCost\" name=\"accessCost\" "+
+							"value=\""+Double.toString(accessCost)+"\" />";
+					HTMLElement tdAccessCost = new HTMLElement("td","boInput",accessCostValue);
+					trAccess4.appendValue(tdAccessCost.toString());
+					trAccess4.appendValue(tdBlank.toString());						
+					HTMLElement tdConsumableCostLiteral = new HTMLElement("td","boLabelAlt","Consumable Cost");
+					trAccess4.appendValue(tdConsumableCostLiteral.toString());
+					String consumableCostValue =
+							"<input style=\"width:30%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"consumableCost\" name=\"consumableCost\" "+
+							"value=\""+Double.toString(consumableCost)+"\" />";
+					HTMLElement tdConsumableCost = new HTMLElement("td","boInput",consumableCostValue);
+					trAccess4.appendValue(tdConsumableCost.toString());
+					trAccess4.appendValue(tdBlank.toString());							
+					HTMLElement tdSiteNameLiteral = new HTMLElement("td","boLabelAlt","Site Name");
+					trAccess4.appendValue(tdSiteNameLiteral.toString());
+					String siteNameValue =
+							"<input style=\"width:90%\" type=\"text\" "+
+							"class=\"boInput\" "+
+							"onChange=\"flagPendingUpdates()\" "+
+							"id=\"siteName\" name=\"siteName\" "+
+							"value=\""+siteName+"\" />";
+					HTMLElement tdSiteName = new HTMLElement("td","boInput",siteNameValue);
+					tdSiteName.setAttribute("colspan", "5");
+					trAccess4.appendValue(tdSiteName.toString());	
+					html.append(trAccess4.toString());
+					html.append(tableEnd);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetCRQAccessDetail(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return html.toString();
+	}
+	
+	public String updateCRQAccessDetails(
+			long snrId,
+			String lastUpdatedBy,
+			String vfCRQ,
+			String crqStatus,
+			String outagePeriod,
+			String crStartDT,
+			String crEndDT, 
+			String outageStartDT,
+			String outageEndDT,
+			String tefOutageRequired,
+			String tefCRQ,
+			String p1Site,
+			String crIN,
+			String twoManSite,
+			String crUsed,
+			String oohWeekend,
+			String accessStatus,
+			String permitType,
+			String obass,
+			String rams,
+			String vfArrangeAccess,
+			String accessConfirmed,
+			String escort,
+			String healthAndSafety,
+			String siteAccessInformation,
+			String accessCost,
+			String consumableCost,
+			String siteName ) {
+		String updateResult = "Error: Untrapped error with updateCRQAccessDetails";
+		String message = null; 
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call updateCRQAccessDetails("
+	    			+ "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+	    	cstmt.setLong(1, snrId);
+	    	cstmt.setString(2, lastUpdatedBy );
+	    	cstmt.setString(3, vfCRQ);
+	    	cstmt.setString(4, crqStatus);
+	    	cstmt.setString(5, outagePeriod);
+	    	cstmt.setString(6, crStartDT);
+	    	cstmt.setString(7, crEndDT);
+	    	cstmt.setString(8, outageStartDT);
+	    	cstmt.setString(9, outageEndDT);
+	    	cstmt.setString(10, tefOutageRequired);
+	    	cstmt.setString(11, tefCRQ);
+	    	cstmt.setString(12, p1Site);
+	    	cstmt.setString(13, crIN);
+	    	cstmt.setString(14, twoManSite);
+	    	cstmt.setString(15, crUsed);
+	    	cstmt.setString(16, oohWeekend);
+	    	cstmt.setString(17, accessStatus);
+	    	cstmt.setString(18, permitType);
+	    	cstmt.setString(19, obass);
+	    	cstmt.setString(20, rams);
+	    	cstmt.setString(21, vfArrangeAccess);
+	    	cstmt.setString(22, accessConfirmed);
+	    	cstmt.setString(23, escort);
+	    	cstmt.setString(24, healthAndSafety);
+	    	cstmt.setString(25, siteAccessInformation);
+	    	cstmt.setString(26, accessCost);
+	    	cstmt.setString(27, consumableCost);
+	    	cstmt.setString(28, siteName);
+			cstmt.execute();
+			updateResult = "CRQ and Access details updated";
+	    } catch (Exception ex) {
+	    	message = "Error in updateCRQAccessDetails(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 	 
+		return updateResult;
+	}
+	
+	public String getIssueOwner(Long snrId ) {
+		String result = "Not found";
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetIssueOwner(?)}");
+	    	cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					result = rs.getString(1);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetIssueOwner(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return result;
+	}
+	
+	public String getIssueStatusHTML(Long snrId ) {
+		StringBuilder html = new StringBuilder();
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetSiteIssueStatus(?)}");
+	    	cstmt.setLong(1, snrId);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					String issueColour = rs.getString(1);
+					String issueTime = rs.getString(2);
+					String riskIndicator = rs.getString(3);
+					String tableStartHeader = 
+							"<table style=\"table-layout:fixed;border-style:none;width:100%\">"+
+							"<colgroup>"+
+							"<col width=\"45%\"/>"+
+							"<col width=\"35%\"/>"+
+							"<col width=\"20%\"/>"+
+							"</colgroup><tbody>";
+					html.append(tableStartHeader);
+					HTMLElement tr = new HTMLElement("tr");
+					if (!issueColour.equals("White")) {
+						HTMLElement tdBlank = new HTMLElement("td","","");
+						tr.appendValue(tdBlank.toString());
+						HTMLElement tdIssue = new HTMLElement("td","issueBox"+issueColour,issueTime);
+						String issueMessage = "Issue is open for this NR";
+						tdIssue.setAttribute("title",issueMessage);
+						tr.appendValue(tdIssue.toString());
+						HTMLElement tdRisk = 
+								new HTMLElement(
+									"td",
+									"",
+									"<img src=\"images/Empty_Risk.png\" width=\"35px\" height=\"35px\">");
+						tdRisk.setAttribute("title","None");
+						if (riskIndicator.equals("Medium")) {
+							tdRisk =
+								new HTMLElement(
+									"td",
+									"",
+									"<img src=\"images/Half_Risk.png\" width=\"35px\" height=\"35px\">");
+							tdRisk.setAttribute("title","Medium");
+						} else if (riskIndicator.equals("High")) {
+							tdRisk =
+								new HTMLElement(
+									"td",
+									"",
+									"<img src=\"images/Full_Risk.png\" width=\"35px\" height=\"35px\">");
+							tdRisk.setAttribute("title","High");
+						}
+						tdRisk.setAttribute("align", "center");
+						tr.appendValue(tdRisk.toString());
+					}
+					html.append(tr.toString());
+					String tableEnd = "</tbody></table>";
+					html.append(tableEnd);
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetIssueOwner(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+	    return html.toString();
+	}
+	
+	private HTMLElement iciIssuePicture(String boEngineer, String selectedTab) {
+		HTMLElement tdIssuePicture =
+			new HTMLElement(
+				"td", 
+				(selectedTab.equals(ServletConstants.I_AND_C_INTEGRATION)?"boDefBRFire":"boDefBRGray"),
+				"&nbsp;");
+		message = null;
+    	Connection conn = null;
+    	CallableStatement cstmt = null;
+	    try {
+	    	conn = DriverManager.getConnection(url);
+	    	cstmt = conn.prepareCall("{call GetOldestIssueDetails(?)}");
+	    	cstmt.setString(1, boEngineer);
+			boolean found = cstmt.execute();
+			if (found) {
+				ResultSet rs = cstmt.getResultSet();
+				while (rs.next()) {
+					String site = rs.getString(1);
+					String scheduledDate = rs.getString(2);
+					String issueColor = rs.getString(3);
+					String issueTime = rs.getString(4);
+					if (!site.equals("No issue")) {
+						String issueImage =
+								"<img src=\"images/"+
+								issueColor+
+								"Issue.png\" "+
+								"width=\"15px\" height=\"15px\">";
+						tdIssuePicture =
+							new HTMLElement(
+								"td", 
+								(selectedTab.equals(ServletConstants.I_AND_C_INTEGRATION)?"boDefBRFire":"boDefBRGray"),
+								issueImage);
+						tdIssuePicture.setAttribute(
+										"title", 
+										"Longest issue for site "+site+" has been open for "+issueTime);
+					}
+				}
+			}
+	    } catch (Exception ex) {
+	    	message = "Error in GetOldestIssueDetails(): " + ex.getMessage();
+	    	ex.printStackTrace();
+	    } finally {
+	    	try {
+	    		if ((cstmt != null) && (!cstmt.isClosed()))	cstmt.close();
+	    		if ((conn != null) && (!conn.isClosed())) conn.close();
+		    } catch (SQLException ex) {
+		    	ex.printStackTrace();
+		    }
+	    } 
+		return tdIssuePicture;
 	}
 	
 }

@@ -62,6 +62,7 @@ public class SNRListItem {
 	private String sfrStatus;
 	private String feList;
 	private String progressComplete;
+	private String canBeClosed;
 
 	private final String STATUS_A_S = ServletConstants.STATUS_AWAITING_SCHEDULING;
 	private final String STATUS_A_S_SHORT = "Awaiting Sch.";
@@ -294,7 +295,7 @@ public class SNRListItem {
 		this.scheduledDate = scheduledDate;
 	}
 
-	public SNRListItem(long snrId, String site, String nrId, 
+	/*public SNRListItem(long snrId, String site, String nrId, 
 			Date scheduledDate, Timestamp implementationStartDT,
 			Timestamp implementationEndDT, String status) {
 		this.snrId = snrId;
@@ -304,6 +305,20 @@ public class SNRListItem {
 		this.implementationStartDT = implementationStartDT;
 		this.implementationEndDT = implementationEndDT;
 		this.scheduledDate = scheduledDate;
+	}*/
+
+	public SNRListItem(long snrId, String site, String nrId, 
+			Date scheduledDate, Timestamp implementationStartDT,
+			Timestamp implementationEndDT, String status,
+			String canBeClosed) {
+		this.snrId = snrId;
+		this.site = site;
+		this.nrId = nrId;
+		this.status = status;
+		this.implementationStartDT = implementationStartDT;
+		this.implementationEndDT = implementationEndDT;
+		this.scheduledDate = scheduledDate;
+		this.canBeClosed = canBeClosed;
 	}
 
 	public SNRListItem(long snrId, String site, String nrId, 
@@ -406,6 +421,18 @@ public class SNRListItem {
 	
 	public String getFieldEngineersShort() {
 		return getAbbreviation(fieldEngineers);
+	}
+	
+	public String getFeList() {
+		return feList;
+	}
+	
+	public String getFeListDisplay() {
+		return feList==null?"":feList.length()>50?FE_SHORT:feList;
+	}
+	
+	public String getFeListShort() {
+		return getAbbreviation(feList);
 	}
 	
 	public String getBOEngineers() {
@@ -637,6 +664,10 @@ public class SNRListItem {
 		return twoManSite==null?"":twoManSite;
 	}
 	
+	public String getCanBeClosed() {
+		return canBeClosed==null?"":canBeClosed;
+	}
+	
 	public String getEFClaimDTTitle(String id) {
 		String title = "unknown";
 		String[] values = {this.getEF345ClaimDTTitle(),
@@ -738,7 +769,8 @@ public class SNRListItem {
 		String[] values = {site, nrId, status, 
 				this.getScheduledDateString(), 
 				this.getImplementationStartDTString(),
-				this.getImplementationEndDTString()};
+				this.getImplementationEndDTString(),
+				this.getCanBeClosed()};
 		return values;
 	}
 	
@@ -842,6 +874,10 @@ public class SNRListItem {
 				feList, CRQ, TEF,	accessStatus, getBOEngineersDisplay(), 
 				getSiteVisits()};
 		return values;
+	}
+	
+	public String getAccessStatus() {
+		return accessStatus;
 	}
 	
 	public String getHopStatus() {

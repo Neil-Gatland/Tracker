@@ -62,19 +62,51 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.HOME)) {
 				if (thisU.getUserType().equals(User.USER_TYPE_CUSTOMER)) {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CUSTOMER_MENU);
-					destination = "/customerMenu.jsp";				
-				/*} else if (thisU.getUserType().equals(User.USER_TYPE_DEVOTEAM)) {					
-					if (thisU.hasUserRole(UserRole.ROLE_B_O_ENGINEER))  {
-						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_BO);
-						destination = "/homeBO.jsp";
-					} else {
-						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
-						destination = "/workQueues.jsp";
-					}	*/	
+					destination = "/customerMenu.jsp";	
 				} else if ((thisU.getUserType().equals(User.USER_TYPE_THIRD_PARTY))&&
 						(thisU.hasUserRole(UserRole.ROLE_FIELD_ENGINEER))) {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_FE);
-					destination = "/homeFE.jsp";					
+					destination = "/homeFE.jsp";	
+				} else if (thisU.getUserType().equals(User.USER_TYPE_DEVOTEAM)) {
+					String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+					UtilBean uB = new UtilBean(thisU, destination.substring(1), url);
+					String homescreen = uB.getHomeScreen(thisU.getFullname());
+					if (homescreen.equals("Back Office")) {
+						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.BACK_OFFICE);
+						req.setAttribute("week", req.getParameter("week"));
+						req.setAttribute("weekAction", req.getParameter("weekAction"));
+						req.setAttribute("showSchedule", req.getParameter("showSchedule"));
+						req.setAttribute("showOSWork", req.getParameter("showOSWork"));
+						destination = "/backOffice.jsp";
+					} else if (homescreen.equals("Scheduling")) {
+						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.SCHEDULE_VIEW);
+						session.setAttribute("potLoadActive", "N");
+						destination = "/scheduleView.jsp";
+					} else if (homescreen.equals("Analytics")) {
+						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.DATA_ANALYTICS);
+						destination = "/dataAnalytics.jsp";
+					} else if (homescreen.equals("Reporting")) {
+						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CLIENT_REPORTING);
+						destination = "/clientReporting.jsp";
+					} else if (homescreen.equals("Site Search")) {
+						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.SITE_SEARCH);
+						String[] lastCompletedSiteDetails = uB.GetLastCompletedSite();
+						req.setAttribute("reportSite", lastCompletedSiteDetails[0]);
+						req.setAttribute("reportNrId", lastCompletedSiteDetails[1]);
+						req.setAttribute("reportDate", lastCompletedSiteDetails[2]);
+						req.setAttribute("reportType", lastCompletedSiteDetails[3]);
+						destination = "/siteSearch.jsp";
+					} else if (homescreen.equals("Live Dashboard")) {
+						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.LIVE_DASHBOARD);
+						destination = "/liveDashboard.jsp";
+						req.setAttribute("hideProject", req.getParameter("hideProject"));
+					} else if (homescreen.equals("CRQ/Access")) {
+						session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CRQ_ACCESS);
+						req.setAttribute("showRaiseCRQ",req.getParameter("showRaiseCRQ"));
+						req.setAttribute("showCloseCRQ",req.getParameter("showCloseCRQ"));
+						req.setAttribute("showOtherCRQ",req.getParameter("showOtherCRQ"));
+						destination = "/crqAccess.jsp";
+					}
 				} else {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
 					destination = "/workQueues.jsp";
@@ -104,7 +136,38 @@ public class NavigationServlet extends HttpServlet {
 				destination = "/clientReporting.jsp";
 			} else if (toScreen.equals(ServletConstants.BACK_OFFICE)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.BACK_OFFICE);
+				req.setAttribute("week", req.getParameter("week"));
+				req.setAttribute("weekAction", req.getParameter("weekAction"));
+				req.setAttribute("showSchedule", req.getParameter("showSchedule"));
+				req.setAttribute("showOSWork", req.getParameter("showOSWork"));
 				destination = "/backOffice.jsp";
+			} else if (toScreen.equals(ServletConstants.BACK_OFFICE_DETAIL)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.BACK_OFFICE_DETAIL);
+				req.setAttribute("snrId", req.getParameter("snrId"));
+				req.setAttribute("week", req.getParameter("week"));
+				req.setAttribute("weekAction", req.getParameter("weekAction"));
+				req.setAttribute("showSchedule", req.getParameter("showSchedule"));
+				req.setAttribute("showOSWork", req.getParameter("showOSWork"));
+				req.setAttribute("filterBOEngineer", req.getParameter("filterBOEngineer"));	
+				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);	
+		    	UtilBean uB = new UtilBean(thisU, destination.substring(1), url);	
+		    	long snrId = Long.parseLong(req.getParameter("snrId"));
+				req.setAttribute("currentTab", uB.getSelectedTab(snrId, ""));
+				req.setAttribute("preCheckUpdates", "");
+				destination = "/backOfficeDetail.jsp";
+			} else if (toScreen.equals(ServletConstants.CRQ_ACCESS)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CRQ_ACCESS);
+				req.setAttribute("showRaiseCRQ",req.getParameter("showRaiseCRQ"));
+				req.setAttribute("showCloseCRQ",req.getParameter("showCloseCRQ"));
+				req.setAttribute("showOtherCRQ",req.getParameter("showOtherCRQ"));
+				destination = "/crqAccess.jsp";
+			} else if (toScreen.equals(ServletConstants.CRQ_ACCESS_DETAIL)) {
+				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.CRQ_ACCESS_DETAIL);
+				req.setAttribute("snrId", req.getParameter("snrId"));
+				req.setAttribute("showRaiseCRQ",req.getParameter("showRaiseCRQ"));
+				req.setAttribute("showCloseCRQ",req.getParameter("showCloseCRQ"));
+				req.setAttribute("showOtherCRQ",req.getParameter("showOtherCRQ"));
+				destination = "/crqAccessDetail.jsp";
 			} else if (toScreen.equals(ServletConstants.SCHEDULE_VIEW)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.SCHEDULE_VIEW);
 				session.setAttribute("potLoadActive", "N");
@@ -142,7 +205,7 @@ public class NavigationServlet extends HttpServlet {
 					//destination = "/updateAccess.jsp";
 					req.setAttribute("listStatus1", ServletConstants.STATUS_SCHEDULED);
 					destination = "/updateSNRList.jsp";
-					if (!snrId.equals("-1")) {
+					if ((!snrId.equals("-1"))&&(!snrId.equals(""))) {
 						String snrStatus = req.getParameter("snrStatus");
 						if ((snrStatus.equalsIgnoreCase(ServletConstants.STATUS_SCHEDULED))) {
 							req.setAttribute("snrId", snrId);
@@ -160,7 +223,7 @@ public class NavigationServlet extends HttpServlet {
 					//destination = "/updateCRM.jsp";
 					req.setAttribute("listStatus1", ServletConstants.STATUS_SCHEDULED);
 					destination = "/updateSNRList.jsp";
-					if (!snrId.equals("-1")) {
+					if ((!snrId.equals("-1"))&&(!snrId.equals(""))) {
 						String snrStatus = req.getParameter("snrStatus");
 						if ((snrStatus.equalsIgnoreCase(ServletConstants.STATUS_SCHEDULED))) {
 							req.setAttribute("snrId", snrId);
@@ -205,7 +268,7 @@ public class NavigationServlet extends HttpServlet {
 					req.setAttribute("listStatus1", ServletConstants.STATUS_SCHEDULED);
 					req.setAttribute("listStatus2", ServletConstants.STATUS_AWAITING_SCHEDULING);
 					destination = "/multiSNRList.jsp";
-					if (!snrId.equals("-1")) {
+					if ((!snrId.equals("-1"))&&(!snrId.equals("")) ){
 						String snrStatus = req.getParameter("snrStatus");
 						if ((snrStatus.equalsIgnoreCase(ServletConstants.STATUS_SCHEDULED)) ||
 								(snrStatus.equalsIgnoreCase( ServletConstants.STATUS_AWAITING_SCHEDULING))) {
@@ -229,6 +292,10 @@ public class NavigationServlet extends HttpServlet {
 					req.setAttribute("site", req.getParameter("site"));
 					req.setAttribute("nrId", req.getParameter("nrId"));
 					req.setAttribute("snrStatus", req.getParameter("snrStatus"));
+					req.setAttribute("week", req.getParameter("week"));
+					req.setAttribute("weekAction", req.getParameter("weekAction"));
+					req.setAttribute("showSchedule", req.getParameter("showSchedule"));
+					req.setAttribute("showOSWork", req.getParameter("showOSWork"));
 					if (!snrId.equals("-1")) {
 						String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
 				    	UtilBean uB = new UtilBean(thisU, destination.substring(1), url);

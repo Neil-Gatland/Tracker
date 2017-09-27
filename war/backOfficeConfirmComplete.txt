@@ -1,0 +1,49 @@
+<div id="ConfirmCompleteId" class="altPic" style="display:none;width:280px;">
+<div class="displayPicX" title="close" onClick="ConfirmCompleteClick('close')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<tr>
+	<td class="boWhiteTitle" colspan="2">Confirm Completion</td>
+</tr>
+<tr>
+	<td align="center" colspan="2">
+		<textarea id="completionComment" 
+			placeholder="Enter any completion commentary here"
+			style="resize:none;"
+			cols="30" rows="8">
+		</textarea>
+	</td>
+</tr>
+<tr>
+	<td align="center" width="90px"> 
+		<input width="90%" type="button" class="boButton" 
+			value="Confirm"
+			onClick="ConfirmCompleteClick('Confirm')"
+			style="cursor:pointer;" >
+	</td>
+	<td align="center" width="90px"> 
+		<input width="90%" type="button" class="boButton" 
+			value="Cancel"
+			onClick="ConfirmCompleteClick('Close')"
+			style="cursor:pointer;" >
+	</td>
+</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+	function ConfirmCompleteClick(operation) {		 		
+		var commentary = document.getElementById("completionComment").value;	 		
+		document.getElementById("commentary").value = commentary;
+		var aR = document.getElementById("ConfirmCompleteId");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+		if (operation=="Confirm") {			 		
+			document.getElementById("buttonPressed").value = "confirmCompletion";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();	
+		}	
+	}
+-->
+</script>

@@ -98,5 +98,14 @@ public interface ServletConstants {
 	final static public String POT_DETAIL_ARRAY_IN_SESSION = "PotDetailArray";
 	final static public String DATA_ANALYTICS ="Analytics";
 	final static public String BACK_OFFICE = "Back Office";
+	final static public String BACK_OFFICE_DETAIL = "Back Office Detail";
+	final static public String DETAILED_PRECHECK = "Detailed PreCheck";
+	final static public String PLANNING_AND_SCRIPTING = "Planning and Scripting";
+	final static public String FINAL_PRECHECK = "Final PreCheck";
+	final static public String I_AND_C_INTEGRATION = "I and C Integration";
+	final static public String PERFORMANCE_MONITORING = "Performance Monitoring";
+	final static public String SIGN_OFF_AND_HOP = "Sign Off and HOP";
+	final static public String CRQ_ACCESS = "CRQ/Access";
+	final static public String CRQ_ACCESS_DETAIL = "CRQ Access Detail";
 
 }

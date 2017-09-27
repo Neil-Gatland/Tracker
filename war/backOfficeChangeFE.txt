@@ -1,0 +1,15 @@
+<div id="updFeEngineer" name="updFeEngineer" class="altPic" style="display:none;width:540px;">	
+	<table style="border:1.0px solid black">
+		<tr>
+			<td width="160px">
+				<%=uB.getAvailableFEEngineers(snrId)%>
+			</td>
+			<td width="20px">
+				<img src="images/green_tick_bck.png" height="20px" width="20px" onClick="chgFEClick('submit')"/>
+			</td>
+			<td width="20px">
+				<img src="images/red_cross_bck.png" height="20px" width="20px" onClick="chgFEClick('cancel')"/>
+			</td>
+		</tr>
+	</table>
+<div>

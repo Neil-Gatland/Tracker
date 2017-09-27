@@ -29,6 +29,7 @@
 	User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 	String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
 	String displayScreen = title;
+	session.setAttribute("fromScreen", displayScreen);
 	UtilBean uB = new UtilBean(thisU, displayScreen, url);
 	if (!uB.canSee()) {
 		session.setAttribute("userMessage", "Error: Access not authorised!");
@@ -165,7 +166,7 @@
 	<td id="hLDMessage" name="hLDMessage" colspan="3" class="<%=messageClass%>"><%=message%></td>
 </tr>
 <tr>
-	<td colspan="3" class="menu1"><%=uB.getMenu1()%></td>
+	<td colspan="3" ><%=uB.getMenu1()%><%=uB.getMenu2New()%></td>
 </tr>
 </tbody>
 </table>

@@ -1,0 +1,54 @@
+<div id="AddCommentaryId" class="altPic" style="display:none;width:280px;">
+<div class="displayPicX" title="close" onClick="AddCommentaryClick('close')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<tr>
+	<td class="boWhiteTitle" colspan="2">Add Commentary</td>
+</tr>
+<tr>
+	<td align="center" colspan="2">
+		<textarea id="AddComment" 
+			placeholder="Enter new commentary here"
+			style="resize:none;"
+			cols="30" rows="8">
+		</textarea>
+	</td>
+</tr>
+<tr>
+	<td align="center" width="90px"> 
+		<input width="90%" type="button" class="boButton" 
+			value="Add"
+			onClick="AddCommentaryClick('Add')"
+			style="cursor:pointer;" >
+	</td>
+	<td align="center" width="90px"> 
+		<input width="90%" type="button" class="boButton" 
+			value="Cancel"
+			onClick="AddCommentaryClick('Close')"
+			style="cursor:pointer;" >
+	</td>
+</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+	function AddCommentaryClick(operation) {		 		
+		var commentary = document.getElementById("AddComment").value;	 		
+		document.getElementById("commentary").value = commentary;
+		if ((operation=="Add")&&(isWhitespaceOrEmpty(commentary))) {
+			alert("No commentary has been supplied");
+			return;
+		}
+		var aR = document.getElementById("AddCommentaryId");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+		if (operation=="Add") {			 		
+			document.getElementById("buttonPressed").value = "AddCommentary";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();	
+		}
+	
+	}
+-->
+</script>

@@ -52,7 +52,7 @@ function resetPwd(action) {
 				<img src="images/dev_logo_rvb.png" height="110px" width="264px"></a>
 				</td>
 			<td class="lTitle1" align="left" valign="bottom">
-				<img src="images/smart.png" height="66px" width="264px"></a></td>
+				<img src="images/smart_logon.png" height="66px" width="264px"></a></td>
 			<td >&nbsp;</td>
 		</tr>
 		<tr>

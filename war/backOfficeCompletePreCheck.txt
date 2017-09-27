@@ -1,0 +1,56 @@
+<div id="CompletePreCheckId" class="altPic" style="display:none;width:280px;">
+<div class="displayPicX" title="close" onClick="CompletePreCheckClick('cancel')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<tr>
+	<td class="boWhiteTitle" colspan="3">Complete PreCheck</td>
+</tr>
+<tr>
+	<td align="center" colspan="3">
+		<textarea id="PreCheckCompletionComment" 
+			placeholder="Enter any commentary here"
+			style="resize:none;"
+			cols="30" rows="8">
+		</textarea>
+	</td>
+</tr>
+<tr>
+	<td align="center" width="90px"> 
+		<input width="90%" type="button" class="boButton" 
+			value="Passed"
+			onClick="CompletePreCheckClick('Passed')"
+			style="cursor:pointer;" >
+	</td>
+	<td align="center" width="90px"> 
+		<input width="90%" type="button" class="boButton" 
+			value="Failed"
+			onClick="CompletePreCheckClick('Failed')"
+			style="cursor:pointer;" >
+	</td>
+	<td align="center" width="90px"> 
+		<input width="90%" type="button" class="boButton" 
+			value="Not Done"
+			onClick="CompletePreCheckClick('Not Done')"
+			style="cursor:pointer;" >
+	</td>
+</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+	function CompletePreCheckClick(operation) {
+		var aR = document.getElementById("CompletePreCheckId");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";
+		if (!(operation=="cancel")) {			 		
+			document.getElementById("buttonPressed").value = "completePreCheck"+operation;		 		
+			var commentary = document.getElementById("PreCheckCompletionComment").value;	 		
+			document.getElementById("commentary").value = commentary;
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();	
+		}
+	
+	}
+-->
+</script>

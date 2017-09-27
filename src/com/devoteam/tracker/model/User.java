@@ -230,13 +230,16 @@ public class User implements Serializable {
 	public boolean hasUserRole(String userRole) {
 		boolean hasUserRole = false;
 		if (!userType.equals("Customer")) { // ignore Customer users as they never have a role
-			for (Iterator<UserRole> it = userRoles.iterator(); it.hasNext(); ) {
-				UserRole uR = it.next();
-				if (userRole.equals(uR.getRole())) {
-					hasUserRole = true;
-					break;
+			if (userRoles==null)
+					hasUserRole = false;
+			else
+				for (Iterator<UserRole> it = userRoles.iterator(); it.hasNext(); ) {
+					UserRole uR = it.next();
+					if (userRole.equals(uR.getRole())) {
+						hasUserRole = true;
+						break;
+					}
 				}
-			}
 		}		
 		return hasUserRole;
 	}

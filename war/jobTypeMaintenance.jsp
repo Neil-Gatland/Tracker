@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 String jobType = request.getAttribute("jobType")==null?"none":(String)request.getAttribute("jobType");
 String redundant = request.getAttribute("redundant")==null?"N":(String)request.getAttribute("redundant");
@@ -73,7 +73,7 @@ function tbClick(btn) {
 </script>
 <div style="width:1270px;margin:0 auto;margin-top:20px;">
 <div style="
-margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 470px; overflow: hidden; border: 1px solid black;"
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 570px; overflow: hidden; border: 1px solid black;"
 >
 <table style="width: 1270px; height: 20px;"
 >
@@ -108,7 +108,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 470px; 
 </tr>
 </tbody>
 </table>
-<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto;"
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:520px;overflow-x:hidden;overflow-y:auto;"
 >
 <table style="width: 1250px;"
 >
