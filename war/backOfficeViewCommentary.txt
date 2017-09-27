@@ -1,0 +1,33 @@
+<div id="ViewCommentaryId" class="altPic" style="display:none;width:640px;">
+<div class="displayPicX" title="close" onClick="ViewCommentaryClick('close')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<tr>
+	<td class="boWhiteTitle" colspan="2">Commentary</td>
+</tr>
+<tr>
+	<td align="center">
+		<div style="background-color:white;border:1px solid black;margin:0;padding:0;border-collapse:collapse;width:640px;height:240px;overflow-x:hidden;overflow-y:auto;">
+			<table>
+				<colgroup>
+				<col width="60px"/>
+				<col width="80px"/>
+				<col width="400px"/>
+				<col width="100px"/>
+				</colgroup>
+				<%=uB.getImplCommentaryListHTML(snrId)%>
+			</table>
+		</div>
+	</td>
+</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+	function ViewCommentaryClick(operation) {	
+		var aR = document.getElementById("ViewCommentaryId");
+		aR.style.display = "none";
+		aR.style.left = "0px";
+		aR.style.top = "0px";	
+	}
+-->
+</script>

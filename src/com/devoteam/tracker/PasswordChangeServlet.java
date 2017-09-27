@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import com.devoteam.tracker.model.User;
 import com.devoteam.tracker.util.ServletConstants;
+import com.devoteam.tracker.util.UtilBean;
 
 public class PasswordChangeServlet extends HttpServlet {
 
@@ -35,45 +36,39 @@ public class PasswordChangeServlet extends HttpServlet {
 			session = req.getSession(true);
 			session.setAttribute("userMessage", "Please enter a valid email address and password");
 		} else {
-			String fromScreen = (String)session.getAttribute("fromScreen");
-			//String fromScreen = req.getParameter("fromScreen");
+			String fromScreen = (String)session.getAttribute("fromScreen");	
+			String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+			User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
+			UtilBean uB = new UtilBean(thisU,fromScreen,url);
 			if (req.getParameter("buttonPressed").equals("cancel")) {
-				if (fromScreen == null) {
+				if (uB.userExpired()) {
 					destination = "/logon.jsp";
 		        	req.setAttribute("userMessage", 
 		        			"You must change your password before you can continue");
 				} else {
-					destination = "/" + fromScreen;
+					destination = "/userRole";
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, (String)session.getAttribute("fromScreenTitle"));
 		        	req.setAttribute("userMessage", 
 		        			"Password not changed");
 				}
-				//dispatcher.forward(req,resp);
 			} else {
-				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
-				User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
 		        String oldPassword = req.getParameter("oldPassword");
 		        String newPassword = req.getParameter("newPassword");
 		        String confPassword = req.getParameter("confPassword");
 				Pattern all = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,20})");
-				//@#$%
 		        if (oldPassword == "" || newPassword == "" || confPassword == "") {
 		        	req.setAttribute("userMessage", 
 		        			"Error: Please enter all values");
-					//dispatcher.forward(req,resp);
 		        } else if (oldPassword.equals(newPassword)) {
 		        	req.setAttribute("userMessage", 
 		        			"Error: New password cannot be the same as old password");
-					//dispatcher.forward(req,resp);
 			    } else if (!confPassword.equals(newPassword)) {
 		        	req.setAttribute("userMessage", 
 		        			"Error: New password and confirmation do not match");
-					//dispatcher.forward(req,resp);
 				} else if (!all.matcher(newPassword).matches()) {
 		        	req.setAttribute("userMessage", 
 		        			"Error: New password must be between 6 and 20 characters long and contain at least one upper case, one lower case and one non-alphanumeric character");
-					//dispatcher.forward(req,resp);
-			    } else {
+				} else {
 					try {
 						Connection conn = DriverManager.getConnection(url);
 						CallableStatement cstmt = conn.prepareCall("{call UpdateUserPassword(?,?,?,?)}");
@@ -94,10 +89,8 @@ public class PasswordChangeServlet extends HttpServlet {
 							        	req.setAttribute("userMessage", 
 							        			"New password must differ from previous passwords! Try again!");
 								} else if (ret == 0) {
-									//dispatcher = getServletContext().getRequestDispatcher("/success.jsp");
-						        	session.setAttribute("userMessage", 
+									session.setAttribute("userMessage", 
 						        			"Password changed");
-									//dispatcher.forward(req,resp);
 						        	success = true;
 								} else {
 						        	req.setAttribute("userMessage", 
@@ -110,19 +103,13 @@ public class PasswordChangeServlet extends HttpServlet {
 						} else {
 				        	req.setAttribute("userMessage", 
 				        			"Error: Unable to change password");
-						}
-			
+						}			
 						cstmt.close();
 						conn.close();
 						if (success) {
-							if (fromScreen == null) {
-								destination = "/userRole";
-							} else {
-								session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, (String)session.getAttribute("fromScreenTitle"));
-								destination = "/" + fromScreen;
-							}
+							session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, (String)session.getAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION));
+							destination = "/userRole";
 						} 
-						//dispatcher.forward(req,resp);
 					} catch (Exception e) {
 					      e.printStackTrace();
 					      req.setAttribute("userMessage", "Error: " + e.getMessage());

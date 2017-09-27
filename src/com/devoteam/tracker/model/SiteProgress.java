@@ -48,7 +48,9 @@ public class SiteProgress {
 	private String issueOwner; //41
 	private String crqClosureCode; //42
 	private String riskIndicator; //43
-	private String progressIssue; //43
+	private String progressIssue; //44
+	private String completionPercentage; //45
+	private String completionStatus; //46
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm ");
 	
@@ -96,7 +98,9 @@ public class SiteProgress {
 			String issueOwner,
 			String crqClosureCode,
 			String riskIndicator,
-			String progressIssue) {
+			String progressIssue,
+			String completionPercentage,
+			String completionStatus ) {
 		this.site = site;
 		this.nrId = nrId;
 		this.status = status;
@@ -141,6 +145,8 @@ public class SiteProgress {
 		this.crqClosureCode = crqClosureCode;
 		this.riskIndicator = riskIndicator;
 		this.progressIssue = progressIssue;
+		this.completionPercentage = completionPercentage;
+		this.completionStatus = completionStatus;
 	}
 	
 	public SiteProgress
@@ -323,9 +329,17 @@ public class SiteProgress {
 	public String getRiskIndicator() {
 		return riskIndicator==null?"None":riskIndicator;
 	}
-	
+
 	public String getProgressIssue() {
 		return progressIssue==null?"":progressIssue;
+	}
+	
+	public String getCompletionPercentage() {
+		return completionPercentage;
+	}
+	
+	public String getCompletionStatus() {
+		return completionStatus;
 	}
 
 }

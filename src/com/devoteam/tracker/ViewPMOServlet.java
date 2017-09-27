@@ -31,7 +31,7 @@ public class ViewPMOServlet extends HttpServlet  {
 	private static final long serialVersionUID = 8208582788857824551L;
 	private final String[] filters = {"filterScheduledStart", 
 			"filterScheduledEnd", "filterSite", "filterNRId", 
-			"filterStatus"};
+			"filterStatus","filterCanBeClosed"};
 	private Map<String, String> filterValues = new HashMap<String, String>();
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -165,6 +165,40 @@ public class ViewPMOServlet extends HttpServlet  {
 			    } catch (Exception ex) {
 		        	req.setAttribute("userMessage", "Error: Unable to update abort type, " + ex.getMessage());
 		        	//req.removeAttribute("buttonPressed");
+			    } finally {
+			    	try {
+						if ((cstmt != null) && (!cstmt.isClosed())) cstmt.close();
+						if ((conn != null) && (!conn.isClosed()))conn.close();
+				    } catch (SQLException ex) {
+				    	
+				    }
+			    }
+			} else if (buttonPressed.equals("closeNR")) {
+				String url = (String)session.getAttribute(ServletConstants.DB_CONNECTION_URL_IN_SESSION);
+				User thisU = (User)session.getAttribute(ServletConstants.USER_OBJECT_NAME_IN_SESSION);
+		    	Connection conn = null;
+		    	CallableStatement cstmt = null;
+			    try {
+			    	conn = DriverManager.getConnection(url);
+			    	cstmt = conn.prepareCall("{call Update_SNR_Status(?,?,?)}");
+					cstmt.setLong(1, Long.parseLong(snrId));
+					cstmt.setString(2, "Closed");
+					cstmt.setString(3, thisU.getNameForLastUpdatedBy());
+					boolean found = cstmt.execute();
+					String ok = "N";
+					if (found) {
+						ResultSet rs = cstmt.getResultSet();
+						if (rs.next()) {
+							ok = rs.getString(1);
+						}
+					}
+					if (ok.equalsIgnoreCase("Y")) {
+			        	req.setAttribute("userMessage", "NR has been closed");
+					} else {
+			        	req.setAttribute("userMessage", "Error: Unable to close NR");
+					}
+			    } catch (Exception ex) {
+		        	req.setAttribute("userMessage", "Error: Unable to close NR, " + ex.getMessage());
 			    } finally {
 			    	try {
 						if ((cstmt != null) && (!cstmt.isClosed())) cstmt.close();

@@ -31,7 +31,7 @@
 		<td align="center" colspan="3">&nbsp;</td>
 		</tr><tr>
 		<td align="center" colspan="3">
-			<img src="images/smart.png" height="44px" width="176px">
+			<img src="images/smart.png" height="44px" width="111px">
 		</td>
 		</tr><tr>
 		<td align="center" colspan="3"><font color="#53565A" size="5">

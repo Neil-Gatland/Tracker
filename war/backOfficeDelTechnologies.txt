@@ -1,0 +1,54 @@
+<%
+String botI = uB.getSNRBOTechnologiesToDelHTML(session, snrId);	
+%>
+<div id="delBOTechnologies" class="altPic" style="width:270px;display:none;">
+	<div class="displayPicX" title="close" onClick="delBOTechnologiesClick('cancel')">x</div>
+	<div style="clear:both;text-align:center;overflow:hidden"><h2 class="white">Delete Technologies</h2></div>
+<%=botI%>	
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:120px" type="button" class="boButton" onClick="delBOTechnologiesClick('delBOTechnologiesSubmit')" value="Submit" /></div>
+		<div style="float:left"><input style="width:120px" type="button" class="boButton" onClick="delBOTechnologiesClick('cancel')" value="Cancel" /></div>
+	</div>
+</div>
+<script language="javascript">
+<!--
+function showDelBOTechnologies() {
+<%if (botI.equals("")) {%>
+	alert("No more technologies to delete");
+<%} else {%>
+		var aT = document.getElementById("addBOTechnologies");	
+		var display = aT.style.display;
+		var addDetsOpen = document.getElementById("addDetsOpen").value;
+		if (addDetsOpen=="Y") {
+			alert("Please close additional details screen");
+			return;
+		}
+		if (display=="inline") {
+			alert("Cannot delete technologies while adding technologies");
+		} else {			
+			var header = document.getElementById("generalAnchor");
+			var position = getPosition(header);
+			var dT = document.getElementById("delBOTechnologies");
+			dT.style.display = "inline";
+			dT.style.left = position.x + "px";
+			dT.style.top = position.y + "px";
+			dT.style.zIndex = "110";
+		}
+<%}%>	
+}
+
+function delBOTechnologiesClick(operation) {
+	if (operation == "cancel") {
+		var aT = document.getElementById("delBOTechnologies");
+		aT.style.display = "none";
+		aT.style.left = "0px";
+		aT.style.top = "0px";
+	} else {
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "backOfficeDetail";
+		document.getElementById("f1").submit();
+	}
+}
+-->
+</script>
+

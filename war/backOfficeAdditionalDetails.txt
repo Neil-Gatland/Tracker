@@ -1,0 +1,85 @@
+<div id="additionalDetails" class="altPic" style="width:1000px;display:none;">
+	<div class="displayPicX" title="close" onClick="additionalDetailsClick('cancel')">x</div>
+	<div class="boLabelWhite" style="clear:both;text-align:center;overflow:hidden">Additional Details</div>
+	<%=uB.getAdditionalDetailsHTML(snrId)%>
+</div>
+<script language="javascript">
+<!--
+function additionalDetails() {
+	
+	var header = document.getElementById("generalAnchor");
+	var position = getPosition(header);
+	var dT = document.getElementById("additionalDetails");
+	dT.style.display = "inline";
+	dT.style.left = position.x + "px";
+	dT.style.top = position.y + "px";
+	dT.style.zIndex = "120";
+	document.getElementById("addDetsOpen").value="Y";
+}
+
+function additionalDetailsClick(operation) {
+	if (operation == "cancel") {
+		var aT = document.getElementById("additionalDetails");
+		aT.style.display = "none";
+		aT.style.left = "0px";
+		aT.style.top = "0px";
+		document.getElementById("addDetsOpen").value="N";
+		var bT = document.getElementById("updFeEngineer");
+		bT.style.display = "none";
+		bT.style.left = "0px";
+		bT.style.top = "0px";
+	} else {
+		document.getElementById("buttonPressed").value = operation;
+		document.getElementById("f1").action = "backOfficeDetail";
+		document.getElementById("f1").submit();
+	}
+}
+
+function updateHardwareVendor() {
+	document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+	document.getElementById("buttonPressed").value = "updateHardwareVendor";
+	document.getElementById("f1").action = "backOfficeDetail";
+	document.getElementById("f1").submit();	
+}
+
+function updateCRQClosureCode() {
+	document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+	document.getElementById("buttonPressed").value = "updateCRQClosureCode";
+	document.getElementById("f1").action = "backOfficeDetail";
+	document.getElementById("f1").submit();	
+}
+
+function updateTests() {
+	document.getElementById("preTestCallsDone").value = document.getElementById("preCallTestsSelect").value;
+	document.getElementById("postTestCallsDone").value = document.getElementById("postCallTestsSelect").value;
+	document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+	document.getElementById("buttonPressed").value = "updateTests";
+	document.getElementById("f1").action = "backOfficeDetail";
+	document.getElementById("f1").submit();	
+}
+
+function changeFE() {
+	var header = document.getElementById("feEngineers");
+	var position = getPosition(header);
+	var fT = document.getElementById("updFeEngineer");
+	fT.style.display = "inline";
+	fT.style.left = position.x + "px";
+	fT.style.top = position.y + "px";
+	fT.style.zIndex = "130"
+}
+
+function chgFEClick(operation) {
+	var aT = document.getElementById("updFeEngineer");
+	aT.style.display = "none";
+	aT.style.left = "0px";
+	aT.style.top = "0px";
+	if (operation=="submit") {	
+		document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+		document.getElementById("buttonPressed").value = "changeFE";
+		document.getElementById("f1").action = "backOfficeDetail";
+		document.getElementById("f1").submit();	
+	}
+}
+
+-->
+</script>

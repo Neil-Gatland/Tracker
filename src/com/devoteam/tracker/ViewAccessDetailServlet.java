@@ -40,6 +40,10 @@ public class ViewAccessDetailServlet extends HttpServlet {
 		} else {
 			String snrId = req.getParameter("snrId");
 	    	req.setAttribute("snrId", snrId);
+			req.setAttribute("week", req.getParameter("week"));
+			req.setAttribute("weekAction", req.getParameter("weekAction"));
+			req.setAttribute("showSchedule", req.getParameter("showSchedule"));
+			req.setAttribute("showOSWork", req.getParameter("showOSWork"));
 		}
 		Random r = new Random();
 		String ran = "?ran=" + String.valueOf(Math.abs(r.nextLong()));
