@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 String filterCustomer;
 String hCustomerClass;
@@ -127,21 +127,14 @@ function tbClickx(btn, snrId) {
 }
 
 function tbClick(btn) {
-	if (btn == "closeD")	{
-		document.getElementById("toScreen").value = "<%=ServletConstants.BO%>";
-		document.getElementById("f1").action = "navigation";
-		document.getElementById("f1").submit();	
-	} else {
-		//alert("selectedHistoryInd:"+selectedHistoryInd);
-		document.getElementById("buttonPressed").value = btn;
-		document.getElementById("snrId").value = selectedSNRId;
-		document.getElementById("nrId").value = selectedNRId;
-		document.getElementById("site").value = selectedSite;
-		document.getElementById("historyInd").value = selectedHistoryInd;
-		document.getElementById("historyDT").value = selectedHistoryDT;
-		document.getElementById("f1").action = "viewSNRHistory";
-		document.getElementById("f1").submit();
-	}
+	document.getElementById("buttonPressed").value = btn;
+	document.getElementById("snrId").value = selectedSNRId;
+	document.getElementById("nrId").value = selectedNRId;
+	document.getElementById("site").value = selectedSite;
+	document.getElementById("historyInd").value = selectedHistoryInd;
+	document.getElementById("historyDT").value = selectedHistoryDT;
+	document.getElementById("f1").action = "viewSNRHistory";
+	document.getElementById("f1").submit();
 }
 
 function snrSelect(snrId, historyInd, historyDT, site, nrId) {
@@ -292,7 +285,6 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <div style="float:right;width:2px" class="menu2">&nbsp;</div>
 <div id="showDetail" onClick="tbClick('showDetail')" onMouseOut="invertClass('showDetail')" onMouseOver="invertClass('showDetail')" style="float:right;display:none" class="menu2Item">View NR Detail</div>
 <div id="viewCom" onClick="tbClick('viewCom')" onMouseOut="invertClass('viewCom')" onMouseOver="invertClass('viewCom')" style="float:right;display:none" class="menu2Item">View Commentary</div>
-<div id="closeD" onClick="tbClick('closeD')" onMouseOut="invertClass('closeD')" onMouseOver="invertClass('closeD')" style="float:right;display:none" class="menu2Item">Return</div>
 <div id="tmAnchor" class="menu2">&nbsp;</div>
 </div>
 <div class="menu2" style="height:2px"></div>

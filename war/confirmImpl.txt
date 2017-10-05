@@ -1,6 +1,0 @@
-<%@ include file="header.jsp" %>
-<input type="hidden" name="fromScreen" id="fromScreen" value="confirmImpl.jsp"/>
-<input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.CONFIRM_IMPLEMENTATION%>"/>
-</form>
-</body>
-</html>

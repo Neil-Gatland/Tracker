@@ -12,6 +12,7 @@ String showOSWork = request.getAttribute("showOSWork")==null?"N":(String)request
 String currentTab = request.getAttribute("currentTab")==null?"":(String)request.getAttribute("currentTab");
 String preCheckUpdates = request.getAttribute("preCheckUpdates")==null?"":(String)request.getAttribute("preCheckUpdates");
 String addDetsOpen = request.getAttribute("addDetsOpen")==null?"":(String)request.getAttribute("addDetsOpen");
+String returnHome = request.getAttribute("returnHome")==null?"":(String)request.getAttribute("returnHome");
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="backOfficeDetail.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.BACK_OFFICE_DETAIL%>"/>
@@ -67,6 +68,43 @@ function thisScreenLoad() {
 		dT.style.left = position.x + "px";
 		dT.style.top = position.y + "px";
 		dT.style.zIndex = "120";
+	}
+	if ("<%=returnHome%>"=="Y") {
+		document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+		document.getElementById("f1").action = "backOffice";
+		document.getElementById("f1").submit();
+	} 
+}
+
+function checkForReturn(boEngineer) {
+	if (confirm("Return to home page as "+boEngineer)) {
+		var addDetsOpen = document.getElementById("addDetsOpen").value;
+		if (addDetsOpen=="Y") {
+			alert("Please close additional details screen");
+			return;
+		}
+		var preCheckUpdates = document.getElementById("preCheckUpdates").value;
+		if (!(preCheckUpdates=="")) {
+			if (!confirm("There are outstanding precheck updates. Press OK if you want to return and lose these updates?")) {
+				return;
+			}
+		}
+		var pendingUpdates = document.getElementById("pendingUpdates").value;
+		if (pendingUpdates=="Y") {
+			if (!confirm("There are outstanding updates. Press OK if you want to return and lose these updates?")) {
+				return;
+			}
+		}
+		var pendingCompletion = document.getElementById("pendingCompletion").value;
+		if (pendingCompletion=="Y") {
+
+			if (!confirm("There is a pending completion. Press OK if you want to return and ignore this")) {
+				return;
+			}
+		}
+		document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+		document.getElementById("f1").action = "backOffice";
+		document.getElementById("f1").submit();	
 	}
 }
 
@@ -647,7 +685,7 @@ function moveToSite(snrId,tab) {
 					<td id="generalAnchor" name="generalAnchor" class="boHeaderSite">
 						<%=uB.getSiteOrNRId(snrId)%><br><%=uB.getIssueStatusHTML(snrId) %>
 					</td>
-					<td class="boHeader">					
+					<td class="boHeader" style="cursor:pointer" onClick="checkForReturn('<%=filterBOEngineer%>')">					
 						<% if(!currentBO.equals(filterBOEngineer)) { %>
 						Switched to <br> <%=filterBOEngineer%>
 						<% } else { %>

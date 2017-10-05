@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 long snrId = request.getAttribute("snrId")==null?-1:Long.parseLong((String)request.getAttribute("snrId"));
 String site = request.getAttribute("site")==null?"-1":(String)request.getAttribute("site");
@@ -23,7 +23,11 @@ String accessCost = request.getAttribute("accessCost")==null?" ":(String)request
 String siteName = request.getAttribute("siteName")==null?" ":(String)request.getAttribute("siteName");		
 String siteAcessInformation = request.getAttribute("siteAcessInformation")==null?" ":(String)request.getAttribute("siteAcessInformation");			
 String permitType = request.getAttribute("permitType")==null?" ":(String)request.getAttribute("permitType");			
-String accessStatus = request.getAttribute("accessStatus")==null?" ":(String)request.getAttribute("accessStatus");		
+String accessStatus = request.getAttribute("accessStatus")==null?" ":(String)request.getAttribute("accessStatus");
+String week = request.getAttribute("week")==null?"":(String)request.getAttribute("week");
+String weekAction = request.getAttribute("weekAction")==null?"NOW":(String)request.getAttribute("weekAction");
+String showSchedule = request.getAttribute("showSchedule")==null?"N":(String)request.getAttribute("showSchedule");
+String showOSWork = request.getAttribute("showOSWork")==null?"N":(String)request.getAttribute("showOSWork");		
 %>
 <input type="hidden" name="fromScreen" id="fromScreen" value="viewAccessDetail.jsp"/>
 <input type="hidden" name="screenTitle" id="screenTitle" value="<%=ServletConstants.VIEW_ACCESS_DETAIL%>"/>
@@ -31,6 +35,10 @@ String accessStatus = request.getAttribute("accessStatus")==null?" ":(String)req
 <input type="hidden" name="site" id="site" value="<%=site%>"/>
 <input type="hidden" name="nrId" id="nrId" value="<%=nrId%>"/>
 <input type="hidden" name="snrStatus" id="snrStatus" value="<%=snrStatus%>"/>
+<input type="hidden" name="week" id="week" value="<%=week%>"/>
+<input type="hidden" name="weekAction" id="weekAction" value="<%=weekAction%>"/>
+<input type="hidden" name="showSchedule" id="showSchedule" value="<%=showSchedule%>"/>
+<input type="hidden" name="showOSWork" id="showOSWork" value="<%=showOSWork%>"/>
 <script language="javascript">
 <!--
 
@@ -40,7 +48,7 @@ function thisScreenLoad() {
 
 function tbClick(btn) {
 		if (btn == "closeD")	{
-			document.getElementById("toScreen").value = "<%=ServletConstants.BO%>";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
 			document.getElementById("f1").action = "navigation";
 			document.getElementById("f1").submit();
 	} 

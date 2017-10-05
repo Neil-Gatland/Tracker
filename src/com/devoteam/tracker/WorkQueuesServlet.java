@@ -118,13 +118,14 @@ public class WorkQueuesServlet extends HttpServlet  {
 						cstmt.close();
 						conn.close();
 				    }
-				} else if (buttonPressed.equals("preCheckThis")) {
+				/*} else if (buttonPressed.equals("preCheckThis")) {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, 
-							ServletConstants.PRE_CHECK_MAINTENANCE);
+							"xxx");
+							//ServletConstants.PRE_CHECK_MAINTENANCE);
 			    	//req.setAttribute("snrIdFilter", snrId);
 					req.setAttribute("filterNRId", nrId);
 		        	req.removeAttribute("snrId");
-					destination = "/preCheckMaintenance.jsp";
+					destination = "/preCheckMaintenance.jsp";*/
 				} else if (buttonPressed.equals("updNRId")) {
 			    	req.setAttribute("nrIdU", req.getParameter("nrId"));
 			    	preserveFilters(req);

@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 long userId = request.getAttribute("userId")==null?-1:Long.parseLong((String)request.getAttribute("userId"));
 String userStatus = request.getAttribute("userStatus")==null?"none":(String)request.getAttribute("userStatus");
@@ -139,7 +139,7 @@ function tbClick(btn) {
 
 <div style="width:1270px;margin:0 auto;margin-top:20px;">
 <div style="
-margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; overflow: hidden; border: 1px solid black;"
+margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 580px; overflow: hidden; border: 1px solid black;"
 >
 <table style="width: 1250px; height: 20px;"
 >
@@ -180,7 +180,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 </tr>
 </tbody>
 </table>
-<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:420px;overflow-x:hidden;overflow-y:auto;"
+<div style="margin:0;padding:0;border-collapse:collapse;width:1250px;height:540px;overflow-x:hidden;overflow-y:auto;"
 >
 <table style="width: 1250px;"
 >

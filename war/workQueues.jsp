@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 long snrId = request.getAttribute("snrId")==null?-1:Long.parseLong((String)request.getAttribute("snrId"));
 boolean historyInd = request.getAttribute("historyInd")==null?false:((String)request.getAttribute("historyInd")).equals("true");
@@ -533,8 +533,6 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <%@ include file="viewSiteConfiguration.txt" %>
 <!-- Update NR Id -->
 <%@ include file="updateNRId.txt" %>
-<!-- Update Evenflow Dates -->
-<%@ include file="updateEFDT.txt" %>
 </form>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 String filterSite = request.getAttribute("filterSite")==null?"All":(String)request.getAttribute("filterSite");
 String hSiteTitle = filterSite.equals("All")?"Filter not set":("Current filter value: " + filterSite);	
@@ -39,6 +39,11 @@ if (filterScheduledStart.equals("")) {
 	}
 }
 String hScheduledClass = filterScheduledStart.equals("")?"thClick":"thClickS";	
+
+String filterCanBeClosed = request.getAttribute("filterCanBeClosed")==null?"All":(String)request.getAttribute("filterCanBeClosed");
+String hCanBeClosedTitle = filterCanBeClosed.equals("All")?"Filter not set":("Current filter value: " + filterCanBeClosed);	
+String hCanBeClosedClass = filterCanBeClosed.equals("All")?"thClick":"thClickS";	
+String[] canBeClosedParameters = {"All"};
 
 long snrId = request.getAttribute("snrId")==null?-1:Long.parseLong((String)request.getAttribute("snrId"));
 String buttonPressed = request.getAttribute("buttonPressed")==null?"none":(String)request.getAttribute("buttonPressed");
@@ -108,6 +113,14 @@ function tbClick(btn) {
 		pmoD.style.left = "0px";
 		pmoD.style.top = "0px";
 		pmoD.style.zIndex = "0";
+	} else if (btn == 'closeNR') {
+		if (!confirm("Please confirm status update to Closed" )) {
+				return;
+		}
+		document.getElementById("buttonPressed").value = btn;
+		document.getElementById("snrId").value = selectedSNRId;
+		document.getElementById("f1").action = "viewPMO";
+		document.getElementById("f1").submit();
 	} else {
 		document.getElementById("buttonPressed").value = btn;
 		document.getElementById("snrId").value = selectedSNRId;
@@ -116,7 +129,7 @@ function tbClick(btn) {
 	}	
 }
 
-function snrSelect(snrId, site, nrId) {
+function snrSelect(snrId, site, nrId, canBeClosed) {
 	document.getElementById("action").style.display = "inline";
 	document.getElementById("showDetail").style.display = "inline";
 	document.getElementById("viewCom").style.display = "inline";
@@ -127,6 +140,11 @@ function snrSelect(snrId, site, nrId) {
 	document.getElementById("snrId").value = selectedSNRId;
 	document.getElementById("nrId").value = selectedNRId;
 	document.getElementById("site").value = selectedSite;
+	if (canBeClosed=="Y") {
+		document.getElementById("closeNR").style.display = "inline";
+	} else {
+		document.getElementById("closeNR").style.display = "none";
+	}
 }
 
 function filterClick(filterId, operation) {
@@ -218,11 +236,12 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 >
 <colgroup>
 <col width="250px"/>
-<col width="300px"/>
+<col width="250px"/>
 <col width="250px"/>
 <col width="100px"/>
 <col width="150px"/>
 <col width="150px"/>
+<col width="50px"/>
 <col width="50px"/>
 </colgroup>
 <tbody>
@@ -233,6 +252,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 		<th class="<%=hScheduledClass%>" id="hScheduled" onClick="headerClick('hScheduled', true)" title="<%=hScheduledTitle.toString()%>">Scheduled</th>
 		<th title="Implementation Start Date">Implementation Start</th>
 		<th title="Implementation End Date">Implementation End</th>
+		<th class="<%=hCanBeClosedClass%>" id="hCanBeClosed" onClick="headerClick('hCanBeClosed', true)" title="<%=hCanBeClosedTitle.toString()%>">Close?</th>
 		<th>Select</th>
 </tr>
 </tbody>
@@ -243,16 +263,17 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 >
 <colgroup>
 <col width="250px"/>
-<col width="300px"/>
+<col width="250px"/>
 <col width="250px"/>
 <col width="100px"/>
 <col width="150px"/>
 <col width="150px"/>
 <col width="50px"/>
+<col width="50px"/>
 </colgroup>
 <tbody>
 <%=uB.getPMOListHTML(filterSite, filterNRId, filterStatus, 
-		filterScheduledStart, filterScheduledEnd, snrId)%>
+		filterScheduledStart, filterScheduledEnd, snrId, filterCanBeClosed)%>
 </tbody>
 </table>
 </div>
@@ -264,6 +285,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <div id="showDetail" onClick="tbClick('showDetail')" onMouseOut="invertClass('showDetail')" onMouseOver="invertClass('showDetail')" style="float:right;display:none" class="menu2Item">View PMO Detail</div>
 <div id="viewCom" onClick="tbClick('viewCom')" onMouseOut="invertClass('viewCom')" onMouseOver="invertClass('viewCom')" style="float:right;display:none" class="menu2Item">View Commentary</div>
 <div id="addCom" onClick="tbClick('addCom')" onMouseOut="invertClass('addCom')" onMouseOver="invertClass('addCom')" style="float:right;display:none" class="menu2Item">Add Commentary</div>
+<div id="closeNR" onClick="tbClick('closeNR')" onMouseOut="invertClass('closeNR')" onMouseOver="invertClass('closeNR')" style="float:right;display:none" class="menu2Item">Close NR</div>
 <div id="tmAnchor" class="menu2">&nbsp;</div>
 </div>
 <div class="menu2" style="height:2px"></div>
@@ -316,6 +338,16 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfScheduled', 'ok')" value="OK" /></div>
 		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfScheduled', 'clear')" value="Clear" /></div>
 		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfScheduled', 'clearAll')" value="Clear All" /></div>
+	</div>
+</div>
+<div id ="dfCanBeClosed" class="filter" style="width:270px">
+	<div class="closeX" title="close" onClick="filterClick('dfCanBeClosed', 'cancel')">x</div>
+	<div style="clear:both">Close Filter</div>
+	<div style="padding-bottom:10px"><%=uB.getSelectHTML("CanBeClosed", "filter", "filter", filterCanBeClosed, canBeClosedParameters) %></div>
+	<div style="width:240px;margin:0 auto;">
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfCanBeClosed', 'ok')" value="OK" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfCanBeClosed', 'clear')" value="Clear" /></div>
+		<div style="float:left"><input style="width:80px" type="button" class="button" onClick="filterClick('dfCanBeClosed', 'clearAll')" value="Clear All" /></div>
 	</div>
 </div>
 <!-- end of filters -->

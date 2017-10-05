@@ -1,0 +1,66 @@
+<div id="UpdateIssueOwnerId" class="altPic" style="display:none;width:75px">
+<div class="displayPicX" title="close" onClick="UpdateIssueOwnerClick('close')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<colgroup>
+	<col width="100%"/>
+</colgroup>
+<tbody>
+<tr>
+	<td height="20px" class="IOWhite" onClick="UpdateIssueOwnerClick('setBoth')" style="cursor:pointer;">
+		Both
+	</td>
+</tr>
+<tr>
+	<td height="20px" class="IOWhite" onClick="UpdateIssueOwnerClick('setCustomer')" style="cursor:pointer;">
+		Customer
+	</td>
+</tr>
+<tr>
+	<td height="20px" class="IOWhite" onClick="UpdateIssueOwnerClick('setDevoteam')" style="cursor:pointer;">
+		Devoteam
+	</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script language="javascript">
+<!--
+function UpdateIssueOwnerClick(operation) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("UpdateIssueOwnerId");
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+	var issueOwner = document.getElementById("issueOwner").value;
+	if (operation=="setBoth") {
+		if (issueOwner=="Both") {	
+			return
+		} else {
+			document.getElementById("issueOwner").value = "Both";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} else if (operation=="setCustomer") {
+		if (issueOwner=="Customer") {	
+			return
+		} else {
+			document.getElementById("issueOwner").value = "Customer";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} else if (operation=="setDevoteam") {
+		if (issueOwner=="Devoteam") {	
+			return
+		} else {
+			document.getElementById("issueOwner").value = "Devoteam";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	}
+
+}
+-->
+</script>

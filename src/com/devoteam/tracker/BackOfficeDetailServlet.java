@@ -57,6 +57,7 @@ public class BackOfficeDetailServlet extends HttpServlet {
 			String newStatus = req.getParameter("newStatus");
 			String addDetsOpen = req.getParameter("addDetsOpen");
 			req.setAttribute("preCheckUpdates", req.getParameter("preCheckUpdates"));
+			req.setAttribute( "returnHome", "N" );
 			long snrId = Long.parseLong(req.getParameter("snrId"));
 			if (buttonPressed.equals("updateSiteProgressItem")) {
 				String updateResult = 
@@ -229,6 +230,11 @@ public class BackOfficeDetailServlet extends HttpServlet {
 									commentary, 
 									thisU.getNameForLastUpdatedBy() );
 						}
+						if (!implementationStatus.equals(ServletConstants.STATUS_COMPLETED)) {
+							req.setAttribute( "returnHome", "Y" );
+						}
+					} else {
+						
 					}
 					req.setAttribute( "userMessage", updateMessage );
 				}

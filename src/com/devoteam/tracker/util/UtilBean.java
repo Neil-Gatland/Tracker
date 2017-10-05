@@ -81,13 +81,8 @@ public class UtilBean {
 		HTMLElement m01 = new HTMLElement("div", "m01", "float:left;", 
 			"menu1Item", "menuClick('" + ServletConstants.HOME + "')", 
 			"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME);
-		// Determine if BO Home or FE home required (but not for change password screen)
+		// Determine if FE home required (but not for change password screen)
 		if (!userExpired()) {
-			/*if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
-				m01 = new HTMLElement("div", "m01", "float:left;",   
-						"menu1Item", "menuClick('" + ServletConstants.HOME_BO + "')", 
-						"invertClass('m01')", "invertClass('m01')", ServletConstants.HOME_BO);
-			}*/
 			if (user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) {
 				m01 = new HTMLElement("div", "m01", "float:left;",   
 						"menu1Item", "menuClick('" + ServletConstants.HOME_FE + "')", 
@@ -179,7 +174,7 @@ public class UtilBean {
 		if (screen.equals(ServletConstants.CUSTOMER_MENU)) {
 			m1l.add(new HTMLElement("div", "m11", "float:left;", "menu2Item", "menuClick('" +
 				ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m11')", 
-				"invertClass('m11')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
+				"invertClass('m11')",  
 				ServletConstants.VIEW_SNR_HISTORY));
 			m1l.add(new HTMLElement("div", "m12", "float:left;", "menu2Item", "menuClick('" +
 				ServletConstants.REPORTING + "')", "invertClass('m12')", 
@@ -189,12 +184,12 @@ public class UtilBean {
 			boolean confirmImpl = false;
 			boolean viewSNR = false;
 			boolean reporting = false;
-			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
+			/*if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.BO + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.BO_SHORT, 
 						ServletConstants.BO));
-			}
+			}*/
 			if (user.hasUserRole(UserRole.ROLE_SCHEDULER)) {
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
@@ -209,7 +204,7 @@ public class UtilBean {
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
+						"invertClass('m1"+i+"')", 
 						ServletConstants.VIEW_SNR_HISTORY));
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
@@ -219,26 +214,26 @@ public class UtilBean {
 				reporting = true;
 			}
 			if (user.hasUserRole(UserRole.ROLE_B_O_ENGINEER)) {				
-				i++;
+				/*i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.PRE_CHECK_MAINTENANCE + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.PRE_CHECK_MAINTENANCE_SHORT, 
-						ServletConstants.PRE_CHECK_MAINTENANCE));
+						ServletConstants.PRE_CHECK_MAINTENANCE));*/
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.CONFIRM_IMPLEMENTATION + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.CONFIRM_IMPLEMENTATION_SHORT, 
 						ServletConstants.CONFIRM_IMPLEMENTATION));
-				i++;
+				/*i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.LOAD_SITE_CONFIGURATION + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.LOAD_SITE_CONFIGURATION_SHORT, 
-						ServletConstants.LOAD_SITE_CONFIGURATION));
+						ServletConstants.LOAD_SITE_CONFIGURATION));*/
 				if (!viewSNR) {
 					i++;
 					m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 							ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
-							"invertClass('m1"+i+"')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
+							"invertClass('m1"+i+"')", 
 							ServletConstants.VIEW_SNR_HISTORY));
 				}	
 				if (!reporting) {
@@ -263,18 +258,18 @@ public class UtilBean {
 						"invertClass('m1"+i+"')", ServletConstants.JOB_TYPE_MAINTENANCE_SHORT, 
 						ServletConstants.JOB_TYPE_MAINTENANCE));
 			}
-			if (user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN)) {
+			/*if (user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN)) {
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.UPDATE_ACCESS + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.UPDATE_ACCESS));
-			}
-			if (user.hasUserRole(UserRole.ROLE_CRM_ADMIN)) {
+			}*/
+			/*if (user.hasUserRole(UserRole.ROLE_CRM_ADMIN)) {
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 						ServletConstants.UPDATE_CRM + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.UPDATE_CRM));
-			}
+			}*/
 			if ((user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER)) && (!confirmImpl)) {
 				i++;
 				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
@@ -309,7 +304,7 @@ public class UtilBean {
 					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m12')", 
 					"invertClass('m12')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
 					ServletConstants.VIEW_SNR_HISTORY));		
-		}  else if (screen.equals(ServletConstants.HOME_BO)) {
+		/*}  else if (screen.equals(ServletConstants.HOME_BO)) {
 			int i = 2;
 			boolean confirmImpl = false;
 			boolean viewSNR = false;
@@ -341,7 +336,7 @@ public class UtilBean {
 			i++;
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
-					"invertClass('m1"+i+"')", /*ServletConstants.VIEW_SNR_HISTORY_SHORT,*/ 
+					"invertClass('m1"+i+"')", 
 					ServletConstants.VIEW_SNR_HISTORY));
 			i++;
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
@@ -371,7 +366,7 @@ public class UtilBean {
 						ServletConstants.USER_ADMINISTRATION + "')", "invertClass('m1"+i+"')", 
 						"invertClass('m1"+i+"')", ServletConstants.USER_ADMINISTRATION_SHORT,
 						ServletConstants.USER_ADMINISTRATION));
-			}
+			} */
 		}
 		StringBuilder mSB = new StringBuilder(m1a.toString());
 		for (Iterator<HTMLElement> it = m1l.iterator(); it.hasNext(); ) {
@@ -385,8 +380,6 @@ public class UtilBean {
 	
 	public String getMenu2New() {
 		HTMLElement m1 = new HTMLElement("div");
-		//if (((screen.equals(ServletConstants.BACK_OFFICE))||(screen.equals(ServletConstants.SCHEDULE_VIEW))) &&
-		//		user.getUserType().equals(user.USER_TYPE_DEVOTEAM) ) {
 		if ((user.getUserType().equals(user.USER_TYPE_DEVOTEAM)) && 
 				(!screen.equals(ServletConstants.BACK_OFFICE_DETAIL)) &&
 				(!screen.equals(ServletConstants.LIVE_DASHBOARD)) &&
@@ -429,18 +422,6 @@ public class UtilBean {
 						ServletConstants.REOPEN_CANCELLED_SNR));
 			}
 			i++;
-			/*if (user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN)) {
-				i++;
-				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-						ServletConstants.UPDATE_ACCESS + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.UPDATE_ACCESS));
-			}
-			if (user.hasUserRole(UserRole.ROLE_CRM_ADMIN)) {
-				i++;
-				m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
-						ServletConstants.UPDATE_CRM + "')", "invertClass('m1"+i+"')", 
-						"invertClass('m1"+i+"')", ServletConstants.UPDATE_CRM));
-			}*/
 			m1l.add(new HTMLElement("div", "m1"+i, "float:left;", "menu2Item", "menuClick('" +
 					ServletConstants.VIEW_SNR_HISTORY + "')", "invertClass('m1"+i+"')", 
 					"invertClass('m1"+i+"')", 
@@ -538,37 +519,41 @@ public class UtilBean {
 					canSee = user.hasUserRole(UserRole.ROLE_ADMINISTRATOR);
 				} else if (screen.equals(ServletConstants.SCHEDULING)) {
 					canSee = user.hasUserRole(UserRole.ROLE_SCHEDULER);
-				} else if (screen.equals(ServletConstants.PRE_CHECK_MAINTENANCE)) {
-					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
-				} else if (screen.equals(ServletConstants.UPDATE_ACCESS)) {
-					canSee = user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN);
+				/*} else if (screen.equals(ServletConstants.PRE_CHECK_MAINTENANCE)) {
+					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);*/
+				/*} else if (screen.equals(ServletConstants.UPDATE_ACCESS)) {
+					canSee = user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN);*/
 				} else if (screen.equals(ServletConstants.VIEW_ACCESS_DETAIL)) {
 					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
-				} else if (screen.equals(ServletConstants.SITE_PROGRESS)) {
-					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
-				} else if (screen.equals(ServletConstants.VIEW_COMMENTARY_DETAIL)) {
-					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
-				} else if (screen.equals(ServletConstants.HOME_BO)) {
-					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
-				} else if (screen.equals(ServletConstants.EXPANDED)) {
-					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
-				} else if (screen.equals(ServletConstants.UPDATE_CRM)) {
-					canSee = user.hasUserRole(UserRole.ROLE_CRM_ADMIN);
-				} else if (screen.equals(ServletConstants.CONFIRM_IMPLEMENTATION)) {
+				/*} else if (screen.equals(ServletConstants.SITE_PROGRESS)) {
+					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);*/
+				/*} else if (screen.equals(ServletConstants.VIEW_COMMENTARY_DETAIL)) {
+					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);*
+				/*} else if (screen.equals(ServletConstants.HOME_BO)) {
+					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);*/
+				/*} else if (screen.equals(ServletConstants.EXPANDED)) {
+					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);*/
+				/*} else if (screen.equals(ServletConstants.UPDATE_CRM)) {
+					canSee = user.hasUserRole(UserRole.ROLE_CRM_ADMIN);*/
+				/*} else if (screen.equals(ServletConstants.CONFIRM_IMPLEMENTATION)) {
 					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) ||
-						user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER);
-				} else if (screen.equals(ServletConstants.LOAD_SITE_CONFIGURATION)) {
-					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
+						user.hasUserRole(UserRole.ROLE_FIELD_ENGINEER);*/
+				/*} else if (screen.equals(ServletConstants.LOAD_SITE_CONFIGURATION)) {
+					canSee = user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);*/
 				} else if (screen.equals(ServletConstants.RESCHED_REALLOC_CANCEL_SNR)) {
 					canSee = user.hasUserRole(UserRole.ROLE_SCHEDULER);
 				} else if (screen.equals(ServletConstants.REOPEN_CANCELLED_SNR)) {
 					canSee = user.hasUserRole(UserRole.ROLE_SCHEDULER);
 				} else if (screen.equals(ServletConstants.VIEW_SNR_HISTORY)) {
 					canSee = user.hasUserRole(UserRole.ROLE_SCHEDULER) ||
-						user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
+							user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) ||
+							user.hasUserRole(UserRole.ROLE_CRM_ADMIN) ||
+							user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN);
 				} else if (screen.equals(ServletConstants.REPORTING)) {
 					canSee = user.hasUserRole(UserRole.ROLE_SCHEDULER) ||
-						user.hasUserRole(UserRole.ROLE_B_O_ENGINEER);
+							user.hasUserRole(UserRole.ROLE_B_O_ENGINEER) ||
+							user.hasUserRole(UserRole.ROLE_CRM_ADMIN) ||
+							user.hasUserRole(UserRole.ROLE_ACCESS_ADMIN);
 				} else if (screen.equals(ServletConstants.PMO)) {
 					canSee = user.hasUserRole(UserRole.ROLE_PMO);
 				} else if (screen.equals(ServletConstants.LIVE_DASHBOARD)) {
@@ -971,7 +956,8 @@ public class UtilBean {
 				oddRow = !oddRow;
 				SNRListItem sli = it.next();
 				String[] values = sli.getUpdateValueArray(title);
-				String cS = title.equals(ServletConstants.UPDATE_ACCESS)?""
+				//String cS = title.equals(ServletConstants.UPDATE_ACCESS)?""
+				String cS = title.equals("Update Access")?""
 						:sli.closeCRQ()?"r":sli.flagCRQRaised()?"g":"";
 				for (int i = 0; i < values.length; i ++) {
 					HTMLElement td = new HTMLElement("td", (oddRow?"grid1":"grid2")+cS, 
@@ -1020,7 +1006,8 @@ public class UtilBean {
 		Timestamp scheduledStartTS = null;
 		Timestamp scheduledEndTS = null;
 	    try {
-	    	if (!title.equals(ServletConstants.UPDATE_ACCESS)) {
+	    	//if (!title.equals(ServletConstants.UPDATE_ACCESS)) {
+	    	if (!title.equals("Update Access")) {
 				if (!StringUtil.hasNoValue(filterScheduledStart)) {
 					try {
 						scheduledStartTS = Timestamp.valueOf(filterScheduledStart.substring(6, 10) + "-" +
@@ -1549,7 +1536,8 @@ public class UtilBean {
 				html.append(tr.toString());
 			}
 		} else {
-			String cS = title.equals(ServletConstants.UPDATE_ACCESS)?""
+			//String cS = title.equals(ServletConstants.UPDATE_ACCESS)?""
+			String cS = title.equals("Update Access")?""
 					:sli.closeCRQ()?"r":sli.flagCRQRaised()?"g":"";
 			HTMLElement tr = new HTMLElement("tr");
 			String[] values = sli.getUpdateValueArray(title);
@@ -1998,7 +1986,9 @@ public class UtilBean {
 						rs.getString(90),rs.getTimestamp(91),rs.getString(92),rs.getTimestamp(93),
 						rs.getString(94),rs.getTimestamp(95),rs.getString(96),rs.getTimestamp(97),
 						rs.getString(98),rs.getTimestamp(99),rs.getString(100),rs.getTimestamp(101),
-						rs.getString(102),rs.getTimestamp(103),	rs.getString(104),rs.getString(105));
+						rs.getString(102),rs.getTimestamp(103),	rs.getString(104),rs.getString(105),
+						rs.getString(106),rs.getString(107),rs.getString(108),rs.getString(109),
+						rs.getString(110),rs.getTimestamp(111));
 				}
 			}
 	    } catch (Exception ex) {
@@ -5919,10 +5909,8 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 			name = "smart_NRH.png";
 		} else if (screen.equals(ServletConstants.REPORTING)) {
 			name = "smart_REP.png";
-		} else if (screen.equals(ServletConstants.UPDATE_CRM)) {
-			name = "smart_CRQ.png";
-		} else if (screen.equals(ServletConstants.UPDATE_ACCESS)) {
-			name = "smart_ACC.png";
+		} else if (screen.equals(ServletConstants.VIEW_ACCESS_DETAIL)) {
+			name = "smart_VAD.png";
 		} else if (screen.equals(ServletConstants.CHANGE_PASSWORD)) {
 			name = "smart_PC.png";
 		} else if (screen.equals(ServletConstants.CRQ_ACCESS)) {
@@ -11051,13 +11039,13 @@ public String getAvailableUsersForRoleHTML2(String snrId, String role) {
 								"value=\"Update\" "+
 								"title=\"Click to apply updates\" "+
 								"onClick=\"updateImplementation()\" />"+
-								"&nbsp:"+
+								"&nbsp;"+
 								"<input type=\"button\" class=\"boButton\" "+
 								"style=\"width:15%;\" "+
 								"value=\"Add Commentary\" "+
 								"title=\"Click to add commentary\" "+
 								"onClick=\"addImplementationCommentary()\" />"+
-								"&nbsp:"+
+								"&nbsp;"+
 								"<input type=\"button\" class=\"boButton\" "+
 								"style=\"width:15%;\" "+
 								"value=\"View Commentary\" "+

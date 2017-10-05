@@ -1,0 +1,42 @@
+<div id="UpdateProgressIssueId" class="altPic" style="display:none;width:200px">
+<div class="displayPicX" title="close" onClick="UpdateProgressIssueClick('close')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<tr>
+	<td>
+		<textarea id="progressIssueNew" name="progressIssueNew" style="width:200px;height:100px;resize:none;"></textarea>
+	</td>
+</tr>
+<tr>
+	<td>
+		<input class="button" 
+				style="width:70px;height:20px;" 
+				title="Update progress issue"
+				onClick="UpdateProgressIssueClick('update')"
+				value="Update" type="button"></td>
+	</td>
+</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+function UpdateProgressIssueClick(operation) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("UpdateProgressIssueId");
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+	if (operation=="update") {
+		var originalValue = document.getElementById("progressIssue").value;
+		var amendedValue = document.getElementById("progressIssueNew").value;
+		if (originalValue==amendedValue) {
+			return;
+		} else {
+			document.getElementById("progressIssue").value = amendedValue;
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	}
+}
+-->
+</script>

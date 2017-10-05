@@ -736,7 +736,8 @@ public class SNRListItem {
 	}
 */	
 	public String[] getUpdateValueArray(String title) {
-		return title.equals(ServletConstants.UPDATE_ACCESS)
+		//return title.equals(ServletConstants.UPDATE_ACCESS)
+		return title.equals("Update Access")
 				?this.getUpdateAccessValueArray()
 				:this.getUpdateCRMValueArray();
 	}
