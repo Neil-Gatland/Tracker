@@ -111,9 +111,9 @@ public class NavigationServlet extends HttpServlet {
 					session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
 					destination = "/workQueues.jsp";
 				}
-			} else if (toScreen.equals(ServletConstants.HOME_BO)) {
+			/*} else if (toScreen.equals(ServletConstants.HOME_BO)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_BO);
-				destination = "/homeBO.jsp";
+				destination = "/homeBO.jsp";*/
 			} else if (toScreen.equals(ServletConstants.HOME_FE)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_FE);
 				destination = "/homeFE.jsp";
@@ -175,14 +175,14 @@ public class NavigationServlet extends HttpServlet {
 			} else if (toScreen.equals(ServletConstants.MISSING_DATA)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.MISSING_DATA);
 				destination = "/missingData.jsp";
-			} else if (toScreen.equals(ServletConstants.EXPANDED)) {
+			/*} else if (toScreen.equals(ServletConstants.EXPANDED)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.WORK_QUEUES);
-				destination = "/workQueues.jsp";
-			} else if (toScreen.equals(ServletConstants.BO)) {
+				destination = "/workQueues.jsp";*/
+			/*} else if (toScreen.equals(ServletConstants.BO)) {
 				session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, ServletConstants.HOME_BO);
 				req.setAttribute("snrId", req.getParameter("snrId"));
 				req.setAttribute("snrStatus", req.getParameter("snrStatus"));
-				destination = "/homeBO.jsp";
+				destination = "/homeBO.jsp";*/
 			} else {
 				String snrId = req.getParameter("snrId")==null?"-1":req.getParameter("snrId");
 				//session.setAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION, toScreen);
@@ -192,16 +192,16 @@ public class NavigationServlet extends HttpServlet {
 					destination = "/viewPMOList.jsp";
 				} else if (toScreen.equals(ServletConstants.USER_ADMINISTRATION)) {
 					destination = "/userAdministration.jsp";
-				} else if (toScreen.equals(ServletConstants.PRE_CHECK_MAINTENANCE)) {
+				/*} else if (toScreen.equals(ServletConstants.PRE_CHECK_MAINTENANCE)) {
 					if (!snrId.equals("-1")) {
 						/*String snrStatus = req.getParameter("snrStatus");
 						if ((snrStatus.equalsIgnoreCase(ServletConstants.STATUS_SCHEDULED)) ||
-								(snrStatus.equalsIgnoreCase( ServletConstants.STATUS_REQUESTED))) {*/
+								(snrStatus.equalsIgnoreCase( ServletConstants.STATUS_REQUESTED))) {
 							req.setAttribute("filterNRId", req.getParameter("nrId"));
 						//}
 					}	
-					destination = "/preCheckMaintenance.jsp";
-				} else if (toScreen.equals(ServletConstants.UPDATE_ACCESS)) {
+					destination = "/preCheckMaintenance.jsp";*/
+				/*} else if (toScreen.equals(ServletConstants.UPDATE_ACCESS)) {
 					//destination = "/updateAccess.jsp";
 					req.setAttribute("listStatus1", ServletConstants.STATUS_SCHEDULED);
 					destination = "/updateSNRList.jsp";
@@ -236,8 +236,8 @@ public class NavigationServlet extends HttpServlet {
 							req.setAttribute("listStatus2", "All");
 							destination = "/updateSNRList";
 						}
-					}
-				} else if (toScreen.equals(ServletConstants.CONFIRM_IMPLEMENTATION)) {
+					}*/
+				/*} else if (toScreen.equals(ServletConstants.CONFIRM_IMPLEMENTATION)) {
 					//destination = "/confirmImpl.jsp";
 					req.setAttribute("listStatus1", ServletConstants.STATUS_SCHEDULED);
 					req.setAttribute("listStatus2", ServletConstants.STATUS_COMPLETED);
@@ -260,9 +260,9 @@ public class NavigationServlet extends HttpServlet {
 							req.setAttribute("buttonPressed", "showImplementationDetail");
 							destination = "/multiSNRList";
 						}
-					}
-				} else if (toScreen.equals(ServletConstants.LOAD_SITE_CONFIGURATION)) {
-					destination = "/loadSiteConfig.jsp";
+					}*/
+				/*} else if (toScreen.equals(ServletConstants.LOAD_SITE_CONFIGURATION)) {
+					destination = "/loadSiteConfig.jsp";*/
 				} else if (toScreen.equals(ServletConstants.RESCHED_REALLOC_CANCEL_SNR)) {
 					//destination = "/amendSNR.jsp";
 					req.setAttribute("listStatus1", ServletConstants.STATUS_SCHEDULED);
@@ -276,16 +276,16 @@ public class NavigationServlet extends HttpServlet {
 						}
 					}
 				} else if (toScreen.equals(ServletConstants.VIEW_SNR_HISTORY)) {
-					if (!snrId.equals("-1")) {
+					/*if (!snrId.equals("-1")) {
 						req.setAttribute("filterNRId", req.getParameter("nrId"));
-					}
+					} */
 					destination = "/viewSNRHistory.jsp";
-				} else if (toScreen.equals(ServletConstants.VIEW_COMMENTARY_DETAIL)) {					
+				/*} else if (toScreen.equals(ServletConstants.VIEW_COMMENTARY_DETAIL)) {					
 					destination = "/viewCommentaryDetail.jsp";
 					req.setAttribute("snrId", req.getParameter("snrId"));
 					req.setAttribute("site", req.getParameter("site"));
 					req.setAttribute("nrId", req.getParameter("nrId"));
-					req.setAttribute("snrStatus", req.getParameter("snrStatus"));
+					req.setAttribute("snrStatus", req.getParameter("snrStatus"));*/
 				} else if (toScreen.equals(ServletConstants.VIEW_ACCESS_DETAIL)) {
 					destination = "/viewAccessDetail.jsp";
 					req.setAttribute("snrId", req.getParameter("snrId"));
@@ -320,12 +320,12 @@ public class NavigationServlet extends HttpServlet {
 				    	req.setAttribute("permitType", sAD.getPermitType());	
 				    	req.setAttribute("accessStatus", sAD.getAccessStatus());
 					}
-				} else if (toScreen.equals(ServletConstants.SITE_PROGRESS)) {
+				/*} else if (toScreen.equals(ServletConstants.SITE_PROGRESS)) {
 					destination = "/siteProgress.jsp";
 					req.setAttribute("snrId", req.getParameter("snrId"));
 					req.setAttribute("site", req.getParameter("site"));
 					req.setAttribute("nrId", req.getParameter("nrId"));
-					req.setAttribute("returnScreen", req.getParameter("fromScreen"));
+					req.setAttribute("returnScreen", req.getParameter("fromScreen"));*/
 				} else if (toScreen.equals(ServletConstants.REPORTING)) {
 					destination = "/reporting.jsp";
 				} else if (toScreen.equals(ServletConstants.REOPEN_CANCELLED_SNR)) {

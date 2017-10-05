@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <!--input type="hidden" id="fromScreen" value="passwordChange.jsp"/-->
 <input type="hidden" name="buttonPressed" id="buttonPressed" value=""/>
 <div class="lTitle4" style="float:left;width:50%;text-align:right;margin:10px">Old Password:</div>

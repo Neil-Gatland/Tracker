@@ -71,17 +71,7 @@
 	}
 	
 	function menuClick(destination) {
-		//alert(destination);
-		if (destination=="home") {
-			if ('<%=thisU.getUserType()%>'=='Customer') {
-				document.getElementById("toScreen").value ="<%=ServletConstants.CUSTOMER_MENU%>";
-			} else {
-				document.getElementById("toScreen").value = "<%=ServletConstants.HOME_BO%>";
-			}
-		} else {
-			document.getElementById("toScreen").value = destination;
-		}
-		//alert(document.getElementById("toScreen").value );
+		document.getElementById("toScreen").value = destination;
 		document.getElementById("f1").action = "navigation";
 		document.getElementById("f1").submit();
 	}

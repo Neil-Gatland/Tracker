@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 boolean multiC = ((String)session.getAttribute(ServletConstants.SCREEN_TITLE_IN_SESSION)).equals(ServletConstants.CONFIRM_IMPLEMENTATION);
 String listStatus1 = request.getAttribute("listStatus1")==null?"none":(String)request.getAttribute("listStatus1");
@@ -369,26 +369,6 @@ function showReallocate() {
 	raSNR.style.zIndex = "99";
 }
 
-function showSiteProgress() {
-	/*var header = document.getElementById("hAnchor");
-	var position = getPosition(header);
-	var snrB = document.getElementById("snrB2");
-	snrB.style.display = "inline";
-	snrB.style.left = position.x + "px";
-	snrB.style.top = position.y + "px";
-	snrB.style.zIndex = "94";
-	var anchor = document.getElementById("hAnchorB2");
-	position = getPosition(anchor);
-	var spSNR = document.getElementById("siteProgress");
-	spSNR.style.display = "inline";
-	spSNR.style.left = position.x + "px";
-	spSNR.style.top = position.y + "px";
-	spSNR.style.zIndex = "98";*/
-	document.getElementById("toScreen").value = "<%=ServletConstants.SITE_PROGRESS%>";
-	document.getElementById("f1").action = "navigation";
-	document.getElementById("f1").submit();
-}
-
 function showAddPerformanceCommentary() {
 	var header = document.getElementById("hSD");
 	var position = getPosition(header);
@@ -691,26 +671,8 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <%@ include file="viewSNRCommentary.txt" %>
 <!-- add SNR commentary -->
 <%@ include file="addSNRCommentary.txt" %>
-<!-- SNR Implementation Header -->
-<%@ include file="snrImplementationHeader.txt" %>
-<!-- SNR Implementation Detail -->
-<%@ include file="snrImplementationDetail.txt" %>
-<!-- Reallocate SNR -->
-<%@ include file="reallocateSNR.txt" %>
-<!-- Reschedule SNR -->
-<%@ include file="rescheduleSNR.txt" %>
 <!-- SNR detail -->
 <%@ include file="viewSNRDetail.txt" %>
-<!-- Add Role -->
-<%@ include file="addRole.txt" %>
-<!-- Change Role -->
-<%@ include file="chgRole.txt" %>
-<!-- Add BO Technologies -->
-<%@ include file="addBOTechnologies.txt" %>
-<!-- Delete BO Technologies -->
-<%@ include file="delBOTechnologies.txt" %>
-<!-- PreCheck Items -->
-<%@ include file="preCheckItems.txt" %>
 </form>
 </body>
 </html>

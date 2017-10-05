@@ -39,8 +39,6 @@ public class SNR {
 	private String crInInd;
 	private Timestamp crInStartDT;
 	private Timestamp crInEndDT;
-	//private Timestamp crInOutageStartDT;
-	//private Timestamp crInOutageEndDT;
 	private String crInUsed;
 	private String crqStatus;
 	private String implementationStatus;
@@ -118,6 +116,12 @@ public class SNR {
 	private Timestamp initialHOPDT;
 	private String issueOwner;
 	private String riskIndicator;
+	private String siteDataRequested;
+	private String idfRequested;
+	private String cellsPlanned2G;
+	private String cellsPlanned3G;
+	private String cellsPlanned4G;
+	private Timestamp plannedDate;
 	private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.UK);
@@ -144,7 +148,9 @@ public class SNR {
 			"Outage Period:","SFR Completed:","SFR On Sharepoint:",
 			"HOP Filename:", "HOP Delivered:", "HOP On Sharepoint:", 
 			"Pre-Test Calls Done:", "NSA NetActs:", "CRQ Closure Code:", 
-			"Post-Test Calls Done:", "", "", 
+			"Post-Test Calls Done:", "Site Data Requested:", "Cells Planned 2G:", 
+			"", "IDF Requested:", "Cells Planned 3G:", 
+			"", "Planned Date:", "Cells Planned 4G:", 
 			"Site Progress:", "Issue Owner:", "Risk Indicator:",
 			"Last Updated By:", "Last Updated Date:", "History Date:"};
 	//end of repeatable bit 
@@ -474,7 +480,9 @@ public class SNR {
 			Timestamp postCallTestDT, String closureCode, Timestamp closureCodeDT,
 			String leaveSite, Timestamp leaveSiteDT, String bookOffSite,
 			Timestamp bookOffSiteDT, String performanceMonitoring, Timestamp performanceMonitoringDT,
-			String initialHOP, Timestamp initialHOPDT, String issueOwner, String riskIndicator ) {
+			String initialHOP, Timestamp initialHOPDT, String issueOwner, String riskIndicator,
+			String siteDataRequested, String idfRequested, String cellsPlanned2G,
+			String cellsPlanned3G, String cellsPlanned4G, Timestamp plannedDate) {
 		this.snrId = snrId;
 		this.customerId = customerId;
 		this.customerName = customerName;
@@ -581,6 +589,12 @@ public class SNR {
 		this.initialHOPDT = initialHOPDT;
 		this.issueOwner = issueOwner;
 		this.riskIndicator = riskIndicator;
+		this.siteDataRequested = siteDataRequested;
+		this.idfRequested = idfRequested;
+		this.cellsPlanned2G = cellsPlanned2G;
+		this.cellsPlanned3G = cellsPlanned3G;
+		this.cellsPlanned4G = cellsPlanned4G;
+		this.plannedDate = plannedDate;
 	}
 	public long getSNRId() {
 		return snrId;
@@ -930,13 +944,13 @@ public class SNR {
 		String sp = "<table><tr>";
 		sp = sp + "<td width=\"20px\" title=\"Checked In"+fmtDT(checkedInDT)+"\" "
 				+ "class=\"" + boxClass(checkedIn) + "\">&nbsp;"+"</td>";
-		sp = sp + "<td width=\"20px\" title=\"Site Booked On"+fmtDT(checkedInDT)+"\" "
+		sp = sp + "<td width=\"20px\" title=\"Site Booked On"+fmtDT(bookedOnDT)+"\" "
 				+ "class=\"" + boxClass(bookedOn) + "\">&nbsp;"+"</td>";
-		sp = sp + "<td width=\"20px\" title=\"Site Accessed"+fmtDT(checkedInDT)+"\" "
+		sp = sp + "<td width=\"20px\" title=\"Site Accessed"+fmtDT(siteAccessedDT)+"\" "
 				+ "class=\"" + boxClass(siteAccessed) + "\">&nbsp;"+"</td>";
-		sp = sp + "<td width=\"20px\" title=\"Physical Checks"+fmtDT(checkedInDT)+"\" "
+		sp = sp + "<td width=\"20px\" title=\"Physical Checks"+fmtDT(physicalChecksDT)+"\" "
 				+ "class=\"" + boxClass(physicalChecks) + "\">&nbsp;"+"</td>";
-		sp = sp + "<td width=\"20px\" title=\"Pre Call Test"+fmtDT(checkedInDT)+"\" "
+		sp = sp + "<td width=\"20px\" title=\"Pre Call Test"+fmtDT(preCallTestDT)+"\" "
 				+ "class=\"" + boxClass(preCallTest) + "\">&nbsp;"+"</td>";
 		sp = sp + "<td width=\"20px\" title=\"Site Locked"+fmtDT(siteLockedDT)+"\" "
 				+ "class=\"" + boxClass(siteLocked) + "\">&nbsp;"+"</td>";
@@ -963,7 +977,7 @@ public class SNR {
 		sp = sp + "<td width=\"20px\" title=\"Performance"+fmtDT(performanceMonitoringDT)+"\" "
 				+ "class=\"" + boxClass(performanceMonitoring) + "\">&nbsp;"+"</td>";
 		sp = sp + "<td width=\"20px\" title=\"Hand Off Pack"+fmtDT(initialHOPDT)+"\" "
-				+ "class=\"" + boxClass(postCallTest) + "\">&nbsp;"+"</td>";
+				+ "class=\"" + boxClass(initialHOP) + "\">&nbsp;"+"</td>";
 		sp = sp + "<tr></table>";		
 		return sp;
 	}
@@ -1000,6 +1014,30 @@ public class SNR {
 		return riskIndicator==null?"":riskIndicator;
 	}
 	
+	public String getSiteDataRequested() {
+		return siteDataRequested==null?"":siteDataRequested;
+	}
+	
+	public String getIDFRequested() {
+		return idfRequested==null?"":idfRequested;
+	}
+	
+	public String getCellsPlanned2G() {
+		return cellsPlanned2G==null?"":cellsPlanned2G;
+	}
+	
+	public String getCellsPlanned3G() {
+		return cellsPlanned3G==null?"":cellsPlanned3G;
+	}
+	
+	public String getCellsPlanned4G() {
+		return cellsPlanned4G==null?"":cellsPlanned4G;
+	}
+
+	public String getPlannedDateString() {
+		return plannedDate==null?"":dateFormatter.format(plannedDate);
+	}
+	
 	public String[] getTitleArray() {
 		return titleArray;
 	}
@@ -1031,7 +1069,9 @@ public class SNR {
 			this.getOutagePeriodString(),this.getSFRCompleted(),this.getSFROnSharepoint(),
 			this.getHOPFilename(), this.getHOPDeliveredInd(), this.getHOPOnSharepoint(), 
 			this.getPreTestCallsDone(), this.getNSANetActsInd(), this.getCrqClosureCode(), 
-			this.getPostTestCallsDone(), "", "", 
+			this.getPostTestCallsDone(), this.getSiteDataRequested(), this.getCellsPlanned2G(), 
+			"",this.getIDFRequested(),this.getCellsPlanned3G(),
+			"",this.getPlannedDateString(),this.getCellsPlanned4G(),
 			this.getSiteProgress(), this.getIssueOwner(), this.getRiskIndicator(),
 			this.getLastUpdatedBy(), this.getLastUpdatedDateString(), this.getHistoryDateString()}; 
 			//end of repeatable bit 

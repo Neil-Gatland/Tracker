@@ -1,0 +1,98 @@
+<div id="UpdateSiteProgressItem" class="altPic" style="display:none;width:170px">
+<div class="displayPicX" title="close" onClick="UpdateSiteProgressItemClick('close')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<colgroup>
+	<col width="100%"/>
+</colgroup>
+<tbody>
+<tr>
+	<td class="PISHead">
+		<input class="PISHead" style="border:none;" type="text" id="displayProgressItem">
+		<input id="crqClosureCode" class="PIStext" style="width:40%;" type="text">
+	</td>
+</tr>
+<tr>
+	<td height="20px" class="PISWhite" onClick="UpdateSiteProgressItemClick('setBlank')" style="cursor:pointer;">Clear
+	</td>
+<tr>
+<tr>
+	<td height="20px" class="PISAmber" onClick="UpdateSiteProgressItemClick('setInProgress')" style="cursor:pointer;">
+		In Progress
+	</td>
+</tr>
+<tr>
+	<td height="20px" class="PISGreen" onClick="UpdateSiteProgressItemClick('setCompleted')" style="cursor:pointer;">
+		Completed
+	</td>
+</tr>
+<tr>
+	<td height="20px" class="PISGray" onClick="UpdateSiteProgressItemClick('setNotApplicable')" style="cursor:pointer;">
+		Not Applicable
+	</td>
+</tr>
+<tr>
+	<td height="20px" class="PISRed" onClick="UpdateSiteProgressItemClick('setIssue')" style="cursor:pointer;">
+		Issue
+	</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script language="javascript">
+<!--
+function UpdateSiteProgressItemClick(operation) {
+	var currentStatus = document.getElementById("currentStatus").value;
+	var progressItem = document.getElementById("progressItem").value;
+	document.getElementById("closureCode").value = document.getElementById("crqClosureCode").value;
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("UpdateSiteProgressItem");
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+	if (operation=="setBlank") {
+		document.getElementById("newStatus").value = "NULL";
+		document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+		document.getElementById("f1").action = "backOfficeDetail";
+		document.getElementById("f1").submit();	
+	} else if (operation=="setInProgress") {
+		if ( (currentStatus=="In Progress")&&((!progressItem=="closureCode"))) {	
+			return
+		} else {
+			document.getElementById("newStatus").value = "In Progress";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} else if (operation=="setCompleted") {
+		if ((currentStatus=="Completed")&&(!(progressItem=="closureCode"))) {	
+			return
+		} else {
+			document.getElementById("newStatus").value = "Completed";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} else if (operation=="setNotApplicable") {
+		if ((currentStatus=="Not Applicable")&&(!(progressItem=="closureCode"))) {	
+			return
+		} else {
+			document.getElementById("newStatus").value = "Not Applicable";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} else if (operation=="setIssue") {
+		var issueOwner = document.getElementById("issueOwner").value;
+		if ((issueOwner=="Both")||(issueOwner=="Customer")||(issueOwner=="Devoteam")) {	
+			alert('Issue already set on another item!');
+			return
+		} else {
+			document.getElementById("newStatus").value = "Issue";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	}
+}	
+-->
+</script>

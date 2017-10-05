@@ -1,4 +1,4 @@
-<%@ include file="header.jsp" %>
+<%@ include file="headerLD.jsp" %>
 <%
 String listStatus1 = request.getAttribute("listStatus1")==null?"none":(String)request.getAttribute("listStatus1");
 String listStatus2 = request.getAttribute("listStatus2")==null?"none":(String)request.getAttribute("listStatus2");
@@ -406,12 +406,6 @@ function filterClick(filterId, operation) {
 
 function snrSelect(snrId, status, customerId, site, nrId) {
 	document.getElementById("action").style.display = "inline";
-<%if (title.equals(ServletConstants.UPDATE_ACCESS)) {%>
-	document.getElementById("accessDetail").style.display = "inline";
-	document.getElementById("viewSiteComU").style.display = "inline";
-<%} else if (title.equals(ServletConstants.UPDATE_CRM)) {%>
-	document.getElementById("crmDetail").style.display = "inline";
-<%}%>
 	document.getElementById("addComU").style.display = "inline";
 	document.getElementById("viewComU").style.display = "inline";
 	document.getElementById("viewSiteConf").style.display = "inline";
@@ -435,17 +429,6 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <table style="width: 1250px; height: 20px;"
 >
 <colgroup>
-<%if (displayScreen.equals(ServletConstants.UPDATE_ACCESS)) {%>
-<col width="100px"/>
-<col width="120px"/>
-<col width="85px"/>
-<col width="85px"/>
-<col width="80px"/>
-<col width="215px"/>
-<col width="35px"/>
-<col width="370px"/>
-<col width="110px"/>
-<%} else {%>
 <col width="100px"/>
 <col width="120px"/>
 <col width="85px"/>
@@ -455,7 +438,6 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <col width="30px"/>
 <col width="330px"/>
 <col width="85px"/>
-<%}%>
 <col width="50px"/>
 </colgroup>
 <tbody>
@@ -464,7 +446,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 		<th class="<%=hNRIdClass%>" id="hNRId" onClick="headerClick('hNRId', false)" title="<%=hNRIdTitle%>">NR Id</th>
 		<th>Status</th>
 		<th title="Implementation Status">Impl. Status</th>
-<%if (displayScreen.equals(ServletConstants.UPDATE_ACCESS)) {%>
+<%if (displayScreen.equals("Update Acces")) {%>
 		<th class="<%=hAccessStatusClass%>" id="hAccessStatus" onClick="headerClick('hAccessStatus', false)" title="<%=hAccessStatusTitle%>">Acc. Status</th>
 		<th>Job Type</th>
 		<th title="Next PreCheck">NPC</th>
@@ -486,17 +468,6 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <table style="width: 1250px;"
 >
 <colgroup>
-<%if (displayScreen.equals(ServletConstants.UPDATE_ACCESS)) {%>
-<col width="100px"/>
-<col width="120px"/>
-<col width="85px"/>
-<col width="85px"/>
-<col width="80px"/>
-<col width="215px"/>
-<col width="35px"/>
-<col width="370px"/>
-<col width="110px"/>
-<%} else {%>
 <col width="100px"/>
 <col width="120px"/>
 <col width="85px"/>
@@ -506,7 +477,6 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <col width="30px"/>
 <col width="330px"/>
 <col width="85px"/>
-<%}%>
 <col width="50px"/>
 </colgroup>
 <tbody>
@@ -524,7 +494,7 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <div id="accessDetail" onClick="tbClick('showAccessDetail')" onMouseOut="invertClass('accessDetail')" onMouseOver="invertClass('accessDetail')" style="float:right;display:none" class="menu2Item">Access Detail</div>
 <div id="crmDetail" onClick="tbClick('showCRMDetail')" onMouseOut="invertClass('crmDetail')" onMouseOver="invertClass('crmDetail')" style="float:right;display:none" class="menu2Item">CRQ/INC Detail</div>
 <div id="viewComU" onClick="tbClick('viewCom')" onMouseOut="invertClass('viewComU')" onMouseOver="invertClass('viewComU')" style="float:right;display:none" class="menu2Item">View Commentary</div>
-<div id="addComU" onClick="tbClick('addCom<%=title.equals(ServletConstants.UPDATE_ACCESS)?"A":"C"%>')" onMouseOut="invertClass('addComU')" onMouseOver="invertClass('addComU')" style="float:right;display:none" class="menu2Item">Add Commentary</div>
+<div id="addComU" onClick="tbClick('addCom<%=title.equals("Update Access")?"A":"C"%>')" onMouseOut="invertClass('addComU')" onMouseOver="invertClass('addComU')" style="float:right;display:none" class="menu2Item">Add Commentary</div>
 <div id="viewSiteComU" onClick="tbClick('viewSiteComU')" onMouseOut="invertClass('viewSiteComU')" onMouseOver="invertClass('viewSiteComU')" style="float:right;display:none" class="menu2Item">View Site Commentary</div>
 <div id="viewSiteConf" onClick="tbClick('viewSiteConf')" onMouseOut="invertClass('viewSiteConf')" onMouseOver="invertClass('viewSiteConf')" style="float:right;display:none" class="menu2Item">View Site Configuration</div>
 <div id="tmAnchor" class="menu2">&nbsp;</div>
@@ -608,12 +578,8 @@ margin: 0; padding: 0; border-collapse: collapse; width: 1250px; height: 460px; 
 <%@ include file="viewSNRCommentary.txt" %>
 <!-- add SNR commentary -->
 <%@ include file="addSNRCommentary.txt" %>
-<!-- SNR Access Detail -->
-<%@ include file="snrAccessDetail.txt" %>
 <!-- Site Configuration -->
 <%@ include file="viewSiteConfiguration.txt" %>
-<!-- SNR CRM Detail -->
-<%@ include file="snrCRMDetail.txt" %>
 </form>
 </body>
 </html>

@@ -1,0 +1,60 @@
+<div id="UpdateRiskIndicatorId" class="altPic" style="display:none;width:90px">
+<div class="displayPicX" title="close" onClick="UpdateRiskIndicatorClick('close')">X</div>
+<table style="table-layout:fixed;border-style:none;width:100%">
+<tr>
+	<td height="20px" onClick="UpdateRiskIndicatorClick('setNone')" 
+		style="cursor:pointer;" title="None">
+			<img src="images/Empty_Risk.png" height="15px" width="15px">
+	</td>
+	<td height="20px" onClick="UpdateRiskIndicatorClick('setMedium')" 
+		style="cursor:pointer;" title="Medium">
+			<img src="images/Half_Risk.png" height="15px" width="15px">
+	</td>
+	<td height="20px" onClick="UpdateRiskIndicatorClick('setHigh')" 
+		style="cursor:pointer;" title="High">
+			<img src="images/Full_Risk.png" height="15px" width="15px">
+	</td>
+</tr>
+</table>
+</div>
+<script language="javascript">
+<!--
+function UpdateRiskIndicatorClick(operation) {
+	var f1 = document.getElementById("f1");	
+	var aR = document.getElementById("UpdateRiskIndicatorId");
+	aR.style.display = "none";
+	aR.style.left = "0px";
+	aR.style.top = "0px";
+	var riskIndicator = document.getElementById("riskIndicator").value;
+	if (operation=="setNone") {
+		if (riskIndicator=="None") {	
+			return
+		} else {
+			document.getElementById("riskIndicator").value = "None";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} else if (operation=="setMedium") {
+		if (riskIndicator=="Medium") {	
+			return
+		} else {
+			document.getElementById("riskIndicator").value = "Medium";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} else if (operation=="setHigh") {
+		if (riskIndicator=="High") {	
+			return
+		} else {
+			document.getElementById("riskIndicator").value = "High";
+			document.getElementById("toScreen").value = "<%=ServletConstants.BACK_OFFICE%>";
+			document.getElementById("f1").action = "backOfficeDetail";
+			document.getElementById("f1").submit();				
+		}
+	} 
+
+}
+-->
+</script>
